@@ -16,6 +16,14 @@ repeats like a font or a stock brush would.
   mood_track / marker       watercolour situation-mood track in a pencil box + ink pointer
   foldout_panel             one creased panel of the fold-out patron sheet (Credits)
   alert_pin                 paper sticker with a red asterisk: "something new" on a ribbon
+  dialog_band(_50)          leather dialogue box (100% / 50% textbox setting)
+  dialog_name               anthracite ribbon name tag for the dialogue box (Frame)
+  title_plaque              main menu logo: leather patch with an engraved brass plaque
+  choice_slip               paper strip for one choice of a menu (Frame)
+  sticker_blank             round paper sticker for the main menu's link icons
+  leather_patch             stitched leather patch: map HUD straps, quick menu, skip indicator (tiled Frame)
+  quick_<name>_<state>      quick menu icons blind-stamped into the patch (idle / hover / active)
+  (render_template          tools/journal_assets/main_menu_render_template.png, not shipped)
 
 Run:  python tools/journal_assets/build_ui.py
 """
@@ -232,6 +240,244 @@ def marker():
     save_webp(img.resize((w, h), Image.LANCZOS), OUT / "marker.webp", lossless=True)
 
 
+def dialog_band():
+    """
+    The dialogue box: a band of the binder's leather (darker and warmer so
+    cream text reads at full strength) with an ink edge and the binder's
+    stitching along the top. Two strengths for the textbox transparency
+    setting (100% / 50%); the 0% setting shows no box. Used as a Frame in
+    Ren'Py, so the top (edge + seam) stays put when the box is taller.
+    """
+
+    from sources import LEATHER
+
+    w, h = 1920, 278
+    tex = Image.open(LEATHER).convert("L").resize((2048, 2048), Image.LANCZOS).crop((0, 600, w, 600 + h))
+    lum = np.asarray(tex, np.float32)[..., None] / 255
+    tint = np.array([0.42, 0.27, 0.17], np.float32)
+    rgb = np.clip(tint * (0.55 + 0.9 * lum), 0, 1)
+    rgb *= (0.82 + 0.18 * np.linspace(0, 1, h, dtype=np.float32))[:, None, None]
+    for name, body_alpha, seam_alpha in (("dialog_band", 1.0, 1.0), ("dialog_band_50", 0.62, 0.85)):
+        img = Image.fromarray((rgb * 255).astype(np.uint8), "RGB").convert("RGBA")
+        img.putalpha(int(255 * body_alpha))
+        top = Sheet(w, 24)
+        top.line(0, 1.6, w, 1.4, 3.0, (30, 18, 10), 71, amp=0.3, alpha=int(250 * seam_alpha))
+        x = 20
+        k = 0
+        while x < w - 20:
+            top.line(x, 16, x + 14, 16.2, 1.8, (238, 222, 190), 80 + k, amp=0.2, alpha=int(220 * seam_alpha))
+            x += 26
+            k += 1
+        img.alpha_composite(top.out(), (0, 0))
+        save_webp(img, OUT / f"{name}.webp")
+
+
+def dialog_name():
+    """
+    The speaker's name tag: a dark anthracite grosgrain ribbon with a notch at
+    its end, stretched sideways as a Frame (left 16px / right 34px fixed).
+    Anthracite carries every speaker colour, the headmaster's white included.
+    """
+
+    w, h = 200, 54
+    img = Image.new("RGBA", (w * SS, (h + 8) * SS), (0, 0, 0, 0))
+    poly = [(0, 0), (w, 0), (w - 18, h / 2), (w, h), (0, h)]
+    sh = Image.new("L", img.size, 0)
+    ImageDraw.Draw(sh).polygon([((x + 2) * SS, (y + 4) * SS) for x, y in poly], fill=130)
+    shadow = Image.new("RGBA", img.size, (10, 6, 4, 0))
+    shadow.putalpha(sh.filter(ImageFilter.GaussianBlur(2.5 * SS)))
+    img.alpha_composite(shadow)
+    body = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(body)
+    d.polygon([(x * SS, y * SS) for x, y in poly], fill=(46, 40, 38, 255))
+    for x in range(0, w * SS, 3 * SS):
+        d.line((x, 2 * SS, x, (h - 2) * SS), fill=(255, 255, 255, 12), width=SS)
+    d.line((0, 6 * SS, (w - 6) * SS, 6 * SS), fill=(255, 255, 255, 34), width=2 * SS)
+    mask = Image.new("L", img.size, 0)
+    ImageDraw.Draw(mask).polygon([(x * SS, y * SS) for x, y in poly], fill=255)
+    body.putalpha(Image.fromarray(np.minimum(np.asarray(body.split()[3]), np.asarray(mask))))
+    img.alpha_composite(body)
+    s = Sheet(w, h + 8)
+    for (x0, y0), (x1, y1) in zip(poly, poly[1:] + poly[:1]):
+        s.line(x0, y0, x1, y1, 2.0, (20, 14, 10), int(x0 + y0 * 7), amp=0.3, alpha=240)
+    img.alpha_composite(s.img)
+    save_webp(img.resize((w, h + 8), Image.LANCZOS), OUT / "dialog_name.webp", lossless=True)
+
+
+def choice_slip():
+    """
+    One choice of a menu: a strip of the journal's loose paper with a soft
+    shadow, used as a Frame (12px borders keep the shadow and the torn edge).
+    """
+
+    from sources import PAPER
+
+    w, h = 420, 76
+    paper = Image.open(PAPER).convert("L").transpose(Image.ROTATE_90).crop((200, 300, 200 + w * 2, 300 + h * 2))
+    paper = paper.resize((w, h), Image.LANCZOS)
+    detail = np.asarray(paper, np.float32)
+    detail -= np.asarray(paper.filter(ImageFilter.GaussianBlur(20)), np.float32)
+    detail = (detail - detail.mean()) / (detail.std() + 1e-6)
+    base = np.array([248, 242, 229], np.float32)
+    rgb = np.clip(base[None, None, :] * (1.0 - 0.02 * detail[..., None]), 0, 255)
+    body = Image.fromarray(rgb.astype(np.uint8), "RGB").convert("RGBA")
+    # slightly uneven edges, like a strip torn off a pad
+    mask = Image.new("L", (w * SS, h * SS), 0)
+    rng = random.Random(77)
+    pts = []
+    for x in range(0, w + 1, 6):
+        pts.append((x * SS, (5 + rng.uniform(-1.2, 1.2)) * SS))
+    for x in range(w, -1, -6):
+        pts.append((x * SS, (h - 9 + rng.uniform(-1.2, 1.2)) * SS))
+    ImageDraw.Draw(mask).polygon(pts, fill=255)
+    mask = mask.resize((w, h), Image.LANCZOS)
+    body.putalpha(mask)
+    out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    shadow = Image.new("RGBA", (w, h), (14, 8, 4, 0))
+    shadow.putalpha(mask.filter(ImageFilter.GaussianBlur(3)).point(lambda v: int(v * 0.42)))
+    out.alpha_composite(shadow, (3, 4))
+    out.alpha_composite(body)
+    save_webp(out, OUT / "choice_slip.webp")
+
+
+def title_plaque():
+    """
+    Main-menu logo: a stitched leather patch with a screwed-on brushed brass
+    plaque, "Mind the School" engraved. The version is left out on purpose:
+    Ren'Py engraves it at runtime in the empty band under the title (x centre,
+    y 122 in this image), so a release never needs a new image.
+    """
+
+    from sources import LEATHER
+    from PIL import ImageChops, ImageFont
+    from sources import GAME_FONTS
+
+    w, h = 580, 190
+    tex = Image.open(LEATHER).convert("L").resize((1400, 1400), Image.LANCZOS).crop((200, 300, 200 + w, 300 + h))
+    lum = np.asarray(tex, np.float32)[..., None] / 255
+    rgb = np.clip(np.array([0.36, 0.2, 0.12], np.float32) * (0.6 + 0.8 * lum), 0, 1)
+    img = Image.fromarray((rgb * 255).astype(np.uint8), "RGB").convert("RGBA")
+    mask = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, w - 1, h - 1), 18, fill=255)
+    img.putalpha(mask)
+    seam = Sheet(w, h)
+    k = 0
+    for x in range(26, w - 26, 18):
+        for y in (12, h - 13):
+            seam.line(x, y, x + 10, y + 0.2, 1.8, (228, 206, 160), 300 + k, amp=0.2, alpha=200)
+            k += 1
+    for y in range(26, h - 26, 18):
+        for x in (12, w - 13):
+            seam.line(x, y, x + 0.2, y + 10, 1.8, (228, 206, 160), 300 + k, amp=0.2, alpha=200)
+            k += 1
+    img.alpha_composite(seam.out())
+
+    pw, ph = 470, 112
+    px, py = (w - pw) // 2, 30
+    rng = np.random.default_rng(9)
+    Y = np.linspace(0, 1, ph, dtype=np.float32)[:, None]
+    shade = np.clip(0.78 + 0.16 * np.cos((Y - 0.35) * 5.5) + rng.normal(0, 0.035, (1, pw)).repeat(ph, 0), 0, 1.1)
+    metal = np.stack([shade * 0.93, shade * 0.74, shade * 0.38], -1)
+    plaque = Image.fromarray((np.clip(metal, 0, 1) * 255).astype(np.uint8), "RGB").convert("RGBA")
+    pm = Image.new("L", (pw, ph), 0)
+    ImageDraw.Draw(pm).rounded_rectangle((0, 0, pw - 1, ph - 1), 10, fill=255)
+    plaque.putalpha(pm)
+    pd = ImageDraw.Draw(plaque)
+    pd.rounded_rectangle((1, 1, pw - 2, ph - 2), 10, outline=(255, 236, 170, 200), width=2)
+    pd.rounded_rectangle((4, 4, pw - 5, ph - 5), 8, outline=(110, 72, 24, 160), width=2)
+    font = ImageFont.truetype(str(GAME_FONTS / "CrimsonPro-SemiBold.ttf"), 58)
+    eng = Image.new("L", (pw, ph), 0)
+    ImageDraw.Draw(eng).text((pw / 2, 46), "Mind the School", font=font, fill=255, anchor="mm")
+    plaque.alpha_composite(Image.merge("RGBA", [Image.new("L", (pw, ph), 255)] * 3 + [ImageChops.offset(eng, 0, 2).point(lambda v: int(v * 0.45))]))
+    plaque.alpha_composite(Image.merge("RGBA", [Image.new("L", (pw, ph), 70), Image.new("L", (pw, ph), 44),
+                                                Image.new("L", (pw, ph), 14), eng.point(lambda v: int(v * 0.92))]))
+    for sx, sy in ((14, 14), (pw - 15, 14), (14, ph - 15), (pw - 15, ph - 15)):
+        pd.ellipse((sx - 6, sy - 6, sx + 6, sy + 6), fill=(150, 112, 50, 255), outline=(90, 60, 20, 255))
+        pd.line((sx - 4, sy + 2, sx + 4, sy - 2), fill=(80, 52, 18, 255), width=2)
+    sh = Image.new("RGBA", (pw, ph), (0, 0, 0, 0))
+    sh.putalpha(pm.point(lambda v: int(v * 0.5)))
+    img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(4)), (px + 3, py + 5))
+    img.alpha_composite(plaque, (px, py))
+    small = ImageFont.truetype(str(GAME_FONTS / "CrimsonPro-Medium.ttf"), 18)
+    ImageDraw.Draw(img).text((w / 2, h - 34), "est. 2023", font=small, fill=(228, 206, 160, 170), anchor="mm")
+
+    pad = 24
+    out = Image.new("RGBA", (w + pad * 2, h + pad * 2), (0, 0, 0, 0))
+    drop = Image.new("RGBA", (w, h), (12, 8, 4, 0))
+    drop.putalpha(img.split()[3].point(lambda v: int(v * 110 / 255)))
+    out.alpha_composite(drop.filter(ImageFilter.GaussianBlur(6)), (pad + 5, pad + 7))
+    out.alpha_composite(img, (pad, pad))
+    save_webp(out, OUT / "title_plaque.webp")
+
+
+def sticker_blank():
+    # round paper sticker for the main menu's link icons (Wiki, Discord, Patreon)
+    w = h = 92
+    img = Image.new("RGBA", (w * SS, h * SS), (0, 0, 0, 0))
+    sh = Image.new("L", img.size, 0)
+    ImageDraw.Draw(sh).ellipse((8 * SS, 10 * SS, 88 * SS, 90 * SS), fill=150)
+    shadow = Image.new("RGBA", img.size, (20, 12, 6, 0))
+    shadow.putalpha(sh.filter(ImageFilter.GaussianBlur(3 * SS)))
+    img.alpha_composite(shadow)
+    ImageDraw.Draw(img).ellipse((4 * SS, 4 * SS, 84 * SS, 84 * SS), fill=(250, 244, 230, 255),
+                                outline=(180, 168, 148, 255), width=SS)
+    save_webp(img.resize((w, h), Image.LANCZOS), OUT / "sticker_blank.webp", lossless=True)
+
+
+def render_template():
+    """
+    Guide for rendering main-menu backgrounds: 1920x1080, transparent, with the
+    three zones the menu covers (book, notes, plaque) tinted. Lay it over the
+    camera preview; keep the subject out of the tinted areas. Not shipped.
+    """
+
+    from PIL import ImageFont
+    from sources import GAME_FONTS
+
+    here = Path(__file__).resolve().parent
+    w, h = 1920, 1080
+    font = ImageFont.truetype(str(GAME_FONTS / "CrimsonPro-SemiBold.ttf"), 30)
+    small = ImageFont.truetype(str(GAME_FONTS / "CrimsonPro-Regular.ttf"), 22)
+
+    # 1) zones: keep the subject out of the red areas (positions as in journal_title.rpy)
+    zones = [
+        ((0, 0, 470, h), "MENU BOOK", "book page + 3 ribbons on its edge"),
+        ((1140, 0, w, 315), "NOTES", "news slip, link stickers, changelog"),
+        ((1290, 838, w, h), "LOGO", "brass plaque"),
+    ]
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for (x0, y0, x1, y1), title, note in zones:
+        d.rectangle((x0, y0, x1 - 1, y1 - 1), fill=(220, 40, 40, 60), outline=(255, 60, 60, 230), width=4)
+        d.text((x0 + 18, y0 + 14), title, font=font, fill=(255, 255, 255, 240), stroke_width=2, stroke_fill=(0, 0, 0, 200))
+        d.text((x0 + 18, y0 + 50), note, font=small, fill=(255, 255, 255, 220), stroke_width=2, stroke_fill=(0, 0, 0, 200))
+    # the chalkboard-style safe area: the middle stays free for the subject
+    d.text((w / 2, h - 30), "subject area: everything outside the red zones", font=small, fill=(255, 255, 255, 200),
+           anchor="mm", stroke_width=2, stroke_fill=(0, 0, 0, 200))
+    img.save(here / "main_menu_render_template.png")
+
+    # 2) ghost: the real menu pieces at their exact positions, half transparent
+    gui = OUT.parent
+    ghost = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    book = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    book.alpha_composite(Image.open(gui / "book_cover.webp").convert("RGBA"))
+    for name, y in (("title_anim_pause", 752), ("title_bg_next", 842), ("title_bg_grid", 932)):
+        book.alpha_composite(Image.open(gui / "ribbons" / f"{name}_idle.webp").convert("RGBA"), (1620 - 14, y - 44))
+    book.alpha_composite(Image.open(gui / "book_pages.webp").convert("RGBA"))
+    ghost.alpha_composite(book.crop((1290, 0, w, h)), (0, 10))
+    note = Image.open(OUT / "foldout_panel.webp").convert("RGBA").resize((480, 120))
+    ghost.alpha_composite(note, (1150, 22))
+    for i in range(3):
+        ghost.alpha_composite(Image.open(OUT / "sticker_blank.webp").convert("RGBA"), (1652 + i * 86, 18))
+    packet = Image.open(OUT / "foldout_panel.webp").convert("RGBA").resize((170, 140))
+    for i in (2, 1, 0):
+        ghost.alpha_composite(packet, (1660 + i * 6, 130 + i * 5))
+    ghost.alpha_composite(Image.open(OUT / "title_plaque.webp").convert("RGBA"), (1290, 838))
+    alpha = ghost.split()[3].point(lambda v: int(v * 0.55))
+    ghost.putalpha(alpha)
+    ghost.save(here / "main_menu_render_ghost.png")
+
+
 def alert_pin():
     # "something new here": a small round paper sticker with a red pencil asterisk,
     # stuck onto a ribbon; readable on every ribbon colour
@@ -277,8 +523,175 @@ def foldout_panel():
     save_webp(Image.fromarray(rgb.astype(np.uint8), "RGB"), OUT / "foldout_panel.webp")
 
 
+def leather_patch():
+    """
+    A stitched patch of the binder's leather with rounded corners: the map
+    HUD straps and the quick menu in the corner of the dialogue box. Used as a
+    tiled Frame (20px borders); the middle is a whole number of stitch periods
+    (12px) both ways, so the stitching stays even at any size.
+    """
+
+    from sources import LEATHER
+
+    w, h, r, period = 640, 196, 12, 12
+    tex = Image.open(LEATHER).convert("L").resize((2048, 2048), Image.LANCZOS).crop((300, 900, 300 + w, 900 + h))
+    lum = np.asarray(tex, np.float32)[..., None] / 255
+    tint = np.array([0.36, 0.23, 0.15], np.float32)
+    rgb = np.clip(tint * (0.55 + 0.9 * lum), 0, 1)
+    body = Image.fromarray((rgb * 255).astype(np.uint8), "RGB").convert("RGBA")
+
+    mask = Image.new("L", (w * SS, h * SS), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((3 * SS, 2 * SS, (w - 4) * SS, (h - 6) * SS), r * SS, fill=255)
+    mask = mask.resize((w, h), Image.LANCZOS)
+    body.putalpha(mask)
+
+    out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    shadow = Image.new("RGBA", (w, h), (10, 6, 3, 0))
+    shadow.putalpha(mask.filter(ImageFilter.GaussianBlur(3)).point(lambda v: int(v * 0.55)))
+    out.alpha_composite(shadow, (1, 3))
+    out.alpha_composite(body)
+
+    s = Sheet(w, h)
+    s.d.rounded_rectangle((3 * SS, 2 * SS, (w - 4) * SS, (h - 6) * SS), r * SS, outline=(24, 14, 8, 235), width=2 * SS)
+    # stitches 9px inside the edge; they start at the 20px border so the tiled middle repeats cleanly
+    inset, k = 9.5, 0
+    for x in range(20, w - 20, period):
+        s.line(x + 2, inset, x + 9, inset + 0.1, 1.6, (232, 214, 180), 300 + k, amp=0.15, alpha=200)
+        s.line(x + 2, h - 6 - inset, x + 9, h - 6 - inset + 0.1, 1.6, (232, 214, 180), 500 + k, amp=0.15, alpha=200)
+        k += 1
+    for y in range(20, h - 20, period):
+        s.line(inset + 1.5, y + 2, inset + 1.6, y + 9, 1.6, (232, 214, 180), 700 + k, amp=0.15, alpha=200)
+        s.line(w - 4 - inset - 1, y + 2, w - 4 - inset - 0.9, y + 9, 1.6, (232, 214, 180), 900 + k, amp=0.15, alpha=200)
+        k += 1
+    out.alpha_composite(s.out())
+    save_webp(out, OUT / "leather_patch.webp")
+
+
+QUICK_ICONS = {
+    "back": 0xe166,      # undo
+    "history": 0xe889,   # history
+    "skip": 0xe01f,      # fast_forward
+    "auto": 0xe1c4,      # play_circle
+    "save": 0xe161,      # save
+    "qsave": 0xe598,     # bookmark_add
+    "qload": 0xe866,     # bookmark
+    "prefs": 0xe8b8,     # settings
+    "hide": 0xe8f5,      # visibility_off
+    "menu": 0xea19,      # menu_book
+    "end": 0xef71,       # stop_circle
+}
+
+
+SCENE_ICONS = {
+    "scene_clothing": 0xf19e,  # checkroom
+    "scene_position": 0xe92c,  # accessibility_new
+    "scene_location": 0xe55f,  # place
+    "scene_variant": 0xe043,   # shuffle
+    "scene_finish": 0xe153,    # flag
+    "scene_return": 0xe5c4,    # arrow_back
+    "scene_stop": 0xe9ba,      # logout
+}
+QUICK_ICONS.update(SCENE_ICONS)
+
+
+def calendar_sheet():
+    """
+    The date card between days: one sheet of a tear-off desk calendar, a
+    deep red header band (month and year are set on it at runtime), cream
+    paper below with the perforation along the top edge, two binder rings.
+    """
+
+    from sources import PAPER
+
+    w, h, head = 440, 520, 96
+    paper = Image.open(PAPER).convert("L").transpose(Image.ROTATE_90).crop((150, 200, 150 + w * 2, 200 + h * 2))
+    paper = paper.resize((w, h), Image.LANCZOS)
+    detail = np.asarray(paper, np.float32)
+    detail -= np.asarray(paper.filter(ImageFilter.GaussianBlur(20)), np.float32)
+    detail = (detail - detail.mean()) / (detail.std() + 1e-6)
+    base = np.array([249, 244, 231], np.float32)
+    rgb = np.clip(base[None, None, :] * (1.0 - 0.022 * detail[..., None]), 0, 255)
+    red = np.array([128, 34, 30], np.float32)
+    rgb[:head] = np.clip(red[None, None, :] * (1.0 - 0.05 * detail[:head, :, None]), 0, 255)
+    body = Image.fromarray(rgb.astype(np.uint8), "RGB").convert("RGBA")
+
+    # perforation: tiny holes just under the header, the edge the sheet was torn along
+    d = ImageDraw.Draw(body)
+    for x in range(10, w - 6, 9):
+        d.ellipse((x, head + 5, x + 3, head + 8), fill=(196, 184, 160, 255))
+    d.line((0, head, w, head), fill=(80, 20, 16, 255), width=2)
+
+    mask = Image.new("L", (w * SS, h * SS), 0)
+    rng = random.Random(23)
+    pts = [(0, 0), (w * SS, 0)]
+    # the bottom edge is slightly ragged: the next sheet was torn off below it
+    for x in range(w, -1, -5):
+        pts.append((x * SS, (h - 4 + rng.uniform(-2.2, 2.2)) * SS))
+    ImageDraw.Draw(mask).polygon(pts, fill=255)
+    mask = mask.resize((w, h), Image.LANCZOS)
+    body.putalpha(mask)
+
+    pad = 30
+    out = Image.new("RGBA", (w + pad * 2, h + pad * 2), (0, 0, 0, 0))
+    shadow = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    shadow.putalpha(mask.point(lambda v: int(v * 0.6)))
+    out.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(9)), (pad + 6, pad + 10))
+    out.alpha_composite(body, (pad, pad))
+
+    # two binder rings through the header
+    s = Sheet(w + pad * 2, h + pad * 2)
+    for cx in (pad + w * 0.3, pad + w * 0.7):
+        s.d.ellipse(((cx - 9) * SS, (pad + 22) * SS, (cx + 9) * SS, (pad + 34) * SS), fill=(26, 10, 8, 255))
+        s.d.arc(((cx - 11) * SS, (pad - 22) * SS, (cx + 11) * SS, (pad + 32) * SS), 180, 360,
+                fill=(170, 166, 158, 255), width=5 * SS)
+        s.d.arc(((cx - 10) * SS, (pad - 21) * SS, (cx + 10) * SS, (pad + 31) * SS), 200, 300,
+                fill=(236, 234, 226, 255), width=2 * SS)
+    out.alpha_composite(s.out())
+    save_webp(out, OUT / "calendar_sheet.webp")
+
+
+def quick_icons():
+    """
+    Quick menu icons, blind-stamped into the leather patch: cream with a dark
+    lower-right edge (idle), brass (hover), brass and filled (active, e.g.
+    auto-forward running). Material Symbols, like the ribbons.
+    """
+
+    from PIL import ImageFont
+    from sources import ICON_FONT
+
+    size = 48
+    for name, cp in QUICK_ICONS.items():
+        for state, colour, fill in (("idle", (236, 222, 194), 0), ("hover", (228, 190, 112), 0),
+                                    ("active", (228, 190, 112), 1)):
+            font = ImageFont.truetype(str(ICON_FONT), 38 * SS)
+            font.set_variation_by_axes([fill, 0, 40, 500])
+            glyph = Image.new("L", (size * SS, size * SS), 0)
+            gd = ImageDraw.Draw(glyph)
+            bb = gd.textbbox((0, 0), chr(cp), font=font)
+            gd.text(((size * SS - bb[0] - bb[2]) / 2, (size * SS - bb[1] - bb[3]) / 2), chr(cp), font=font, fill=255)
+            glyph = glyph.resize((size, size), Image.LANCZOS)
+            img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+            dark = Image.new("RGBA", (size, size), (12, 6, 2, 0))
+            dark.putalpha(glyph.point(lambda v: int(v * 0.8)))
+            img.alpha_composite(dark, (1, 1))
+            face = Image.new("RGBA", (size, size), colour + (0,))
+            face.putalpha(glyph.point(lambda v: int(v * (0.88 if state == "idle" else 1.0))))
+            img.alpha_composite(face)
+            save_webp(img, OUT / f"quick_{name}_{state}.webp", lossless=True)
+
+
 if __name__ == "__main__":
     ensure_sources()
+    leather_patch()
+    quick_icons()
+    calendar_sheet()
+    choice_slip()
+    title_plaque()
+    sticker_blank()
+    render_template()
+    dialog_band()
+    dialog_name()
     alert_pin()
     foldout_panel()
     photo_backdrop()

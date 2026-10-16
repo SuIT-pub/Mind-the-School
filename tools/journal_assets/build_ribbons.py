@@ -105,8 +105,12 @@ def _over(dst, rgb, a):
     dst[..., 3:4] = oa
 
 
-def ribbon(length, thick, color, seed, icon=None, notch=None):
-    """Ribbon pointing LEFT, root at the right edge. Returns a 1x RGBA image with PAD margin."""
+def ribbon(length, thick, color, seed, icon=None, notch=None, upright_after_flip=False):
+    """
+    Ribbon pointing LEFT, root at the right edge. Returns a 1x RGBA image with PAD margin.
+    upright_after_flip: draw the icon mirrored, so it reads the right way round once the
+    ribbon is flipped to point right (arrows and play symbols are not symmetric).
+    """
     w, h = (length + PAD * 2) * SS, (thick + PAD * 2) * SS
     x0, y0 = PAD * SS, PAD * SS
     x1, y1 = x0 + length * SS, y0 + thick * SS
@@ -157,6 +161,11 @@ def ribbon(length, thick, color, seed, icon=None, notch=None):
         # centre in the visible part: between the notch and the page edge (~36px from the root)
         cx = x0 + notch + (x1 - 36 * SS - x0 - notch) * 0.5
         cd.text((cx - (bb[0] + bb[2]) / 2, (y0 + y1) / 2 - (bb[1] + bb[3]) / 2), ch, font=font, fill=255)
+        if upright_after_flip:
+            # mirror the glyph around its own centre, not the whole ribbon
+            gx0, gx1 = int(cx - (bb[2] - bb[0]) / 2) - 2 * SS, int(cx + (bb[2] - bb[0]) / 2) + 2 * SS
+            glyph = content.crop((gx0, 0, gx1, h)).transpose(Image.FLIP_LEFT_RIGHT)
+            content.paste(glyph, (gx0, 0))
     content = np.asarray(content, np.float32) / 255
 
     out = np.zeros((h, w, 4), np.float32)
@@ -241,6 +250,20 @@ def with_flat_shadow(img):
     return out
 
 
+def title_ribbons():
+    """
+    Main menu: background controls as ribbons on the right edge of the peeking book
+    (title_<name>.webp, pointing right, icon upright).
+    """
+
+    for name, icon, color in (("anim_pause", 0xe034, (78, 92, 104)), ("anim_play", 0xe037, (78, 92, 104)),
+                              ("bg_next", 0xe044, (104, 96, 84)), ("bg_grid", 0xe9b0, (96, 52, 92))):
+        for state, length in (("idle", SIDE_IDLE), ("active", SIDE_ACTIVE)):
+            c = color if state == "active" else tuple(int(v * 0.86) for v in color)
+            img = ribbon(length, SIDE_THICK, c, 1300 + icon % 97, icon=icon, upright_after_flip=True)
+            save_webp(img.transpose(Image.FLIP_LEFT_RIGHT), OUT / f"title_{name}_{state}.webp", lossless=True)
+
+
 def build():
     for i, (key, col) in enumerate(COLORS.items()):
         for state in ("idle", "active"):
@@ -268,3 +291,4 @@ def build():
 if __name__ == "__main__":
     ensure_sources()
     build()
+    title_ribbons()
