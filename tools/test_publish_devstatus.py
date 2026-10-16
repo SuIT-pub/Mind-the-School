@@ -63,6 +63,12 @@ class PublishTest(unittest.TestCase):
         subprocess.run(["git", "clone", "-q", str(self.remote), str(self.work)], check=True, capture_output=True)
         for key, value in (("user.email", "ci@test"), ("user.name", "ci")):
             subprocess.run(["git", "-C", str(self.work), "config", key, value], check=True)
+        # A push or fetch can start git's auto maintenance as a detached background
+        # process that still writes into objects/pack while tearDown deletes the
+        # directory ("Directory not empty" on the CI runner). Switch it off in both repos.
+        for repo in (self.remote, self.work):
+            for key, value in (("gc.auto", "0"), ("maintenance.auto", "false"), ("receive.autogc", "false")):
+                subprocess.run(["git", "-C", str(repo), "config", key, value], check=True)
 
     def tearDown(self):
         self.tmp.cleanup()

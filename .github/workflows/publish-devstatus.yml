@@ -16,6 +16,7 @@ on:
       - tools/publish_devstatus.py
       - tools/validate_devstatus.py
       - tools/post_devstatus_discord.py
+      - tools/test_*devstatus*.py
       - .github/workflows/publish-devstatus.yml
   workflow_dispatch:
 
