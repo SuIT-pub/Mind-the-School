@@ -477,6 +477,30 @@ def render_template():
     ghost.putalpha(alpha)
     ghost.save(here / "main_menu_render_ghost.png")
 
+    # 3) the same two guides for a 3440x1440 studio viewport: the 16:9 frame
+    # scaled to the full height and centred, the parts the game never shows dimmed
+    for name, guide in (("template", img), ("ghost", ghost)):
+        monitor_overlay(guide, 3440, 1440).save(here / f"main_menu_render_{name}_3440x1440.png")
+
+
+def monitor_overlay(guide, screen_w, screen_h):
+    """
+    Fits a 16:9 render guide to a wider monitor so it can sit over a fullscreen
+    camera preview: scaled to the screen height, centred, with the side strips
+    outside the game frame darkened and the frame edge drawn in.
+    """
+
+    frame_w = round(screen_h * guide.width / guide.height)
+    left = (screen_w - frame_w) // 2
+    out = Image.new("RGBA", (screen_w, screen_h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(out)
+    d.rectangle((0, 0, left - 1, screen_h - 1), fill=(0, 0, 0, 150))
+    d.rectangle((left + frame_w, 0, screen_w - 1, screen_h - 1), fill=(0, 0, 0, 150))
+    out.alpha_composite(guide.resize((frame_w, screen_h), Image.LANCZOS), (left, 0))
+    d.line((left - 2, 0, left - 2, screen_h), fill=(255, 255, 255, 200), width=3)
+    d.line((left + frame_w + 1, 0, left + frame_w + 1, screen_h), fill=(255, 255, 255, 200), width=3)
+    return out
+
 
 def alert_pin():
     # "something new here": a small round paper sticker with a red pencil asterisk,
