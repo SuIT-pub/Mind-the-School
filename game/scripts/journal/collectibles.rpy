@@ -237,11 +237,15 @@ label load_collectibles:
             groups = {"location": "school_building"}),
     )
 
-    # Emiko's gifts (emiko_gifts.rpy), e.g.
-    # EmikoGift("gift_first_week", "images/emiko_gifts/first_week.webp",
-    #     TimeCondition(day = "10+"),
-    #     note = "...", title = "...")
-    $ register_emiko_gifts()
+    # Emiko's gifts (emiko_gifts.rpy). Received keys are kept per player, so a
+    # real gift gets a new key instead of replacing this placeholder's image.
+    $ register_emiko_gifts(
+        # placeholder: arrives the morning after the first-week epilogue
+        EmikoGift("placeholder_gift", "images/emiko_gifts/placeholder.webp",
+            EventSeenCondition(True, "first_week_epilogue_final"),
+            note = "Placeholder note.\nEmiko's line goes on this border.",
+            title = "Placeholder gift"),
+    )
 
     return
 

@@ -91,7 +91,8 @@ init -1 python:
     def deliver_emiko_gifts():
         """
         Morning check: every gift whose conditions hold now waits in the
-        journal. Runs on each new day (check_new_day).
+        journal. Runs on each new day (check_new_day). Silent on purpose: the
+        ribbon in the journal is the only sign that a gift is waiting.
         """
 
         received = get_received_emiko_gifts()
@@ -105,7 +106,6 @@ init -1 python:
                 arrived = True
         if arrived:
             set_game_data("emiko_gifts_pending", pending)
-            add_notify_message("Something has been slipped into your journal.", 1, "")
 
     def receive_emiko_gift(key: str):
         """
@@ -201,7 +201,11 @@ init -1 python:
                 continue
 
             corners = emiko_gift_corners(0, 0, angle)
-            tip_index = max(range(4), key = lambda index: corners[index][0] * ux + corners[index][1] * uy)
+            # the corner furthest out (no max(key=...): helper.rpy shadows max in the store)
+            tip_index = 0
+            for index in range(1, 4):
+                if corners[index][0] * ux + corners[index][1] * uy > corners[tip_index][0] * ux + corners[tip_index][1] * uy:
+                    tip_index = index
             # a corner of the wide bottom border: mostly white shows, little of the photo
             if tip_index not in (2, 3):
                 continue
@@ -288,7 +292,7 @@ transform emiko_gift_peek_hover(ux, uy):
         easein 0.18 xoffset (ux * 18) yoffset (uy * 18)
 
 # pulled out: from the corner's spot to the middle of the screen, upright
-transform emiko_gift_pull(start, angle):
+transform emiko_gift_fly_out(start, angle):
     subpixel True
     anchor (0.5, 0.5)
     pos start rotate angle zoom EMIKO_GIFT_PEEK_ZOOM
@@ -355,7 +359,7 @@ screen emiko_gift_reveal(key, start, angle):
             style "empty"
             xysize (1920, 1080)
             action [Function(receive_emiko_gift, key), Hide("emiko_gift_reveal", dissolveM)]
-            add emiko_gift_polaroid(gift) at emiko_gift_pull(start, angle)
+            add emiko_gift_polaroid(gift) at emiko_gift_fly_out(start, angle)
 
         text "Click to keep it" style "jr_typed_small" color "#e8dcc4" xalign 0.5 ypos 1030 at emiko_gift_hint
 
