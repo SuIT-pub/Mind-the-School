@@ -213,7 +213,7 @@ init 1 python:
 
 Queue **one loader label** into the start/after-load wave, and register whatever you
 like inside it after claiming the context. This one mechanism covers situations,
-unlockables, characters, pictograms, items, buildings and collectibles:
+unlockables, characters, pictograms, items, buildings, collectibles and Emiko gifts:
 
 ```python
 init python:
@@ -245,6 +245,11 @@ label load_mymod:
     # a collectible photo lying on a location background (per save)
     $ register_collectibles( Collectible("mymod_photo", "images/mymod_photo.webp",
         CollectibleSpot("cafeteria_v*", (1700, 940), 8, "instax_mint"), title = "…") )
+
+    # a gift Emiko slips into the journal: arrives the morning after its
+    # conditions hold; received gifts are kept per player, so never reuse a key
+    $ register_emiko_gifts( EmikoGift("mymod_gift", "images/mymod_gift.webp",
+        LevelCondition("5+"), note = "Typed on the polaroid's border.", title = "…") )
 
     # Make sure you properly return at the end of your label as to not break the load order
     return
@@ -447,7 +452,7 @@ items, buildings, maps) → a `register_start_method` loader label (lifecycle wa
 `register_situations(...)` · `register_unlockables(...)` · `load_person(key, Person)` ·
 `load_pictograms(...)` / `add_pictogram(...)` · `load_item(ItemData)` ·
 `register_buildings(...)` · `map_manager.load_map(Map)` · `map_manager.add_building_to_map(map_key, building)`
-([Maps](Maps)) · `register_collectibles(...)` (`game/scripts/journal/collectibles.rpy`). Events use `EventStorage.add_event(...)` at init instead.
+([Maps](Maps)) · `register_collectibles(...)` · `register_emiko_gifts(...)` (`game/scripts/journal/emiko_gifts.rpy`). Events use `EventStorage.add_event(...)` at init instead.
 
 ### Related pages
 

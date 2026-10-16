@@ -206,10 +206,15 @@ init -1 python:
     def journal_collectibles_display(display: str) -> Tuple[str, str]:
         """
         Splits the page's display string "<group type>|<collectible key>".
+        "emiko" is the sub page of Emiko's gifts (key = gift key), there once
+        the player has received one.
         """
 
         group_type, _, key = (display or "").partition("|")
-        if group_type != "all" and group_type not in journal_collectible_group_types():
+        if group_type == "emiko":
+            if not get_emiko_gifts_received_registered():
+                group_type = "all"
+        elif group_type != "all" and group_type not in journal_collectible_group_types():
             group_type = "all"
         return group_type, key
 
@@ -231,6 +236,12 @@ label load_collectibles:
             description = "Lying on the floor of the school corridor.",
             groups = {"location": "school_building"}),
     )
+
+    # Emiko's gifts (emiko_gifts.rpy), e.g.
+    # EmikoGift("gift_first_week", "images/emiko_gifts/first_week.webp",
+    #     TimeCondition(day = "10+"),
+    #     note = "...", title = "...")
+    $ register_emiko_gifts()
 
     return
 
@@ -288,9 +299,18 @@ screen journal_collectibles(display):
         for entry_type in journal_collectible_group_types():
             sub_entries.append((COLLECTIBLE_GROUP_LABELS.get(entry_type, entry_type.replace("_", " ").title()), entry_type == group_type,
                 [With(dissolveM), Call("open_journal", 12, entry_type + "|" + picked_key)]))
-        picked = collectible_register.get(picked_key)
-        if picked is None or picked.key not in found:
-            picked = next((collectible_register[key] for key in found if key in collectible_register), None)
+        # a separate album: per player, and only once there is something in it
+        gifts = get_emiko_gifts_received_registered()
+        if gifts:
+            sub_entries.append(("From Emiko", group_type == "emiko", [With(dissolveM), Call("open_journal", 12, "emiko|")]))
+        if group_type == "emiko":
+            picked = emiko_gift_register.get(picked_key)
+            if picked is None or picked not in gifts:
+                picked = gifts[-1]
+        else:
+            picked = collectible_register.get(picked_key)
+            if picked is None or picked.key not in found:
+                picked = next((collectible_register[key] for key in found if key in collectible_register), None)
 
     use journal_backdrop
 
@@ -299,8 +319,12 @@ screen journal_collectibles(display):
 
     use journal_page_selector(12, display, sub_entries = sub_entries)
 
-    use journal_collectibles_album(group_type, picked, found)
-    use journal_collectibles_detail(picked)
+    if group_type == "emiko":
+        use journal_emiko_gifts_album(picked)
+        use journal_emiko_gift_detail(picked)
+    else:
+        use journal_collectibles_album(group_type, picked, found)
+        use journal_collectibles_detail(picked)
 
     use journal_tooltip
 

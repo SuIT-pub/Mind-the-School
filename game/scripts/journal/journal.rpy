@@ -104,6 +104,8 @@ label open_journal(page, display, char = "school"):
     # """
 
     $ acknowledge_journal_alerts(page, display)
+    # a gift corner pulled out on the last page slides back between the leaves
+    $ emiko_gift_state["placement"] = None
 
     # map_entry shows the full map HUD as its own zorder-80 screen, which would sit on top
     # of the book; journal_backdrop draws a reduced HUD instead. map_entry shows it again on close.

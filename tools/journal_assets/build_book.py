@@ -8,7 +8,9 @@ construction (6-ring binder, page stacks, stitching, ribbon).
 Output (game/gui/journal/) is split into two layers so the navigation ribbons
 can sit between them and really come out from under the page stack:
   book_cover.webp  - drop shadow, leather cover, stitching, spine mechanism
-  book_pages.webp  - page stacks, pages, rings, decorative ribbon
+  book_pages.webp  - page stacks, pages, rings
+  book_ribbon.webp - the red ribbon hanging out at the bottom; its own layer
+                     because it only shows while an Emiko gift is pending
 2x masters and a combined preview go to .cache/.
 
 Run:  python tools/journal_assets/build_book.py
@@ -346,7 +348,10 @@ def build():
         shade(ring * ends, 0.75, hole_col)
         over(INK, stroke_mask(ring_path, s(2.4), 90 + i) * (1 - ends * 0.6))
 
-    # --- decorative ribbon bookmark hanging out at the bottom
+    save_layer("book_pages")
+    canvas[...] = 0
+
+    # --- ribbon bookmark hanging out at the bottom (drawn above the pages)
     rx0, rx1 = s(1004), s(1030)
     ry0, ry1 = s(990), s(1078)
     ribbon_pts = [(rx0, ry0), (rx1, ry0), (rx1 + s(2), ry1), (rx0 + s(13), ry1 - s(11)), (rx0 + s(2), ry1)]
@@ -365,12 +370,13 @@ def build():
     shade(ribbon * np.clip(1 - (Y - s(1016)) / s(10), 0, 1) * (Y > s(1010)), 0.35, INK)
     over(INK, stroke_mask(rp, s(2.2), 96))
 
-    save_layer("book_pages")
+    save_layer("book_ribbon")
 
     # combined single image, handy for previews
     for suffix in ("", "_2x"):
         book = Image.open(OUT / f"book_cover{suffix}.png")
         book.alpha_composite(Image.open(OUT / f"book_pages{suffix}.png"))
+        book.alpha_composite(Image.open(OUT / f"book_ribbon{suffix}.png"))
         book.save(OUT / f"book{suffix}.png")
     return Image.open(OUT / "book.png")
 

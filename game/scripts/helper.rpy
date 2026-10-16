@@ -1574,6 +1574,7 @@ init -99 python:
         "pool": "Actions",
         "situation": "Situations",
         "collectible": "Collectibles",
+        "emiko_gift": "Emiko's gifts",
         "person": "Characters",
         "item": "Items",
         "pictogram": "Pictograms",
@@ -1585,7 +1586,7 @@ init -99 python:
     }
 
     # display order; unlockable types ("unlockable_rule", ...) follow the situations
-    MOD_CONTENT_ORDER = ["event", "event_fragment", "pool", "situation", "unlockable_", "collectible",
+    MOD_CONTENT_ORDER = ["event", "event_fragment", "pool", "situation", "unlockable_", "collectible", "emiko_gift",
         "person", "item", "pictogram", "building", "map", "background", "name", "start_method"]
 
     MOD_CHANGE_LABELS = {

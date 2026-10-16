@@ -632,6 +632,7 @@ label check_new_day (**kwargs):
     $ situation_manager.check_passives(**kwargs)
     $ situation_manager.check_resolutions(**kwargs)
     call drain_situation_events from _call_drain_situation_events_new_day
+    $ deliver_emiko_gifts()
     return
 
 label check_new_week (**kwargs):
