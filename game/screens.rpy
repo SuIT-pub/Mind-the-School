@@ -128,12 +128,34 @@ label trigger_hide():
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
-screen say(who, what):
+init python:
+    def journal_dialog_box_height(what):
+        """
+        Height of the dialogue box for a line: at least gui.textbox_height
+        (three lines), taller for the rare longer ones so nothing is cut off.
+        Measured with the dialogue font at the dialogue width; the box grows
+        upwards (it is bottom-aligned).
+        """
+
+        minimum = gui.textbox_height
+        if not what:
+            return minimum
+        try:
+            _, text_h = Text(what, style = "say_dialogue", size = 33).size(gui.dialogue_width)
+        except Exception:
+            return minimum
+        return int(max(minimum, text_h + gui.dialogue_ypos + 34))
+
+screen say(who, what, speaker = None):
     style_prefix "say"
 
     zorder 1
 
-    window:   
+    $ box_height = journal_dialog_box_height(what)
+
+    window:
+        ysize box_height
+
         if renpy.android or renpy.ios:
             if persistent.display_textbox == 0:
                 style "window_android"
@@ -149,13 +171,22 @@ screen say(who, what):
             else:
                 style "window_2"
 
+        # the speaker's roster photo, pinned in the empty space left of the text
+        # (people from the character register only; off on phones and in Settings)
+        if speaker and persistent.dialog_speaker_photo is not False and not renpy.variant("small") and persistent.display_textbox != 2:
+            use dialog_speaker_photo(speaker)
+
         if who is not None:
             window:
                 id "namebox"
                 style "namebox"
                 text who id "who"
 
-        text what id "what"
+        # on the full leather box the text needs no outline; at 50% and 0% the
+        # scene shows through and the outline keeps it readable
+        text what id "what":
+            if persistent.display_textbox == 0:
+                outlines []
                 
     ## If there's a side image, display it above the text. Do not display on the
     ## phone variant - there's no room.
@@ -177,43 +208,51 @@ style namebox is default
 style namebox_label is say_label
 
 
+# The dialogue box matches the journal: a band of the binder's leather with its
+# seam (gui/journal/ui/dialog_band*, tools/journal_assets/build_ui.py), the speaker's
+# name on an anthracite ribbon, the text in Crimson Pro. The Frame keeps the seam
+# at the top when the box is taller (phones).
 style window:
     xalign 0.5
     xfill True
     yalign gui.textbox_yalign
     ysize gui.textbox_height
 
-    background Image("gui/textbox100.png", xalign=0.5, yalign=1.0)
+    background Frame("gui/journal/ui/dialog_band.webp", 0, 30, 0, 0)
 
 style window_1 is window:
-    background Image("gui/textbox50.png", xalign=0.5, yalign=1.0)
+    background Frame("gui/journal/ui/dialog_band_50.webp", 0, 30, 0, 0)
 
 style window_2 is window:
     background None
 
 style window_android is window:
-    ysize 345
+    ysize 300
 
 style window_1_android is window_android:
-    background Image("gui/textbox50.png", xalign=0.5, yalign=1.0)
+    background Frame("gui/journal/ui/dialog_band_50.webp", 0, 30, 0, 0)
 
+# the ribbon lies across the top edge of the box, like a bookmark
 style namebox:
     xpos gui.name_xpos
     xanchor gui.name_xalign
     xsize gui.namebox_width
-    ypos gui.name_ypos
-    ysize gui.namebox_height
+    ypos -26
+    ysize 62
 
-    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
-    padding gui.namebox_borders.padding
+    background Frame("gui/journal/ui/dialog_name.webp", 16, 0, 34, 0)
+    padding (24, 0, 46, 8)
 
 style say_label:
     properties gui.text_properties("name", accent=True)
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    size 34
     xalign gui.name_xalign
     yalign 0.5
 
 style say_dialogue:
     properties gui.text_properties("dialogue")
+    font "fonts/CrimsonPro-Regular.ttf"
 
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
@@ -244,18 +283,35 @@ screen input(prompt):
             xsize gui.dialogue_width
             ypos gui.dialogue_ypos
 
+            spacing 12
+
             text prompt style "input_prompt"
-            input id "input"
+
+            # the answer is typed onto a paper slip lying on the leather
+            frame:
+                style "input_slip"
+                input id "input"
 
 style input_prompt is default
 
 style input_prompt:
     xalign gui.dialogue_text_xalign
-    properties gui.text_properties("input_prompt")
+    font "fonts/CrimsonPro-Regular.ttf"
+    size 33
+    color "#f4ead6"
+
+style input_slip is empty:
+    background Frame("gui/journal/ui/choice_slip.webp", 12, 12)
+    padding (22, 10, 26, 18)
+    xminimum 560
+    xmaximum gui.dialogue_width
 
 style input:
     xalign gui.dialogue_text_xalign
-    xmaximum gui.dialogue_width
+    xmaximum gui.dialogue_width - 48
+    font "fonts/SpecialElite-Regular.ttf"
+    size 34
+    color "#262428"
 
 # endregion
 
@@ -268,11 +324,25 @@ style input:
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
 screen choice(items):
+    # Ren'Py's own menu statement, in the same look as the custom menus: paper
+    # strips stacked right-aligned on top of the dialogue box (scripts/menu.rpy).
     style_prefix "choice"
 
-    vbox:
-        for i in items:
-            textbutton i.caption action i.action
+    frame:
+        background None
+        area (0, 0, 1880, 1080 - gui.textbox_height - 6)
+
+        vbox:
+            xalign 1.0
+            yalign 1.0
+            spacing 4
+            for index, item in enumerate(items):
+                $ stagger = [0, 16, 6, 22, 2, 14, 8][index % 7]
+                fixed:
+                    fit_first True
+                    xalign 1.0
+                    xoffset -stagger
+                    use jr_choice_slip(item.caption, -1, (item.action is not None), False, item.action)
 
 
 style choice_vbox is vbox
@@ -299,6 +369,59 @@ style choice_button_text is default:
 ## The quick menu is displayed in-game to provide easy access to the out-of-game
 ## menus.
 
+init python:
+    def quick_menu_entries(touch = False):
+        """
+        The quick menu's buttons as (icon, tooltip, action, alternate), in the
+        order they sit on the patch. Phones get the short list with one
+        Menu button, the full journal menu covers the rest there.
+        """
+
+        skip = Skip()
+        skip_fast = Skip(fast = True, confirm = True)
+        auto = Preference("auto-forward", "toggle")
+        if touch:
+            entries = [
+                ("back", _("Back"), Rollback(), None),
+                ("skip", _("Skip"), skip, skip_fast),
+                ("auto", _("Auto-forward"), auto, None),
+                ("menu", _("Menu"), ShowMenu(), None),
+                ("hide", _("Hide the interface"), Call("trigger_hide"), None),
+            ]
+        else:
+            entries = [
+                ("back", _("Back"), Rollback(), None),
+                ("history", _("History"), ShowMenu("history"), None),
+                ("skip", _("Skip"), skip, skip_fast),
+                ("auto", _("Auto-forward"), auto, None),
+                ("hide", _("Hide the interface"), Call("trigger_hide"), None),
+            ]
+            if not is_in_replay:
+                entries += [
+                    ("save", _("Save"), ShowMenu("save"), None),
+                    ("qsave", _("Quick save"), QuickSave(), None),
+                    ("qload", _("Quick load"), QuickLoad(), None),
+                ]
+            entries.append(("prefs", _("Settings"), ShowMenu("preferences"), None))
+        if is_in_replay:
+            entries.append(("end", _("End replay"), Function(end_event, "none", **replay_data), None))
+        return entries
+
+    def quick_menu_reserved_height():
+        """
+        How far up from the bottom edge the quick menu patch reaches (plus a
+        small gap), so choice menus without a dialogue box stay clear of it.
+        0 while the quick menu is hidden.
+        """
+
+        if not store.quick_menu:
+            return 0
+        return 116 if renpy.variant("touch") else 150
+
+# A stitched leather patch in the bottom right corner of the dialogue box,
+# its icons blind-stamped into it (gui/journal/ui/quick_*, leather_patch;
+# tools/journal_assets/build_ui.py). It carries its own leather, so it still
+# reads when the box is hidden or set to 0%.
 screen quick_menu():
 
     ## Ensure this appears on top of other screens.
@@ -306,24 +429,41 @@ screen quick_menu():
 
     if quick_menu:
 
-        hbox:
-            style_prefix "quick"
+        $ entries = quick_menu_entries()
+        $ columns = 5
+        $ rows = (len(entries) + columns - 1) // columns
 
-            xalign 0.5
-            yalign 1.0
+        frame:
+            style "quick_patch"
 
-            textbutton _("Back") action Rollback()
-            textbutton _("History") action ShowMenu('history')
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            if not is_in_replay:
-                textbutton _("Save") action ShowMenu('save')
-                textbutton _("Q.Save") action QuickSave()
-                textbutton _("Q.Load") action QuickLoad()
-            textbutton _("Prefs") action ShowMenu('preferences')
-            textbutton _("Hide") action Call("trigger_hide")
-            if is_in_replay:
-                textbutton _("End Replay") action Function(end_event, "none", **replay_data)
+            grid columns rows:
+                for icon, tip, button_action, alternate_action in entries:
+                    use quick_menu_button(icon, tip, button_action, alternate_action)
+                for i in range(columns * rows - len(entries)):
+                    null
+
+        $ tooltip = GetTooltip("quick_menu")
+        if tooltip:
+            nearrect:
+                focus "tooltip"
+                prefer_top True
+
+                frame:
+                    style "jr_tooltip_frame"
+                    xalign 0.5
+                    text tooltip style "jr_tooltip_text"
+
+screen quick_menu_button(icon, tip, button_action, alternate_action = None, zoom_factor = 1.0):
+    imagebutton:
+        style "quick_icon_button"
+        idle "gui/journal/ui/quick_{}_idle.webp".format(icon)
+        hover "gui/journal/ui/quick_{}_hover.webp".format(icon)
+        selected_idle "gui/journal/ui/quick_{}_active.webp".format(icon)
+        selected_hover "gui/journal/ui/quick_{}_active.webp".format(icon)
+        at Transform(zoom = zoom_factor)
+        tooltip tip
+        action button_action
+        alternate alternate_action
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
@@ -340,8 +480,23 @@ style quick_button:
     properties gui.button_properties("quick_button")
 
 style quick_button_text:
-    outlines [(1, "#000", 0, 0)] 
+    outlines [(1, "#000", 0, 0)]
     properties gui.button_text_properties("quick_button")
+
+style quick_patch is empty:
+    background Frame("gui/journal/ui/leather_patch.webp", 20, 20, tile = True)
+    padding (20, 10, 22, 16)
+    xalign 1.0
+    yalign 1.0
+    offset (-18, -12)
+
+style quick_patch:
+    variant "touch"
+    padding (24, 14, 26, 20)
+    offset (-14, -10)
+
+style quick_icon_button is empty:
+    xysize (48, 48)
 
 # endregion
 
@@ -421,246 +576,7 @@ style navigation_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
-screen main_menu():
-
-    ## This ensures that any other menu screen is replaced.
-    tag menu
-
-    add gui.main_menu_background
-
-    ## This empty frame darkens the main menu.
-    # frame:
-    #     style "main_menu_frame"
-
-    frame:
-        background Solid("#8885")
-        area (1070, 20, 310, 95)
-        padding (5, 5)
-
-        hbox:
-            button:
-                add "gui/wiki.png": 
-                    xsize 80
-                    ysize 80
-                action Call("open_wiki_link_from_menu")
-                tooltip _("Wiki")
-            button:
-                add "gui/discord.png": 
-                    xsize 105
-                    ysize 80
-                action Call("open_discord_link_from_menu")
-                tooltip _("Discord")
-            button:
-                add "gui/patreon.png": 
-                    xsize 80
-                    ysize 80
-                action Call("open_patreon_link_from_menu")
-                tooltip _("Patreon")
-
-    python:
-        changelog_height = 800
-        if not changelog_shown:
-            changelog_height = 72
-
-    if message != "":
-        frame:
-            background Solid("#00000088")
-            area (20, 20, 1030, 60)
-            padding (10, 5)
-            vbox:
-                text message style "main_menu_changelog_text"
-
-    if persistent.main_menu_animation.startswith("anim"):
-        button:
-            add "gui/pause_anim.png"
-            xpos -20
-            ypos 540
-            action Function(toggle_animation)
-            tooltip _("Switch to Static")
-    else:
-        button:
-            add "gui/play_anim.png"
-            xpos -20
-            ypos 540
-            action Function(toggle_animation)
-            tooltip _("Switch to Animated")
-
-    button:
-        add "gui/next_anim.png"
-        xpos -20
-        ypos 640
-        action Function(switch_background)
-        tooltip _("Switch Background")
-
-    frame:
-        background Solid("#00000088")
-        area (1400, 20, 500, changelog_height)
-        padding (10, 10)
-        viewport id "ChangelogMenu":
-            mousewheel True
-            draggable "touch"
-
-            vbox:
-                hbox:
-                    text "Changelog:" style "main_menu_changelog_title"
-                    null width 150
-                    if not changelog_shown:
-                        textbutton "Show" action SetVariable("changelog_shown", True)
-                    else:
-                        textbutton "Hide" action SetVariable("changelog_shown", False)
-                if changelog_shown:
-                    null height 15
-                    text "Version 0.2.1B_1" style "main_menu_changelog_title"
-                    null height 15
-                    text "• Made small optimization, reducing size of save files" style "main_menu_changelog_text"
-                    text "• Fixed mixup of yoga outfits" style "main_menu_changelog_text"
-                    text "• Fixed missing images in event" style "main_menu_changelog_text"
-                    null height 15
-                    text "Version 0.2.1B" style "main_menu_changelog_title"
-                    null height 15
-                    text "• Fixed missing character names in events" style "main_menu_changelog_text"
-                    text "• Fixed some stat changes missing in events" style "main_menu_changelog_text"
-                    null height 15
-                    text "Version 0.2.1A" style "main_menu_changelog_title"
-                    null height 15
-                    text "• Fixed Truth or Dare Event Chain not triggering" style "main_menu_changelog_text"
-                    text "• Fixed New Yoga Outfit Event Chain not triggering" style "main_menu_changelog_text"
-                    text "• Fixed some keywords not being named correctly" style "main_menu_changelog_text"
-                    text "• Added missing events and images for sex ed teaching" style "main_menu_changelog_text"
-                    text "• Added Debug feature in journal allowing for reading in-game values" style "main_menu_changelog_text"
-                    null height 20
-                    text "Version 0.2.1" style "main_menu_changelog_title"
-                    null height 15
-                    text "• Added live notifications to main menu" style "main_menu_changelog_text"
-                    text "• Fixed Replay Gallery crashing to map overview, when handling decisions during replay" style "main_menu_changelog_text"
-                    text "• Fixed Event in School Dorm and Building showing for level it is not planned for" style "main_menu_changelog_text"
-                    text "• Fixed missing images in a School Dorm Event" style "main_menu_changelog_text"
-                    null height 15
-                    text "Stats" style "main_menu_changelog_subtitle"
-                    text "• 1379 new images bringing it up to a total of 7233" style "main_menu_changelog_text"
-                    text "• 21 new animations bringing it up to a total of 203" style "main_menu_changelog_text"
-                    text "• 2 new event chains" style "main_menu_changelog_text"
-                    text "• 20 new events" style "main_menu_changelog_text"
-                    text "    • one with over 12 fragments" style "main_menu_changelog_text"
-                    null height 15
-                    text "Events" style "main_menu_changelog_subtitle"
-                    text "• Added event chain for new yoga outfits" style "main_menu_changelog_text"
-                    text "    • 10 new events" style "main_menu_changelog_text"
-                    text "• Added event chain for truth or dare" style "main_menu_changelog_text"
-                    text "    • 4 new events" style "main_menu_changelog_text"
-                    text "    • 12 new event fragments" style "main_menu_changelog_text"
-                    text "• 2 new events in gym" style "main_menu_changelog_text"
-                    text "• 2 new events in school building" style "main_menu_changelog_text"
-                    text "• 1 new event in office building" style "main_menu_changelog_text"
-                    text "• Reworked teaching pe classes to conform to new image creation workflow" style "main_menu_changelog_text"
-                    text "• Improved Composite Events to allow easier usage of fragments" style "main_menu_changelog_text"
-                    null height 15
-                    text "New Features" style "main_menu_changelog_subtitle"
-                    text "• added ambient sound to map and location overview" style "main_menu_changelog_text"
-                    null height 15
-                    text "Changes" style "main_menu_changelog_subtitle"
-                    text "• Changed methods for creating menus" style "main_menu_changelog_text"
-                    text "• unified stat sets of students, parents and teachers to one single set" style "main_menu_changelog_text"
-                    text "• reworked PTA voting system" style "main_menu_changelog_text"
-                    null height 15
-                    text "Stats" style "main_menu_changelog_subtitle"
-                    text "• Stats for students, teachers and parents have been merged into one representing the entire school" style "main_menu_changelog_text"
-                    text "• each party keeps its own set of stats due to compatibility concerns" style "main_menu_changelog_text"
-                    text "    • all sets are not in use except for the student set, which is now the main set" style "main_menu_changelog_text"
-                    text "    • all parties still keep their own progression level" style "main_menu_changelog_text"
-                    null height 15
-                    text "PTA" style "main_menu_changelog_subtitle"
-                    text "• Voting system and probability calculation has been overhauled" style "main_menu_changelog_text"
-                    text "    • rework in accordance to the new stat system" style "main_menu_changelog_text"
-                    text "    • instead of the parties voting on the same set of conditions based on their own stats, the parties now vote on their own set of conditions together with one shared set" style "main_menu_changelog_text"
-                    text "    • probability calculation has been simplified." style "main_menu_changelog_text"
-                    text "    • calculation is still in testing phase" style "main_menu_changelog_text"
-                    text "    • it is possible, that the probability shown in the journal does not match the one measured in the pta itself." style "main_menu_changelog_text"
-                    text "    • probability in journal is based on the voting probability of all three parties, while in PTA the three parties all calculate their own probability separately" style "main_menu_changelog_text"
-                    null height 15
-                    text "Characters" style "main_menu_changelog_subtitle"
-                    text "• Introducing Linh Nguyen" style "main_menu_changelog_text"
-                    text "• Enhanced character retrieval for use in events" style "main_menu_changelog_text"
-                    null height 15
-                    text "GUI" style "main_menu_changelog_subtitle"
-                    text "• Added button to skip to the next day in map overview" style "main_menu_changelog_text"
-                    null height 15
-                    text "Quest System" style "main_menu_changelog_subtitle"
-                    text "• Updated quest system to include new events" style "main_menu_changelog_text"
-                    null height 15
-                    text "Misc" style "main_menu_changelog_subtitle"
-                    text "• Fixed multiple bugs" style "main_menu_changelog_text"
-                    null height 15
-                    text "Rework of Quest System is in progress. Please do not report non-game-breaking bugs for the quest system." style "main_menu_changelog_text"
-                    text "Quest system only shows the current state of the game and has no influence on the game itself." style "main_menu_changelog_text"
-
-                    null height 15
-                    text "Changelog for older versions can be found in the {a=https://wiki.suit-ji.com/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
-
-        vbar value YScrollValue("ChangelogMenu"):
-            unscrollable "hide"
-            xalign 1.0
-            xoffset 10
-            xsize 5
-
-    ## The use statement includes another screen inside this one. The actual
-    ## contents of the main menu are in the navigation screen.
-    # use navigation
-
-    # settings panel
-    frame:
-        background Solid("#8885")
-        area (0, 985, 210, 95)
-        padding (5, 5)
-
-        hbox:
-            button:
-                add "gui/settings.png": 
-                    xsize 80
-                    ysize 80
-                action ShowMenu("preferences")
-                tooltip _("Preferences")
-            button:
-                add "gui/mod_manager.png": 
-                    xsize 105
-                    ysize 80
-                action ShowMenu("mod_manager")
-                tooltip _("Mod Manager")
-
-    frame:
-        background Solid("#8880")
-        area (400, 100, 800, 100)
-        
-        hbox:
-            button:
-                text "New Game" style "main_menu_board"
-                action Start()
-            null width 100
-            button:
-                text "Load Game" style "main_menu_board"
-                action ShowMenu("load")
-
-
-    if gui.show_name:
-        vbox:
-            style "main_menu_vbox"
-
-            text "[config.name!t]":
-                style "main_menu_title"
-
-            text "[config.version]":
-                style "main_menu_version"
-
-    $ tooltip = GetTooltip()
-
-    if tooltip:
-        nearrect:
-            focus "tooltip"
-            prefer_top True
-
-            frame:
-                xalign 0.5
-                text tooltip
+# screen main_menu: the title screen now lives in scripts/journal/journal_title.rpy
 
 style main_menu_board:
     size 35
@@ -1621,27 +1537,40 @@ screen confirm(message, yes_action, no_action):
 
     zorder 200
 
-    style_prefix "confirm"
-
-    add "gui/overlay/confirm.png"
+    # a paper slip like the journal's notes; works on the title screen and in game
+    add Solid("#140d08a8")
 
     frame:
+        xalign 0.5
+        yalign 0.45
+        xmaximum 760
+        background Frame("gui/journal/ui/foldout_panel.webp", 12, 12)
+        padding (48, 36, 48, 34)
+        at Transform(rotate = -0.8, rotate_pad = False)
 
         vbox:
-            xalign .5
-            yalign .5
-            spacing 45
-
-            label _(message):
-                style "confirm_prompt"
+            spacing 30
+            text _(message):
+                style "jr_text"
+                size 30
                 xalign 0.5
+                textalign 0.5
+                layout "subtitle"
 
             hbox:
                 xalign 0.5
-                spacing 150
-
-                textbutton _("Yes") action yes_action
-                textbutton _("No") action no_action
+                spacing 90
+                textbutton _("Yes ›"):
+                    style "jr_entry_button"
+                    text_style "jr_value"
+                    text_size 30
+                    text_color JR_ACCENT
+                    action yes_action
+                textbutton _("No"):
+                    style "jr_entry_button"
+                    text_style "jr_entry_button_text"
+                    text_size 30
+                    action no_action
 
     ## Right-click and escape answer "no".
     key "game_menu" action no_action
@@ -1711,13 +1640,17 @@ style skip_frame is empty
 style skip_text is gui_text
 style skip_triangle is skip_text
 
+# skipping: a small leather patch, like the quick menu's
 style skip_frame:
     ypos gui.skip_ypos
-    background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
-    padding gui.skip_frame_borders.padding
+    xpos 14
+    background Frame("gui/journal/ui/leather_patch.webp", 20, 20, tile = True)
+    padding (20, 8, 24, 14)
 
 style skip_text:
-    size gui.notify_text_size
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    color "#f4ead6"
+    size 22
 
 style skip_triangle:
     ## We have to use a font that has the BLACK RIGHT-POINTING SMALL TRIANGLE
@@ -1753,14 +1686,18 @@ transform notify_appear:
 style notify_frame is empty
 style notify_text is gui_text
 
+# Ren'Py's own notices ("Quick save complete" ...): the same paper slip as the game's notifications
 style notify_frame:
     ypos gui.notify_ypos
+    xpos 14
 
-    background Frame("gui/notify.png", gui.notify_frame_borders, tile=gui.frame_tile)
-    padding gui.notify_frame_borders.padding
+    background Frame("gui/journal/ui/choice_slip.webp", 12, 12)
+    padding (20, 9, 24, 17)
 
 style notify_text:
-    properties gui.text_properties("notify")
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    color "#342820"
+    size 21
 
 # endregion
 
@@ -1899,24 +1836,19 @@ screen quick_menu():
 
     if quick_menu:
 
-        hbox:
-            style_prefix "quick"
+        # one row of bigger icons, no tooltips (nothing hovers on a touch screen)
+        frame:
+            style "quick_patch"
 
-            xalign 0.5
-            yalign 1.0
-
-            textbutton _("Back") action Rollback()
-            textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Menu") action ShowMenu()
-            textbutton _("Hide") action Call("trigger_hide")
-            if is_in_replay:
-                textbutton _("End Replay") action Function(end_event, "none", **replay_data)
+            hbox:
+                spacing 6
+                for icon, tip, button_action, alternate_action in quick_menu_entries(touch = True):
+                    use quick_menu_button(icon, tip, button_action, alternate_action, 1.25)
 
 
 style window:
     variant "small"
-    background "gui/phone/textbox.png"
+    background Frame("gui/journal/ui/dialog_band.webp", 0, 30, 0, 0)
 
 style radio_button:
     variant "small"

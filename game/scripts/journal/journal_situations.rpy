@@ -109,7 +109,7 @@ screen journal_situations(display):
     use journal_backdrop
 
     if zoomed_image is None:
-        key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+        key "K_ESCAPE" action journal_close_action()
 
     use journal_page_selector(8, display, sub_entries = sub_entries)
 
@@ -308,11 +308,11 @@ screen journal_situation_overview(situation, display):
                         text hint style "jr_body" xsize JR_RIGHT_W - 36
                     null height 8
 
-screen jr_situation_bar(situation, width):
+screen jr_situation_bar(situation, width, compact = False):
     # """
     # The situation's combined bar as a watercolour track: ink pointer for
     # the current value, posts for the nearest thresholds either side.
-    # Same logic as journal_situation_bar (map HUD), journal look.
+    # compact: the map HUD's slim version, without the mood word above it.
     # """
 
     python:
@@ -334,31 +334,34 @@ screen jr_situation_bar(situation, width):
                 gates.append((journal_bar_x(above_pos, bar_min, bar_max, width), JR_GREEN))
         # keep the mood word on the page when the pointer sits near either end
         label_x = min(max(handle_x, 60), width - 60)
+        # (track y, track height, post y, post height, pointer y, total height)
+        track_y, track_h, post_y, post_h, pointer_y, total_h = (12, 12, 6, 22, 0, 28) if compact else (44, 18, 38, 30, 29, 70)
 
     fixed:
-        xysize (width, 70)
+        xysize (width, total_h)
 
-        text mood:
-            style "jr_text"
-            size 21
-            font "fonts/CrimsonPro-Italic.ttf"
-            color journal_mood_ink(situation)
-            xpos label_x
-            xanchor 0.5
-            ypos 0
+        if not compact:
+            text mood:
+                style "jr_text"
+                size 21
+                font "fonts/CrimsonPro-Italic.ttf"
+                color journal_mood_ink(situation)
+                xpos label_x
+                xanchor 0.5
+                ypos 0
 
-        add Transform("gui/journal/ui/mood_track.webp", xysize = (width, 18)) ypos 44
+        add Transform("gui/journal/ui/mood_track.webp", xysize = (width, track_h)) ypos track_y
 
         if bar_min < 0 < bar_max:
-            add Solid(JR_PRINT + "60") xpos journal_bar_x(0, bar_min, bar_max, width) xanchor 0.5 ypos 46 xysize (1, 14)
+            add Solid(JR_PRINT + "60") xpos journal_bar_x(0, bar_min, bar_max, width) xanchor 0.5 ypos track_y + 2 xysize (1, track_h - 4)
 
         for gate_x, ink in gates:
             # threshold post: a short double ink stroke reaching past the track
-            add Solid(ink) xpos gate_x - 3 ypos 38 xysize (2, 30)
-            add Solid(ink) xpos gate_x + 2 ypos 38 xysize (2, 30)
+            add Solid(ink) xpos gate_x - 3 ypos post_y xysize (2, post_h)
+            add Solid(ink) xpos gate_x + 2 ypos post_y xysize (2, post_h)
 
-        add "gui/journal/ui/marker.webp" xpos handle_x xanchor 0.5 ypos 29
-        add Solid("#342820d0") xpos handle_x xanchor 0.5 ypos 42 xysize (2, 22)
+        add "gui/journal/ui/marker.webp" xpos handle_x xanchor 0.5 ypos pointer_y
+        add Solid("#342820d0") xpos handle_x xanchor 0.5 ypos pointer_y + 13 xysize (2, track_h + 4)
 
 screen journal_situation_measures(situation, display):
     # """

@@ -1561,26 +1561,122 @@ label black_screen_text(title, subtitle = ""):
             call screen black_screen_text_with_subtitle(title, subtitle) with dissolveM
         
     return
+init python:
+    import re as _black_card_re
+
+    BLACK_CARD_DATE = _black_card_re.compile(
+        r"^\s*(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})\s*$")
+
+    def black_card_date(text_str):
+        """
+        Splits a date card text ("Monday, 8 January 2023") into its parts.
+
+        ### Parameters:
+        1. text_str: str
+            - The card's text.
+
+        ### Returns:
+        1. tuple | None
+            - (weekday, day, month, year), or None when the text is no date.
+        """
+
+        match = BLACK_CARD_DATE.match(text_str or "")
+        return match.groups() if match else None
+
+# The card between scenes. A date becomes a sheet of a tear-off desk calendar
+# (gui/journal/ui/calendar_sheet, tools/journal_assets/build_ui.py); any other
+# text ("1h later.", level ups) is typed on a paper slip. Both on near-black.
+screen black_card(text_str, subtitle_str = ""):
+    $ date_parts = black_card_date(text_str) if not subtitle_str else None
+
+    if date_parts:
+        $ weekday, day, month, year = date_parts
+        fixed at black_card_appear:
+            xysize (500, 580)
+            align (0.5, 0.5)
+
+            add "gui/journal/ui/calendar_sheet.webp"
+            text (month.upper() + " " + year):
+                style "black_card_month"
+                xalign 0.5
+                ypos 78
+                yanchor 0.5
+            text day:
+                style "black_card_day"
+                color (JR_ACCENT if weekday in ("Saturday", "Sunday") else JR_PRINT)
+                xalign 0.5
+                ypos 330
+                yanchor 0.5
+            text weekday:
+                style "black_card_weekday"
+                xalign 0.5
+                ypos 500
+                yanchor 0.5
+    else:
+        frame at black_card_appear:
+            style "black_card_slip"
+
+            vbox:
+                spacing 10
+                text text_str style "black_card_text"
+                if subtitle_str:
+                    text subtitle_str style "black_card_subtitle"
+
+style black_card_month is default:
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    size 34
+    color "#f4ead6"
+
+style black_card_day is default:
+    font "fonts/CrimsonPro-Bold.ttf"
+    size 230
+
+style black_card_weekday is default:
+    font "fonts/SpecialElite-Regular.ttf"
+    size 40
+    color JR_TYPED
+
+style black_card_slip is empty:
+    background Frame("gui/journal/ui/choice_slip.webp", 12, 12)
+    padding (56, 30, 60, 42)
+    align (0.5, 0.5)
+    xmaximum 1500
+
+style black_card_text is default:
+    font "fonts/SpecialElite-Regular.ttf"
+    size 44
+    color JR_TYPED
+    text_align 0.5
+    xalign 0.5
+
+style black_card_subtitle is black_card_text:
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    size 32
+    color JR_PRINT
+
+transform black_card_appear:
+    alpha 0.0 yoffset -24
+    easein 0.35 alpha 1.0 yoffset 0
+
 screen black_screen_text(text_str):
     python:
         """
-        Displays a black screen with white text
+        Displays a card between scenes: a calendar sheet for a date,
+        otherwise the text typed on a paper slip
 
         # Parameters:
         1. text_str: str
             - the text to be displayed
         """
 
-    add "black"
-    
+    add "#0c0a09"
+
     key "K_SPACE" action Return()
     key "K_ESCAPE" action Return()
     key "K_KP_ENTER" action Return()
     key "K_SELECT" action Return()
 
-    text text_str:
-        xalign 0.5 yalign 0.5
-        size 60
+    use black_card(text_str)
 
     if renpy.get_skipping() != None:
         $ screen_return()
@@ -1592,31 +1688,24 @@ screen black_screen_text(text_str):
 screen black_screen_text_with_subtitle(text_str, subtitle_str):
     python:
         """
-        Displays a black screen with white text
+        Displays a card between scenes with a second, smaller line
 
         # Parameters:
         1. text_str: str
             - the text to be displayed
+        2. subtitle_str: str
+            - the line below it
         """
 
-    add "black"
-    
+    add "#0c0a09"
+
     key "K_SPACE" action Return()
     key "K_ESCAPE" action Return()
     key "K_KP_ENTER" action Return()
     key "K_SELECT" action Return()
 
-    vbox:
-        yalign 0.5
-        xsize 1920
+    use black_card(text_str, subtitle_str)
 
-        text text_str:
-            xalign 0.5
-            size 60
-        null height 10
-        text subtitle_str:
-            xalign 0.5
-            size 40
     if renpy.get_skipping() != None:
         $ screen_return()
     button:

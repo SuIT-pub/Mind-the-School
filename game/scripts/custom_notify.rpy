@@ -145,7 +145,7 @@ init -99 python:
             if char_obj != None:
                 char_name = char_obj.get_title()
 
-            notify_str = char_name + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL)
+            notify_str = char_name + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL, white = False)
             notify_val = " {color=#00a000}" + "{:.2f}".format(value) + "{/color}"
             if ((value > 0 and stat == "inhibition") or (value < 0 and stat != "inhibition")):
                 notify_val = " {color=#a00000}" + "{:.2f}".format(value) + "{/color}"
@@ -169,44 +169,43 @@ init -99 python:
 
 
 
+# notifications are paper slips like the choices of a menu (gui/journal/ui/choice_slip)
 style notify_item_frame:
 
-    background Frame("gui/notify.png", 10, 10)
+    background Frame("gui/journal/ui/choice_slip.webp", 12, 12)
 
-    padding (16, 2, 32, 2)
-    minimum (20,20)
-    # xanchor 0.5
+    padding (20, 9, 24, 17)
+    minimum (20, 20)
 
 
 style notify_item_text:
 
-    xsize None 
-    align (0.5,0.5) 
+    xsize None
+    yalign 0.5
 
-    # just standard font specific stuff
-    color "#FFF"
-    outlines [(abs(2), "#000", abs(0), abs(0))]
-    # font ""
-    size 20
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    color "#342820"
+    size 21
 
 
 style notify_item_button is default
 style notify_item_button:
-    background Frame("gui/notify.png", 10, 10)
-    hover_background Frame("gui/notify.png", 10, 10)
-    padding (16, 2, 32, 2)
+    background Frame("gui/journal/ui/choice_slip.webp", 12, 12)
+    hover_background Frame(Transform("gui/journal/ui/choice_slip.webp", matrixcolor = TintMatrix("#fff0c8")), 12, 12)
+    padding (20, 9, 24, 17)
     minimum (20, 20)
 
 
+# the slip slides in from the left edge, stays, and slides back out
 transform notify_appear():
 
-    yzoom 0.0 alpha 0.5
+    xoffset -80 alpha 0.0
 
-    linear 0.2 yzoom 1.0 alpha 1.0
+    easein 0.25 xoffset 0 alpha 1.0
 
     pause 4.0
 
-    linear 0.2 yzoom 0.0 alpha 0.0
+    easeout 0.3 xoffset -80 alpha 0.0
 
     function finish_notify
 
@@ -226,7 +225,11 @@ screen notify_item(msg, use_atl=True, page=None, display=""):
 
             action [Hide("notify_container"), With(dissolveM), Call("open_journal", page, display)]
 
-            text msg style "notify_item_text"
+            # the arrow says the slip leads into the journal
+            hbox:
+                spacing 10
+                text msg style "notify_item_text"
+                text "›" style "notify_item_text" color JR_ACCENT size 26 yalign 0.5
 
     else:
 
@@ -246,12 +249,12 @@ screen notify_container():
 
     fixed:
 
-        pos (0, 10)
+        pos (14, 14)
 
         vbox:
 
-            xmaximum 400
-            spacing 5
+            xmaximum 460
+            spacing 2
 
             # We index on the time the notification was added as that
             # is unique. Using index helps manage the ATL nicely

@@ -200,7 +200,7 @@ screen journal_gallery(display):
 
     use journal_backdrop
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+    key "K_ESCAPE" action journal_close_action()
 
     use journal_page_selector(7, display, sub_entries = sub_entries)
 

@@ -1212,6 +1212,11 @@ init -6 python:
             elif char_type == "thought":
                 kwargs.update(who_suffix = " (thinking)", what_italic = True, what_prefix = "(  ", what_suffix = "  )")
 
+            # show_* arguments reach the say screen: it pins this person's roster photo
+            # into the dialogue box. Not for the headmaster, who is the player.
+            if self.name != "headmaster":
+                kwargs.setdefault("show_speaker", self.name)
+
             return Character(self.get_full_name(), kind = char_kind, retain = False, **kwargs)
 
         def register_paperdoll(self, *overrides: PaperdollOverride, **kwargs):

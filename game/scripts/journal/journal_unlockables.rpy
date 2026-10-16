@@ -52,6 +52,8 @@ screen journal_unlockables(display):
     tag interaction_overlay
     modal True
 
+    default zoomed_image = None
+
     python:
         type_filter = get_setting("journal_unlockables_type_filter")
         if type_filter is None:
@@ -80,7 +82,8 @@ screen journal_unlockables(display):
 
     use journal_backdrop
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+    if zoomed_image is None:
+        key "K_ESCAPE" action journal_close_action()
 
     use journal_page_selector(4, display, sub_entries = sub_entries)
 
@@ -93,6 +96,9 @@ screen journal_unlockables(display):
         use journal_unlockable_detail(active_unlockable, display)
 
     use journal_tooltip
+
+    if zoomed_image is not None:
+        use jr_zoom_overlay(zoomed_image)
 
 screen journal_unlockable_list(incomplete_list, completed_list, list_key):
     # """
@@ -226,7 +232,7 @@ screen journal_unlockable_detail(unlockable, display):
                         padding (0, 0, 0, 0)
                         background None
                         tooltip "Enlarge"
-                        action [With(dissolveM), Call("call_max_image_from_journal", thumbnail, 4, display)]
+                        action SetScreenVariable("zoomed_image", journal_situation_full_image(thumbnail))
                         use journal_polaroid(thumbnail, photo_w, photo_h, -1.5)
                 vbox:
                     xsize facts_w

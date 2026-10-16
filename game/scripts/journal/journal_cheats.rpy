@@ -46,7 +46,7 @@ screen journal_cheats(display, char = "school"):
 
     use journal_backdrop
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+    key "K_ESCAPE" action journal_close_action()
 
     use journal_page_selector(5, display, char)
 
@@ -261,7 +261,11 @@ screen journal_cheats_stat(stat, char = "school"):
                     action Call("modify_stat", stat, step, char)
 
 screen journal_cheats_events(section):
-    use jr_cheat_note("Start any registered event directly. Starting one closes the journal.")
+    $ can_start = not journal_in_game_menu()
+    if can_start:
+        use jr_cheat_note("Start any registered event directly. Starting one closes the journal.")
+    else:
+        use jr_cheat_note("Events can only be started from the map, not while one is running.")
     fixed:
         xysize (JR_RIGHT_W, 38)
         text "Replay category" style "jr_text" size 22 yalign 0.5
@@ -282,6 +286,7 @@ screen journal_cheats_events(section):
             button:
                 style "jr_entry_button"
                 yalign 0.5
+                sensitive can_start
                 action [With(dissolveM), Call("call_event_cheat", cheat_event.event_id)]
                 text cheat_event.get_name() style "jr_entry_button_text" size 20
             text str(getattr(cheat_event, "replay_category", "Misc")) style "jr_small" size 17 xalign 1.0 yalign 0.5
@@ -442,9 +447,11 @@ screen journal_cheats_debug(section):
     null height 14
     use jr_rubric("Tools", JR_RIGHT_W)
     null height 4
-    use jr_cheat_action("Test label", "run", Call("test_label"))
-    use jr_cheat_action("Paperdoll test", "open", Call("show_paperdoll_test"))
-    use jr_cheat_action("Situation test lab", "open", Call("situation_test_lab"))
+    # these leave the journal for the game; not from the game menu mid event
+    $ can_leave = not journal_in_game_menu()
+    use jr_cheat_action("Test label", "run", Call("test_label"), can_leave)
+    use jr_cheat_action("Paperdoll test", "open", Call("show_paperdoll_test"), can_leave)
+    use jr_cheat_action("Situation test lab", "open", Call("situation_test_lab"), can_leave)
     use jr_cheat_action("Every item once", "add all", Call("give_every_item", 5, section))
 
     null height 14

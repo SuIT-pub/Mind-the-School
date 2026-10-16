@@ -2239,8 +2239,8 @@ label default_fallback_event (**kwargs):
     $ local_subtitles = Character(
         None,
         window_background = None,
-        what_color = "#ffffff",
-        what_size = 28,
+        what_color = "#f4ead6",
+        what_size = 33,
         what_outlines = [( 1, "#000000", 0, 0 )],
         what_xalign = 0.5,
         what_textalign = 0,
@@ -2530,48 +2530,59 @@ label .return_cum (**kwargs):
         $ variant = max_variant
     call .start(**kwargs) from _call_start_sandbox_start_3
 
+# (icons entry, icon file, label, return value); "stop" is always there
+define NAUGHTY_SCENE_BUTTONS = [
+    ("clothing", "scene_clothing", "Outfit", "change_clothing"),
+    ("position", "scene_position", "Position", "change_position"),
+    ("location", "scene_location", "Location", "change_location"),
+    ("variant", "scene_variant", "Variation", "change_variant"),
+    ("cumming", "scene_finish", "Finish", "cum"),
+    ("return", "scene_return", "Back", "return"),
+    ("stop", "scene_stop", "Stop", "stop"),
+]
+
+# the scene's controls on a leather patch at the right edge, the same stitched
+# leather and stamped icons as the quick menu, with their names written beside them
 screen naughty_scene_icons(*icons):
-    if "clothing" in icons:
-        imagebutton:
-            idle "icons/change_clothing_idle.webp"
-            hover "icons/change_clothing_hover.webp"
-            xalign 1.0 yalign 0.0
-            action Return("change_clothing")
-    if "position" in icons:
-        imagebutton:
-            idle "icons/change_position_idle.webp"
-            hover "icons/change_position_hover.webp"
-            xalign 1.0 yalign 0.2
-            action Return("change_position")
-    if "location" in icons:
-        imagebutton:
-            idle "icons/change_location_idle.webp"
-            hover "icons/change_location_hover.webp"
-            xalign 1.0 yalign 0.4
-            action Return("change_location")
-    if "variant" in icons:
-        imagebutton:
-            idle "icons/change_variant_idle.webp"
-            hover "icons/change_variant_hover.webp"
-            xalign 1.0 yalign 0.6
-            action Return("change_variant")
-    if "cumming" in icons:
-        imagebutton:
-            idle "icons/cum_idle.webp"
-            hover "icons/cum_hover.webp"
-            xalign 1.0 yalign 0.8
-            action Return("cum")
-    if "return" in icons:
-        imagebutton:
-            idle "icons/return_idle.webp"
-            hover "icons/return_hover.webp"
-            xalign 1.0 yalign 0.8
-            action Return("return")
-    imagebutton:
-        idle "icons/stop_idle.webp"
-        hover "icons/stop_hover.webp"
-        xalign 1.0 yalign 1.0
-        action Return("stop")
+    frame:
+        style "quick_patch"
+        yalign 0.42
+        offset (-14, 0)
+
+        vbox:
+            spacing 4
+            for entry, icon, label, value in NAUGHTY_SCENE_BUTTONS:
+                if entry in icons or entry == "stop":
+                    if entry == "stop":
+                        add Solid("#f4ead640") xsize 150 ysize 1 xalign 1.0
+                    button:
+                        style "scene_control_button"
+                        action Return(value)
+                        hbox:
+                            spacing 10
+                            xalign 1.0
+                            text label style "scene_control_text" yalign 0.5
+                            fixed:
+                                xysize (48, 48)
+                                add "gui/journal/ui/quick_{}_idle.webp".format(icon)
+                                add "gui/journal/ui/quick_{}_hover.webp".format(icon) at scene_control_hover
+
+style scene_control_button is empty:
+    xalign 1.0
+    padding (8, 0, 0, 0)
+
+style scene_control_text is default:
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    size 23
+    color "#ecdcbc"
+    hover_color "#e4be70"
+
+# the brass icon fades in over the cream one while the row is hovered
+transform scene_control_hover:
+    on idle:
+        linear 0.12 alpha 0.0
+    on hover:
+        linear 0.12 alpha 1.0
 
 # endregion
 ########################

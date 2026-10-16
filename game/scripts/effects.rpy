@@ -942,7 +942,7 @@ init -1 python:
                 remove_building_collection_key(self.building_key, "open", self.name)
             return kwargs
 
-label open_bg_image_menu(event, menu_anchor = "middle_center", **kwargs):
+label open_bg_image_menu(event, menu_anchor = "dialog", **kwargs):
     $ bg_image = get_kwargs("bg_image", None, **kwargs)
     if bg_image != None:
         call show_idle_image(bg_image, **kwargs) from open_bg_image_menu_1

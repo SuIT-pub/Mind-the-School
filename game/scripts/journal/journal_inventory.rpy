@@ -66,7 +66,7 @@ screen journal_inventory(display, page = 10):
 
     use journal_page_selector(page, display)
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+    key "K_ESCAPE" action journal_close_action()
 
     use journal_inventory_list(page, inventory_items, selected_item)
 

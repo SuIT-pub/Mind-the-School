@@ -129,6 +129,8 @@ label open_journal(page, display, char = "school"):
         call screen journal_character(display) with dissolveM
     elif page == 10:
         call screen journal_inventory(display, 10) with dissolveM
+    elif page == 11:
+        call screen journal_menu(display) with dissolveM
 
 label close_journal ():
     # """
@@ -547,12 +549,11 @@ screen max_image_from_journal(image_path, journal, display):
     tag interaction_overlay
     modal True
     button:
-        xpos -6 ypos -6
-        xsize 1920 ysize 1080
-        add "[image_path]":
-            xpos 0 ypos 0
-            xsize 1920 ysize 1080
+        xysize (1920, 1080)
+        background Solid("#0b0806")
+        add Transform(image_path, fit = "contain", xysize = (1840, 1040)) align (0.5, 0.5)
         action [With(dissolveM), Call("open_journal", journal, display)]
+    key "K_ESCAPE" action [With(dissolveM), Call("open_journal", journal, display)]
 
 screen journal_tab_selection(page, display, selection, endpoint_label, *options, **kwargs):
     # """

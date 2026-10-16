@@ -106,6 +106,30 @@ style jr_entry_button:
 style jr_entry_button_text is jr_label:
     hover_color "#000"
 
+# Touch screens: a finger needs bigger targets than a mouse pointer. Only the padding
+# grows, so the page layouts stay as they are on PC.
+style jr_entry_button:
+    variant "touch"
+    padding (12, 8, 14, 8)
+
+# Phones: the 1920x1080 page is shrunk to a few inches, so the small print grows a
+# little (columns that run long scroll, see jr_page).
+style jr_small:
+    variant "small"
+    size 23
+
+style jr_typed_small:
+    variant "small"
+    size 20
+
+style jr_rubric:
+    variant "small"
+    size 19
+
+style jr_body:
+    variant "small"
+    size 25
+
 # graphite-stroke thumb on a dotted pencil guide line; hidden while nothing overflows
 style jr_vscrollbar:
     xsize 10
@@ -151,12 +175,17 @@ init python:
         ("gallery", "Replay Gallery", 7, "7"),
         ("credits", "Credits", 6, "6"),
         ("cheats", "Cheats", 5, "8"),
-        ("menu", "Game Menu (coming soon)", None, None),
+        ("menu", "Game Menu", 11, None),
     ]
     JOURNAL_PAGE_SECTION = {
         1: "overview", 3: "overview", 9: "characters", 4: "unlockables", 8: "situations",
         2: "inventory", 10: "inventory", 7: "gallery", 6: "credits", 5: "cheats",
+        11: "menu",
     }
+    # the only sections usable while the journal is open as the game menu mid event
+    JOURNAL_GAME_MENU_SECTIONS = ("menu", "cheats")
+    # the only sections on the journal opened from the title screen
+    JOURNAL_TITLE_SECTIONS = ("menu", "credits")
     # Pencil doodles per section: (doodle, x, y) in screen pixels, drawn under the page
     # content. Kept to one or two per spread and placed where that page usually stays
     # empty (mostly the lower left page). Images: tools/journal_assets/build_doodles.py
@@ -216,12 +245,22 @@ screen journal_backdrop():
     # book reads as lying on top of it.
     # """
 
-    add map_manager.get_current_map().get_map_path() at jr_map_blur
-    add "gui/journal/ui/backdrop.webp"
-    # above the dimming so the stats stay readable; the book is drawn later and still covers it
-    use school_overview_stats(show_navigation = False, show_tooltip = False)
+    if journal_title_mode():
+        # opened from the title screen: its (possibly animated) background, blurred
+        add gui.main_menu_background at jr_map_blur
+        add "gui/journal/ui/backdrop.webp"
+    elif journal_in_game_menu():
+        # opened mid event: the moment the menu was opened, blurred (the screenshot
+        # Ren'Py takes for save thumbnails); no live stats, nothing to click behind
+        add Transform(journal_menu_screenshot(), xysize = (1920, 1080)) at jr_map_blur
+        add "gui/journal/ui/backdrop.webp"
+    else:
+        add map_manager.get_current_map().get_map_path() at jr_map_blur
+        add "gui/journal/ui/backdrop.webp"
+        # above the dimming so the stats stay readable; the book is drawn later and still covers it
+        use school_overview_stats(show_navigation = False, show_tooltip = False)
 
-screen journal_ribbon(key, side, y, active, action, tooltip_text):
+screen journal_ribbon(key, side, y, active, action, tooltip_text, usable = True):
     # """
     # One navigation bookmark. Its root hides ~30px under the page layer, so
     # the sprite is placed relative to the page edge, not to its own tip.
@@ -242,7 +281,10 @@ screen journal_ribbon(key, side, y, active, action, tooltip_text):
         idle ribbon_image
         pos (x, y - 44)
         focus_mask True
-        if not active:
+        if not usable:
+            # greyed out: the page can't be opened from here (game menu mid event)
+            at Transform(alpha = 0.45, matrixcolor = SaturationMatrix(0.3))
+        elif not active:
             at jr_ribbon_slide(-10 if side == "l" else 10)
         action action
         tooltip tooltip_text
@@ -305,21 +347,31 @@ screen journal_book(page, display, sub_entries = None):
 
     add "gui/journal/book_cover.webp"
 
+    $ in_game_menu = journal_in_game_menu()
+    $ title_mode = journal_title_mode()
+
     for side in ("l", "r"):
         for row, (nav_key, title, target, digit) in enumerate(journal_nav_entries(side)):
-            if target is None:
-                $ ribbon_action = NullAction()
-            else:
-                $ ribbon_action = [With(dissolveM), Call("open_journal", target, "")]
-            $ ribbon_tip = title + (" [[" + digit + "]" if digit and show_keys else "")
-            use journal_ribbon(nav_key, side, JOURNAL_RIBBON_ROWS[row], (nav_key == section), ribbon_action, ribbon_tip)
+          # before a game runs only the menu and the credits exist (no greyed ribbons)
+          if not title_mode or nav_key in JOURNAL_TITLE_SECTIONS:
+              $ usable = target is not None and (not in_game_menu or nav_key in JOURNAL_GAME_MENU_SECTIONS)
+              if not usable:
+                  $ ribbon_action = NullAction()
+              elif title_mode:
+                  $ ribbon_action = ShowMenu("journal_title", ("credits" if nav_key == "credits" else "load"))
+              else:
+                  $ ribbon_action = [With(dissolveM), Call("open_journal", target, "")]
+              $ ribbon_tip = title + (" [[" + digit + "]" if digit and show_keys else "")
+              if in_game_menu and not usable:
+                  $ ribbon_tip = title + " (only on the map)"
+              use journal_ribbon(nav_key, side, JOURNAL_RIBBON_ROWS[row], (nav_key == section), ribbon_action, ribbon_tip, usable)
 
-            if digit and has_keyboard() and nav_key != section:
-                key ("K_" + digit) action ribbon_action
-                key ("K_KP" + digit) action ribbon_action
+              if digit and has_keyboard() and nav_key != section and usable:
+                  key ("K_" + digit) action ribbon_action
+                  key ("K_KP" + digit) action ribbon_action
 
     use journal_ribbon("exit", "r", JOURNAL_EXIT_ROW, False,
-        [With(dissolveM), Jump("map_entry")], "Close Journal" + (" [[ESC]" if show_keys else ""))
+        journal_close_action(), ("Back to the title" if title_mode else "Back to the game" if in_game_menu else "Close Journal") + (" [[ESC]" if show_keys else ""))
 
     if sub_entries:
         use journal_sub_ribbons(section, sub_entries)
@@ -358,7 +410,7 @@ screen journal_tooltip():
                 xalign 0.5
                 text tooltip style "jr_tooltip_text"
 
-screen jr_page(scroll_id, x, width):
+screen jr_page(scroll_id, x, width, yinitial = 0.0):
     # """
     # One page column. Layouts are planned to fit, but if content ever runs
     # past the bottom of the page the column scrolls instead of spilling out;
@@ -381,6 +433,7 @@ screen jr_page(scroll_id, x, width):
 
         viewport id scroll_id:
             xsize width
+            yinitial yinitial
             mousewheel True
             draggable "touch"
             transclude

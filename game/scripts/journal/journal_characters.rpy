@@ -160,7 +160,7 @@ screen journal_character(display):
     use journal_page_selector(9, display, sub_entries = sub_entries)
 
     if zoomed_portrait is None:
-        key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+        key "K_ESCAPE" action journal_close_action()
 
     if group:
         use journal_character_roster(group, person_key)
@@ -356,3 +356,27 @@ screen journal_character_dossier(group, person, portrait_index):
                 null height 6
                 for paragraph in paragraphs:
                     text paragraph style "jr_body"
+
+default persistent.dialog_speaker_photo = True
+
+screen dialog_speaker_photo(speaker):
+    # """
+    # The speaker's roster photo as a small tilted print in the dialogue box,
+    # in the free space left of the text (say screen, screens.rpy). Uses the
+    # same cached head-and-shoulders crop as the journal roster.
+    # """
+
+    $ person = find_person(speaker)
+    if person is not None:
+        $ photo = person.get_thumbnail()
+        if not journal_is_placeholder_image(photo):
+            $ inner_w = 136
+            $ inner_h = int(inner_w / JOURNAL_HEADSHOT_ASPECT)
+            fixed at Transform(rotate = -3, rotate_pad = False):
+                # sticks out over the box's top edge, like a photo pinned to it
+                pos (200, -40)
+                xysize (inner_w + 12, inner_h + 12)
+                add Solid("#00000040") pos (3, 4) xysize (inner_w + 12, inner_h + 12)
+                add Solid("#faf7f0") xysize (inner_w + 12, inner_h + 12)
+                add journal_cover("gui/journal/ui/photo_backdrop.webp", inner_w, inner_h) pos (6, 6)
+                add journal_headshot(photo, inner_w, inner_h) pos (6, 6)

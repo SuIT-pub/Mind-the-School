@@ -104,7 +104,8 @@ transform jr_unfold(delay):
 
 screen journal_credits(display):
     # """
-    # Credits page.
+    # Credits page (in game). The pages themselves are journal_credits_pages,
+    # shared with the title screen's journal (journal_title).
     # """
 
     tag interaction_overlay
@@ -112,15 +113,32 @@ screen journal_credits(display):
 
     default unfolded = (display == "patrons")
 
-    $ tiers, updated = journal_patron_tiers()
-    $ patron_count = sum(len(entries) for _, entries in tiers)
-
     use journal_backdrop
 
     if not unfolded:
-        key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+        key "K_ESCAPE" action journal_close_action()
 
     use journal_page_selector(6, display)
+
+    use journal_credits_pages(display)
+
+    use journal_tooltip
+
+    if unfolded:
+        $ tiers, updated = journal_patron_tiers()
+        if sum(len(entries) for _, entries in tiers):
+            use journal_patron_foldout(tiers, updated)
+        key "K_ESCAPE" action SetScreenVariable("unfolded", False)
+
+screen journal_credits_pages(display):
+    # """
+    # Both credits pages: thanks and the folded patron list on the left, what
+    # the game and the journal are made with on the right. The fold-out itself
+    # is drawn by the screen that uses this (it needs `unfolded`).
+    # """
+
+    $ tiers, updated = journal_patron_tiers()
+    $ patron_count = sum(len(entries) for _, entries in tiers)
 
     use jr_page("journal_credits_thanks", JR_LEFT_X, JR_LEFT_W):
         vbox:
@@ -237,11 +255,6 @@ screen journal_credits(display):
             for what, credit, url in JOURNAL_ASSET_CREDITS:
                 use journal_credit_row(what, credit, url)
 
-    use journal_tooltip
-
-    if unfolded and patron_count:
-        use journal_patron_foldout(tiers, updated)
-        key "K_ESCAPE" action SetScreenVariable("unfolded", False)
 
 screen journal_credit_row(label, value, url = None):
     # """

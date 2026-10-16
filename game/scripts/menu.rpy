@@ -158,6 +158,8 @@ init python:
     MENU_ANCHOR_BOTTOM_LEFT = "bottom_left"
     MENU_ANCHOR_BOTTOM_CENTER = "bottom_center"
     MENU_ANCHOR_BOTTOM_RIGHT = "bottom_right"
+    # default: the choices stack right-aligned on top of the dialogue box
+    MENU_ANCHOR_DIALOG = "dialog"
 
     MENU_ANCHOR_ALIGNS = {
         MENU_ANCHOR_TOP_LEFT: (0.0, 0.0),
@@ -169,6 +171,7 @@ init python:
         MENU_ANCHOR_BOTTOM_LEFT: (0.0, 1.0),
         MENU_ANCHOR_BOTTOM_CENTER: (0.5, 1.0),
         MENU_ANCHOR_BOTTOM_RIGHT: (1.0, 1.0),
+        MENU_ANCHOR_DIALOG: (1.0, 1.0),
     }
 
     MENU_WIDTH = 1185
@@ -235,7 +238,7 @@ init python:
         kwargs['menu_anchor'] = get_kwargs('menu_anchor', default_anchor, **kwargs)
         return kwargs
 
-    def call_custom_menu(with_leave: bool = True, *elements: MenuElement, menu_anchor: str = MENU_ANCHOR_MIDDLE_CENTER, **kwargs) -> None:
+    def call_custom_menu(with_leave: bool = True, *elements: MenuElement, menu_anchor: str = MENU_ANCHOR_DIALOG, **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -278,7 +281,7 @@ init python:
 
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
-    def call_custom_menu_with_text(text: str, person: Character = character.subtitles, with_leave: bool = True, *elements: MenuElement, menu_anchor: str = MENU_ANCHOR_MIDDLE_CENTER, **kwargs) -> None:
+    def call_custom_menu_with_text(text: str, person: Character = character.subtitles, with_leave: bool = True, *elements: MenuElement, menu_anchor: str = MENU_ANCHOR_DIALOG, **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -357,8 +360,10 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     if not with_leave and len(elements) == 1:
         $ renpy.call("call_element", elements[0].get_key(), elements[0].get_effects(), **kwargs)
 
-    $ kwargs = apply_menu_anchor(MENU_ANCHOR_MIDDLE_CENTER, **kwargs)
+    $ kwargs = apply_menu_anchor(MENU_ANCHOR_DIALOG, **kwargs)
     $ kwargs['has_dialog'] = text != None
+    # the choices sit on top of the box, whose height follows the question's length
+    $ kwargs['dialog_height'] = journal_dialog_box_height(text) if text != None else gui.textbox_height
 
     $ p_text = Character(kind = person, retain = False)
 
@@ -377,7 +382,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
         $ renpy.pause(hard = True)
 
 # calls a menu specialized in use for events
-label call_event_menu(text, events, fallback, person = character.subtitles, menu_anchor = "middle_center", **kwargs):
+label call_event_menu(text, events, fallback, person = character.subtitles, menu_anchor = "dialog", **kwargs):
     # """
     # Refines a list of events and calls a menu with the given elements and the given text and person.
 
@@ -475,7 +480,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
         blocked_elements = get_kwargs('blocked', [], **kwargs)
 
-        menu_anchor = get_kwargs('menu_anchor', MENU_ANCHOR_MIDDLE_CENTER, **kwargs)
+        menu_anchor = get_kwargs('menu_anchor', MENU_ANCHOR_DIALOG, **kwargs)
         has_dialog = get_kwargs('has_dialog', False, **kwargs)
         menu_xalign, menu_yalign = get_menu_anchor_align(menu_anchor)
         menu_height = get_menu_usable_height(has_dialog)
@@ -528,176 +533,179 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
             count += 1
             i += 1
 
+    # Each choice is a paper strip (gui/journal/ui/choice_slip.webp). Without an
+    # explicit anchor ("dialog") the strips stack right-aligned on top of the
+    # dialogue box, next to the line that asks the question; the nine classic
+    # anchors still place the stack anywhere else.
+    $ dialog_anchor = menu_anchor == MENU_ANCHOR_DIALOG
+    $ slip_xalign = 1.0 if dialog_anchor else menu_xalign
+
     if overwrite_position:
-        frame:
-            background "#ffffff00"
-            area(0, 0, 1920, 1080)
-            $ lowest_y_pos = 0
-            for button in buttons:
-                $ active, number, title, title_text, effects, raw_title, position = button
-                $ title_text = "     " + title_text + "     "
-                $ x_pos = position[0]
-                $ y_pos = position[1]
-
-                if number != -1:
-                    key ("K_" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
-                    key ("K_KP" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
-
-                if active == "empty":
-                    null height 78
-                elif active == "active":
-                    button:
-                        background Frame("gui/button/choice_idle_background.png", 1, 1, True)
-                        hover_background Frame("gui/button/choice_hover_background.png", 1, 1, True)
-                        text title_text style "menu_text":
-                            xalign 0.5
-                            yalign 0.5
-                        xpos x_pos
-                        ypos y_pos
-                        action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
-                else:
-                    button:
-                        background Frame("gui/button/choice_blocked_background.png", 1, 1, True)
-                        text title_text style "blocked_menu_text":
-                            xalign 0.5
-                            yalign 0.5
-                        xpos x_pos
-                        ypos y_pos
-                        action NullAction()
-            if with_leave:
-                $ l_text = ""
-                if has_keyboard():
-                    if show_shortcut():
-                        $ l_text = " [Esc]"
-                    key "K_ESCAPE" action Call("close_menu", **kwargs)
-                hbox:
-                    xsize 1920
-                    button:
-                        background "gui/button/choice_idle_background.png"
-                        hover_background "gui/button/choice_hover_background.png"
-                        text "Leave[l_text]" style "menu_text":
-                            xalign 0.5
-                            yalign 0.5
-                        xsize 1185
-                        xalign 0.5
-                        yalign 0.0
-                        action Call("close_menu", **kwargs)
+        for button in buttons:
+            $ active, number, title, title_text, effects, raw_title, position = button
+            if number != -1:
+                key ("K_" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
+                key ("K_KP" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
+            if active != "empty" and position is not None:
+                fixed:
+                    pos (position[0], position[1])
+                    fit_first True
+                    use jr_choice_slip(title, number, (active == "active"), (title_text.startswith("{color=#a00000}")),
+                        Call("call_element", title, effects, menu_selection = raw_title, **kwargs))
+        if with_leave:
+            if has_keyboard():
+                key "K_ESCAPE" action Call("close_menu", **kwargs)
+            fixed:
+                pos (1880, 1040 - quick_menu_reserved_height())
+                anchor (1.0, 1.0)
+                fit_first True
+                use jr_choice_leave(Call("close_menu", **kwargs))
     else:
+        if dialog_anchor:
+            # right edge 40px in, bottom just above the dialogue box, or without one
+            # above the quick menu patch in the bottom right corner
+            $ dialog_height = get_kwargs('dialog_height', gui.textbox_height, **kwargs)
+            $ stack_area = (0, 0, MENU_SCREEN_WIDTH - 40, (MENU_SCREEN_HEIGHT - dialog_height - 6) if has_dialog else (MENU_SCREEN_HEIGHT - max(40, quick_menu_reserved_height() + 10)))
+        else:
+            $ stack_area = (40, 30, MENU_SCREEN_WIDTH - 80, menu_height - 60)
+            if menu_xalign == 1.0 and menu_yalign == 1.0 and not has_dialog:
+                $ stack_area = (40, 30, MENU_SCREEN_WIDTH - 80, menu_height - 30 - max(30, quick_menu_reserved_height()))
+
         frame:
-            background "#ffffff00"
-            xpos 0
-            ypos 0
-            xsize MENU_SCREEN_WIDTH
-            ysize menu_height
+            background None
+            area stack_area
 
             vbox:
-                xsize MENU_WIDTH
-                xalign menu_xalign
-                yalign menu_yalign
+                xalign (1.0 if dialog_anchor else menu_xalign)
+                yalign (1.0 if dialog_anchor else menu_yalign)
+                spacing 4
 
-                for button in buttons:
+                for index, button in enumerate(buttons):
                     $ active, number, title, title_text, effects, raw_title, position = button
-                    
+
                     if number != -1:
                         key ("K_" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
                         key ("K_KP" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
 
-                    if active == "empty":
-                        null height 78
-                    elif active == "active":
-                        button:
-                            background Frame("gui/button/choice_idle_background.png", 1, 1, True)
-                            hover_background Frame("gui/button/choice_hover_background.png", 1, 1, True)
-                            text title_text style "menu_text":
-                                xalign 0.5
-                                yalign 0.5
-                            xsize 1185
-                            xalign 0.5
-                            action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
+                    if active == "empty" or (title == "" and number == -1):
+                        null height 60
                     else:
-                        button:
-                            background Frame("gui/button/choice_blocked_background.png", 1, 1, True)
-                            text title_text style "blocked_menu_text":
-                                xalign 0.5
-                                yalign 0.5
-                            xsize 1185
-                            xalign 0.5
-                            action NullAction()
-                    null height 30
-                # display paginator if needed
+                        # a little stagger so the stack looks hand-placed, not printed
+                        $ stagger = [0, 16, 6, 22, 2, 14, 8][index % 7]
+                        fixed:
+                            fit_first True
+                            xalign slip_xalign
+                            xoffset (-stagger if slip_xalign == 1.0 else stagger if slip_xalign == 0.0 else 0)
+                            use jr_choice_slip(title, number, (active == "active"), (title_text.startswith("{color=#a00000}")),
+                                Call("call_element", title, effects, menu_selection = raw_title, **kwargs))
+
+                # pages, when there are more choices than fit
                 if max_pages != 1:
-                    null height 30
+                    null height 6
                     hbox:
-                        xsize 500
-                        ysize 52
-                        xalign 0.5
-
-                        # go to previous page
+                        xalign slip_xalign
+                        spacing 8
+                        $ prev_key = "  ," if has_keyboard() and show_shortcut() else ""
+                        $ next_key = "  ." if has_keyboard() and show_shortcut() else ""
                         if start != 0:
-                            $ prev_text = ""
                             if has_keyboard():
-                                if show_shortcut():
-                                    $ prev_text = "[,]"
                                 key "K_COMMA" action Show("custom_menu_choice", None, page - 1, page_limit, elements, with_leave, **kwargs)
-                            button:
-                                background Frame("gui/button/choice_idle_background_250px.png")
-                                hover_background Frame("gui/button/choice_hover_background_250px.png")
-                                text "[prev_text]  << Prev" style "menu_text_left":
-                                    xalign 0.5
-                                    yalign 0.0
-                                xsize 250
-                                ysize 52
+                            textbutton "‹ previous[prev_key]":
+                                style "jr_choice_slip"
+                                text_style "jr_choice_small"
                                 action Show("custom_menu_choice", None, page - 1, page_limit, elements, with_leave, **kwargs)
-                        else:
-                            null width 250 height 52
-                        
-                        # display for current page
-                        button:
-                            background "gui/button/choice_idle_background_250px.png"
-                            text "([page] / [max_pages])" style "menu_text":
-                                xalign 0.5
-                                yalign 0.0
-                            xsize 250
-                            ysize 52
-
-                        # go to next page
+                        text "[page] / [max_pages]" style "jr_choice_small" color "#f2e6cc" outlines [(2, "#140d08", 0, 0)] yalign 0.5
                         if end < element_count:
-                            $ next_text = ""
                             if has_keyboard():
-                                if show_shortcut():
-                                    $ next_text = "[.]"
                                 key "K_PERIOD" action Show("custom_menu_choice", None, page + 1, page_limit, elements, with_leave, **kwargs)
-                            button:
-                                background "gui/button/choice_idle_background_250px.png"
-                                hover_background "gui/button/choice_hover_background_250px.png"
-                                text "Next >>  [next_text]" style "menu_text_right":
-                                    xalign 0.5
-                                    yalign 0.0
-                                xsize 250
-                                ysize 52
+                            textbutton "next ›[next_key]":
+                                style "jr_choice_slip"
+                                text_style "jr_choice_small"
                                 action Show("custom_menu_choice", None, page + 1, page_limit, elements, with_leave, **kwargs)
-                        else:
-                            null width 250 height 52
-                
-                null height 30
 
-                if with_leave:
-                    $ l_text = ""
-                    if has_keyboard():
-                        if show_shortcut():
-                            $ l_text = " [Esc]"
-                        key "K_ESCAPE" action Call("close_menu", **kwargs)
-                    hbox:
-                        xsize MENU_WIDTH
-                        button:
-                            background "gui/button/choice_idle_background.png"
-                            hover_background "gui/button/choice_hover_background.png"
-                            text "Leave[l_text]" style "menu_text":
-                                xalign 0.5
-                                yalign 0.5
-                            xsize MENU_WIDTH
-                            xalign 0.5
-                            action Call("close_menu", **kwargs)
+                # with the dialogue box open, Leave is a small link inside the box instead
+                if with_leave and not (dialog_anchor and has_dialog):
+                    null height 6
+                    fixed:
+                        fit_first True
+                        xalign slip_xalign
+                        use jr_choice_leave(Call("close_menu", **kwargs))
+
+        if with_leave:
+            if has_keyboard():
+                key "K_ESCAPE" action Call("close_menu", **kwargs)
+            if dialog_anchor and has_dialog:
+                $ leave_key = "   esc" if has_keyboard() and show_shortcut() else ""
+                textbutton "Leave ›[leave_key]":
+                    style "jr_entry_button"
+                    text_style "jr_value"
+                    text_size 26
+                    text_color "#eedebe"
+                    text_hover_color "#ffffff"
+                    pos (1880, MENU_SCREEN_HEIGHT - get_kwargs('dialog_height', gui.textbox_height, **kwargs) + 22)
+                    xanchor 1.0
+                    action Call("close_menu", **kwargs)
+
+screen jr_choice_slip(title, number, active, marked, action):
+    # """
+    # One choice on its paper strip: the shortcut digit, the text (marker
+    # swipe on hover), a red asterisk for the important ones, struck through
+    # when it can't be picked right now.
+    # """
+
+    button:
+        style "jr_choice_slip"
+        sensitive active
+        action action
+        hbox:
+            spacing 12
+            if number != -1 and has_keyboard() and show_shortcut():
+                text str(number) style "jr_choice_number" yalign 0.5
+            frame:
+                style "jr_choice_label"
+                yalign 0.5
+                if active:
+                    text "[title]" style "jr_choice_text"
+                else:
+                    text "{s}[title]{/s}" style "jr_choice_text"
+            if marked:
+                text "*" style "jr_choice_text" font JR_FONT_BOLD size 40 color JR_ACCENT yalign 0.3
+
+screen jr_choice_leave(action):
+    $ leave_key = "   esc" if has_keyboard() and show_shortcut() else ""
+    textbutton "Leave ›[leave_key]":
+        style "jr_choice_slip"
+        text_style "jr_choice_text"
+        text_color JR_ACCENT
+        action action
+
+style jr_choice_slip:
+    background Frame("gui/journal/ui/choice_slip.webp", 14, 12, 14, 14)
+    padding (26, 12, 32, 18)
+    xminimum 300
+    xmaximum 980
+
+style jr_choice_slip:
+    variant "touch"
+    padding (30, 18, 36, 24)
+
+style jr_choice_label:
+    background None
+    hover_background Frame("gui/journal/ui/highlight.webp", 12, 0, 12, 0)
+    padding (8, 0, 10, 0)
+
+style jr_choice_text is jr_text:
+    font JR_FONT_MEDIUM
+    size 30
+    hover_color "#000"
+    insensitive_color JR_PENCIL
+
+style jr_choice_small is jr_choice_text:
+    size 22
+
+style jr_choice_number is jr_typed:
+    size 20
+    color JR_PENCIL
 
 # calls the effect of a selected choice
 label call_element(key, effects, **kwargs):

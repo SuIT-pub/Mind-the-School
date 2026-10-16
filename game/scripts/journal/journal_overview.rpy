@@ -129,7 +129,7 @@ screen journal_overview(display, char = "school"):
 
     use journal_backdrop
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+    key "K_ESCAPE" action journal_close_action()
 
     use journal_page_selector(1, display, char)
 

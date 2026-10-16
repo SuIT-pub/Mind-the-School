@@ -176,7 +176,7 @@ init python:
         Fix the characters for the new version
         """
 
-        person.what_size = 28
+        person.what_size = 33
         person.what_italic = True
         person.what_prefix = "(  {i}"
         person.what_suffix = "{/i}  )"

@@ -50,11 +50,31 @@ init -1 python:
         """
 
         if change == 0:
-            return "#ffffff"
+            return OVERVIEW_CREAM
 
         increased = change > 0
         beneficial = (not increased) if stat == INHIBITION else increased
-        return "#00a000" if beneficial else "#a00000"
+        return OVERVIEW_GOOD if beneficial else OVERVIEW_BAD
+
+    def get_overview_stat_change_text(stat: str) -> str:
+        """
+        The stat's change since the last reset as HUD text: the shared
+        display string, recoloured for the dark leather strap.
+
+        ### Parameters:
+        1. stat: str
+            - The stat key.
+
+        ### Returns:
+        1. str
+            - Text with Ren'Py text tags, empty when nothing changed.
+        """
+
+        change_text = get_school_stat_change(stat)
+        return (change_text.replace("{size=15}", "")
+                .replace("{/size}", "")
+                .replace("#00a000", OVERVIEW_GOOD)
+                .replace("#a00000", OVERVIEW_BAD))
 
     OVERVIEW_TENDENCY_ARROWS_POS = (">", "≫", "⋙")
     OVERVIEW_TENDENCY_ARROWS_NEG = ("<", "≪", "⋘")
@@ -86,12 +106,12 @@ init -1 python:
         """
 
         if situation.is_paused():
-            return "", 0, "#ffffff"
+            return "", 0, JR_PRINT
         raw = situation.get_combined_bar_tendency_value()
         span = float(situation.get_combined_bar_max() - situation.get_combined_bar_min()) or 1.0
         ratio = abs(raw) / span
         if raw == 0:
-            return "", 0, "#ffffff"
+            return "", 0, JR_PRINT
         if ratio < (1.0 / 24.0):
             level = 1
         elif ratio < (1.0 / 10.0):
@@ -99,73 +119,99 @@ init -1 python:
         else:
             level = 3
         if raw > 0:
-            return OVERVIEW_TENDENCY_ARROWS_POS[level - 1], 1, "#4cc94c"
-        return OVERVIEW_TENDENCY_ARROWS_NEG[level - 1], -1, "#e06060"
+            return OVERVIEW_TENDENCY_ARROWS_POS[level - 1], 1, JR_GREEN
+        return OVERVIEW_TENDENCY_ARROWS_NEG[level - 1], -1, JR_ACCENT
 
 default persistent.overview_stats_expanded = True
 default persistent.overview_situations_expanded = True
 
 define OVERVIEW_COMPACT_BAR_WIDTH = 460
 define OVERVIEW_STAT_ICON_ZOOM = 0.52
-define OVERVIEW_STAT_TEXT_SIZE = 21
-define OVERVIEW_TIME_TEXT_SIZE = 20
-define OVERVIEW_SITUATION_LIST_MAX_HEIGHT = 224
-define OVERVIEW_SITUATION_ROW_HEIGHT = 64
-define OVERVIEW_SITUATION_ARROW_WIDTH = 28
+define OVERVIEW_SITUATION_LIST_MAX_HEIGHT = 244
+define OVERVIEW_SITUATION_ROW_HEIGHT = 80
+define OVERVIEW_SITUATION_ROW_SPACING = 0
+define OVERVIEW_SITUATION_ARROW_WIDTH = 24
 define OVERVIEW_SITUATION_SCROLL_WIDTH = 12
-define OVERVIEW_SPLIT_BAR_HEIGHT = 46
+define OVERVIEW_SPLIT_BAR_HEIGHT = 54
+
+# text on the leather straps: the dialogue box's cream, lighter green/red than
+# on paper so a change still reads against the dark leather
+define OVERVIEW_CREAM = "#f4ead6"
+define OVERVIEW_GOOD = "#a6d98e"
+define OVERVIEW_BAD = "#f2907c"
 
 #######################
 # region Styles ----- #
 #######################
 
-style stat_overview:
-    outlines [(2, "222222", 1, 1)]
-    color "#ffffff"
-    size 16
+# The map HUD in the journal's materials: stitched leather straps
+# (gui/journal/ui/leather_patch) for stats and navigation, the date and the
+# situations on the paper slips of the choice menus.
+style overview_strap is empty:
+    background Frame("gui/journal/ui/leather_patch.webp", 20, 20, tile = True)
+    padding (16, 9, 20, 15)
 
-style stat_value:
-    outlines [(2, "222222", 1, 1)]
-    color "#ffffff"
-    size 16
-
-style overview_hud_bar:
-    background Solid("#111111cc")
-    padding (8, 6, 10, 6)
-
-style overview_hud_bar_soft is overview_hud_bar:
-    background Solid("#11111177")
-
-style overview_hud_button is default:
-    hover_background Solid("#ffffff18")
-    padding (4, 2)
-
-style overview_situation_row is overview_hud_button:
-    background Solid("#11111199")
-    hover_background Solid("#222222bb")
-    padding (6, 4, 6, 4)
-
-style overview_vscrollbar is vscrollbar:
-    xsize 12
-    unscrollable "hide"
-
-style overview_hud_button_text is stat_overview:
+style overview_strap_text is default:
+    font "fonts/CrimsonPro-SemiBold.ttf"
     size 21
+    color OVERVIEW_CREAM
+    outlines [(1, "#1a0e0670", 0, 1)]
 
-style overview_split_button is overview_hud_button:
-    background Solid("#00000000")
-    hover_background Solid("#ffffff22")
-    padding (8, 0)
-    yminimum OVERVIEW_SPLIT_BAR_HEIGHT
+style overview_strap_value is overview_strap_text:
+    size 23
+
+style overview_hud_button is empty:
+    padding (3, 0)
+    hover_background Solid("#e4be7020")
 
 style overview_toggle_button is overview_hud_button:
-    xminimum 29
-    yminimum 29
+    xminimum 22
+    yminimum 30
 
-style overview_toggle_button_text is stat_overview:
-    size 21
+style overview_toggle_button_text is overview_strap_text:
+    size 30
     xalign 0.5
     yalign 0.5
+    hover_color "#e4be70"
+
+style overview_split_button is empty:
+    padding (12, 0)
+    hover_background Solid("#e4be7020")
+
+style overview_date_slip is empty:
+    background Frame("gui/journal/ui/choice_slip.webp", 12, 12)
+    padding (18, 9, 20, 17)
+
+style overview_slip_button is empty:
+    padding (2, 0)
+
+style overview_date_text is default:
+    font "fonts/SpecialElite-Regular.ttf"
+    size 19
+    color JR_TYPED
+    hover_color JR_ACCENT
+
+style overview_daytime_text is default:
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    size 22
+
+style overview_situation_row is empty:
+    background Frame("gui/journal/ui/choice_slip.webp", 12, 12)
+    hover_background Frame(Transform("gui/journal/ui/choice_slip.webp", matrixcolor = TintMatrix("#fff0c8")), 12, 12)
+    padding (16, 8, 18, 16)
+
+style overview_slip_text is default:
+    font "fonts/CrimsonPro-SemiBold.ttf"
+    size 19
+    color JR_PRINT
+
+style overview_slip_glyph is default:
+    font "DejaVuSans.ttf"
+    size 16
+    yalign 0.5
+
+style overview_vscrollbar is jr_vscrollbar:
+    xsize OVERVIEW_SITUATION_SCROLL_WIDTH
 
 transform overview_icon_tint(tint_color):
     matrixcolor TintMatrix(tint_color)
@@ -214,35 +260,38 @@ screen overview_stat_entry(stat, compact, interactive):
                     zoom OVERVIEW_STAT_ICON_ZOOM
                     at overview_icon_tint(change_color)
                 text change_arrow:
-                    style "stat_overview"
+                    style "overview_strap_text"
+                    font "DejaVuSans.ttf"
                     color change_color
-                    size 18
+                    size 15
                     yalign 0.5
     else:
-        $ change_text = get_school_stat_change(stat).replace("{size=15}", "{size=20}")
+        $ change_text = get_overview_stat_change_text(stat)
         button:
             style "overview_hud_button"
             tooltip title
             action stat_action
             hbox:
-                spacing 3
+                spacing 4
                 yalign 0.5
                 add icon_path:
                     yalign 0.5
                     zoom OVERVIEW_STAT_ICON_ZOOM
+                    at overview_icon_tint(OVERVIEW_CREAM)
                 text get_school_stat_value(stat):
-                    style "stat_value"
-                    size OVERVIEW_STAT_TEXT_SIZE
+                    style "overview_strap_value"
                     yalign 0.5
                 if change_text:
                     text change_text:
-                        style "stat_overview"
+                        style "overview_strap_text"
+                        size 17
                         yalign 0.5
 
 screen overview_situation_entry(situation, interactive, row_width):
     $ glyph, side, arrow_color = get_overview_situation_tendency(situation)
     $ sit_action = Call("open_journal", 8, situation.key) if interactive else NullAction()
-    $ bar_width = row_width - 12 - (OVERVIEW_SITUATION_ARROW_WIDTH * 2) - 8
+    $ inner_width = row_width - 34
+    $ bar_width = inner_width - (OVERVIEW_SITUATION_ARROW_WIDTH * 2) - 8
 
     button:
         style "overview_situation_row"
@@ -253,56 +302,60 @@ screen overview_situation_entry(situation, interactive, row_width):
         vbox:
             spacing 2
 
-            text (situation.name + (" {color=#aaaaaa}(paused){/color}" if situation.is_paused() else "")):
-                style "stat_overview"
-                size 13
-                xmaximum row_width - 12
+            hbox:
+                xsize inner_width
+                text situation.name:
+                    style "overview_slip_text"
+                    xmaximum inner_width - 120
+                if situation.is_paused():
+                    text "paused":
+                        style "overview_slip_text"
+                        font "fonts/CrimsonPro-Italic.ttf"
+                        color JR_PENCIL
+                        xalign 1.0
+                else:
+                    text situation.get_combined_bar_value_mood():
+                        style "overview_slip_text"
+                        font "fonts/CrimsonPro-Italic.ttf"
+                        color journal_mood_ink(situation)
+                        xalign 1.0
 
             hbox:
                 spacing 4
-                yalign 0.5
 
                 fixed:
                     xsize OVERVIEW_SITUATION_ARROW_WIDTH
-                    ysize 22
+                    ysize 28
                     if side < 0:
                         text glyph:
-                            style "stat_overview"
+                            style "overview_slip_glyph"
                             color arrow_color
-                            size 16
                             xalign 1.0
-                            yalign 0.5
 
-                use journal_situation_bar(situation, bar_width, 12, False, 8, 4)
+                use jr_situation_bar(situation, bar_width, True)
 
                 fixed:
                     xsize OVERVIEW_SITUATION_ARROW_WIDTH
-                    ysize 22
+                    ysize 28
                     if side > 0:
                         text glyph:
-                            style "stat_overview"
+                            style "overview_slip_glyph"
                             color arrow_color
-                            size 16
                             xalign 0.0
-                            yalign 0.5
 
 screen overview_situation_list(situations, interactive, row_width):
     vbox:
         xsize row_width
-        spacing 0
+        spacing OVERVIEW_SITUATION_ROW_SPACING
 
-        for i, situation in enumerate(situations):
-            if i > 0:
-                add Solid("#ffffff40"):
-                    xsize row_width
-                    ysize 1
-                null height 4
+        for situation in situations:
             use overview_situation_entry(situation, interactive, row_width)
-            null height 4
 
 screen school_overview_stats (interactive = True, show_navigation = True, show_tooltip = True):
     # """
-    # Displays the stats and time bars on the map.
+    # Displays the stats and time on the map, in the journal's materials: the
+    # stats and the navigation on stitched leather straps, the date on a paper
+    # slip, the running situations on slips below.
 
     # ### Parameters:
     # 1. interactive: bool (default True)
@@ -321,18 +374,17 @@ screen school_overview_stats (interactive = True, show_navigation = True, show_t
     $ can_skip = interactive and time.compare_today(10, 1, 2023) != -1
 
     $ daytimestr = time.get_daytime_name()
-    $ daystr = time.get_weekday()
-    $ monthstr = time.get_month_name()
-    $ datestr = str(time.day) + " " + monthstr + " " + str(time.year)
-    $ daytime_color = "#ffffff"
+    $ datestr = time.get_weekday() + ", " + str(time.day) + " " + time.get_month_name() + " " + str(time.year)
+    # stamp ink by kind of time slot: night, class, free time, weekend
+    $ daytime_color = JR_PRINT
     if time.check_daytime("n"):
-        $ daytime_color = "#6d78ff"
+        $ daytime_color = "#2e3f86"
     elif time.check_weekday("d") and time.check_daytime("c"):
-        $ daytime_color = "#e06060"
+        $ daytime_color = JR_ACCENT
     elif time.check_weekday("d") and time.check_daytime("f"):
-        $ daytime_color = "#4cc94c"
+        $ daytime_color = JR_GREEN
     elif time.check_weekday("w"):
-        $ daytime_color = "#d4893a"
+        $ daytime_color = "#9a5a16"
 
     $ skip_time_text = "Skip Time"
     $ skip_day_text = "Skip to next day"
@@ -348,27 +400,28 @@ screen school_overview_stats (interactive = True, show_navigation = True, show_t
     vbox:
         xalign 1.0
         yalign 0.0
-        xoffset -8
-        yoffset 6
-        spacing 4
+        xoffset -10
+        yoffset 8
+        spacing 2
 
         frame:
-            style "overview_hud_bar"
+            style "overview_strap"
+            xalign 1.0
             if not expanded:
-                xsize OVERVIEW_COMPACT_BAR_WIDTH
+                xminimum OVERVIEW_COMPACT_BAR_WIDTH
 
             hbox:
-                spacing 8
+                spacing 10
                 yalign 0.5
 
-                textbutton ("▶" if expanded else "◀"):
+                textbutton ("›" if expanded else "‹"):
                     style "overview_toggle_button"
                     tooltip ("Collapse stats" if expanded else "Expand stats")
                     action ToggleField(persistent, "overview_stats_expanded")
                     yalign 0.5
 
                 hbox:
-                    spacing 8
+                    spacing 10
                     yalign 0.5
 
                     for stat in OVERVIEW_STAT_ORDER:
@@ -377,47 +430,35 @@ screen school_overview_stats (interactive = True, show_navigation = True, show_t
                         elif get_overview_stat_change_value(stat) != 0:
                             use overview_stat_entry(stat, True, interactive)
 
+        # the date, typed on a slip tucked under the strap
         frame:
-            style "overview_hud_bar"
+            style "overview_date_slip"
             xsize OVERVIEW_COMPACT_BAR_WIDTH
             xalign 1.0
 
-            fixed:
-                xsize OVERVIEW_COMPACT_BAR_WIDTH - 18
-                ysize 32
-
-                hbox:
-                    xalign 0.0
-                    yalign 0.5
-                    spacing 10
-
-                    button:
-                        style "overview_hud_button"
-                        tooltip (skip_day_text if can_skip else datestr)
-                        action (Call("new_day") if can_skip else NullAction())
-                        text datestr:
-                            style "stat_overview"
-                            size OVERVIEW_TIME_TEXT_SIZE
-
-                    text daystr:
-                        style "stat_overview"
-                        size OVERVIEW_TIME_TEXT_SIZE
-                        yalign 0.5
+            hbox:
+                xfill True
 
                 button:
-                    style "overview_hud_button"
+                    style "overview_slip_button"
+                    yalign 0.5
+                    tooltip (skip_day_text if can_skip else datestr)
+                    action (Call("new_day") if can_skip else NullAction())
+                    text datestr style "overview_date_text"
+
+                button:
+                    style "overview_slip_button"
                     xalign 1.0
                     yalign 0.5
                     tooltip (skip_time_text if can_skip else daytimestr)
                     action (Call("skip_time") if can_skip else NullAction())
                     text daytimestr:
-                        style "stat_overview"
-                        size OVERVIEW_TIME_TEXT_SIZE
+                        style "overview_daytime_text"
                         color daytime_color
 
         if show_navigation:
             $ overview_situations = get_overview_active_situations()
-            $ split_w = OVERVIEW_COMPACT_BAR_WIDTH // 2
+            $ split_w = (OVERVIEW_COMPACT_BAR_WIDTH - 36) // 2
             $ journal_action = Call("start_journal") if interactive else NullAction()
             $ journal_tip = "Open Journal"
             $ journal_icon = get_journal_map_icon()
@@ -425,15 +466,13 @@ screen school_overview_stats (interactive = True, show_navigation = True, show_t
                 $ journal_tip = journal_tip + " [[J]"
 
             frame:
-                background Solid("#11111177")
-                padding (0, 0, 0, 0)
+                style "overview_strap"
                 xsize OVERVIEW_COMPACT_BAR_WIDTH
                 ysize OVERVIEW_SPLIT_BAR_HEIGHT
                 xalign 1.0
 
                 hbox:
                     spacing 0
-                    xfill True
                     yfill True
 
                     button:
@@ -444,30 +483,31 @@ screen school_overview_stats (interactive = True, show_navigation = True, show_t
                         action ToggleField(persistent, "overview_situations_expanded")
 
                         hbox:
-                            spacing 6
+                            spacing 8
                             yalign 0.5
-                            xoffset 8
 
-                            text ("▼" if persistent.overview_situations_expanded else "▶"):
-                                style "stat_overview"
-                                size OVERVIEW_TIME_TEXT_SIZE
+                            text ("▾" if persistent.overview_situations_expanded else "▸"):
+                                style "overview_strap_text"
+                                font "DejaVuSans.ttf"
+                                size 16
                                 yalign 0.5
 
                             text "Situations":
-                                style "stat_overview"
-                                size OVERVIEW_TIME_TEXT_SIZE
+                                style "overview_strap_text"
                                 yalign 0.5
 
                             if not persistent.overview_situations_expanded:
                                 text ("(" + str(len(overview_situations)) + ")"):
-                                    style "stat_overview"
-                                    size OVERVIEW_TIME_TEXT_SIZE
+                                    style "overview_strap_text"
+                                    color OVERVIEW_CREAM + "aa"
                                     yalign 0.5
 
-                    add Solid("#ffffff50"):
-                        xsize 1
-                        ysize OVERVIEW_SPLIT_BAR_HEIGHT - 12
+                    # a short stitched seam between the two halves
+                    vbox:
                         yalign 0.5
+                        spacing 4
+                        for i in range(3):
+                            add Solid(OVERVIEW_CREAM + "80") xysize (2, 6)
 
                     button:
                         style "overview_split_button"
@@ -477,28 +517,29 @@ screen school_overview_stats (interactive = True, show_navigation = True, show_t
                         action journal_action
 
                         hbox:
-                            spacing 6
+                            spacing 8
                             xalign 0.5
                             yalign 0.5
 
                             add journal_icon:
                                 yalign 0.5
-                                zoom 0.18
+                                zoom 0.16
 
                             text "Journal":
-                                style "stat_overview"
-                                size OVERVIEW_TIME_TEXT_SIZE
+                                style "overview_strap_text"
                                 yalign 0.5
 
             if persistent.overview_situations_expanded and overview_situations:
                 $ sit_count = len(overview_situations)
-                $ sit_content_h = sit_count * OVERVIEW_SITUATION_ROW_HEIGHT
+                $ sit_content_h = sit_count * (OVERVIEW_SITUATION_ROW_HEIGHT + OVERVIEW_SITUATION_ROW_SPACING)
                 $ needs_scroll = sit_content_h > OVERVIEW_SITUATION_LIST_MAX_HEIGHT
                 $ sit_view_h = OVERVIEW_SITUATION_LIST_MAX_HEIGHT if needs_scroll else sit_content_h
                 $ sit_row_w = OVERVIEW_COMPACT_BAR_WIDTH - (OVERVIEW_SITUATION_SCROLL_WIDTH if needs_scroll else 0)
 
+                null height 2
+
                 frame:
-                    background Solid("#00000000")
+                    background None
                     padding (0, 0, 0, 0)
                     xsize OVERVIEW_COMPACT_BAR_WIDTH
                     xalign 1.0
@@ -531,8 +572,9 @@ screen school_overview_stats (interactive = True, show_navigation = True, show_t
             prefer_top True
 
             frame:
+                style "jr_tooltip_frame"
                 xalign 0.5
-                text tooltip
+                text tooltip style "jr_tooltip_text"
 
 ##################################
 # display all buildings on the map
@@ -609,8 +651,9 @@ screen school_overview_buttons (with_available_Events = False):
             prefer_top True
 
             frame:
+                style "jr_tooltip_frame"
                 xalign 0.5
-                text tooltip
+                text tooltip style "jr_tooltip_text"
 
 # endregion
 ###########################
