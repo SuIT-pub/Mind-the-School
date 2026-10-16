@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-15T14:04:01Z",
+  "updatedAt": "2026-10-16T11:59:33Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -16,11 +16,6 @@
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
       "version": "0.2.2"
-    },
-    {
-      "id": "journal-redesign",
-      "title": "A new look for the journal",
-      "summary": "The journal becomes a worn leather planner with ribbon bookmarks to switch sections and clearer, easier-to-read pages."
     }
   ],
   "next": [
@@ -71,6 +66,13 @@
     }
   ],
   "done": [
+    {
+      "id": "journal-redesign",
+      "title": "A new look for the journal and the interface",
+      "summary": "The journal is now a worn leather planner with ribbon bookmarks, and the title screen, dialogue box, menus and map display share its look.",
+      "doneIn": "0.2.2",
+      "doneAt": "2026-10-16"
+    },
     {
       "id": "smaller-saves",
       "title": "Smaller save files",
