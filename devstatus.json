@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-16T11:59:33Z",
+  "updatedAt": "2026-10-16T19:15:52Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -16,6 +16,13 @@
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
       "version": "0.2.2"
+    },
+    {
+      "id": "collectibles",
+      "title": "Hidden photos to collect",
+      "summary": "Polaroids turn up around campus once something has happened there. Spot them, pick them up and keep them in the journal's new album.",
+      "version": "0.2.2",
+      "progress": 70
     }
   ],
   "next": [
