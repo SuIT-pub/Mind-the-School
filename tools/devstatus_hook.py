@@ -22,7 +22,8 @@ COMMIT = re.compile(r"\bgit\b[^|;&]*\bcommit\b")
 REMINDER = (
     "You just committed changes to game/ or wiki/ without touching devstatus.json. "
     "devstatus.json feeds the public roadmap on mts-game.com. Use the update-devstatus skill now: "
-    "if this commit starts, finishes or changes a player-visible feature, update devstatus.json "
+    "if this commit starts, continues, finishes or changes a player-visible feature, update devstatus.json "
+    "(a feature being worked on that is not in `now` yet belongs there; a finished one moves to `done`) "
     "(player voice, no spoilers, nothing explicit), run python tools/validate_devstatus.py and commit it. "
     "If the commit is only a fix or internal refactor that players wouldn't notice, leave it."
 )

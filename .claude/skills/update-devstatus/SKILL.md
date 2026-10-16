@@ -1,6 +1,6 @@
 ---
 name: update-devstatus
-description: Use when starting, finishing, pausing or reprioritising a feature, when a release or version bump happens, when the devstatus hook reminds you after a commit, or when asked what is being worked on — keeps devstatus.json (the public roadmap on mts-game.com and the Discord dev-status channel) current.
+description: Use as soon as work on a player-visible feature begins (designing or building it, even mid-session and before anything is committed), and when finishing, pausing or reprioritising one, when a release or version bump happens, when the devstatus hook reminds you after a commit, or when asked what is being worked on — keeps devstatus.json (the public roadmap on mts-game.com and the Discord dev-status channel) current.
 ---
 
 # Update devstatus.json
@@ -21,12 +21,30 @@ one more reason to update for player-visible changes only, and to bundle related
 
 | Situation | Change |
 |---|---|
-| You start work on a feature | Add or move it to `now` |
-| A feature is finished and merged | Move it from `now` to `done` with `doneIn` + `doneAt` |
+| You start work on a feature | Add or move it to `now` — right away, see below |
+| A feature is finished (built and working, on any branch) | Move it from `now` to `done` with `doneIn` + `doneAt` |
 | Plans change | Reorder or move items between `next` and `later` |
 | Version bump in `game/options.rpy` (`config.version`) | Update `currentVersion`; set `targetVersion` to the version being worked toward and rewrite `versionGoal` for it |
 | The focus of the version in progress shifts | Rewrite `versionGoal` |
 | Progress on a long `now` item | Optionally set `progress` (0–100) |
+
+### Work in progress is the point
+
+Players want to see what is being worked on *now*, not only what got finished. So don't wait for a
+feature to be done: the moment a session starts designing or building something players will notice,
+check whether it is in `now`. If it isn't, add it (moving it from `next`/`later` if it is there) as
+part of starting the work, before or right after the first implementation step. Signs that this is
+happening:
+
+- LO asks to build, add, design or rework something players will see (a system, a page, a set of events).
+- You are about to create new screens, systems or content files for it, or write a plan for it.
+- A commit belongs to a feature that `now` doesn't list yet.
+
+When it is done, move the same entry to `done` — don't leave a finished feature sitting in `now`,
+and don't estimate a `progress` for something that is complete. If a feature is finished in the same
+session it was started, one update straight into `done` is enough.
+
+Skip this for features LO wants kept quiet (surprises, easter eggs): those never go on the roadmap.
 
 Every change also sets `updatedAt` to the **current UTC time**, taken from the clock — never typed by
 hand and never local time: `date -u +%Y-%m-%dT%H:%M:%SZ` (bash) or
