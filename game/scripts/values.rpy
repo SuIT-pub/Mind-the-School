@@ -19,12 +19,15 @@ init -98 python:
     message = ""
     download_message()
 
-    # get_mod_list()
-    
     repair_mod_list()
     available_keys = ['base']
     active_mod_key = ''
-    mod_count = {}
+
+    # what every mod registers, see record_mod_content
+    mod_content = {}
+    mod_content_owner = {}
+    mod_content_changes = {}
+    mod_content_state = {"recording": True, "assets": {}}
 
     translation_texts = {}
 

@@ -618,7 +618,7 @@ knows nothing about triggering a teaser — the teaser defines for itself, via
 ```python
 Teaser("miwa_crying",
     "Miwa stood crying in the hallway today. Wouldn't say why.",
-    EventSeenCondition("sb_event_3"),
+    EventSeenCondition(True, "sb_event_3"),
     interpretation="Classic avoidance behavior.",
     note_type="observation",
 )
@@ -707,7 +707,7 @@ Situation("cafeteria_crisis", "Cafeteria Crisis",
     # --- Teasers (chronicle / pre-activation) ---
     Teaser("kiosk_complaints",
         "There's a heated discussion about prices at the snack bar.",
-        EventSeenCondition("kiosk_price_event"),
+        EventSeenCondition(True, "kiosk_price_event"),
         interpretation="Money pressure shows first at the lunch counter.",
         note_type="observation"),
 
@@ -721,7 +721,7 @@ Situation("cafeteria_crisis", "Cafeteria Crisis",
     BlockingThreshold(
         "The students need a permanent place to eat lunch.",      # approach
         "Inspect the vacant building next to the courtyard.",     # reached
-        EventSeenCondition("inspect_kitchen"),
+        EventSeenCondition(True, "inspect_kitchen"),
         main=-5),
     AutoThreshold(
         "If I push forward, someone from the PTA will reach out.",
@@ -914,7 +914,7 @@ observation for "Cafeteria Crisis":
 $ situation_manager.get_situation("cafeteria_crisis").add_teaser(
     Teaser("mymod_extra_hint",
         "A supplier left a flyer — cheaper ingredients, if someone asks.",
-        EventSeenCondition("mymod_supplier_event"),
+        EventSeenCondition(True, "mymod_supplier_event"),
         note_type="insight")
 )
 ```
@@ -1544,7 +1544,7 @@ Text: `text_full`, `text_aside` · Photo: `photo_left`, `photo_right`, `photo_to
 ### Common conditions
 | Goal | Condition |
 |------|-----------|
-| Event was seen | `EventSeenCondition("event_key")` |
+| Event was seen | `EventSeenCondition(True, "event_key")` |
 | Building unlocked | `BuildingCondition("cafeteria")` |
 | Progress step | `ProgressCondition("key", "2")` |
 | Timer (duration/cooldown/grace) | `TimerCondition("id", daytime=3)` |

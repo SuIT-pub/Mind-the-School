@@ -19,11 +19,13 @@ init -1 python:
 
     cafeteria_bg_images = BGStorage("images/background/cafeteria/c.webp", 
         BGImage("images/background/cafeteria/<school_level> <variant> <nude>.webp", 1, 
-            OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+            OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w')),
+            key = "cafeteria_v<variant>_<school_level>"),
         BGImage("images/background/cafeteria/<parent_level> <nude>.webp", 1, 
-            OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+            OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w')),
+            key = "cafeteria_kitchen_<parent_level>"),
         BGImage("images/background/cafeteria/n.webp", 1, 
-            TimeCondition(daytime = 7)))
+            TimeCondition(daytime = 7), key = "cafeteria_v4_night"), fallback_key = "cafeteria_v4_empty")
 
         
 init 1 python:
@@ -383,7 +385,7 @@ label cafeteria_event_3(**kwargs):
 
             $ set_progress('unlock_school_jobs', 3)
 
-            $ add_notify_message("Added new rule to journal!")
+            $ show_notify_message("Added new rule to journal!")
 
             $ time.progress_time()
             

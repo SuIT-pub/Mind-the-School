@@ -173,7 +173,9 @@ set_current_mod('mymod_key')
   mod's path (`mods/MyMod/`). Write **plain paths relative to your mod root** —
   `Pattern("main", "images/foo <step>.webp")` — never `mods/MyMod/...`.
 - **Active-state gating:** registration functions check `is_mod_active('mymod_key')`
-  and no-op while your mod is off. That is why disabled mods inject nothing.
+  and no-op while your mod is off. That is why disabled mods inject no content.
+  Only the registration is gated: your `define`s, screens and `init python` code
+  still run while the mod is off, so keep side effects inside registered content.
 
 Base scripts do the same with `set_current_mod('base')`; you just use your own key.
 
@@ -211,7 +213,7 @@ init 1 python:
 
 Queue **one loader label** into the start/after-load wave, and register whatever you
 like inside it after claiming the context. This one mechanism covers situations,
-unlockables, characters, pictograms, items and buildings:
+unlockables, characters, pictograms, items, buildings and collectibles:
 
 ```python
 init python:
@@ -239,6 +241,10 @@ label load_mymod:
 
     # a map of your own (optional)
     $ map_manager.load_map( Map("mymod_map", "images/mymod_map.webp", "mymod_building") )
+
+    # a collectible photo lying on a location background (per save)
+    $ register_collectibles( Collectible("mymod_photo", "images/mymod_photo.webp",
+        CollectibleSpot("cafeteria_v*", (1700, 940), 8, "instax_mint"), title = "…") )
 
     # Make sure you properly return at the end of your label as to not break the load order
     return
@@ -304,6 +310,25 @@ active flag. So the sequence is:
 
 Toggling a mod therefore takes effect on the next start, not immediately — tell your
 players to restart after enabling, and after a version bump (which re-disables it).
+
+### What the mod list shows
+
+The mod list counts what each mod registers, with nothing for you to declare: every
+register function above notes its entry before the active-mod check.
+
+- **What it adds** — events, actions (`add_storage`), situations, unlockables per type,
+  characters, items, pictograms, map buildings, maps, backgrounds, display names and
+  start scripts, plus the images, videos and sounds in your mod folder and their size.
+- **What it changes** — content that belongs to the base game or another mod: an
+  `Event` or any other entry registered under a key someone else registered first
+  (it replaces theirs), `overwrite_event_image`, events added to someone else's
+  action, teasers added to someone else's situation, buildings put on someone else's
+  map, display names that rename existing keys.
+- **Conflicts** — another switched-on mod replacing the same thing.
+
+Events, start scripts and display names are known at init, so they are counted for a
+switched-off mod too. Everything your loader label registers is only known while the
+mod is on; the game keeps those counts from the last start with the mod switched on.
 
 ---
 
@@ -389,6 +414,12 @@ in `register_mod` on updates (players re-enable afterward).
 - **Register early, build late.** `register_mod` at `init -97`; events at `init 1`
   (after base pools); **everything else** (situations, unlockables, characters,
   pictograms, items, buildings) via a `register_start_method` loader label.
+- **Keep references to your own storages.** Your `init` code runs even while the mod is
+  off, but `add_storage` then doesn't put the storage into the dict. A lookup such as
+  `cafeteria_events["mymod_action"]` raises a `KeyError` and stops the game from
+  starting. Hold the object instead:
+  `mymod_action = EventStorage("mymod_action", "cafeteria")`,
+  `add_storage(cafeteria_events, mymod_action)`, `mymod_action.add_event(...)`.
 - **Restart after enabling** (and after a version bump) — see §8.
 - **Don't edit base files.** Add to base pools / situations through keys and conditions
   instead; that keeps your mod portable and update-safe.
@@ -416,7 +447,7 @@ items, buildings, maps) → a `register_start_method` loader label (lifecycle wa
 `register_situations(...)` · `register_unlockables(...)` · `load_person(key, Person)` ·
 `load_pictograms(...)` / `add_pictogram(...)` · `load_item(ItemData)` ·
 `register_buildings(...)` · `map_manager.load_map(Map)` · `map_manager.add_building_to_map(map_key, building)`
-([Maps](Maps)). Events use `EventStorage.add_event(...)` at init instead.
+([Maps](Maps)) · `register_collectibles(...)` (`game/scripts/journal/collectibles.rpy`). Events use `EventStorage.add_event(...)` at init instead.
 
 ### Related pages
 

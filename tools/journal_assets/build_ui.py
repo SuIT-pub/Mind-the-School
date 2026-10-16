@@ -705,8 +705,86 @@ def quick_icons():
             save_webp(img, OUT / f"quick_{name}_{state}.webp", lossless=True)
 
 
+# collectible polaroids lying in the locations: (style, shape, frame colour, extra)
+COLLECTIBLE_POLAROIDS = [
+    ("classic_white", "classic", (247, 245, 238), None),
+    ("classic_cream", "classic", (236, 225, 199), None),
+    ("classic_faded", "classic", (222, 207, 170), "faded"),
+    ("classic_black", "classic", (40, 38, 36), None),
+    ("instax_mint", "instax", (178, 222, 205), None),
+    ("instax_pink", "instax", (238, 194, 204), None),
+    ("instax_sky", "instax", (186, 211, 235), None),
+    ("taped", "classic", (247, 245, 238), "tape"),
+    ("dog_eared", "classic", (247, 245, 238), "corner"),
+]
+
+
+def collectible_polaroids():
+    """
+    Small polaroids for the collectibles hidden on location backgrounds
+    (gui/journal/collectibles/polaroid_<style>.webp). Kept small and muted so
+    they are easy to miss; the photo area is a generic glossy print, never the
+    collectible itself. A 6px pad around the frame holds the soft shadow.
+    """
+
+    pad = 6
+    shapes = {
+        # frame size, photo box (x0, y0, x1, y1)
+        "classic": ((58, 70), (5, 5, 53, 53)),
+        "instax": ((48, 76), (4, 6, 44, 60)),
+    }
+    out = GUI_OUT / "collectibles"
+    for style, shape, frame, extra in COLLECTIBLE_POLAROIDS:
+        (fw, fh), (px0, py0, px1, py1) = shapes[shape]
+        w, h = fw + pad * 2, fh + pad * 2
+        img = Image.new("RGBA", (w * SS, h * SS), (0, 0, 0, 0))
+
+        shadow = Image.new("L", img.size, 0)
+        ImageDraw.Draw(shadow).rectangle(((pad + 1) * SS, (pad + 2) * SS, (pad + fw + 1) * SS, (pad + fh + 2) * SS), fill=110)
+        shadow_img = Image.new("RGBA", img.size, (20, 14, 8, 0))
+        shadow_img.putalpha(shadow.filter(ImageFilter.GaussianBlur(2.2 * SS)))
+        img.alpha_composite(shadow_img)
+
+        d = ImageDraw.Draw(img)
+        d.rectangle((pad * SS, pad * SS, (pad + fw) * SS - 1, (pad + fh) * SS - 1), fill=frame + (255,))
+
+        # the print: dusk-blue into warm light with grain and a diagonal gloss
+        pw, ph = (px1 - px0) * SS, (py1 - py0) * SS
+        yy, xx = np.mgrid[0:ph, 0:pw]
+        t = (yy / ph * 0.7 + xx / pw * 0.3)
+        top, bottom = np.array([58, 70, 92]), np.array([176, 136, 92])
+        if extra == "faded":
+            top, bottom = np.array([120, 118, 112]), np.array([196, 172, 132])
+        rgb = top * (1 - t[..., None]) + bottom * t[..., None]
+        rng = np.random.default_rng(len(style))
+        rgb += rng.normal(0, 6, rgb.shape)
+        gloss = np.clip(1 - np.abs((xx / pw - yy / ph * 0.8) - 0.25) * 6, 0, 1) * 26
+        rgb += gloss[..., None]
+        photo = Image.fromarray(np.clip(rgb, 0, 255).astype("uint8"), "RGB").convert("RGBA")
+        img.alpha_composite(photo, ((pad + px0) * SS, (pad + py0) * SS))
+
+        if extra == "tape":
+            tape = Image.new("RGBA", (26 * SS, 9 * SS), (236, 228, 196, 150))
+            tape = tape.rotate(-8, expand=True, resample=Image.BICUBIC)
+            img.alpha_composite(tape, ((pad + fw // 2 - 14) * SS, (pad - 4) * SS))
+        if extra == "corner":
+            c = 11
+            x1, y1 = (pad + fw) * SS, (pad + fh) * SS
+            # cut the corner away and lay the folded flap over it
+            d.polygon([(x1 - c * SS, y1), (x1, y1 - c * SS), (x1, y1), (x1 - c * SS, y1)], fill=(0, 0, 0, 0))
+            img.putpixel((0, 0), (0, 0, 0, 0))
+            mask = Image.new("L", img.size, 255)
+            ImageDraw.Draw(mask).polygon([(x1 - c * SS, y1), (x1, y1 - c * SS), (x1 + SS, y1 + SS)], fill=0)
+            img.putalpha(Image.fromarray(np.minimum(np.asarray(img.split()[3]), np.asarray(mask))))
+            d = ImageDraw.Draw(img)
+            d.polygon([(x1 - c * SS, y1), (x1, y1 - c * SS), (x1 - c * SS, y1 - c * SS)], fill=tuple(int(v * 0.86) for v in frame) + (255,))
+
+        save_webp(img.resize((w, h), Image.LANCZOS), out / f"polaroid_{style}.webp", lossless=True)
+
+
 if __name__ == "__main__":
     ensure_sources()
+    collectible_polaroids()
     leather_patch()
     quick_icons()
     calendar_sheet()

@@ -45,8 +45,9 @@ init -1 python:
     sb_teach_sex_ed_qa_storage = FragmentStorage('sb_teach_sex_ed_qa')
 
     sb_bg_images = BGStorage("images/background/school building/f.webp",
-        BGImage("images/background/school building/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
-        BGImage("images/background/school building/n.webp", 1, TimeCondition(daytime = 7)),
+        BGImage("images/background/school building/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "c", weekday = "d"), key = "school_building_v<variant>_<school_level>"),
+        BGImage("images/background/school building/n.webp", 1, TimeCondition(daytime = 7), key = "school_building_v1_night"),
+        fallback_key = "school_building_v1_empty",
     )
 
 init 1 python:

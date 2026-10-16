@@ -14,8 +14,9 @@ init -1 python:
     add_storage(labs_events, EventStorage("look_around", "labs", fallback_text = "There is nothing here."))
 
     labs_bg_images = BGStorage("images/background/labs/bg f.webp",
-        BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show corridor with few students
-        BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty corridor at night
+        BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c"), key = "labs_corridor_<level>"), # show corridor with few students
+        BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7), key = "labs_night"), # show empty corridor at night
+        fallback_key = "labs_empty_day",
     )
 
 init 1 python:

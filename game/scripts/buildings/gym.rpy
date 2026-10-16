@@ -19,8 +19,9 @@ init -1 python:
     add_storage(gym_events, EventStorage("search",         "gym", fallback_text = "There is nothing here."))
 
     gym_bg_images = BGStorage("images/background/gym/f.webp", 
-        BGImage("images/background/gym/<school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
-        BGImage("images/background/gym/n.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
+        BGImage("images/background/gym/<school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d"), key = "gym_v<variant>_<school_level>"), # show gym with students
+        BGImage("images/background/gym/n.webp", 1, TimeCondition(daytime = 7), key = "gym_empty_night"), # show gym at night empty
+        fallback_key = "gym_empty_day",
     )
     
 init 1 python:

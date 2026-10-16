@@ -13,9 +13,10 @@ init -1 python:
     beach_events = {}
 
     beach_bg_images = BGStorage("images/background/beach/bg c.webp", 
-        BGImage("images/background/beach/bg 1,3 <roster> <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students
-        BGImage("images/background/beach/bg 6 <roster> <level> <nude>.webp", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
-        BGImage("images/background/beach/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
+        BGImage("images/background/beach/bg 1,3 <roster> <level> <nude>.webp", 1, TimeCondition(daytime = "1,3"), key = "beach_day_<level>"), # show bath with students
+        BGImage("images/background/beach/bg 6 <roster> <level> <nude>.webp", 1, TimeCondition(daytime = 6), key = "beach_evening_<level>"), # show bath with students and/or teacher
+        BGImage("images/background/beach/bg 7.webp", 1, TimeCondition(daytime = 7), key = "beach_night"), # show bath at night empty or with teachers
+        fallback_key = "beach_empty_day",
     )
     
 init 1 python:

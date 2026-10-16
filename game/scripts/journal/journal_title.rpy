@@ -399,11 +399,28 @@ screen journal_menu_mods(selected_mod = None):
                 null height 10
                 text "by {} · version {}".format(mod['author'], mod['version']) style "jr_typed_small"
 
+                $ summary = get_mod_content_summary(picked)
+
                 null height 20
-                use jr_rubric("On file", JR_RIGHT_W)
+                use jr_rubric("What it adds", JR_RIGHT_W)
                 null height 4
-                use journal_credit_row("Events", str(mod_count.get(picked, 0)))
-                use journal_credit_row("Translation files", str(len(mod['translations'])))
+                for label, value in summary["content"]:
+                    use journal_credit_row(label, value)
+                if not summary["content"]:
+                    text "Nothing yet." style "jr_small"
+                if summary["note"]:
+                    null height 6
+                    text summary["note"] style "jr_small"
+
+                if summary["changes"]:
+                    null height 20
+                    use jr_rubric("What it changes", JR_RIGHT_W)
+                    null height 4
+                    for label, value in summary["changes"]:
+                        use journal_credit_row(label, value)
+                if summary["conflicts"]:
+                    null height 6
+                    text "Changes the same things as: {}".format(", ".join(summary["conflicts"])) style "jr_small" color JR_ACCENT
 
                 null height 20
                 use jr_rubric("Description", JR_RIGHT_W)

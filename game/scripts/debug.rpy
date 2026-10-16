@@ -741,7 +741,7 @@ init -100 python:
         print(_format_log_prefix(resolved_type, category, resolved_origin) + message)
         _append_log_entry(message, log_type=resolved_type, category=category, origin=resolved_origin)
         if resolved_type == "error":
-            add_notify_message("|ERROR| " + message)
+            show_notify_message("|ERROR| " + message)
 
     log_number = 0
 

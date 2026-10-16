@@ -131,6 +131,8 @@ label open_journal(page, display, char = "school"):
         call screen journal_inventory(display, 10) with dissolveM
     elif page == 11:
         call screen journal_menu(display) with dissolveM
+    elif page == 12:
+        call screen journal_collectibles(display) with dissolveM
 
 label close_journal ():
     # """

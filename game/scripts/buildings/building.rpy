@@ -230,6 +230,8 @@ init -99 python:
             building_manager = BuildingManager()
         # Gated on the current mod being active (like event `add_event`): a disabled
         # mod's buildings are not registered. Base loaders set `set_current_mod('base')`.
+        for building in buildings:
+            record_mod_content("building", building.key)
         if is_mod_active(active_mod_key):
             for building in buildings:
                 building_manager.load_building(building)

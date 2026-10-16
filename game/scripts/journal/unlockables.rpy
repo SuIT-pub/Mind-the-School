@@ -862,6 +862,8 @@ init -7 python:
             unlockable_manager = UnlockableManager()
         # Gated on the current mod being active (like event `add_event`): a disabled
         # mod's unlockables are not registered.
+        for unlockable in unlockables:
+            record_mod_content("unlockable_" + unlockable.type_key, unlockable.unlockable_key)
         if is_mod_active(active_mod_key):
             for unlockable in unlockables:
                 unlockable_manager.load_unlockable(unlockable)

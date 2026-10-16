@@ -57,6 +57,7 @@ init -99 python:
             # Gated on the current mod being active (like event `add_event`): a
             # disabled mod's pictograms are not registered. Base loaders set
             # `set_current_mod('base')`, and base is always active.
+            record_mod_content("pictogram", pictogram.key)
             if not is_mod_active(active_mod_key):
                 return
             self.pictograms[pictogram.key] = pictogram

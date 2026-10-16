@@ -1437,9 +1437,6 @@ screen mod_manager():
                     # if not mod['available']:
                         # continue
 
-                    if mod_key not in mod_count.keys():
-                        mod_count[mod_key] = 0
-
                     mod_name = mod['name']
                     mod_author = "by " + mod['author']
                     mod_version = "Version " + mod['version']
@@ -1468,7 +1465,7 @@ screen mod_manager():
                 
                 null height 5
 
-                $ mod_stats = "Events: " + str(mod_count[mod_key]) + "    Translation files: " + str(len(mod['translations']))
+                $ mod_stats = "Events: " + str(get_mod_content_counts(mod_key).get("event", 0)) + "    Translation files: " + str(len(mod['translations']))
                 text mod_stats:
                     style "mod_menu_description"
                     xpos 20

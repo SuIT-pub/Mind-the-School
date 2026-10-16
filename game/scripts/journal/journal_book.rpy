@@ -169,7 +169,7 @@ init python:
         ("unlockables", "Unlockables", 4, "5"),
         ("situations", "Situations", 8, "2"),
         ("inventory", "Inventory", 2, "3"),
-        ("collectibles", "Collectibles (coming soon)", None, None),
+        ("collectibles", "Collectibles", 12, "4"),
     ]
     JOURNAL_NAV_RIGHT = [
         ("gallery", "Replay Gallery", 7, "7"),
@@ -180,7 +180,7 @@ init python:
     JOURNAL_PAGE_SECTION = {
         1: "overview", 3: "overview", 9: "characters", 4: "unlockables", 8: "situations",
         2: "inventory", 10: "inventory", 7: "gallery", 6: "credits", 5: "cheats",
-        11: "menu",
+        11: "menu", 12: "collectibles",
     }
     # the only sections usable while the journal is open as the game menu mid event
     JOURNAL_GAME_MENU_SECTIONS = ("menu", "cheats")

@@ -15,8 +15,9 @@ init -1 python:
     add_storage(kiosk_events, EventStorage("search",       "kiosk", fallback_text = "There is nothing here."))
 
     kiosk_bg_images = BGStorage("images/background/kiosk/c.webp",
-        BGImage("images/background/kiosk/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/n.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
+        BGImage("images/background/kiosk/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w")), key = "kiosk_v<variant>_<school_level>"), # show kiosk with students
+        BGImage("images/background/kiosk/n.webp", 1, TimeCondition(daytime = 7), key = "kiosk_empty_night"), # show kiosk at night empty
+        fallback_key = "kiosk_empty_day",
     )
 
 init 1 python:
@@ -190,7 +191,7 @@ label .leave (**kwargs):
     
         if get_progress("unlock_cafeteria") == -1:
             $ start_progress("unlock_cafeteria")
-            $ add_notify_message("Added new building to journal!")
+            $ show_notify_message("Added new building to journal!")
 
         $ end_event('new_daytime', **kwargs)
     else:

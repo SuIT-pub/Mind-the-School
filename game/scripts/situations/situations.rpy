@@ -3161,6 +3161,9 @@ init -99 python:
         # region Teasers #
 
         def add_teaser(self, teaser: SituationTeaser):
+            # teasers built into a situation come before it is registered (no owner yet)
+            if get_mod_content_owner("situation", self.key) not in (None, active_mod_key):
+                record_mod_change("teaser", self.key)
             teaser.situation = self
             self.teasers[teaser.key] = teaser
             return self
@@ -4607,6 +4610,8 @@ init -99 python:
         Registration is gated on the current mod being active (like event
         `add_event`), so a disabled mod's situations are not registered.
         """
+        for situation in situations:
+            record_mod_content("situation", situation.key)
         if is_mod_active(active_mod_key):
             for situation in situations:
                 situation_manager.load_situation(situation)

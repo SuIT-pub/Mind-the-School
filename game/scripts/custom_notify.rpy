@@ -95,7 +95,9 @@ init -99 python:
 
     def add_notify_message(msg: str = None, page: int = None, display: str = ""):
         """
-        Add a message to the notification list
+        Queues a message; queued messages are posted together when the map
+        opens (call_notify). Used for the stat changes; anything else should
+        use show_notify_message, which shows the message right away.
 
         ### Parameters:
         1. msg: str
@@ -116,13 +118,59 @@ init -99 python:
         # just keep notify_history_length number of messages
         notify_messages = notify_messages[-notify_history_length:]
 
+    def show_notify_message(msg: str = None, page: int = None, display: str = ""):
+        """
+        Shows a message right away, wherever the game is (map, event, menu),
+        instead of queueing it for the map like add_notify_message.
+
+        ### Parameters:
+        1. msg: str
+            - The message to show
+        2. page: int (optional)
+            - The journal page to open when the notification is clicked.
+        3. display: str (optional, default: "")
+            - The journal display value to open when the notification is clicked.
+        """
+
+        if not msg or globals().get("is_in_replay", False):
+            return
+
+        # during init (e.g. an error logged while loading) nothing can be shown yet
+        if renpy.game.context().init_phase:
+            add_notify_message(msg, page, display)
+            return
+
+        global notify_messages
+
+        timestamp = time_lib.time()
+        # the same slip is already up: don't stack it, and don't restart the
+        # interaction again (an error logged on every redraw would loop)
+        if any(n[0] == msg and n[1] > timestamp - 4 for n in notify_messages):
+            return
+
+        # the timestamp identifies a slip; keep it unique and ascending
+        # (max is shadowed in the store, see the Ren'Py gotchas)
+        latest = 0
+        for n in notify_messages:
+            if n[1] > latest:
+                latest = n[1]
+        if latest >= timestamp:
+            timestamp = latest + 0.01
+
+        notify_messages.append((msg, timestamp, page, display))
+        notify_messages = notify_messages[-notify_history_length:]
+
+        renpy.show_screen("notify_container")
+        renpy.restart_interaction()
+
     def finish_notify(trans, st, at):
         global notify_messages
         global notify_duration
 
         max_start = time_lib.time() - 4
 
-        notify_messages = [n for n in notify_messages if n[1] > max_start]
+        # queued messages (-1) wait for the map, they aren't expired
+        notify_messages = [n for n in notify_messages if n[1] > max_start or n[1] == -1]
 
         if not [k for k in notify_messages if k[1] > max_start]:
 
@@ -246,6 +294,9 @@ screen notify_item(msg, use_atl=True, page=None, display=""):
 
 
 screen notify_container():
+
+    # above event images and the map HUD (80); notifications now also appear mid event
+    zorder 90
 
     fixed:
 

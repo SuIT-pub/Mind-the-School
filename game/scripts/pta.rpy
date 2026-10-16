@@ -409,7 +409,7 @@ label pta_vote_result (unlockable, end_choice, with_comment = False):
         $ set_game_data(unlockable.key + "_vote_won", True)
         $ unlockable.check_resolutions()
         if unlockable.is_unlocked():
-            $ add_notify_message(f"{obj_title} has been unlocked.")
+            $ show_notify_message(f"{obj_title} has been unlocked.")
     else:
         if with_comment:
             headmaster "The proposal is rejected due to the majority of votes against it."

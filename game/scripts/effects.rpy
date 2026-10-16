@@ -783,7 +783,7 @@ init -1 python:
             return f"notification_{self.message}"
 
         def apply(self, **kwargs):
-            add_notify_message(self.message)
+            show_notify_message(self.message)
             return kwargs
 
     class DummyEffect(Effect):

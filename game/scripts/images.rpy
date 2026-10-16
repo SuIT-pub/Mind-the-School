@@ -18,6 +18,8 @@ init -4 python:
             - The new pattern to use for the event.
         """
 
+        record_mod_change("event_image", event_key)
+
         if not is_mod_active(active_mod_key):
             return
 
@@ -156,7 +158,9 @@ init -4 python:
                 - The path of the pattern.
             """
 
-            return get_mod_path(active_mod_key) + self._pattern
+            # the mod prefix is baked in at construction; adding it here again used
+            # whichever mod's loader ran last and sent every event to its folder
+            return self._pattern
 
         def get_alternative_keys(self) -> List[str]:
             """
@@ -183,6 +187,11 @@ init -2 python:
     last_image = ""
     last_image_nude = 0
     last_current_nude = 0
+    # key of the background on screen (see BGImage key), e.g. "dormitory_v1_3"
+    current_bg_key = None
+
+    # every BGImage key template with the storage it's in, to report duplicates
+    bg_key_templates = {}
 
     ########################
     # region CLASSES ----- #
@@ -516,7 +525,7 @@ init -2 python:
             - The conditions for the background image.
         """
 
-        def __init__(self, image_path: str, priority: int, *conditions: Condition | Selector, alternative_keys: List[string] = []):
+        def __init__(self, image_path: str, priority: int, *conditions: Condition | Selector, alternative_keys: List[string] = [], key: str = None):
             """
             Constructs all the necessary attributes for the BGImage object.
 
@@ -527,9 +536,14 @@ init -2 python:
                 - The priority of the background image.
             3. *conditions: Condition
                 - The conditions for the background image.
+            4. key: str (default None)
+                - A unique name for this background, used to place things on it
+                  (collectibles). May use the path's placeholders, which get the
+                  values of the image that is shown: "dormitory_v<variant>_<school_level>".
             """
 
-            self._conditions = [condition for condition in conditions if isinstance(condition, Condition)]
+            self._key = key
+            self._conditions =  [condition for condition in conditions if isinstance(condition, Condition)]
             self._selectors = SelectorSet(*[selector for selector in conditions if isinstance(selector, Selector)])
             self._priority = priority
             self._image_path = image_path
@@ -537,7 +551,17 @@ init -2 python:
             
             self._combinations = [()]
             for i in range(1, len(alternative_keys) + 1):
-                combinations.extend(itertools.combinations(alternative_keys, i))
+                self._combinations.extend(itertools.combinations(alternative_keys, i))
+
+            # selector values rolled for the current pick, shared by can_be_used and get_image
+            self._pending_values = None
+
+        def _get_selector_values(self) -> Dict[str, Any]:
+            # rolled once per pick: the check and the image must use the same values
+            if getattr(self, "_pending_values", None) is None:
+                self._pending_values = self._selectors.get_values()
+                self._selectors.roll_values()
+            return self._pending_values
 
         def can_be_used(self, **kwargs) -> bool:
             """
@@ -552,13 +576,12 @@ init -2 python:
                 - Whether the background image can be used.
             """
 
-            if self._selectors != None:
-                kwargs.update(self._selectors.get_values())
-                self._selectors.roll_values()
+            kwargs.update(self._get_selector_values())
 
             for condition in self._conditions:
                 if condition.is_fulfilled(**kwargs):
                     continue
+                self._pending_values = None
                 return False
 
             return True
@@ -600,9 +623,8 @@ init -2 python:
                 - The image path of the background image.
             """
             
-            if self._selectors != None:
-                kwargs.update(self._selectors.get_values())
-                self._selectors.roll_values()
+            kwargs.update(self._get_selector_values())
+            self._pending_values = None
 
             for combination in self._combinations:
                 new_image_path = self._image_path
@@ -617,6 +639,50 @@ init -2 python:
 
             return -1, self._path_prefix + self._image_path
 
+        def get_key_template(self) -> str:
+            return getattr(self, "_key", None)
+
+        def resolve_key(self, image_path: str, **kwargs) -> str:
+            """
+            The key of the shown image: the key template with its placeholders
+            filled from the resolved path (the variant is rolled inside
+            get_image, so it is read back from the path, not from kwargs).
+
+            ### Parameters:
+            1. image_path: str
+                - The path get_image returned for this background.
+
+            ### Returns:
+            1. str | None
+                - The key, or None when the background has no key.
+            """
+
+            template = self.get_key_template()
+            if not template:
+                return None
+
+            values = dict(kwargs)
+            pattern = os.path.splitext(self._path_prefix + self._image_path)[0]
+            regex = ""
+            for part in re.split(r"(<[^<>]+>)", pattern):
+                if part.startswith("<") and part.endswith(">"):
+                    name = part[1:-1]
+                    if re.match(r"^[A-Za-z_]\w*$", name) and "(?P<{}>".format(name) not in regex:
+                        regex += "(?P<{}>[^/]*?)".format(name)
+                    else:
+                        regex += "[^/]*?"
+                else:
+                    regex += re.escape(part)
+            match = re.match(regex + "$", os.path.splitext(image_path)[0])
+            if match:
+                values.update(match.groupdict())
+            else:
+                log(f"Background key '{template}': '{image_path}' doesn't fit '{self._image_path}'", log_type="error", category="image")
+
+            def fill(found):
+                return str(values.get(found.group(1), found.group(0)))
+            return re.sub(r"<([^<>]+)>", fill, template)
+
         def can_get_image(self, **kwargs) -> bool:
             """
             Returns whether the image path of the background image can be found in the game files.
@@ -630,7 +696,7 @@ init -2 python:
                 - Whether the image path of the background image can be found in the game files.
             """
 
-            return self.get_image(self._path_prefix + self._image_path, **kwargs)[0] != -1
+            return self.get_image(**kwargs)[0] != -1
         
     class BGStorage:
         """
@@ -666,8 +732,11 @@ init -2 python:
             - The keyword arguments to replace in the image path.
         """
 
-        def __init__(self, fallback_image: str, *images: BGImage | Selector, **kwargs):
+        def __init__(self, fallback_image: str, *images: BGImage | Selector, fallback_key: str = None, **kwargs):
             self.fallback_image = fallback_image
+            # the fallback's background key (see BGImage key)
+            self.fallback_key = fallback_key
+            register_bg_keys(fallback_key, *images)
             
             for i in images:
                 if isinstance(i, BGImage):
@@ -705,6 +774,9 @@ init -2 python:
 
             return values
 
+        def get_fallback_key(self) -> str:
+            return getattr(self, "fallback_key", None)
+
         def get_fallback(self) -> str:
             """
             Returns the fallback image path.
@@ -735,10 +807,14 @@ init -2 python:
             1. *image: BGImage
                 - A list of all the background images to add.
             """
-            
+
+            for i in image:
+                record_mod_content("background", "{}:{}".format(active_mod_key, i._image_path))
+
             if not is_mod_active(active_mod_key):
                 return
 
+            register_bg_keys(None, *image)
             for i in image:
                 i.set_path_prefix(get_mod_path(active_mod_key))
 
@@ -846,6 +922,64 @@ init -2 python:
             image_path = replace_image_extension(image_path, last_found)
         return nude_vision, image_path
             
+    def register_bg_keys(fallback_key: str, *images: BGImage):
+        """
+        Notes the background keys of a storage, logging a key that is used
+        twice: a collectible pattern would then hit both backgrounds.
+        """
+
+        keys = [fallback_key] + [image.get_key_template() for image in images if isinstance(image, BGImage)]
+        for key in keys:
+            if not key:
+                continue
+            if key in bg_key_templates:
+                log(f"Background key '{key}' is used twice", log_type="error", category="image")
+            bg_key_templates[key] = active_mod_key
+
+    def match_bg_key(pattern: str, key: str) -> bool:
+        """
+        Whether a background key fits a pattern: "*" stands for any text, "?"
+        for one character, "[1-5]" for one of those ("dormitory_v1_*").
+        """
+
+        import fnmatch
+        return key is not None and fnmatch.fnmatchcase(key, pattern)
+
+    def get_background_with_key(fallback: str, images: List[BGImage], fallback_key: str = None, **kwargs) -> Tuple[int, str, str]:
+        """
+        Like get_background, plus the key of the picked background.
+
+        ### Returns:
+        1. nude: int
+        2. image_path: str
+        3. key: str | None
+        """
+
+        kwargs["roster"] = 0
+
+        output_image = None
+        output_nude = 0
+        output_key = None
+        priority = -1
+
+        for bgimage in images:
+            if not bgimage.can_be_used(**kwargs):
+                continue
+
+            max_nude, output = bgimage.get_image(**kwargs)
+            if max_nude == -1:
+                continue
+
+            if priority < bgimage.get_priority() and max_nude >= 0:
+                output_image = output
+                output_nude = max_nude
+                output_key = bgimage.resolve_key(output, **kwargs)
+                priority = bgimage.get_priority()
+
+        if output_image == None:
+            return 0, fallback, fallback_key
+        return output_nude, output_image, output_key
+
     def get_background(fallback: str, images: List[BGImage], **kwargs) -> Tuple[int, str]:
         """
         Returns the image path of the background with the highest priority that can be used.
@@ -865,30 +999,8 @@ init -2 python:
             - The image path of the background with the highest priority that can be used.
         """
 
-        kwargs["roster"] = 0
-
-        output_image = None
-        output_nude = 0
-        priority = -1
-
-        for bgimage in images:
-            if not bgimage.can_be_used(**kwargs):
-                continue
-
-            max_nude, output = bgimage.get_image(**kwargs)
-            if max_nude == -1:
-                continue
-
-            if priority < bgimage.get_priority() and max_nude >= 0:
-                output_image = output
-                output_nude = max_nude
-                priority = bgimage.get_priority()
-        
-
-        if output_image == None:
-            return 0, fallback
-        else:
-            return output_nude, output_image
+        nude, image_path, _key = get_background_with_key(fallback, images, **kwargs)
+        return nude, image_path
 
     # endregion
     #######################
@@ -1779,7 +1891,7 @@ label show_idle_image(bg_images, **kwargs):
     if last_image_code != image_code:
         $ last_image_code = image_code
 
-        $ max_nude, image_path = get_background(fallback_image, images, **kwargs)
+        $ max_nude, image_path, current_bg_key = get_background_with_key(fallback_image, images, bg_images.get_fallback_key(), **kwargs)
         $ current_nude = DEFAULT_NUDE
 
         $ last_image = image_path

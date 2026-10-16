@@ -13,9 +13,10 @@ init -1 python:
     swimming_pool_events = {}
 
     swimming_pool_bg_images = BGStorage("images/background/swimming pool/bg 1.webp", ValueSelector('roster', 0),
-        BGImage("images/background/swimming pool/bg c <roster> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show swimming pool with students
-        BGImage("images/background/swimming pool/bg 3,6 <roster> <school_level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
-        BGImage("images/background/swimming pool/bg 7.webp", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
+        BGImage("images/background/swimming pool/bg c <roster> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c"), key = "swimming_pool_class_<school_level>"), # show swimming pool with students
+        BGImage("images/background/swimming pool/bg 3,6 <roster> <school_level> <nude>.webp", 1, TimeCondition(daytime = "3,6"), key = "swimming_pool_free_<school_level>"), # show swimming pool with few students
+        BGImage("images/background/swimming pool/bg 7.webp", 1, TimeCondition(daytime = 7), key = "swimming_pool_night"), # show swimming pool at night empty
+        fallback_key = "swimming_pool_empty_day",
     )
     
 init 1 python:

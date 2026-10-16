@@ -405,6 +405,10 @@ label call_event_menu(text, events, fallback, person = character.subtitles, menu
 
     $ bg_image = get_kwargs('bg_image', None, **kwargs)
     call show_idle_image(bg_image, **kwargs) from call_event_menu_3
+    # polaroids to find on the background; begin_event and the map hide them again.
+    # Hidden first so the new show puts it above the background screen just shown.
+    hide screen collectible_spots
+    show screen collectible_spots
 
     $ renpy.choice_for_skipping()
 

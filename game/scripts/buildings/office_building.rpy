@@ -54,12 +54,15 @@ init -1 python:
     add_storage(office_building_call_secretary_events, EventStorage("naughty_sandbox", "office_building", fallback_text = "There is nobody here."))
     add_storage(office_building_call_secretary_events, EventStorage("talk",            "office_building", fallback_text = "There is nobody here."))
 
-    office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
+    office_building_bg_images = BGStorage("images/background/office building/f.webp",
         RandomListSelector('name', 'teacher', 'secretary'), 
         LevelSelector('level', KwargsValueSelector('', 'name')),
-        BGImage("images/background/office building/c teacher.webp", 1, AND(TimeCondition(daytime = "c"), ValueCondition('name', 'teacher'))), # show headmasters/teachers office empty
-        BGImage("images/background/office building/<name> <level> <variant> <nude>.webp", 1, NOT(TimeCondition(daytime = "7"))), # show headmasters/teachers office with people
-        BGImage("images/background/office building/n <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
+        BGImage("images/background/office building/c teacher.webp", 1, AND(TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), key = "teacher_office_empty_day"), # teachers' office empty
+        BGImage("images/background/office building/teacher <level> <variant> <nude>.webp", 1, NOT(TimeCondition(daytime = "7")), ValueCondition('name', 'teacher'), key = "teacher_office_v<variant>_<level>"), # teachers' office with people
+        BGImage("images/background/office building/secretary <level> <variant> <nude>.webp", 1, NOT(TimeCondition(daytime = "7")), ValueCondition('name', 'secretary'), key = "head_office_<level>"), # secretary's anteroom with people
+        BGImage("images/background/office building/n teacher.webp", 1, TimeCondition(daytime = 7), ValueCondition('name', 'teacher'), key = "teacher_office_empty_night"), # teachers' office empty at night
+        BGImage("images/background/office building/n secretary.webp", 1, TimeCondition(daytime = 7), ValueCondition('name', 'secretary'), key = "head_office_empty_night"), # anteroom empty at night
+        fallback_key = "head_office_empty_day",
     )
 
 init 1 python: 
@@ -881,7 +884,7 @@ label .care (**kwargs):
 
     if get_progress("unlock_student_relationship") == -1:
         $ start_progress("unlock_student_relationship")
-        $ add_notify_message("Added new rule to journal!")
+        $ show_notify_message("Added new rule to journal!")
         
     $ end_event('new_daytime', **kwargs)
 

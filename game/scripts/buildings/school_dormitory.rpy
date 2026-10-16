@@ -16,8 +16,9 @@ init -1 python:
     add_storage(sd_events, EventStorage("search", "school_dormitory", fallback_text = "There is nothing here."))
 
     sd_bg_images = BGStorage("images/background/school dormitory/c.webp",
-        BGImage("images/background/school dormitory/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
-        BGImage("images/background/school dormitory/n.webp", 1, TimeCondition(daytime = 7)),
+        BGImage("images/background/school dormitory/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w")), key = "dormitory_v<variant>_<school_level>"),
+        BGImage("images/background/school dormitory/n.webp", 1, TimeCondition(daytime = 7), key = "dormitory_v1_night"),
+        fallback_key = "dormitory_v1_empty",
     )
 
 init 1 python:

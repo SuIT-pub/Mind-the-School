@@ -15,8 +15,9 @@ init -1 python:
     add_storage(courtyard_events, EventStorage("search", "courtyard", fallback_text = "There is nothing here."))
 
     courtyard_bg_images = BGStorage("images/background/courtyard/c.webp",
-        BGImage("images/background/courtyard/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "f")),
-        BGImage("images/background/courtyard/n.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
+        BGImage("images/background/courtyard/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "f"), key = "courtyard_v<variant>_<school_level>"),
+        BGImage("images/background/courtyard/n.webp", 1, TimeCondition(daytime = 7), key = "courtyard_empty_night"), # show empty courtyard at night
+        fallback_key = "courtyard_empty_day",
     )
 
 init 1 python:

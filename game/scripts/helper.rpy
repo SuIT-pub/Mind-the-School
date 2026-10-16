@@ -1356,25 +1356,28 @@ init -99 python:
 
         translation_texts = {}
 
-        paths = []
-
-        for mod in get_active_mods():
-            if 'translations' in mod.keys():
-                if isinstance(mod['translations'], str):
-                    paths.extend(mod['path'] + mod['translations'])
-                else:
-                    paths.extend([mod['path'] + translation for translation in mod['translations']])
-
-        for path in paths:
-            if not renpy.loadable(path):
+        # base first, so its names are the ones a mod's same key replaces
+        mods = sorted(persistent.modList.values(), key = lambda mod: mod['key'] != 'base')
+        for mod in mods:
+            if not mod.get('available', True):
                 continue
-            file = renpy.open_file(path)
-            lines = split_to_non_empty_list(file.read().decode())
-            for line in lines:
-                if line.count(';') != 1:
+            files = mod.get('translations', [])
+            if isinstance(files, str):
+                files = [files]
+
+            for file_name in files:
+                path = mod['path'] + file_name
+                if not renpy.loadable(path):
                     continue
-                key, value = line.split(';')
-                translation_texts[key] = value
+                file = renpy.open_file(path)
+                lines = split_to_non_empty_list(file.read().decode())
+                for line in lines:
+                    if line.count(';') != 1:
+                        continue
+                    key, value = line.split(';')
+                    record_mod_content("name", key, mod['key'])
+                    if mod.get('active'):
+                        translation_texts[key] = value
 
     def load_gallery_exclude():
         """
@@ -1467,7 +1470,6 @@ init -99 python:
             mod.update(kwargs)
             mod['path'] = f"mods/{path}"
             mod['translations'] = []
-            mod['event_count'] = 0
             if 'translations' in kwargs.keys():
                 mod['translations'] = kwargs['translations']
             modList[key] = mod
@@ -1476,7 +1478,6 @@ init -99 python:
             mod['active'] = False
             mod['path'] = f"mods/{path}"
             mod['translations'] = []
-            mod['event_count'] = 0
             if 'translations' in kwargs.keys():
                 mod['translations'] = kwargs['translations']
             modList[key] = mod
@@ -1484,53 +1485,6 @@ init -99 python:
         persistent.modList = modList
 
         return modList
-
-    def get_mod_list():
-        import json
-        
-        # get list of folders in /mods
-        metadata_list = [s for s in renpy.list_files() if s.startswith("mods/") and s.endswith("metadata")]
-
-        repair_mod_list()
-        available_keys = ['base']
-        return persistent.modList
-
-        for metadata in metadata_list:
-            # json_string = renpy.open_file(metadata, "utf-8").read()
-            json_string = ""
-            
-            path = os.path.normpath(os.path.join(config.basedir, "game", metadata))
-
-            with open(path,"r") as metafile:
-                json_string = metafile.read()
-            mod_json_obj = json.loads(json_string) 
-
-            available_keys.append(mod_json_obj['key'])
-
-            mod = {}
-
-            if mod_json_obj['key'] in persistent.modList.keys():
-                mod = persistent.modList[mod_json_obj['key']]
-                if mod['version'] != mod_json_obj['version']:
-                    mod['active'] = False
-                mod.update(mod_json_obj)
-                mod['path'] = metadata.replace("metadata", "")
-                mod['translations'] = []
-                mod['event_count'] = 0
-                if 'translations' in mod_json_obj.keys():
-                    mod['translations'] = mod_json_obj['translations']
-                persistent.modList[mod_json_obj['key']] = mod
-            else:
-                mod = mod_json_obj
-                mod['active'] = False
-                mod['path'] = metadata.replace("metadata", "")
-                mod['translations'] = []
-                mod['event_count'] = 0
-                if 'translations' in mod_json_obj.keys():
-                    mod['translations'] = mod_json_obj['translations']
-                persistent.modList[mod_json_obj['key']] = mod
-
-        return persistent.modList
 
     def repair_mod_list():
 
@@ -1547,7 +1501,6 @@ init -99 python:
                 'active': True, 
                 'available': True,
                 'path': '',
-                'event_count': 0,
                 'translations': ['translations.csv'],
             }
 
@@ -1556,9 +1509,6 @@ init -99 python:
 
         if 'translations' not in persistent.modList['base']:
             persistent.modList['base']['translations'] = ['translations.csv']
-
-        for key in persistent.modList.keys():
-            persistent.modList[key]['event_count'] = 0
 
 
     def is_mod_active(key: str) -> bool:
@@ -1595,22 +1545,248 @@ init -99 python:
     def get_active_mods() -> List[Dict[str, Any]]:
         return [mod for mod in persistent.modList.values() if mod['active']]
 
-    def change_mod_event_count(key: str, delta: int):
-
-        global mod_count
-
-        if key not in mod_count.keys():
-            mod_count[key] = 0
-        mod_count[key] += delta
-
-        if key in persistent.modList.keys():
-            if not 'event_count' in persistent.modList[key]:
-                persistent.modList[key]['event_count'] = 0
-            persistent.modList[key]['event_count'] += delta
-
     def register_start_method(label: str):
+        record_mod_content("start_method", label)
         if is_mod_active(active_mod_key):
             start_methods.append(label)
+
+    # endregion
+    ######################
+
+    ###########################
+    # region Mod content --- #
+    ###########################
+
+    # What every mod brings, shown in the mod list (journal_menu_mods).
+    #
+    # `kind` names the content type ("event", "situation", "unlockable_rule", ...),
+    # `key` the entry. Sets, because the start and after-load waves run every loader
+    # again. The first mod to register a key owns it; the same key from another mod
+    # replaces that content and is recorded as a change. Registration functions
+    # record before their active-mod gate, so what registers at init (events,
+    # loaders, display names) is counted for switched-off mods too. Everything a
+    # loader label registers is only known while the mod is on, which is why
+    # close_mod_content_recording keeps a snapshot in persistent.
+
+    MOD_CONTENT_LABELS = {
+        "event": "Events",
+        "event_fragment": "Event fragments",
+        "pool": "Actions",
+        "situation": "Situations",
+        "collectible": "Collectibles",
+        "person": "Characters",
+        "item": "Items",
+        "pictogram": "Pictograms",
+        "building": "Map buildings",
+        "map": "Maps",
+        "background": "Backgrounds",
+        "name": "Display names",
+        "start_method": "Start scripts",
+    }
+
+    # display order; unlockable types ("unlockable_rule", ...) follow the situations
+    MOD_CONTENT_ORDER = ["event", "event_fragment", "pool", "situation", "unlockable_", "collectible",
+        "person", "item", "pictogram", "building", "map", "background", "name", "start_method"]
+
+    MOD_CHANGE_LABELS = {
+        "event": "Replaced events",
+        "event_image": "Replaced event images",
+        "pool_event": "Existing actions with new events",
+        "teaser": "Existing situations with new teasers",
+        "map_building": "Buildings put on existing maps",
+        "person": "Changed characters",
+        "name": "Renamed terms",
+    }
+
+    MOD_ASSET_TYPES = {
+        ".png": "image", ".jpg": "image", ".jpeg": "image", ".webp": "image", ".avif": "image",
+        ".webm": "video", ".mp4": "video", ".ogv": "video", ".mkv": "video",
+        ".ogg": "audio", ".opus": "audio", ".mp3": "audio", ".wav": "audio",
+    }
+
+    def record_mod_content(kind: str, key: str, mod_key: str = None):
+        """
+        Notes one piece of content a mod registers.
+
+        ### Parameters:
+        1. kind: str
+            - The content type, e.g. "event" or "situation".
+        2. key: str
+            - The entry's key; the first mod to use it owns it.
+        3. mod_key: str (default: the current mod)
+            - The mod the content belongs to.
+        """
+
+        if not mod_content_state["recording"]:
+            return
+        mod_key = active_mod_key if mod_key is None else mod_key
+        mod_content.setdefault(mod_key, {}).setdefault(kind, set()).add(key)
+        owner = mod_content_owner.setdefault(kind, {}).setdefault(key, mod_key)
+        if owner != mod_key:
+            record_mod_change(kind, key, mod_key)
+
+    def record_mod_change(kind: str, key: str, mod_key: str = None):
+        """
+        Notes that a mod changes content it doesn't own (replaces it, or adds
+        to another mod's action, situation or map).
+        """
+
+        if not mod_content_state["recording"]:
+            return
+        mod_key = active_mod_key if mod_key is None else mod_key
+        mod_content_changes.setdefault(mod_key, {}).setdefault(kind, set()).add(key)
+
+    def get_mod_content_owner(kind: str, key: str) -> str:
+        return mod_content_owner.get(kind, {}).get(key)
+
+    def open_mod_content_recording():
+        mod_content_state["recording"] = True
+
+    def close_mod_content_recording():
+        """
+        Ends a start/after-load wave. Content built later at runtime must not
+        be pinned on whichever mod's loader ran last, so recording stops here
+        and the current mod goes back to the base game.
+        Keeps every active mod's counts for when it is switched off.
+        """
+
+        mod_content_state["recording"] = False
+        # the last mod loader leaves its key behind; anything built at runtime
+        # belongs to the base game, as it did before mods had loaders of their own
+        set_current_mod('base')
+        for key, mod in persistent.modList.items():
+            if not mod.get('active'):
+                continue
+            mod['content'] = {kind: len(keys) for kind, keys in mod_content.get(key, {}).items()}
+            mod['changes'] = {kind: sorted(keys) for kind, keys in mod_content_changes.get(key, {}).items()}
+
+    def get_mod_content_label(kind: str) -> str:
+        if kind.startswith("unlockable_"):
+            return get_translation(kind[len("unlockable_"):]).capitalize()
+        return MOD_CONTENT_LABELS.get(kind, kind.replace("_", " ").capitalize())
+
+    def get_mod_change_label(kind: str) -> str:
+        if kind in MOD_CHANGE_LABELS:
+            return MOD_CHANGE_LABELS[kind]
+        return "Replaced " + get_mod_content_label(kind).lower()
+
+    def get_mod_content_counts(mod_key: str) -> Dict[str, int]:
+        """
+        The number of entries per content type. A switched-off mod shows its
+        snapshot from the last start with it on, updated with what registers
+        at init.
+        """
+
+        mod = persistent.modList.get(mod_key, {})
+        counts = {} if mod.get('active') else dict(mod.get('content', {}))
+        counts.update({kind: len(keys) for kind, keys in mod_content.get(mod_key, {}).items()})
+        return counts
+
+    def get_mod_content_changes(mod_key: str) -> Dict[str, List[str]]:
+        mod = persistent.modList.get(mod_key, {})
+        changes = {} if mod.get('active') else {kind: set(keys) for kind, keys in mod.get('changes', {}).items()}
+        for kind, keys in mod_content_changes.get(mod_key, {}).items():
+            changes.setdefault(kind, set()).update(keys)
+        return {kind: sorted(keys) for kind, keys in changes.items()}
+
+    def get_mod_asset_stats(mod_key: str) -> Tuple[Dict[str, int], int]:
+        """
+        Counts the images, videos and sounds in a mod's folder (the base game:
+        everything outside mods/). Cached, the base game has tens of thousands.
+
+        ### Returns:
+        1. Tuple[Dict[str, int], int]
+            - Files per type, and their size in bytes (None when some files
+              sit in an archive and have no size of their own).
+        """
+
+        cache = mod_content_state["assets"]
+        if mod_key in cache:
+            return cache[mod_key]
+
+        prefix = persistent.modList.get(mod_key, {}).get('path', '')
+        counts = {"image": 0, "video": 0, "audio": 0}
+        size = 0
+        for file_name in renpy.list_files():
+            if prefix:
+                if not file_name.startswith(prefix):
+                    continue
+            elif file_name.startswith("mods/"):
+                continue
+            asset_type = MOD_ASSET_TYPES.get(os.path.splitext(file_name)[1].lower())
+            if asset_type is None:
+                continue
+            counts[asset_type] += 1
+            if size is not None:
+                try:
+                    size += os.path.getsize(os.path.join(config.gamedir, file_name))
+                except OSError:
+                    size = None
+
+        cache[mod_key] = (counts, size)
+        return cache[mod_key]
+
+    def format_file_size(size: int) -> str:
+        if size >= 1024 ** 3:
+            return "{:.1f} GB".format(size / 1024 ** 3)
+        if size >= 1024 ** 2:
+            return "{:.0f} MB".format(size / 1024 ** 2)
+        return "{:.0f} KB".format(max(size, 1) / 1024)
+
+    def get_mod_content_summary(mod_key: str) -> Dict[str, Any]:
+        """
+        Everything the mod list shows about one mod.
+
+        ### Returns:
+        1. Dict[str, Any]
+            - "content": [(label, value)] what the mod adds, files included
+            - "changes": [(label, value)] what it changes that isn't its own
+            - "conflicts": [mod name] other switched-on mods changing the same
+            - "note": str | None, when the counts are incomplete or from a snapshot
+        """
+
+        mod = persistent.modList.get(mod_key, {})
+        counts = get_mod_content_counts(mod_key)
+
+        kinds = []
+        for entry in MOD_CONTENT_ORDER:
+            if entry.endswith("_"):
+                kinds.extend(sorted(kind for kind in counts if kind.startswith(entry)))
+            elif entry in counts:
+                kinds.append(entry)
+        kinds.extend(sorted(kind for kind in counts if kind not in kinds))
+        content = [(get_mod_content_label(kind), str(counts[kind])) for kind in kinds if counts[kind]]
+
+        assets, size = get_mod_asset_stats(mod_key)
+        for asset_type, label in (("image", "Images"), ("video", "Videos"), ("audio", "Sounds")):
+            if assets[asset_type]:
+                content.append((label, str(assets[asset_type])))
+        if size:
+            content.append(("Size of the files", format_file_size(size)))
+
+        changes = get_mod_content_changes(mod_key)
+        change_rows = [(get_mod_change_label(kind), str(len(keys))) for kind, keys in sorted(changes.items()) if keys]
+
+        conflicts = set()
+        for other_key, other in persistent.modList.items():
+            if other_key == mod_key or not other.get('active'):
+                continue
+            other_changes = mod_content_changes.get(other_key, {})
+            for kind, keys in changes.items():
+                # adding to the same action or map is fine, replacing the same thing is not
+                if kind in ("pool_event", "teaser", "map_building"):
+                    continue
+                if other_changes.get(kind, set()) & set(keys):
+                    conflicts.add(other.get('name', other_key))
+
+        note = None
+        if not mod.get('active'):
+            if 'content' in mod:
+                note = "Counted the last time the game started with this mod switched on."
+            else:
+                note = "Situations, characters and similar content are only counted while the mod is switched on. Switch it on and restart to see them."
+
+        return {"content": content, "changes": change_rows, "conflicts": sorted(conflicts), "note": note}
 
     # endregion
     ######################
@@ -1703,7 +1879,7 @@ init -99 python:
 init -96 python:
     def finishing_mod_list():    
         for key in list(persistent.modList.keys()):
-            persistent.modList[key]['event_count'] = 0
+            persistent.modList[key].pop('event_count', None)
             if key not in available_keys:
                 persistent.modList[key]['available'] = False
                 persistent.modList[key]['active'] = False

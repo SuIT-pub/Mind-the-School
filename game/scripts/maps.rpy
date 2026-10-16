@@ -22,6 +22,7 @@ init -99 python:
             self.maps = {}
 
         def load_map(self, map_obj: Map):
+            record_mod_content("map", map_obj.key)
             if is_mod_active(active_mod_key):
                 self.maps[map_obj.key] = map_obj
 
@@ -38,6 +39,8 @@ init -99 python:
             return self.get_map(get_game_data("current_map", "school"))
 
         def add_building_to_map(self, map_key: str, building: Building):
+            if get_mod_content_owner("map", map_key) not in (None, active_mod_key):
+                record_mod_change("map_building", "{} / {}".format(map_key, building.key))
             if map_key in self.maps:
                 map = self.get_map(map_key)
                 if building.key not in map.building_keys:

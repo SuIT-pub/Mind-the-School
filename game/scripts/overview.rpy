@@ -5,6 +5,9 @@ init -1 python:
         """
 
         for s in renpy.display.screen.screens_by_name:
+            # notifications shown right away stay up across scene changes
+            if s == "notify_container":
+                continue
             renpy.hide_screen(s)
 
     OVERVIEW_STAT_ORDER = (

@@ -115,7 +115,7 @@ init -98 python:
             if isinstance(item, str):
                 item_obj = Item(item)
 
-            add_notify_message("Added " + str(item_obj.amount) + "x " + item_obj.get_name())
+            show_notify_message("Added " + str(item_obj.amount) + "x " + item_obj.get_name())
 
             if item_obj.key not in self.inventory.keys():
                 self.inventory[item_obj.key] = item_obj
@@ -204,6 +204,7 @@ init -98 python:
         # Gated on the current mod being active (like event `add_event`): a disabled
         # mod's item definitions are not registered. (Runtime `add_item` — giving an
         # item to the player — is deliberately NOT gated.)
+        record_mod_content("item", item.key)
         if not is_mod_active(active_mod_key):
             return
         inventory_manager.item_data[item.key] = item

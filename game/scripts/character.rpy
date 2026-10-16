@@ -1306,6 +1306,7 @@ init -6 python:
         # Gated on the current mod being active (like event `add_event`): a disabled
         # mod's persons are not registered. Base loaders set `set_current_mod('base')`,
         # and base is always active.
+        record_mod_content("person", "{}/{}".format(key, person.name))
         if not is_mod_active(active_mod_key):
             return
 

@@ -324,6 +324,8 @@ init -3 python:
                 - The events that are added to the :class:`EventStorage`.
             """
 
+            self._record_mod_pool_change()
+
             if not is_mod_active(active_mod_key):
                 return
 
@@ -335,7 +337,7 @@ init -3 python:
                     register_event_replay_category(event)
                     self.events[event.get_select_type()][event.get_id()] = event
 
-        def overwrite_event(self, *event: Event):
+        def overwrite_event(self, *events: Event):
             """
             Adds an event to the :class:`EventStorage`.
             Overwrites the event if it already exists.
@@ -346,14 +348,22 @@ init -3 python:
                 - The events that are added to the EventStorage.
             """
 
+            self._record_mod_pool_change()
+
             if not is_mod_active(active_mod_key):
                 return
 
             for event in events:
                 register_seen_event(event.get_event())
 
-                self.register_event_for_location(event, self.location)    
+                self.register_event_for_location(event, self.location)
                 self.events[event.get_select_type()][event.get_id()] = event
+
+        def _record_mod_pool_change(self):
+            # an action another mod (or the base game) set up, getting events from this one
+            owner = getattr(self, "mod_key", None)
+            if owner is not None and owner != active_mod_key:
+                record_mod_change("pool_event", "{} / {}".format(self.location, self.name))
 
         def remove_event(self, event_id: str):
             """
@@ -1257,8 +1267,6 @@ init -3 python:
 
             self.event_type = ""
 
-            change_mod_event_count(active_mod_key, 1)
-
             if register_self and is_mod_active(active_mod_key):
                 event_register[self.event_id] = self
             self.location = "misc"
@@ -1268,7 +1276,9 @@ init -3 python:
 
             if not hasattr(self, 'event_form'):
                 self.event_form = "event"
-       
+
+            record_mod_content("event_fragment" if self.event_form == "fragment" else "event", self.event_id)
+
             self._invalid = False
 
         @property
@@ -1898,7 +1908,10 @@ init -3 python:
         2. event_storage: :class:`EventStorage`
             - The event storage that is added to the event dictionary.
         """
-        
+
+        event_storage.mod_key = active_mod_key
+        record_mod_content("pool", "{} / {}".format(event_storage.location, event_storage.get_name()))
+
         if not is_mod_active(active_mod_key):
             return
 
