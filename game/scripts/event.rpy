@@ -1403,7 +1403,7 @@ init -3 python:
 
             return self.event
 
-        def get_title(self, *name_keys: str) -> str:
+        def get_title(self, *name_keys: str, quiet: bool = False) -> str:
             """
             Returns the name shown for the event.
 
@@ -1414,6 +1414,9 @@ init -3 python:
             1. *name_keys: str
                 - Names-file keys to try first, most specific first.
                 - Defaults to the event id.
+            2. quiet: bool (Default False)
+                - Don't log a missing name.
+                - For lists of every event, where most having no name is expected.
 
             ### Returns:
             1. str
@@ -1428,7 +1431,8 @@ init -3 python:
             title = getattr(self, 'title', None)
             if title:
                 return title
-            log_missing_name(" → ".join(keys))
+            if not quiet:
+                log_missing_name(" → ".join(keys))
             return self.event_id
 
         def get_location(self) -> str:

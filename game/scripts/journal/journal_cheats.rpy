@@ -287,8 +287,9 @@ screen journal_cheats_events(section):
                 style "jr_entry_button"
                 yalign 0.5
                 sensitive can_start
+                tooltip cheat_event.event_id
                 action [With(dissolveM), Call("call_event_cheat", cheat_event.event_id)]
-                text cheat_event.get_name() style "jr_entry_button_text" size 20
+                text cheat_event.get_title(quiet = True) style "jr_entry_button_text" size 20
             text str(getattr(cheat_event, "replay_category", "Misc")) style "jr_small" size 17 xalign 1.0 yalign 0.5
 
 screen journal_cheats_situations():

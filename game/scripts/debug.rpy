@@ -549,7 +549,7 @@ init -100 python:
         events = get_cheat_event_list()
         if category and category != "all":
             events = [e for e in events if getattr(e, "replay_category", "Misc") == category]
-        return sorted(events, key = lambda e: (str(getattr(e, "replay_category", "Misc")), str(e.get_name())))
+        return sorted(events, key = lambda e: (str(getattr(e, "replay_category", "Misc")), e.get_title(quiet = True)))
 
     def cycle_event_cheat_category():
         """
