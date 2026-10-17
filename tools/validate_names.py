@@ -17,8 +17,9 @@ Errors (exit code 1), each prefixed with file and line:
 
 Notes (printed, never fail the run):
   - a mod key that replaces a base name (sometimes intended, e.g. Test Mod A)
-  - with --events: registered event ids without a name. Many events never
-    show their id anywhere, so this list is for spotting gaps, not a to-do.
+  - with --events: registered events with neither a `title=` nor a names-file
+    entry. Many events never show their name anywhere, so this list is for
+    spotting gaps, not a to-do.
 
 Keys built at runtime (f-strings like `event_{location}_{option}`) can't be
 checked statically; the game logs those misses in developer builds instead.
@@ -31,7 +32,7 @@ import sys
 
 BASE_FILE = "translations.csv"
 LITERAL_LOOKUP = re.compile(r"""(?<![\w.])get_translation\(\s*(["'])([^"'{}]+)\1\s*\)""")
-EVENT_ID = re.compile(r"""\bEvent\(\s*\d+\s*,\s*(["'])([^"']+)\1""")
+EVENT_ID = re.compile(r"""\b(Event(?:Composite|Fragment|Select)?)\(\s*\d+\s*,\s*(["'])([^"']+)\2""")
 
 
 def parse_name_lines(text, source):
@@ -98,6 +99,19 @@ def find_mod_name_files(game_dir):
     return found
 
 
+def _has_title_argument(text, match):
+    """True if the Event(...) call at `match` passes title= itself (not inside a nested call)."""
+    source = _call_source(text, match.end(1))
+    if source is None:
+        return False
+    try:
+        call = ast.parse(match.group(1) + source.replace("\n", " "), mode="eval").body
+    except SyntaxError:
+        # odd Ren'Py-only syntax; a plain search is the best guess
+        return re.search(r"\btitle\s*=", source) is not None
+    return any(keyword.arg == "title" for keyword in call.keywords)
+
+
 def _scripts(game_dir):
     yield from (game_dir / "scripts").rglob("*.rpy")
     yield from (game_dir / "mods").rglob("*.rpy")
@@ -140,7 +154,9 @@ def validate(game_dir, list_events=False):
             if key not in names:
                 line = text.count("\n", 0, match.start()) + 1
                 errors.append(f"{label}:{line}: get_translation('{key}') has no name in any names file")
-        event_ids.update(match.group(2) for match in EVENT_ID.finditer(text))
+        for match in EVENT_ID.finditer(text):
+            if not _has_title_argument(text, match):
+                event_ids.add(match.group(3))
 
     if list_events:
         for event_id in sorted(event_ids - set(names)):

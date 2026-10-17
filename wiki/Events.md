@@ -100,7 +100,7 @@ All four subclass `Event`; the differences are how they select/run their content
 
 ```python
 Event(select_type, event, *conditions_selectors_options_patterns,
-      thumbnail="", register_self=True, override_location=None)
+      thumbnail="", register_self=True, override_location=None, title=None)
 ```
 
 - **`select_type`** — priority 1/2/3 (§5).
@@ -111,11 +111,16 @@ Event(select_type, event, *conditions_selectors_options_patterns,
 - **`register_self`** — register into `event_register` (leave `True`; seen-tracking and
   replay need it).
 - **`override_location`** — force the event's location tag.
+- **`title`** — the name shown in event menus and the journal gallery
+  (`event.get_title()`, or `get_event_title(event_id)` by id). An entry for the event id
+  in a names file (`translations.csv`, a mod's `names.csv`) still wins, so a mod can
+  rename a base event without touching its definition. With neither, the raw id shows
+  and developer builds log it once. All three subclasses take `title` too.
 
 ### `EventComposite` — an event assembled from fragments
 
 ```python
-EventComposite(priority, event, fragments: List[FragmentStorage], *conditions, thumbnail="")
+EventComposite(priority, event, fragments: List[FragmentStorage], *conditions, thumbnail="", title=None)
 ```
 
 A wrapper scene that plays a **sequence of fragments** pulled from the given
@@ -128,7 +133,7 @@ in turn (`call_fragment`). Used for events with a repeating, shuffled middle (e.
 ### `EventFragment` — a reusable scene fragment
 
 ```python
-EventFragment(select_type, event, *conditions, thumbnail="")
+EventFragment(select_type, event, *conditions, thumbnail="", title=None)
 ```
 
 A scene that lives in a `FragmentStorage` (location `"fragment"`) and is pulled into a
@@ -139,7 +144,8 @@ location pool.
 
 ```python
 EventSelect(priority, event, text, event_list: Dict[str, EventStorage], *conditions,
-            thumbnail="", override_menu_exit="map_entry", fallback=None, person=None)
+            thumbnail="", override_menu_exit="map_entry", fallback=None, person=None,
+            title=None)
 ```
 
 Presents a menu (`text`, spoken by `person`) that routes to one of several
@@ -911,10 +917,10 @@ init 1 python:
 ## 20. Reference tables
 
 ### Classes
-`Event(select_type, event, *conditions|selectors|options|patterns, thumbnail="", register_self=True, override_location=None)` ·
-`EventComposite(priority, event, fragments, *conditions, thumbnail="")` ·
-`EventFragment(select_type, event, *conditions, thumbnail="")` ·
-`EventSelect(priority, event, text, event_list, *conditions, thumbnail="", override_menu_exit="map_entry", fallback=None, person=None)` ·
+`Event(select_type, event, *conditions|selectors|options|patterns, thumbnail="", register_self=True, override_location=None, title=None)` ·
+`EventComposite(priority, event, fragments, *conditions, thumbnail="", title=None)` ·
+`EventFragment(select_type, event, *conditions, thumbnail="", title=None)` ·
+`EventSelect(priority, event, text, event_list, *conditions, thumbnail="", override_menu_exit="map_entry", fallback=None, person=None, title=None)` ·
 `EventStorage(name, location, *options, fallback=None, fallback_text="…")` ·
 `FragmentStorage(name, *options)`.
 

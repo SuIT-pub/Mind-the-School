@@ -154,6 +154,12 @@ init -97 python:
     )
 ```
 
+**Names files** (`translations`) hold one `key;Name` per line. Blank lines and `#`
+lines are skipped, only the first `;` splits, and both halves are trimmed. Broken
+lines, duplicates and missing files are logged with file and line. Run
+`python tools/validate_names.py` to check every names file before shipping; it also
+flags names your mod replaces in the base game.
+
 `register_mod(key, name, version, path, **meta)` writes the mod into
 `persistent.modList`. A mod is registered **inactive by default**, and **bumping the
 `version` string resets it to inactive** (players re-enable after an update).

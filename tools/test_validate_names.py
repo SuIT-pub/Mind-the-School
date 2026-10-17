@@ -104,6 +104,16 @@ class ValidateTest(unittest.TestCase):
         self.assertEqual(validate(self.game)[1], [])
         self.assertEqual(validate(self.game, list_events=True)[1], ["event 'gym_event_1' has no name"])
 
+    def test_events_with_title_argument_are_not_listed(self):
+        self.write("scripts/a.rpy", textwrap.dedent("""\
+            EventFragment(2, "tod_truth_1",
+                TimeCondition(daytime = "c"),
+                title = "Truth: first kiss")
+            EventComposite(3, "tod", [], Pattern("main", "x.webp"), title = "Truth or Dare")
+            EventSelect(1, "pick", "Where to?", {}, SomeOption(title = "inner"))
+        """))
+        self.assertEqual(validate(self.game, list_events=True)[1], ["event 'pick' has no name"])
+
     def test_repo_names_pass(self):
         self.assertEqual(validate(REPO_GAME)[0], [])
 

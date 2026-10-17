@@ -1158,6 +1158,9 @@ init -3 python:
             - If True, the event is registered in the event_register.
         6. override_location: str (Default None)
             - If set, the location of the event is set to this value.
+        7. title: str (Default None)
+            - The name shown for the event in menus and the journal.
+            - A names-file entry with the event id still wins, so mods can rename it.
 
         ### Attributes:
         1. event_id: str
@@ -1208,10 +1211,11 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_location = None):
+        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_location = None, title: str = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
+            self.title = title
 
             self.replay_category = "Misc"
 
@@ -1398,6 +1402,34 @@ init -3 python:
             """
 
             return self.event
+
+        def get_title(self, *name_keys: str) -> str:
+            """
+            Returns the name shown for the event.
+
+            Names-file entries win over `title`, so a mod's names file can rename
+            a base event without touching its definition.
+
+            ### Parameters:
+            1. *name_keys: str
+                - Names-file keys to try first, most specific first.
+                - Defaults to the event id.
+
+            ### Returns:
+            1. str
+                - The first names-file entry found, else `title`, else the event id.
+            """
+
+            keys = name_keys or (self.event_id,)
+            for key in keys:
+                if key in translation_texts:
+                    return translation_texts[key]
+            # getattr: events pickled before titles existed have no attribute
+            title = getattr(self, 'title', None)
+            if title:
+                return title
+            log_missing_name(" → ".join(keys))
+            return self.event_id
 
         def get_location(self) -> str:
             """
@@ -1594,10 +1626,10 @@ init -3 python:
             - The thumbnail of the event.
         """
 
-        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = ""):
+        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = "", title: str = None):
             self.event_form = "composite"
 
-            super().__init__(priority, event, *conditions, thumbnail = thumbnail)
+            super().__init__(priority, event, *conditions, thumbnail = thumbnail, title = title)
 
             self.fragments = [fragment for fragment in fragments if isinstance(fragment, FragmentStorage)]
             
@@ -1777,10 +1809,10 @@ init -3 python:
             return output
 
     class EventSelect(Event):
-        def __init__(self, priority: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_entry", fallback: str = None, person: Person = None):
+        def __init__(self, priority: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_entry", fallback: str = None, person: Person = None, title: str = None):
             self.event_form = "select"
 
-            super().__init__(priority, event, *conditions, thumbnail = thumbnail)
+            super().__init__(priority, event, *conditions, thumbnail = thumbnail, title = title)
 
             self.text = text
             self.event_list = event_list
@@ -1837,10 +1869,10 @@ init -3 python:
             super().call(**kwargs)
 
     class EventFragment(Event):
-        def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
+        def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", title: str = None):
             self.event_form = "fragment"
 
-            super().__init__(select_type, event, *conditions, thumbnail = thumbnail)
+            super().__init__(select_type, event, *conditions, thumbnail = thumbnail, title = title)
 
             self.set_location("fragment")
 
@@ -1892,6 +1924,29 @@ init -3 python:
         """
 
         return get_first_translation(f"event_{location}_{option}", f"event_{option}", option)
+
+    def get_event_title(event_id: str, location: str = None) -> str:
+        """
+        Returns the name shown for an event, by id.
+
+        ### Parameters:
+        1. event_id: str
+            - The id of the event.
+        2. location: str (Default None)
+            - If set, `event_{location}_{id}` and `event_{id}` are tried first.
+            - Same keys as :func:`get_event_menu_title`.
+
+        ### Returns:
+        1. str
+            - See :func:`Event.get_title`.
+            - Ids that aren't registered events only go through the names files.
+        """
+
+        keys = (f"event_{location}_{event_id}", f"event_{event_id}", event_id) if location else (event_id,)
+        event = event_register.get(event_id)
+        if event is None:
+            return get_first_translation(*keys)
+        return event.get_title(*keys)
 
     def add_storage(event_dict: Dict[str, EventStorage], event_storage: EventStorage):
         """

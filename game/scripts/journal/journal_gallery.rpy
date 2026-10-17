@@ -54,7 +54,7 @@ init python:
         """
 
         events = [get_event_from_register(name) for name in category_events if journal_gallery_has_event(name)]
-        return sorted(events, key = lambda event_obj: get_translation(event_obj.get_event()))
+        return sorted(events, key = lambda event_obj: event_obj.get_title())
 
     def journal_gallery_thumbnail(event_obj) -> str:
         return find_loadable_image(event_obj.get_thumbnail()) or ""
@@ -149,7 +149,7 @@ init python:
             event_obj = get_event_from_register(name)
             if event_obj is not None and event_obj.is_available(in_journal_gallery = True, **base_event_data):
                 candidates.append(event_obj)
-        return sorted(candidates, key = lambda event_obj: get_translation(event_obj.get_event()))
+        return sorted(candidates, key = lambda event_obj: event_obj.get_title())
 
 screen journal_gallery(display):
     # """
@@ -293,7 +293,7 @@ screen journal_gallery_index(mode, categories, category, event):
                             xoffset 28
                             selected (event_obj.get_event() == event)
                             action [With(dissolveM), Call("open_journal", 7, "{}.{}".format(key, event_obj.get_event()))]
-                            text get_translation(event_obj.get_event()) style "jr_entry_button_text" size 22
+                            text event_obj.get_title() style "jr_entry_button_text" size 22
                     if debug_mode:
                         textbutton "Reset this {}".format("location" if mode == "Locations" else "category"):
                             style "jr_entry_button"
@@ -346,7 +346,7 @@ screen journal_gallery_category(mode, category, category_events):
                                         add journal_cover(thumb, photo_w - 16, photo_h - 16) pos (8, 8)
                                 frame:
                                     style "jr_tile_label"
-                                    text get_translation(event_obj.get_event()) style "jr_tile_label_text" size 19 textalign 0.5
+                                    text event_obj.get_title() style "jr_tile_label_text" size 19 textalign 0.5
                     for _ in range(-len(events) % columns):
                         null
 
@@ -392,7 +392,7 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
         vbox:
             xsize JR_RIGHT_W
 
-            text get_translation(event) style "jr_title"
+            text get_event_title(event) style "jr_title"
             null height 4
             use jr_double_rule(JR_RIGHT_W)
             null height 6
@@ -432,7 +432,7 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
                             yalign 0.5
                             tooltip "Choose another fragment for this slot"
                             action [With(dissolveM), Call("open_journal", 7, ".".join([category, event, "fragment_selection_mode", str(i), fragment_name]))]
-                            text get_event_menu_title('fragment', fragment_name) + "  ›" style "jr_entry_button_text" size 22
+                            text get_event_title(fragment_name, 'fragment') + "  ›" style "jr_entry_button_text" size 22
 
             elif display_mode == "fragment_selection_mode":
                 null height 20
@@ -448,7 +448,7 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
                             hbox:
                                 spacing 12
                                 add ("gui/journal/ui/box_full.webp" if candidate_name == slot_fragment else "gui/journal/ui/box_empty.webp") yalign 0.5
-                                text get_translation(candidate_name) style "jr_entry_button_text" size 22
+                                text candidate.get_title() style "jr_entry_button_text" size 22
                 else:
                     text "No other fragment fits the variants chosen for the scene." style "jr_small"
 
