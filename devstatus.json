@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-17T08:05:08Z",
+  "updatedAt": "2026-10-17T08:18:02Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -15,12 +15,6 @@
       "id": "story-groundwork",
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
-      "version": "0.2.2"
-    },
-    {
-      "id": "name-list-checks",
-      "title": "No more raw labels in menus",
-      "summary": "Event and place names load more reliably, and mod makers get a check that spots missing or broken names before players see them.",
       "version": "0.2.2"
     }
   ],
@@ -72,6 +66,13 @@
     }
   ],
   "done": [
+    {
+      "id": "name-list-checks",
+      "title": "No more raw labels in menus",
+      "summary": "Event and place names load more reliably, and mod makers get a check that spots missing or broken names before players see them.",
+      "doneIn": "0.2.2",
+      "doneAt": "2026-10-17"
+    },
     {
       "id": "collectibles",
       "title": "Hidden photos to collect",
