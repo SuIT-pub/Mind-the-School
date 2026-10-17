@@ -89,7 +89,41 @@ style hide_text:
 # region In-game screens
 ################################################################################
 
-screen wait_hide():
+init -1 python:
+    hidden_zoom_image = None
+
+    def find_zoomed_image():
+        """
+        The image a journal page is currently showing enlarged, or None.
+        The page screens keep it in `zoomed_image` / `zoomed_portrait`, the
+        old full-image screen gets it as `image_path`.
+        """
+
+        for tag in renpy.get_showing_tags("screens"):
+            screen = renpy.get_screen(tag, "screens")
+            if screen is None:
+                continue
+            if screen.screen_name[0] == "max_image_from_journal":
+                return screen.scope.get("image_path")
+            for name in ("zoomed_image", "zoomed_portrait"):
+                if screen.scope.get(name) is not None:
+                    return screen.scope[name]
+        return None
+
+    def remember_zoomed_image():
+        global hidden_zoom_image
+        hidden_zoom_image = find_zoomed_image()
+
+    def HideInterface():
+        """
+        The hide action. Calling trigger_hide ends the called journal screen,
+        so an enlarged image has to be grabbed before that and redrawn by
+        wait_hide, or hiding the UI would hide the picture too.
+        """
+
+        return [Function(remember_zoomed_image), Call("trigger_hide")]
+
+screen wait_hide(image_path = None):
     modal True
 
     key "h" action Return()
@@ -98,6 +132,9 @@ screen wait_hide():
     button:
         xpos 0 ypos 0
         xsize 1920 ysize 1080
+        if image_path is not None:
+            background Solid("#0b0806")
+            add Transform(image_path, fit = "contain", xysize = (1920, 1080)) align (0.5, 0.5)
         action Return()
 
 label trigger_hide():
@@ -106,7 +143,7 @@ label trigger_hide():
         window hide
         hide screen custom_menu_choice
         $ quick_menu = False
-        call screen wait_hide
+        call screen wait_hide(hidden_zoom_image)
         $ quick_menu = True
         window show
         $ renpy.rollback(checkpoints = 2)
@@ -386,7 +423,7 @@ init python:
                 ("skip", _("Skip"), skip, skip_fast),
                 ("auto", _("Auto-forward"), auto, None),
                 ("menu", _("Menu"), ShowMenu(), None),
-                ("hide", _("Hide the interface"), Call("trigger_hide"), None),
+                ("hide", _("Hide the interface"), HideInterface(), None),
             ]
         else:
             entries = [
@@ -394,7 +431,7 @@ init python:
                 ("history", _("History"), ShowMenu("history"), None),
                 ("skip", _("Skip"), skip, skip_fast),
                 ("auto", _("Auto-forward"), auto, None),
-                ("hide", _("Hide the interface"), Call("trigger_hide"), None),
+                ("hide", _("Hide the interface"), HideInterface(), None),
             ]
             if not is_in_replay:
                 entries += [

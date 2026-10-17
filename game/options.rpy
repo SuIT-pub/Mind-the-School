@@ -278,12 +278,12 @@ init python:
     
     config.underlay.append(
         renpy.Keymap( 
-            K_h = renpy.curry(renpy.run)( Call("trigger_hide") )
+            K_h = renpy.curry(renpy.run)( HideInterface() )
         )
     )
     config.underlay.append(
         renpy.Keymap( 
-            mouseup_2 = renpy.curry(renpy.run)( Call("trigger_hide") )
+            mouseup_2 = renpy.curry(renpy.run)( HideInterface() )
         )
     )
             

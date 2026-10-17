@@ -461,7 +461,7 @@ screen jr_zoom_overlay(image_path):
         xysize (1920, 1080)
         background Solid("#0b0806e0")
         action SetScreenVariable("zoomed_image", None)
-        add Transform(image_path, fit = "contain", xysize = (1840, 1040)) align (0.5, 0.5)
+        add Transform(image_path, fit = "contain", xysize = (1920, 1080)) align (0.5, 0.5)
     key "K_ESCAPE" action SetScreenVariable("zoomed_image", None)
 
 screen jr_rubric(label, width):

@@ -175,7 +175,7 @@ screen journal_character(display):
             xysize (1920, 1080)
             background Solid("#0b0806e0")
             action SetScreenVariable("zoomed_portrait", None)
-            add Transform(zoomed_portrait, fit = "contain", ysize = 1040) align (0.5, 0.5)
+            add Transform(zoomed_portrait, fit = "contain", xysize = (1920, 1080)) align (0.5, 0.5)
         key "K_ESCAPE" action SetScreenVariable("zoomed_portrait", None)
 
 screen journal_character_roster(group, person_key):

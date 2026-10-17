@@ -555,7 +555,7 @@ screen max_image_from_journal(image_path, journal, display):
     button:
         xysize (1920, 1080)
         background Solid("#0b0806")
-        add Transform(image_path, fit = "contain", xysize = (1840, 1040)) align (0.5, 0.5)
+        add Transform(image_path, fit = "contain", xysize = (1920, 1080)) align (0.5, 0.5)
         action [With(dissolveM), Call("open_journal", journal, display)]
     key "K_ESCAPE" action [With(dissolveM), Call("open_journal", journal, display)]
 

@@ -570,6 +570,10 @@ init -3 python:
                         with_highlight = True
                     if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
                         output += 1
+                        # the building already lights up for a highlighted event inside a selector,
+                        # so the action that opens the selector has to as well
+                        if isinstance(event, EventSelect) and event.is_highlighted():
+                            with_highlight = True
                 return output, with_highlight
             return 0, False
 
@@ -1862,7 +1866,7 @@ init -3 python:
             return 'select_event_runner'
         
         def is_highlighted(self, **kwargs) -> bool:
-            return any(e.has_available_highlight_events() for e in self.event_list.values())
+            return self.is_available(**kwargs) and any(e.has_available_highlight_events() for e in self.event_list.values())
         
         def call(self, **kwargs):
             kwargs["select_text"] = self.text
