@@ -114,6 +114,20 @@ class ValidateTest(unittest.TestCase):
         """))
         self.assertEqual(validate(self.game, list_events=True)[1], ["event 'pick' has no name"])
 
+    def test_title_hidden_by_own_names_file_is_an_error(self):
+        self.write("translations.csv", "gym;Gym\nmisc;Miscellaneous\ngym_event_1;Old name\n")
+        self.write("scripts/a.rpy", 'x = 1\nEvent(3, "gym_event_1", title = "New name")\n')
+        self.assertEqual(validate(self.game)[0], [
+            "scripts/a.rpy:2: title= of 'gym_event_1' never shows, translations.csv:3 names it "
+            "and names files win; delete that line or the title"])
+
+    def test_mod_renaming_a_titled_base_event_is_a_note(self):
+        self.write("mods/Demo/names.csv", "gym_event_1;Mod name\n")
+        self.write("scripts/a.rpy", 'Event(3, "gym_event_1", title = "Base name")\n')
+        errors, notes = validate(self.game)
+        self.assertEqual(errors, [])
+        self.assertEqual(notes, ["mods/Demo/names.csv:1: renames 'gym_event_1', hiding its title= (scripts/a.rpy:1)"])
+
     def test_repo_names_pass(self):
         self.assertEqual(validate(REPO_GAME)[0], [])
 

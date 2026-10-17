@@ -116,6 +116,8 @@ Event(select_type, event, *conditions_selectors_options_patterns,
   in a names file (`translations.csv`, a mod's `names.csv`) still wins, so a mod can
   rename a base event without touching its definition. With neither, the raw id shows
   and developer builds log it once. All three subclasses take `title` too.
+  When you move a name from the CSV to `title=`, delete the CSV line, or the title never
+  shows; `python tools/validate_names.py` reports that case as an error.
 
 ### `EventComposite` — an event assembled from fragments
 

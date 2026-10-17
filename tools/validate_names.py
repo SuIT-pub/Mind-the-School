@@ -14,9 +14,12 @@ Errors (exit code 1), each prefixed with file and line:
   - a key defined twice in the same file
   - a names file a mod lists that does not exist
   - get_translation("key") called with a literal key that no file defines
+  - an event with title= that its own names file (base: translations.csv,
+    mod: that mod's files) also names; names files win, so the title is dead
 
 Notes (printed, never fail the run):
   - a mod key that replaces a base name (sometimes intended, e.g. Test Mod A)
+  - a mod's names file renaming an event that has title= elsewhere
   - with --events: registered events with neither a `title=` nor a names-file
     entry. Many events never show their name anywhere, so this list is for
     spotting gaps, not a to-do.
@@ -99,6 +102,12 @@ def find_mod_name_files(game_dir):
     return found
 
 
+def _owner(label):
+    """'mods/<Folder>' for files inside a mod, 'base' for everything else."""
+    parts = label.split("/")
+    return "/".join(parts[:2]) if parts[0] == "mods" and len(parts) > 2 else "base"
+
+
 def _has_title_argument(text, match):
     """True if the Event(...) call at `match` passes title= itself (not inside a nested call)."""
     source = _call_source(text, match.end(1))
@@ -155,8 +164,18 @@ def validate(game_dir, list_events=False):
                 line = text.count("\n", 0, match.start()) + 1
                 errors.append(f"{label}:{line}: get_translation('{key}') has no name in any names file")
         for match in EVENT_ID.finditer(text):
+            event_id = match.group(3)
             if not _has_title_argument(text, match):
-                event_ids.add(match.group(3))
+                event_ids.add(event_id)
+                continue
+            # a names entry beats title=, so the title would silently never show
+            line = text.count("\n", 0, match.start()) + 1
+            for _mod_key, where in names.get(event_id, []):
+                if _owner(where) == _owner(label):
+                    errors.append(f"{label}:{line}: title= of '{event_id}' never shows, {where} names it "
+                                  f"and names files win; delete that line or the title")
+                else:
+                    notes.append(f"{where}: renames '{event_id}', hiding its title= ({label}:{line})")
 
     if list_events:
         for event_id in sorted(event_ids - set(names)):
