@@ -1891,12 +1891,7 @@ init -3 python:
             - The title of the event menu.
         """
 
-        title = get_translation(f"event_{location}_{option}")
-        if title == f"event_{location}_{option}":
-            title = get_translation(f"event_{option}")
-        if title == f"event_{option}":
-            title = get_translation(option)
-        return title
+        return get_first_translation(f"event_{location}_{option}", f"event_{option}", option)
 
     def add_storage(event_dict: Dict[str, EventStorage], event_storage: EventStorage):
         """

@@ -605,9 +605,50 @@ init -99 python:
             - If the key is not in the translations.csv file the key is returned
         """
 
-        if key in translation_texts.keys():
+        if key in translation_texts:
             return translation_texts[key]
+        log_missing_name(key)
         return key
+
+    def get_first_translation(*keys: str) -> str:
+        """
+        Gets the name of the first key that has one, most specific key first.
+
+        Used for fallback chains like `event_{location}_{option}` → `event_{option}`
+        → `option`. Only a miss on the whole chain is logged, not every step.
+
+        ### Parameters:
+        1. keys: str
+            - The keys to try, in order.
+
+        ### Returns:
+        1. str
+            - The first name found.
+            - The last key if none of them has a name.
+        """
+
+        for key in keys:
+            if key in translation_texts:
+                return translation_texts[key]
+        log_missing_name(" → ".join(keys))
+        return keys[-1]
+
+    missing_names_logged = set()
+
+    def log_missing_name(key: str):
+        """
+        Warns once per key and session that a name is missing, so a raw key in
+        the UI can be traced back. Developer builds only; players never see it.
+
+        ### Parameters:
+        1. key: str
+            - The missing key, or the tried chain.
+        """
+
+        if not config.developer or key in missing_names_logged:
+            return
+        missing_names_logged.add(key)
+        log(f"No display name for '{key}', showing the raw key", log_type="warning", category="names")
 
     def set_text_color(text: str, color: str) -> str:
         """
@@ -1368,16 +1409,56 @@ init -99 python:
             for file_name in files:
                 path = mod['path'] + file_name
                 if not renpy.loadable(path):
+                    log(f"{path}: listed by mod '{mod['key']}' but the file does not exist", log_type="warning", category="names")
                     continue
-                file = renpy.open_file(path)
-                lines = split_to_non_empty_list(file.read().decode())
-                for line in lines:
-                    if line.count(';') != 1:
-                        continue
-                    key, value = line.split(';')
+                # utf-8-sig: an editor-added BOM would otherwise glue itself to the first key
+                text = renpy.open_file(path).read().decode('utf-8-sig')
+                for key, value in parse_name_lines(text, path):
                     record_mod_content("name", key, mod['key'])
                     if mod.get('active'):
                         translation_texts[key] = value
+
+    def parse_name_lines(text: str, source: str) -> List[Tuple[str, str]]:
+        """
+        Parses the `key;Value` lines of a display-name file.
+
+        Blank lines and lines starting with `#` are skipped. Only the first `;`
+        separates key from value, so values may contain `;`. Lines without a key
+        or without any `;` are dropped with a warning naming the file and line,
+        and so is a key that appears twice in the same file (the first one wins).
+        tools/validate_names.py applies the same rules outside the game; change
+        both together.
+
+        ### Parameters:
+        1. text: str
+            - The file content.
+        2. source: str
+            - The file path, used in warnings.
+
+        ### Returns:
+        1. List[Tuple[str, str]]
+            - The (key, value) pairs in file order.
+        """
+
+        entries = []
+        seen = {}
+        for number, raw in enumerate(text.splitlines(), 1):
+            line = raw.strip()
+            if not line or line.startswith('#'):
+                continue
+            if ';' not in line:
+                log(f"{source}:{number}: no ';' between key and name, line skipped: {line}", log_type="warning", category="names")
+                continue
+            key, value = (part.strip() for part in line.split(';', 1))
+            if not key:
+                log(f"{source}:{number}: empty key, line skipped: {line}", log_type="warning", category="names")
+                continue
+            if key in seen:
+                log(f"{source}:{number}: '{key}' already defined on line {seen[key]}, line skipped", log_type="warning", category="names")
+                continue
+            seen[key] = number
+            entries.append((key, value))
+        return entries
 
     def load_gallery_exclude():
         """

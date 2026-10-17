@@ -136,13 +136,7 @@ init python:
             - The key if the title cannot be found.
         """
 
-        title = get_translation(f"{location}_{event}_{key}")
-        if title == f"{location}_{event}_{key}":
-            title = get_translation(f"{event}_{key}")
-        if title == f"{event}_{key}":
-            title = get_translation(key)
-        
-        return title
+        return get_first_translation(f"{location}_{event}_{key}", f"{event}_{key}", key)
 
     def get_gallery_value_title(title: str, location: str, event: str, key: str) -> str:
         """
@@ -165,15 +159,7 @@ init python:
             - The key if the value cannot be found.
         """
 
-        value = get_translation(f"{location}_{event}_{title}_{key}")
-        if value == f"{location}_{event}_{title}_{key}":
-            value = get_translation(f"{event}_{title}_{key}")
-        if value == f"{event}_{title}_{key}":
-            value = get_translation(f"{title}_{key}")
-        if value == f"{title}_{key}":
-            value = get_translation(key)
-        
-        return value
+        return get_first_translation(f"{location}_{event}_{title}_{key}", f"{event}_{title}_{key}", f"{title}_{key}", key)
 
     # endregion
     #####################################
