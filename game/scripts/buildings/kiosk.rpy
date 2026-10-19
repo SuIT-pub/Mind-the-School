@@ -44,7 +44,7 @@ init 1 python:
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         NOT(BuildingCondition("cafeteria")),
         RandomCondition(65, 100),
-        LevelCondition("4-", "school"),
+        LevelCondition("4-", char_obj = "school"),
         Pattern("main", "images/events/kiosk/kiosk_event_3/kiosk_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_3/kiosk_event_3 1 0.webp")
 

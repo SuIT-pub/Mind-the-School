@@ -54,7 +54,7 @@ init 1 python:
 
     sb_teach_sex_ed_event = EventComposite(3, 'sb_teach_sex_ed', [sb_teach_sex_ed_intro_storage, sb_teach_sex_ed_main_storage, sb_teach_sex_ed_qa_storage],
         TimeCondition(weekday = "d", daytime = "c"),
-        LevelCondition("2-4", "school"),
+        LevelCondition("2-4", char_obj = "school"),
         LevelSelector('school_level', 'school'),
         ProficiencyCondition('sex_ed'),
         RandomListSelector('topic', 'anatomy', 'sex_curiosity'),
@@ -95,7 +95,7 @@ init 1 python:
             Pattern("main", "/images/events/teaching/math/main_1/teaching_math_main_1 <main_girl_name> <school_level> <step>.webp", 'main_girl_name', 'school_level'),
             thumbnail = "images/events/teaching/math/main_1/teaching_math_main_1 seraphina_clark 1 0.webp"),
         EventFragment(3, 'sb_teach_math_main_2',
-            LevelCondition("3-", "school"),
+            LevelCondition("3-", char_obj = "school"),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/main_2/teaching_math_main_2 <school_level> <step>.webp", "school_level"),
             thumbnail = "images/events/teaching/math/main_2/teaching_math_main_2 1 7.webp")
@@ -191,7 +191,7 @@ init 1 python:
             gym_teach_pe_end_storage
         ],
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("1-3", "school"),
+        LevelCondition("1-3", char_obj = "school"),
         LevelSelector("school_level", "school"),
         ReplayCategoryOption("teaching_lessons"),
         thumbnail = "images/events/teaching/pe/intro/intro_1/teaching_pe_intro_1 1 7.webp"

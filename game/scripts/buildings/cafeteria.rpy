@@ -81,7 +81,7 @@ init 1 python:
             TimeCondition(weekday = "w", daytime = "d")
         ),
         UnlockableCondition('school_jobs'),
-        LevelCondition("1-6", "school"),
+        LevelCondition("1-6", char_obj = "school"),
         LevelSelector("parent_level", "parent"),
         LevelSelector("school_level", "school"),
         RandomListSelector("amount", "1 Girl", "2 Girls", "3 Girls"),
@@ -115,7 +115,7 @@ init 1 python:
 
     cafeteria_event_7_event = Event(3, "cafeteria_event_7",
         TimeCondition(weekday = "d", daytime = "6,7"),
-        LevelCondition("1-3", "school"),
+        LevelCondition("1-3", char_obj = "school"),
         Pattern("main", "images/events/cafeteria/cafeteria_event_7/cafeteria_event_7 <step>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_7/cafeteria_event_7 4.webp")
 

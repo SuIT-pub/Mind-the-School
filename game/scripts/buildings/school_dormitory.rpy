@@ -67,7 +67,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         ),
-        LevelCondition("5-", "school"),
+        LevelCondition("5-", char_obj = "school"),
         Pattern("main", "images/events/school dormitory/sd_event_2/sd_event_2 <topic> <location> <girl_name> <school_level> <step>.webp", "school_level"),
         Pattern("end", "images/events/school dormitory/sd_event_2/sd_event_2 <location> <step>.webp"),
         thumbnail = "images/events/school dormitory/sd_event_2/sd_event_2 ah dorm_room aona_komuro 1 0.webp")
@@ -76,13 +76,13 @@ init 1 python:
         LevelSelector('school_level', 'school'),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
-        LevelCondition("2-", "school"),
+        LevelCondition("2-", char_obj = "school"),
         Pattern("main", "images/events/school dormitory/sd_event_3/sd_event_3 <topic> <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/school dormitory/sd_event_3/sd_event_3 normal # 0.webp")
 
     sd_event4 = Event(3, "sd_event_4",
         TimeCondition(daytime = "f"),
-        LevelCondition("5-", "school"),
+        LevelCondition("5-", char_obj = "school"),
         Pattern("main", "images/events/school dormitory/sd_event_4/sd_event_4 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/school dormitory/sd_event_4/sd_event_4 1 0.webp"
     )

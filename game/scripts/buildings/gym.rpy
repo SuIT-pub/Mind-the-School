@@ -41,7 +41,7 @@ init 1 python:
     
     gym_event2 = Event(3, "gym_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("5-", "school"),
+        LevelCondition("5-", char_obj = "school"),
         LevelSelector("school_level", "school"),
         RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
         Pattern("main", "/images/events/gym/gym_event_2/gym_event_2 <school_level> <topic> <step>.webp"),
@@ -49,26 +49,26 @@ init 1 python:
 
     gym_event3 = Event(3, "gym_event_3",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("3-", "school"),
+        LevelCondition("3-", char_obj = "school"),
         LevelSelector("school_level", "school"),
         Pattern("main", "/images/events/gym/gym_event_3/gym_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_3/gym_event_3 1 0.webp")    
 
     gym_event4 = Event(3, "gym_event_4",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("2-4", "school"),
+        LevelCondition("2-4", char_obj = "school"),
         Pattern("main", "/images/events/gym/gym_event_4/gym_event_4 <step>.webp"),
         thumbnail = "images/events/gym/gym_event_4/gym_event_4 0.webp")
 
     gym_event5 = Event(3, "gym_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("2-4", "school"),
+        LevelCondition("2-4", char_obj = "school"),
         Pattern("main", "/images/events/gym/gym_event_5/gym_event_5 <school_level> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_5/gym_event_5 5 0.webp")
 
     gym_event6 = Event(3, "gym_event_6",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("2+", "school"),
+        LevelCondition("2+", char_obj = "school"),
         ProgressCondition("yoga_classes", "10"),
         GameDataSelector("outfit", "yoga_outfit_set"),
         Pattern("main", "/images/events/gym/gym_event_6/gym_event_6 <outfit> <school_level> <step>.webp", "outfit"),

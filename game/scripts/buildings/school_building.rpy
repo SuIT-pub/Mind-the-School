@@ -80,20 +80,20 @@ init 1 python:
 
     sb_event5 = Event(3, "sb_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("5-", "school"),
+        LevelCondition("5-", char_obj = "school"),
         RandomListSelector('girls', 'ikushi_ito', 'soyoon_yamamoto', 'yuriko_oshima'),
         Pattern('main', "/images/events/school building/sb_event_5/sb_event_5 <school_level> <girls> <step>.webp", 'school_level', 'girls'),
         thumbnail = "images/events/school building/sb_event_5/sb_event_5 1 soyoon_yamamoto 11.webp")
 
     sb_event6 = Event(3, "sb_event_6",
         TimeCondition(daytime = "f", weekday = "d"),
-        LevelCondition("2", "school"),
+        LevelCondition("2", char_obj = "school"),
         Pattern('main', "/images/events/school building/sb_event_6/sb_event_6 <step>.webp"),
         thumbnail = "images/events/school building/sb_event_6/sb_event_6 3.webp")
 
     sb_event7 = Event(3, "sb_event_7",
         TimeCondition(daytime = "f", weekday = "d"),
-        LevelCondition("3", "school"),
+        LevelCondition("3", char_obj = "school"),
         Pattern('main', "/images/events/school building/sb_event_7/sb_event_7 <step>.webp"),
         thumbnail = "images/events/school building/sb_event_7/sb_event_7 1.webp")
 

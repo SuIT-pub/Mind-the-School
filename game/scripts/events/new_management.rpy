@@ -31,7 +31,7 @@ init 1 python:
         3,
         "nm_ghost_office_nameplate",
         TimeCondition(weekday="d", daytime="f"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_ghost_office"),
         # Variety: the way the campus mislabels the office changes each visit.
         RandomListSelector("wrong_name", "HEADMSTER", "H. MASTAR", "MR. HEADMAN", "THE NEW GUY", "MR. WHATSHISNAME"),
@@ -47,7 +47,7 @@ init 1 python:
         3,
         "nm_ghost_office_private_line",
         TimeCondition(weekday="d", daytime="d"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_ghost_office"),
         # Variety: which "loud" item sits on top of the stack she's holding back.
         RandomListSelector("loud_slip", "a third call from a parent", "a teacher complaint", "a note that just says 'concerned observer'", "a district reminder"),
@@ -60,7 +60,7 @@ init 1 python:
         3,
         "nm_ghost_office_janitor",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_ghost_office"),
         # Variety: a random classmate stands with Aona, and the role they mistake
         # him for rerolls — so the "janitor" beat is not the same joke twice.
@@ -74,7 +74,7 @@ init 1 python:
         3,
         "nm_ghost_office_empty_corridor",
         TimeCondition(weekday="d", daytime="f"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_ghost_office"),
         # Variety: what Yulan is buried in when he passes.
         RandomListSelector("folder_topic", "a history outline for 3A", "a politics seminar plan", "a stack of marked essays", "a staff-meeting agenda"),
@@ -90,7 +90,7 @@ init 1 python:
         3,
         "nm_potion_hangover_miwa",
         TimeCondition(weekday="d", daytime="c"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_potion_hangover"),
         # The sensory fragment she almost catches through the gap (rerolls).
         RandomListSelector("memory_scrap", "someone laughing too close", "a warm hand on her shoulder", "a smell like cut flowers", "a song she can't place"),
@@ -102,7 +102,7 @@ init 1 python:
         3,
         "nm_potion_hangover_lily",
         TimeCondition(weekday="d", daytime="f"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_potion_hangover"),
         # What specifically rattled her (rerolls the confession).
         RandomListSelector("unnerved", "the girls keep flushing at nothing and can't say why", "there's a whole period she simply can't account for", "she found a note in her own handwriting she doesn't remember writing"),
@@ -116,7 +116,7 @@ init 1 python:
         3,
         "nm_potion_hangover_vial",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_potion_hangover"),
         # Varies the find.
         RandomListSelector("residue_detail", "a thumbprint pressed into the sticky neck", "a strip of label, half-dissolved past reading", "a second vial too, crushed to green powder"),
@@ -130,7 +130,7 @@ init 1 python:
         3,
         "nm_testing_the_waters_clipboard",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_testing_the_waters"),
         # Her headline grey-area question (rerolls). Charm gates the "turnaround".
         RandomListSelector("grey_area", "whether the weekend dress code still holds off campus", "if phones are really banned in free periods", "whether 'dating on campus' is a thing that's allowed now"),
@@ -140,7 +140,7 @@ init 1 python:
         3,
         "nm_testing_the_waters_memo",
         TimeCondition(weekday="d", daytime="d"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_testing_the_waters"),
         GameDataSelector("guided", "new_management_guided", 0),
         # Object beat: the blank memo form squared to the blotter.
@@ -151,7 +151,7 @@ init 1 python:
         3,
         "nm_rumors_in_bloom_kiosk",
         OR(TimeCondition(weekday="d", daytime="1,3"), TimeCondition(weekday="w", daytime="4-")),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_rumors_in_bloom"),
         # Overheard intel on "listen"; a classmate voice; band-1 callbacks.
         RandomListSelector("rumor", "a parent who keeps ringing about the science wing", "two teachers who haven't spoken since the potion week", "someone's older brother swearing the place is cursed"),
@@ -163,7 +163,7 @@ init 1 python:
         3,
         "nm_rumors_in_bloom_chalk",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_rumors_in_bloom"),
         # How the portrait flatters him (rerolls). Solo image-led beat.
         RandomListSelector("exaggeration", "the jaw squared off like a statue's", "shoulders about three sizes too heroic", "a little crown, for some reason"),
@@ -174,7 +174,7 @@ init 1 python:
         3,
         "nm_quiet_endorsements_after_bell",
         TimeCondition(weekday="d", daytime="c"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_quiet_endorsements"),
         # Payoff of the band-2 memory-gap beat; Zoe hallway tip under Guided.
         GameDataSelector("miwa_helped", "nm_miwa_helped", 0),
@@ -183,7 +183,7 @@ init 1 python:
         3,
         "nm_quiet_endorsements_second_coffee",
         TimeCondition(weekday="d", daytime="f"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_quiet_endorsements"),
         # Reacts to band-2 Lily; object beat bookends her rattling mug.
         GameDataSelector("lily_witnessed", "nm_lily_witnessed", 0),
@@ -192,7 +192,7 @@ init 1 python:
         3,
         "nm_quiet_endorsements_curriculum",
         TimeCondition(weekday="d", daytime="d"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_quiet_endorsements"),
         # Object beat: your outline back with her one approving margin tick.
         Pattern("main", "images/events/new_management/nm_quiet_endorsements_curriculum/nm_quiet_endorsements_curriculum 1.webp")))
@@ -202,7 +202,7 @@ init 1 python:
         3,
         "nm_welcome_committee_mug",
         TimeCondition(weekday="d", daytime="c"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_welcome_committee"),
         # Bookends the band-1 corridor freeze-out.
         GameDataSelector("yulan_thawed", "nm_yulan_thawed", 0),
@@ -211,7 +211,7 @@ init 1 python:
         3,
         "nm_welcome_committee_plaque",
         TimeCondition(weekday="d", daytime="f"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_welcome_committee"),
         # Bookends the nameplate; reacts to whether you claimed the door early.
         GameDataSelector("door_claimed", "nm_door_claimed", 0),
@@ -221,7 +221,7 @@ init 1 python:
         3,
         "nm_welcome_committee_assembly",
         TimeCondition(weekday="d", daytime="1"),
-        LevelCondition("1-", "school"),
+        LevelCondition("1-", char_obj = "school"),
         SituationPoolCondition("new_management", "nm_welcome_committee"),
         # Bookends the janitor beat: Yuriko helped (ally flag), Aona greets by title.
         GameDataSelector("yuriko_ally", "nm_yuriko_ally", 0),

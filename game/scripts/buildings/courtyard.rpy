@@ -47,7 +47,7 @@ init 1 python:
     courtyard_event4 = Event(3, "courtyard_event_4",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
-        LevelCondition("3-", "school"),
+        LevelCondition("3-", char_obj = "school"),
         RandomListSelector('girl_name', 'luna_clark', "gloria_goto", "ikushi_ito", "ishimaru_maki"),
         Pattern("main", "images/events/courtyard/courtyard_event_4/courtyard_event_4 <school_level> <girl_name> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_4/courtyard_event_4 1 gloria_goto 1.webp")
@@ -71,7 +71,7 @@ init 1 python:
             TimeCondition(daytime = "f", weekday = "d"),
             TimeCondition(daytime = "d", weekday = "w"),
         ),
-        LevelCondition("5-", "school"),
+        LevelCondition("5-", char_obj = "school"),
         RandomListSelector("girl_name", "easkey_tanaka", "elsie_johnson", "seraphina_clark", "soyoon_yamamoto"),
         Pattern("main", "images/events/courtyard/courtyard_event_7/courtyard_event_7 <girl_name> <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_7/courtyard_event_7 easkey_tanaka 1 0.webp"
