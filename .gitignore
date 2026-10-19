@@ -58,6 +58,5 @@ tools/journal_assets/.cache/
 # Android signing keys: never commit (Ren'Py reads them from the project root)
 *.keystore
 
-# Upload by-products (tools/upload_assets.py); the live version lives in R2's version.json
+# Upload by-product (tools/upload_assets.py); the live version lives in R2's version.json
 /version.json
-/assets.zip
