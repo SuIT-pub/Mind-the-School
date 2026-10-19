@@ -12,6 +12,31 @@
                         "statusMessage": "Checking dev status"
                     }
                 ]
+            },
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "python \"$CLAUDE_PROJECT_DIR/tools/file_guard_hook.py\" post",
+                        "shell": "bash",
+                        "timeout": 60,
+                        "statusMessage": "Checking names files"
+                    }
+                ]
+            }
+        ],
+        "PreToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "python \"$CLAUDE_PROJECT_DIR/tools/file_guard_hook.py\" pre",
+                        "shell": "bash",
+                        "timeout": 15
+                    }
+                ]
             }
         ]
     }
