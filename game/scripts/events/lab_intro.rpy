@@ -728,7 +728,7 @@ label lab_intro_6 (**kwargs):
     $ secretary_person = Person["emiko_langley"]
     $ secretary_person.register_paperdoll()
     $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
-    $ secretary_person.display(PDAImage(pose = "12", outfit = "uniform", level = 6, mood = "suprised", mouth = "open"),
+    $ secretary_person.display(PDAImage(pose = "12", outfit = "uniform", level = 6, mood = "surprised", mouth = "open"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0)
     )
@@ -1291,7 +1291,7 @@ label lab_intro_11 (**kwargs):
 
     $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
     headmaster "Eventful is one word for it. I think I've made a breakthrough."
-    $ emiko.display(PDAImage(pose = "19", mood = "suprised", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "19", mood = "surprised", mouth = "open"))
     emiko.say "Oh?"
     emiko.think "*He's practically vibrating. Whatever this is, he's been sitting on it since I passed his door this morning.*"
 
@@ -1594,7 +1594,7 @@ label lab_intro_13 (**kwargs):
     headmaster.think "...Ow. Okay. Didn't mean to do that."
 
     # The door opens; Emiko leans in, folder under one arm.
-    $ emiko.display(PDAImage(pose = "25", outfit = "uniform", level = 6, mood = "suprised", mouth = "closed"),
+    $ emiko.display(PDAImage(pose = "25", outfit = "uniform", level = 6, mood = "surprised", mouth = "closed"),
         PDAPreset("close_body_center", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
     $ emiko.display(PDAPreset("close_body_center", duration = 0.6))
@@ -1615,7 +1615,7 @@ label lab_intro_13 (**kwargs):
     $ emiko.display(PDAImage(look = "follow", mouth = "closed"))
     headmaster "Bit of both, honestly."
     headmaster "I found it, Emiko. Whatever it was in that hallway, it's in that jug."
-    $ emiko.display(PDAImage(pose = "19", mood = "suprised", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "19", mood = "surprised", mouth = "open"))
     emiko "That's floor cleaner."
     $ emiko.display(PDAImage(mood = "sad", mouth = "closed"))
     headmaster "It's an enzyme concentrate. And it's the catalyst. One drop and the sample went exactly the colour it was on the floor. It holds, it doesn't fall apart after five minutes, it's— it's the whole thing."
@@ -1790,7 +1790,7 @@ label lab_intro_14 (**kwargs):
 
     # Zoe first, bag over her shoulder, travel mug in hand. Speaks to him.
     $ zoe.register_paperdoll()
-    $ zoe.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "suprised", mouth = "open"),
+    $ zoe.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "surprised", mouth = "open"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
     $ zoe.display(PDAPreset("upper_body_center", duration = 0.4))
@@ -1837,7 +1837,7 @@ label lab_intro_14 (**kwargs):
     $ lily.display(PDAImage(mouth = "closed"))
     headmaster.think "Oh no. Of course it's the chemistry teacher. Of course it is."
     headmaster "Same tin as always. Maybe someone finally cleaned the machine."
-    $ lily.display(PDAImage(mood = "suprised", mouth = "open"))
+    $ lily.display(PDAImage(mood = "surprised", mouth = "open"))
     lily "Someone {i}cleaned{/i} the machine? Okay, now I'm actually worried."
     $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
     subtitles "She laughs, and drinks, and goes to collapse into the armchair by the radiator."

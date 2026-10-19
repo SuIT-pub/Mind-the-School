@@ -1482,7 +1482,7 @@ init python:
         Rebuilds mouth / look / extra1 / extra2 lists from files for the current
         test selection and auto-picks the first token when the current one is missing.
 
-        Mouth is discovered from filenames (``pout`` / ``suprised`` typically only
+        Mouth is discovered from filenames (``pout`` / ``surprised`` typically only
         have ``$``). An invalid leftover mouth is reset to ``$`` so gaze / extra2
         are collected against the files that actually exist.
         """

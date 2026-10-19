@@ -516,7 +516,7 @@ $ aona.display(
     PDAImage(pose = "7", outfit = "uniform", level = 1, mood = "suspicious", mouth = "closed"),
     "close_body_left")
 $ ikushi.display(
-    PDAImage(pose = "7", mood = "suprised", mouth = "open"),
+    PDAImage(pose = "7", mood = "surprised", mouth = "open"),
     PDAFlip(True),
     "close_body_right")
 
@@ -605,7 +605,7 @@ and don't want in the global table. You cannot overwrite a permanent name.
 $ register_temp_preset("cbl", PDAMove(alignX = 0.0, alignY = -0.1, zoom = 2.0))
 $ register_temp_preset("cbr", PDAMove(alignX = 1.0, alignY = -0.1, zoom = 2.0))
 $ aona.display(PDAImage(pose = "7", mood = "suspicious"), PDAPreset("cbl", duration = 0.0))
-$ ikushi.display(PDAImage(pose = "7", mood = "suprised"), PDAFlip(True), PDAPreset("cbr"))
+$ ikushi.display(PDAImage(pose = "7", mood = "surprised"), PDAFlip(True), PDAPreset("cbr"))
 ```
 
 ### Split backdrop (two locations)
@@ -994,7 +994,7 @@ pick a character and cycle `char_var` / `pose` / `outfit` / `level` / `state` /
 `mood` / `mouth` / `look` / `extra1` / `extra2` (discovered by scanning the actual
 files on disk). Each of those is its **own** column: `look` is not nested under
 Mouths, and `extra1` / `extra2` are not nested under char_var. A column with only
-one option is hidden and that token is used (`pout` / `suprised` typically only
+one option is hidden and that token is used (`pout` / `surprised` typically only
 have mouth `$`, so Mouths hides while Gaze still shows `follow` / `avert`).
 It also exposes live `alignX` / `alignY` / `rotation` / `zoom` / `blur` / `flip`
 sliders plus the presets.

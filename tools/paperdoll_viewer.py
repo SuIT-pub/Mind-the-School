@@ -20,7 +20,7 @@ Each character paperdoll is built from two stacked layers that share the same
 The ``bottom`` layer is the body incl. outfit and (progression) level; the ``top``
 layer is the head/face incl. mood and mouth. ``$`` is the wildcard token the game
 uses for a dimension that does not apply (e.g. ``char_var`` for most characters, or
-``mouth`` for the ``pout`` / ``suprised`` moods). The trailing ``state`` token is
+``mouth`` for the ``pout`` / ``surprised`` moods). The trailing ``state`` token is
 optional in some files.
 
 The viewer discovers every available combination by scanning the files on disk and

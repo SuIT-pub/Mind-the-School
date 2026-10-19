@@ -418,7 +418,7 @@ label .introduce (**kwargs):
     headmaster "Good morning. For the record — headmaster. Not [wrong_role]."
     # He's spoken to them → they both turn to face him. Now it's a player-facing
     # exchange, so paperdolls fit.
-    $ aona.display(PDAImage(pose = "7", mood = "suprised", mouth = "open"), PDAMove(alignX = 0.0, duration = 1.0))
+    $ aona.display(PDAImage(pose = "7", mood = "surprised", mouth = "open"), PDAMove(alignX = 0.0, duration = 1.0))
     $ ikushi.display(PDAImage(pose = "1", mood = "neutral", mouth = "closed"), PDAFlip(True), PDAMove(alignX = 1.0, duration = 1.0))
     aona.say "..."
     aona.say "Oh my— you're real. You're an actual person."
@@ -436,7 +436,7 @@ label .door (**kwargs):
     $ paperdoll_manager.set_background(image[1], blur = True)
     
     $ aona.display(PDAImage(pose = "7", mood = "suspicious"), PDAMove(alignX = 0.0, duration = 1.0))
-    $ ikushi.display(PDAImage(pose = "7", mood = "suprised"), PDAFlip(True), PDAMove(alignX = 1.0, duration = 1.0))
+    $ ikushi.display(PDAImage(pose = "7", mood = "surprised"), PDAFlip(True), PDAMove(alignX = 1.0, duration = 1.0))
     headmaster "Corner office, end of that corridor. Go read the door, then come back and tell me who I am. I'll wait."
     
     $ ikushi.display(
@@ -686,7 +686,7 @@ label .shop (**kwargs):
     $ yulan.display(PDAImage(pose = "7"), PDAMove(zoom = 2.0, alignX = 0.5, duration = 1.0))
     headmaster "On [folder_topic] — your second section is doing the real work. I'd put it {i}before{/i} the summary, not after. Let the argument land before you tell them what it was."
     subtitles "For the first time, she stops walking. She looks — actually looks — at the page you mean."
-    $ yulan.display(PDAImage(pose = "8", mood = "suprised", mouth = "open", look = "follow"))
+    $ yulan.display(PDAImage(pose = "8", mood = "surprised", mouth = "open", look = "follow"))
     yulan.say "...That is the exact note I'd have made. I simply didn't expect you to have read closely enough to make it."
     $ yulan.display(PDAImage(mood = "happy", mouth = "closed"))
     headmaster.think "There it is — she actually looked at me. Try to charm her and it slides straight off; talk about the real work, and know it as well as she does, and she stops walking. So that's how you get to Yulan. Good to know."
@@ -810,7 +810,7 @@ label .counsel (**kwargs):
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Listen to me. You're not broken, and you're not in trouble. Something scrambled that morning for a lot of people — you're just the only one honest enough to say the page came back blank."
-    $ miwa.display(PDAImage(pose = "20", mood = "suprised", mouth = "open"))
+    $ miwa.display(PDAImage(pose = "20", mood = "surprised", mouth = "open"))
     miwa.say "...I'm not the only one?"
     $ miwa.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed"))
     headmaster "Not even close. Come by the office whenever you're ready — no quiz, no notes. A chair, and someone who takes it seriously."
@@ -933,7 +933,7 @@ label .sit (**kwargs):
     $ lily = Person["lily_anderson"]
 
     headmaster "Then here it is, out loud: something happened last week. You're not imagining it, and you're not fragile for being the one who noticed."
-    $ lily.display(PDAImage(pose = "20", mood = "suprised", mouth = "closed"))
+    $ lily.display(PDAImage(pose = "20", mood = "surprised", mouth = "closed"))
     lily.say "..."
     $ lily.display(PDAImage(pose = "31", mood = "happy", mouth = "open"))
     lily.say "Thank you. God — that's all it— I can go back to third period now. I actually think I can."
@@ -954,7 +954,7 @@ label .loop_in (**kwargs):
 
     headmaster "You're not imagining it — and you don't have to take just my word for it, either."
     # She leans in to take the folder, then straightens with it.
-    $ lily.display(PDAImage(pose = "38", mood = "suprised", mouth = "closed", look = "avert"),
+    $ lily.display(PDAImage(pose = "38", mood = "surprised", mouth = "closed", look = "avert"),
         PDAMove(zoom = 2.3, alignY = -0.15, duration = 0.5), PDAPause(0.5))
     subtitles "You slide a thin folder across: Emiko's quiet log of the week nobody will discuss. Dates. A line about the smell. Corroboration, in a second person's handwriting."
     $ lily.display(PDAImage(mouth = "open"))
@@ -1191,7 +1191,7 @@ label .turnaround (**kwargs):
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "Before I answer — what do the students already think the rule is? You'd know better than the handbook does."
-    $ yuriko.display(PDAImage(pose = "19", mood = "suprised", mouth = "open"))
+    $ yuriko.display(PDAImage(pose = "19", mood = "surprised", mouth = "open"))
     yuriko.say "...What? Why are you asking {i}me?{/i}"
     $ yuriko.display(PDAImage(pose = "21", mood = "neutral", look = "avert"))
     yuriko.say "...Fine. Most of them assume the sensible version, obviously."
@@ -1391,7 +1391,7 @@ label .intervene (**kwargs):
             PDAPreset("close_body_center", duration = 0.0))
         $ aona.display(PDAPause(0.8))
     else:
-        $ aona.display(PDAImage(pose = "19", outfit = "uniform", level = 1, mood = "suprised", mouth = "$", look = "follow"),
+        $ aona.display(PDAImage(pose = "19", outfit = "uniform", level = 1, mood = "surprised", mouth = "$", look = "follow"),
             PDAPreset("close_body_center", duration = 0.0), PDAShake(0.25, 4))
         $ aona.display(PDAPause(0.6))
     $ aona.display(PDAImage(pose = "2", mood = "happy", mouth = "open", look = "follow"))
@@ -1427,7 +1427,7 @@ label .break (**kwargs):
     $ bystander.register_paperdoll(behind = True)
     $ bystander.display(PDAImage(pose = "14", outfit = "uniform", level = 1, mood = "neutral", mouth = "closed", look = "avert"),
         PDAFlip(True), PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
-    $ aona.display(PDAImage(pose = "19", outfit = "uniform", level = 1, mood = "suprised", mouth = "$", look = "follow"),
+    $ aona.display(PDAImage(pose = "19", outfit = "uniform", level = 1, mood = "surprised", mouth = "$", look = "follow"),
         PDAPreset("close_body_center", duration = 0.0), PDAShake(0.2, 4))
     $ aona.display(PDAPause(0.5))
     $ aona.display(PDAImage(pose = "25", mood = "pout", mouth = "$", look = "avert"))
@@ -1486,7 +1486,7 @@ label .correct (**kwargs):
     subtitles "There's a nub of chalk in the dirt. You crouch, soften the jaw a touch, and add the one honest smile-line the artist was too shy to draw."
     subtitles "A footstep scuffs behind you. A student — of course — has caught the headmaster vandalising his own portrait."
     $ aona.register_paperdoll()
-    $ aona.display(PDAImage(pose = "19", outfit = "uniform", level = 1, mood = "suprised", mouth = "$", look = "follow"),
+    $ aona.display(PDAImage(pose = "19", outfit = "uniform", level = 1, mood = "surprised", mouth = "$", look = "follow"),
         PDAPreset("upper_body_center", duration = 0.0), PDAShake(0.25, 4))
     $ aona.display(PDAPause(0.6))
     $ aona.display(PDAImage(pose = "38", mood = "suspicious", mouth = "open", look = "follow"))
@@ -1618,7 +1618,7 @@ label .pace (**kwargs):
 label .followup (**kwargs):
     $ miwa = Person["miwa_igarashi"]
 
-    $ miwa.display(PDAFlip(False, 0.3), PDAImage(pose = "19", mood = "suprised", mouth = "$", look = "follow"))
+    $ miwa.display(PDAFlip(False, 0.3), PDAImage(pose = "19", mood = "surprised", mouth = "$", look = "follow"))
     headmaster "Quick one — sleeping any better these days?"
     $ miwa.display(PDAImage(pose = "7", mood = "neutral", mouth = "open", look = "avert"))
     miwa.say "A bit."
@@ -1804,7 +1804,7 @@ label nm_quiet_endorsements_curriculum (**kwargs):
 label .adjust (**kwargs):
     $ lily = Person["lily_anderson"]
 
-    $ lily.display(PDAImage(pose = "19", mood = "suprised", mouth = "$", look = "follow"))
+    $ lily.display(PDAImage(pose = "19", mood = "surprised", mouth = "$", look = "follow"))
     headmaster "Then I'll rebuild the third block around it. Send me the rest of your notes, if you've got them."
     $ lily.display(PDAImage(pose = "12", mood = "happy", mouth = "open", look = "avert"))
     lily.say "I— already did, actually. They're in your tray, under the outline."
@@ -1822,7 +1822,7 @@ label .credit (**kwargs):
 
     $ lily.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed", look = "follow"))
     headmaster "At the next staff brief, I'm saying the outline got better because of you. One sentence."
-    $ lily.display(PDAImage(pose = "16", mood = "suprised", mouth = "$", look = "follow"))
+    $ lily.display(PDAImage(pose = "16", mood = "surprised", mouth = "$", look = "follow"))
     lily.say "Oh God, please don't. Not in front of everyone."
     $ lily.display(PDAImage(pose = "14", mood = "sad", mouth = "open", look = "avert"))
     lily.say "I'll go red. I'll go completely red, and then Chloe will make a face."
@@ -2026,7 +2026,7 @@ label nm_welcome_committee_plaque (**kwargs):
 
 label .real (**kwargs):
 
-    $ emiko.display(PDAImage(pose = "19", mood = "suprised", mouth = "$", look = "follow"))
+    $ emiko.display(PDAImage(pose = "19", mood = "surprised", mouth = "$", look = "follow"))
     headmaster "Help me hang it. Right now — while the screws are still in the bag and I've still got the nerve."
     $ emiko.display(PDAImage(pose = "31", mood = "shining", mouth = "open", look = "follow"))
     emiko.say "Yes, headmaster."

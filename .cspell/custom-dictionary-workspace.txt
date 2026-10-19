@@ -69,7 +69,6 @@ soooo
 staxxer
 strftime
 strptime
-suprised
 traceback
 Traceback
 tzname
