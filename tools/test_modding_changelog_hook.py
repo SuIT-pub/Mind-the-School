@@ -21,6 +21,16 @@ class NeedsReminderTest(unittest.TestCase):
     def test_entry_in_same_commit_silences(self):
         self.assertFalse(needs_reminder(["game/scripts/event.rpy", "modding-changelog.json"]))
 
+    def test_developer_wiki_and_asset_tools_count(self):
+        self.assertTrue(needs_reminder(["wiki/Paperdoll.md"]))
+        self.assertTrue(needs_reminder(["wiki/School-Levels.md"]))
+        self.assertTrue(needs_reminder(["tools/upload_assets.py"]))
+
+    def test_player_wiki_pages_stay_quiet(self):
+        for page in ("Player-Guide.md", "Walkthrough-Unlocks.md", "Lore.md", "Roadmap.md", "Home.md",
+                     "_Sidebar.md", "scripts/sync-wiki.ps1"):
+            self.assertFalse(needs_reminder([f"wiki/{page}"]), page)
+
     def test_content_only_paths_stay_quiet(self):
         self.assertFalse(needs_reminder(["wiki/characters/Lily-Anderson/Lily-Anderson.md"]))
         self.assertFalse(needs_reminder(["game/images/bg.webp", "devstatus.json", "tools/x.py"]))

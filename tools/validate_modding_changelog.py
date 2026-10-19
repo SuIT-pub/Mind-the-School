@@ -13,7 +13,7 @@ import re
 import sys
 from datetime import date
 
-TYPES = ("breaking", "changed", "added", "deprecated", "removed", "fixed", "docs")
+TYPES = ("breaking", "changed", "added", "deprecated", "removed", "fixed", "docs", "assets")
 MAX_TITLE = 120
 MAX_DETAILS = 1500
 MAX_VERSION = 20

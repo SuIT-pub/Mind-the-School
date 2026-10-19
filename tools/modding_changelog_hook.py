@@ -13,24 +13,31 @@ import sys
 
 from devstatus_hook import COMMIT, changed_paths
 
-# Code and docs modders build on. Character pages and screenshots are content, not API.
-WATCHED = ("game/scripts/", "game/mods/", "wiki/")
-IGNORED = ("wiki/characters/", "wiki/screenshots/", "wiki/.wiki-repo/")
+# Code and developer docs modders build on. The asset tools change how packs are named and fetched.
+WATCHED = ("game/scripts/", "game/mods/", "wiki/", "tools/upload_assets.py", "tools/download_assets.py")
+# Wiki pages for players, story content, and the wiki's own plumbing are not modding API.
+IGNORED = (
+    "wiki/characters/", "wiki/screenshots/", "wiki/scripts/", "wiki/.wiki-repo/",
+    "wiki/Home.md", "wiki/_Sidebar.md", "wiki/_Footer.md", "wiki/README.md",
+    "wiki/Player-", "wiki/Walkthrough-", "wiki/Lore.md", "wiki/Roadmap.md",
+)
 CHANGELOG = "modding-changelog.json"
 
 REMINDER = (
-    "You just committed changes to game code or the wiki without touching modding-changelog.json. "
-    "That file feeds the Discord modding channel. Use the update-modding-changelog skill now: if this "
-    "commit changes something a modder builds on (registration functions, class or function signatures, "
-    "condition/selector/effect behaviour, label or key names, asset naming tokens, save compatibility, "
-    "the mod loader, names files) or deprecates/removes something, add an entry, validate it with "
-    "python tools/validate_modding_changelog.py and commit it. If modders can't notice the change "
-    "(content, dialogue, art, internal refactor with the same API), leave it."
+    "You just committed changes to game code, the developer wiki or the asset tools without touching "
+    "modding-changelog.json. That file feeds the Discord modding channel. Use the "
+    "update-modding-changelog skill now: if this commit changes something a modder builds on "
+    "(registration functions, class or function signatures, condition/selector/effect behaviour, label "
+    "or key names, asset naming tokens, save compatibility, the mod loader, names files), deprecates or "
+    "removes something, or changes the developer docs in a way that changes how to use an API (type "
+    "docs), add an entry, validate it with python tools/validate_modding_changelog.py and commit it. "
+    "If modders can't notice the change (content, dialogue, art, typo fixes, internal refactor with the "
+    "same API), leave it."
 )
 
 
 def needs_reminder(paths):
-    """True when the changed paths include code or docs modders use, but no changelog entry."""
+    """True when the changed paths include code or developer docs modders use, but no changelog entry."""
     if CHANGELOG in paths:
         return False
     return any(p.startswith(WATCHED) and not p.startswith(IGNORED) for p in paths)

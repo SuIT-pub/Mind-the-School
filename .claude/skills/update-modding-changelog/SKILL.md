@@ -28,15 +28,37 @@ If you think modders should know, add it.
 | Gone (after a deprecation, or a dead legacy stub) | `removed` |
 | A bug fix in engine/API code that mods may have worked around | `fixed` |
 | Docs corrected in a way that changes how to use something | `docs` |
+| A new asset pack was published (`upload_assets.py`) | `assets` |
 
 Not for: story content, dialogue, art, balancing, player-only UI, refactors that keep the API, tooling
 that only the core team runs. One entry per idea; a big commit can produce several entries.
 
+### Developer wiki changes
+
+The developer pages of the wiki (Events, Conditions, Selectors, Effects, Options, Modifiers, Maps,
+Modding, Paperdoll, Images, Dialogue, Building-Situations, Building-Unlockables, Items-and-Inventory,
+Journal-Alerts, Value-Ranges, School-Levels, Cheat-Menu, Developer-Guide, …) are what modders code
+against. When a page gains a new section, documents behaviour that wasn't written down, or corrects
+something that was wrong, add a `docs` entry with the page (and anchor) in `wiki`. Typo fixes and
+rewording don't count. Player pages (Player-Guide, Walkthrough-*, Home), Lore, Roadmap, character
+pages and the wiki's own scripts never need an entry.
+
+### Asset packs
+
+Asset packs are published locally and never show up in a commit, so `tools/upload_assets.py` writes
+the entry itself after every successful upload or `--bump-version`: id `asset-pack-<version>`, type
+`assets`, the game version from `devstatus.json`'s `targetVersion`. Pass `--note "…"` to say what
+changed in the pack (renamed tokens, new sprite sets, removed files); without it the entry only says
+that a new pack is online. The uploader prints a reminder to commit and push `modding-changelog.json`.
+If an upload ran without writing the entry (older script, error), add it by hand with
+`record_asset_release()` from `tools/modding_changelog_assets.py`.
+
 ## Automatic reminder
 
 A PostToolUse hook (`tools/modding_changelog_hook.py`, wired in `.claude/settings.json`) runs after
-every `git commit`. When the commit touched `game/scripts/`, `game/mods/` or `wiki/` (not character
-pages or screenshots) but not `modding-changelog.json`, it reminds you to use this skill. Decide then
+every `git commit`. When the commit touched `game/scripts/`, `game/mods/`, a developer wiki page or
+the asset tools (`tools/upload_assets.py`, `tools/download_assets.py`) but not `modding-changelog.json`,
+it reminds you to use this skill. Decide then
 with the table above; most content commits need nothing.
 
 ## Schema (schemaVersion 1)
@@ -65,7 +87,7 @@ Rules (the validator enforces all of them):
 - `date`: `YYYY-MM-DD`, the day the change was committed.
 - `version`: the release the change ships in. While a version is in progress that is the version
   being worked on (`targetVersion` in `devstatus.json`), not the last release.
-- `type`: one of `breaking`, `changed`, `added`, `deprecated`, `removed`, `fixed`, `docs`.
+- `type`: one of `breaking`, `changed`, `added`, `deprecated`, `removed`, `fixed`, `docs`, `assets`.
 - `title`: at most 120 characters. `details`: at most 1500 characters, Discord markdown allowed.
 - `wiki`: optional page name on the GitHub wiki, optionally with an anchor: `"Events"` or
   `"Events#event-flags"`. It becomes a link in the post.

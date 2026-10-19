@@ -14,6 +14,7 @@ on:
       - modding-changelog.json
       - tools/validate_modding_changelog.py
       - tools/post_modding_changelog_discord.py
+      - tools/modding_changelog_assets.py
       - tools/test_*modding_changelog*.py
       - .github/workflows/post-modding-changelog.yml
   workflow_dispatch:
@@ -40,7 +41,7 @@ jobs:
           python-version: "3.12"
 
       - name: Test the poster
-        run: python -m unittest tools/test_validate_modding_changelog.py tools/test_post_modding_changelog_discord.py
+        run: python -m unittest tools/test_validate_modding_changelog.py tools/test_post_modding_changelog_discord.py tools/test_modding_changelog_assets.py
 
       - name: Post new entries to Discord
         env:

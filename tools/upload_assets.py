@@ -525,6 +525,14 @@ def parse_args() -> argparse.Namespace:
             "(frees billed storage) and exit without uploading."
         ),
     )
+    parser.add_argument(
+        "--note",
+        default=None,
+        help=(
+            "What changed in this asset pack, for the modding changelog entry "
+            "(e.g. 'Paperdoll mood token renamed to surprised')."
+        ),
+    )
     mode.add_argument(
         "--bump-version",
         action="store_true",
@@ -550,6 +558,7 @@ def main() -> None:
 
     if args.bump_version:
         bump_cloud_version(client, bucket, version, config["R2_PUBLIC_URL"])
+        announce_asset_release(version, args.note)
         return
 
     if args.cleanup_incomplete:
@@ -633,6 +642,17 @@ def main() -> None:
     print(f"  Metadata: {public_url}/{VERSION_FILE}")
 
     cleanup_local(archive_path, version_path)
+    announce_asset_release(version, args.note)
+
+
+def announce_asset_release(version: str, note: str | None) -> None:
+    """Add the published pack to modding-changelog.json; never fails the upload itself."""
+    try:
+        from modding_changelog_assets import record_asset_release
+
+        print("\n" + record_asset_release(version, note))
+    except Exception as exc:  # the assets are already live; a changelog hiccup must not look like a failed upload
+        print(f"\nWARNING: could not update modding-changelog.json: {exc}")
 
 
 if __name__ == "__main__":

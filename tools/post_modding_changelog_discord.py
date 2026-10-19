@@ -40,6 +40,7 @@ TYPE_STYLE = {
     "removed": ("🗑️ Removed", 0x7F8C8D),
     "fixed": ("🩹 Fixed", 0x2980B9),
     "docs": ("📘 Docs", 0x5D6D7E),
+    "assets": ("📦 Asset pack", 0x8B5A2B),
 }
 
 
