@@ -354,23 +354,23 @@ screen journal_book(page, display, sub_entries = None):
 
     for side in ("l", "r"):
         for row, (nav_key, title, target, digit) in enumerate(journal_nav_entries(side)):
-          # before a game runs only the menu and the credits exist (no greyed ribbons)
-          if not title_mode or nav_key in JOURNAL_TITLE_SECTIONS:
-              $ usable = target is not None and (not in_game_menu or nav_key in JOURNAL_GAME_MENU_SECTIONS)
-              if not usable:
-                  $ ribbon_action = NullAction()
-              elif title_mode:
-                  $ ribbon_action = ShowMenu("journal_title", ("credits" if nav_key == "credits" else "load"))
-              else:
-                  $ ribbon_action = [With(dissolveM), Call("open_journal", target, "")]
-              $ ribbon_tip = title + (" [[" + digit + "]" if digit and show_keys else "")
-              if in_game_menu and not usable:
-                  $ ribbon_tip = title + " (only on the map)"
-              use journal_ribbon(nav_key, side, JOURNAL_RIBBON_ROWS[row], (nav_key == section), ribbon_action, ribbon_tip, usable)
-
-              if digit and has_keyboard() and nav_key != section and usable:
-                  key ("K_" + digit) action ribbon_action
-                  key ("K_KP" + digit) action ribbon_action
+            # before a game runs only the menu and the credits exist (no greyed ribbons)
+            if not title_mode or nav_key in JOURNAL_TITLE_SECTIONS:
+                $ usable = target is not None and (not in_game_menu or nav_key in JOURNAL_GAME_MENU_SECTIONS)
+                if not usable:
+                    $ ribbon_action = NullAction()
+                elif title_mode:
+                    $ ribbon_action = ShowMenu("journal_title", ("credits" if nav_key == "credits" else "load"))
+                else:
+                    $ ribbon_action = [With(dissolveM), Call("open_journal", target, "")]
+                $ ribbon_tip = title + (" [[" + digit + "]" if digit and show_keys else "")
+                if in_game_menu and not usable:
+                    $ ribbon_tip = title + " (only on the map)"
+                use journal_ribbon(nav_key, side, JOURNAL_RIBBON_ROWS[row], (nav_key == section), ribbon_action, ribbon_tip, usable)
+    
+                if digit and has_keyboard() and nav_key != section and usable:
+                    key ("K_" + digit) action ribbon_action
+                    key ("K_KP" + digit) action ribbon_action
 
     use journal_ribbon("exit", "r", JOURNAL_EXIT_ROW, False,
         journal_close_action(), ("Back to the title" if title_mode else "Back to the game" if in_game_menu else "Close Journal") + (" [[ESC]" if show_keys else ""))

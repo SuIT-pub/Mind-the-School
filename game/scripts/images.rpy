@@ -538,8 +538,8 @@ init -2 python:
                 - The conditions for the background image.
             4. key: str (default None)
                 - A unique name for this background, used to place things on it
-                  (collectibles). May use the path's placeholders, which get the
-                  values of the image that is shown: "dormitory_v<variant>_<school_level>".
+                    (collectibles). May use the path's placeholders, which get the
+                    values of the image that is shown: "dormitory_v<variant>_<school_level>".
             """
 
             self._key = key

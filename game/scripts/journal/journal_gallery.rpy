@@ -87,7 +87,7 @@ init python:
         ### Returns:
         1. rows: List[Tuple[str, str, List[Tuple[Any, str]]]]
             - variable, title, (value, value title) for every variable with
-              more than one choice
+                more than one choice
         2. disable_play: bool
         """
 
