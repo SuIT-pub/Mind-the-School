@@ -54,3 +54,6 @@ venv/
 *.py[cod]
 # Journal asset generator: downloaded CC0 textures, icon font, 2x masters
 tools/journal_assets/.cache/
+
+# Android signing keys: never commit (Ren'Py reads them from the project root)
+*.keystore
