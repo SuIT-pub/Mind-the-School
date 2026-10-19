@@ -110,6 +110,9 @@ def run_lint(project_root: Path, sdk_path: Path, timeout_seconds: float) -> Lint
         try:
             completed = subprocess.run(
                 [str(python), str(renpy_py), str(project_root), "lint", str(report_path)],
+                # The MCP server's own stdin is the JSON-RPC pipe. Inherited, it hangs
+                # Ren'Py's interpreter at startup (0 CPU, until the timeout).
+                stdin=subprocess.DEVNULL,
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
