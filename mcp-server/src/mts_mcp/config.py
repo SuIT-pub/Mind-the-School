@@ -41,6 +41,16 @@ class Settings(BaseSettings):
         description="Default generation cap (num_predict). -1 means no cap.",
     )
 
+    renpy_sdk_path: Path | None = Field(
+        default=None,
+        description="Ren'Py SDK directory. Unset means: read .renpy-sdk in the project root, else M:/RenPy.",
+    )
+    lint_timeout_seconds: float = Field(
+        default=600.0,
+        ge=10.0,
+        description="Abort a Ren'Py lint run after this many seconds.",
+    )
+
     @property
     def log_path(self) -> Path:
         return self.project_root / "log.txt"
