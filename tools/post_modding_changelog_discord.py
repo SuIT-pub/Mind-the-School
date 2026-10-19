@@ -54,13 +54,14 @@ def build_message(entry):
     if entry.get("wiki"):
         page = entry["wiki"].split("#", 1)[0].replace("-", " ")
         description += f"\n\n📖 Wiki: [{page}]({wiki_link(entry['wiki'])})"
+    # An entry has a day, not a time. As an embed timestamp the day became midnight UTC,
+    # which Discord shows in each reader's zone (02:00 in Germany), so the date goes in the footer.
     embed = {
         "author": {"name": f"{label} · {entry['version']}"},
         "title": entry["title"],
         "description": description,
         "color": color,
-        "footer": {"text": FOOTER},
-        "timestamp": f"{entry['date']}T00:00:00Z",
+        "footer": {"text": f"{FOOTER} · {entry['date']}"},
     }
     if entry.get("wiki"):
         embed["url"] = wiki_link(entry["wiki"])

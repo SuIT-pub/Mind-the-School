@@ -38,7 +38,8 @@ class BuildMessageTest(unittest.TestCase):
         self.assertEqual(embed["color"], TYPE_STYLE["breaking"][1])
         self.assertEqual(embed["url"], "https://github.com/SuIT-pub/Mind-the-School/wiki/Events#event-flags")
         self.assertIn("[Events](https://github.com/SuIT-pub/Mind-the-School/wiki/Events#event-flags)", embed["description"])
-        self.assertEqual(embed["timestamp"], "2026-10-06T00:00:00Z")
+        self.assertNotIn("timestamp", embed)  # a bare day shown as a time read as 02:00 local
+        self.assertTrue(embed["footer"]["text"].endswith("· 2026-10-06"))
 
     def test_no_wiki_no_link(self):
         embed = build_message(VALID["entries"][2])["embeds"][0]
