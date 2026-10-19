@@ -247,8 +247,9 @@ init python:
             - Whether or not to display a leave button.
         2. *elements : MenuElement
             - The elements to display in the menu.
-        3. menu_anchor : str, (default middle_center)
-            - Nine-point anchor for the menu: top_left, top_center, top_right,
+        3. menu_anchor : str, (default dialog)
+            - "dialog" stacks the choices right-aligned on top of the dialogue box.
+                Otherwise a nine-point anchor: top_left, top_center, top_right,
                 middle_left, middle_center, middle_right, bottom_left, bottom_center,
                 bottom_right. Middle and bottom shift up when dialogue is open.
         """
@@ -294,8 +295,9 @@ init python:
             - Whether or not to display a leave button.
         4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
             - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
-        5. menu_anchor : str, (default middle_center)
-            - Nine-point anchor for the menu: top_left, top_center, top_right,
+        5. menu_anchor : str, (default dialog)
+            - "dialog" stacks the choices right-aligned on top of the dialogue box.
+                Otherwise a nine-point anchor: top_left, top_center, top_right,
                 middle_left, middle_center, middle_right, bottom_left, bottom_center,
                 bottom_right. Middle and bottom shift up when dialogue is open.
 

@@ -622,45 +622,56 @@ plain Ren'Py `menu:`. It records each choice into the gallery so the scene can b
 
 ```python
 label truth_or_dare_4_choice(**kwargs):
-    call call_custom_menu_with_text(
+    $ call_custom_menu_with_text(
         "Truth or Dare?", character.subtitles, True,
-        MenuElement("truth", "Pick Truth", EventEffect(".truth_branch")),
-        MenuElement("dare",  "Pick Dare",  EventEffect(".dare_branch")),
-        MenuElement("peek",  "Keep watching", EventEffect(".peek"),
+        MenuElement("truth", "Pick Truth", EventEffect("truth_or_dare_4_choice.truth_branch")),
+        MenuElement("dare",  "Pick Dare",  EventEffect("truth_or_dare_4_choice.dare_branch")),
+        MenuElement("peek",  "Keep watching", EventEffect("truth_or_dare_4_choice.peek"),
             StatCondition(corruption=20)),                 # gated choice
-        **kwargs
-    ) from _tod_choice
+        **kwargs)
+
+label .truth_branch(**kwargs):
+    # … each branch ends the event itself …
+    $ end_event("new_daytime", **kwargs)
 ```
 
 - **`call_custom_menu_with_text(text, person, with_leave, *MenuElement, **kwargs)`** —
   a decision menu with a prompt line. `call_custom_menu(with_leave, *elements,
   **kwargs)` is the same without prompt text. `with_leave` adds a "leave" option.
+  Both are **Python functions**: write them as `$ call_custom_menu_with_text(...)`,
+  not `call …`. They hand control to the menu (`renpy.call`), so nothing after the
+  line runs in the normal flow — every branch must finish with its own `end_event`.
 - **`MenuElement(key, title, *data, active=True, overwrite_position=None)`** — one
   choice. `key` is the **decision key** recorded for replay (keep it stable and
   unique within the menu). `title` is the displayed label. `*data` may include:
   - `Effect`s to run when chosen — most often `EventEffect("<label>")` to jump into a
-    branch (a string label works too);
+    branch (a string label works too). Name branch labels in full
+    (`"<event>.<branch>"`), as the content files do;
   - `Condition`s (or a bare `bool`) that gate whether the choice appears.
+- **Keep one choice ungated.** If every element is filtered out by its conditions,
+  the player gets a developer error line and is sent back to the map.
+- With `with_leave=False` and a single element, the menu is skipped and that
+  element runs directly.
 
 ### Positioning the menu — anchors
 
-By default a decision menu sits in the **middle-center** of the screen. Pass a
-`menu_anchor` to place it elsewhere — e.g. keep it clear of a paperdoll character
-standing on one side:
+By default (`MENU_ANCHOR_DIALOG`) the choices stack **right-aligned on top of the
+dialogue box**, next to the line that asks the question. Pass a `menu_anchor` to place
+the menu elsewhere — e.g. keep it clear of a paperdoll character standing on one side:
 
 ```python
 $ emiko.display(PDAMove(alignX=-0.2, duration=1.0))     # move her to the left
 $ call_custom_menu_with_text("What do you do with the nameplate?", character.subtitles, False,
-    MenuElement("fix",       "Chase the right plaque", EventEffect(".fix")),
-    MenuElement("charm_fix", "Draft the order over a coffee", EventEffect(".charm_fix"), high_charm),
-    MenuElement("leave_it",  "Leave the taped printout",     EventEffect(".leave_it")),
+    MenuElement("fix",       "Chase the right plaque", EventEffect("nm_ghost_office_nameplate.fix")),
+    MenuElement("charm_fix", "Draft the order over a coffee", EventEffect("nm_ghost_office_nameplate.charm_fix"), high_charm),
+    MenuElement("leave_it",  "Leave the taped printout",     EventEffect("nm_ghost_office_nameplate.leave_it")),
     menu_anchor=MENU_ANCHOR_MIDDLE_RIGHT,                # menu hugs the right, away from her
 **kwargs)
 ```
 
 - **`menu_anchor`** is a keyword arg on both `call_custom_menu` and
-  `call_custom_menu_with_text` (default `MENU_ANCHOR_MIDDLE_CENTER`). Use the
-  named constants — one per point of a 3×3 grid:
+  `call_custom_menu_with_text` (default `MENU_ANCHOR_DIALOG`, see above). The other
+  named constants place the menu at one point of a 3×3 grid:
 
   | | left | center | right |
   |---|---|---|---|
@@ -948,13 +959,13 @@ webp basename (spaces → underscores).
 `headmaster_thought` · `character.subtitles` · `character.dev`.
 
 ### Decision menu
-`call_custom_menu_with_text(text, person, with_leave, *MenuElement, **kwargs)` ·
-`call_custom_menu(with_leave, *elements, **kwargs)` ·
+`$ call_custom_menu_with_text(text, person, with_leave, *MenuElement, **kwargs)` ·
+`$ call_custom_menu(with_leave, *elements, **kwargs)` (Python functions, not `call` labels) ·
 `MenuElement(key, title, *effects|conditions|bool, active=True, overwrite_position=None)` ·
-`register_decision(key)` (called for you by `call_element`).
-Menu placement: `menu_anchor=` (default `MENU_ANCHOR_MIDDLE_CENTER`) — nine constants
-`MENU_ANCHOR_{TOP,MIDDLE,BOTTOM}_{LEFT,CENTER,RIGHT}`; middle/bottom lift above the
-dialogue box when a prompt line is shown.
+`register_decision(key)` (called for you by `call_element`). Keep at least one choice ungated.
+Menu placement: `menu_anchor=` (default `MENU_ANCHOR_DIALOG` — right-aligned on top of the
+dialogue box) or one of nine constants `MENU_ANCHOR_{TOP,MIDDLE,BOTTOM}_{LEFT,CENTER,RIGHT}`;
+middle/bottom lift above the dialogue box when a prompt line is shown.
 
 ### Stats / progress
 `call change_stats_with_modifier('<collection>', stat=AMOUNT, …)` · amounts `TINY`/`SMALL`/`MEDIUM`/`LARGE` (+ `DEC_*`) ·
