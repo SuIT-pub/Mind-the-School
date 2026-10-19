@@ -1,0 +1,51 @@
+name: Post modding changelog
+
+# Posts every new entry of modding-changelog.json to the Discord modding
+# channel, one message per entry (webhook secret DISCORD_MODDING_WEBHOOK;
+# without it the step is a no-op). Which ids were posted is recorded in
+# modding-discord.json on the `devstatus` branch, so an entry is posted once
+# no matter how many branches carry it.
+
+on:
+  push:
+    branches-ignore:
+      - devstatus
+    paths:
+      - modding-changelog.json
+      - tools/validate_modding_changelog.py
+      - tools/post_modding_changelog_discord.py
+      - tools/test_*modding_changelog*.py
+      - .github/workflows/post-modding-changelog.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Shared with publish-devstatus.yml: both jobs push to the devstatus branch,
+# and running them one after the other keeps those pushes from racing.
+concurrency:
+  group: publish-devstatus
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Test the poster
+        run: python -m unittest tools/test_validate_modding_changelog.py tools/test_post_modding_changelog_discord.py
+
+      - name: Post new entries to Discord
+        env:
+          DISCORD_MODDING_WEBHOOK: ${{ secrets.DISCORD_MODDING_WEBHOOK }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python tools/post_modding_changelog_discord.py modding-changelog.json

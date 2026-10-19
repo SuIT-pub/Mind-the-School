@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "paperdoll-mood-surprised",
+      "date": "2026-10-19",
+      "version": "0.2.2",
+      "type": "breaking",
+      "title": "Paperdoll mood token renamed: \"suprised\" → \"surprised\"",
+      "details": "The misspelled mood token is gone from every sprite file name and from the scripts. Update `PDAImage(mood = \"suprised\")` to `mood = \"surprised\"`, and rename the token in your own paperdoll sprites (e.g. `<char> $ 1 surprised $ follow $.webp`). The old spelling now resolves to no head image.",
+      "wiki": "Paperdoll"
+    },
+    {
+      "id": "levelcondition-char-obj",
+      "date": "2026-10-19",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "LevelCondition: pass the character as char_obj=",
+      "details": "`LevelCondition(value, *options, char_obj=None)` takes the character only as a keyword. `LevelCondition(\"2+\", \"school\")` puts \"school\" into the options; it only looked right because an unset char_obj falls back to a char_obj in the event kwargs and then to the school. All base gates now use `LevelCondition(\"2+\", char_obj = \"school\")`; do the same in your mod.",
+      "wiki": "Conditions"
+    },
+    {
+      "id": "decision-menu-docs",
+      "date": "2026-10-19",
+      "version": "0.2.2",
+      "type": "docs",
+      "title": "Decision menu: documented as a Python call, dialog anchor default",
+      "details": "`call_custom_menu_with_text(...)` and `call_custom_menu(...)` are Python functions: write `$ call_custom_menu_with_text(...)`, not `call`. Name branch labels in full (`EventEffect(\"my_event.branch\")`). The default `menu_anchor` is `MENU_ANCHOR_DIALOG` (choices right-aligned on top of the dialogue box). Keep at least one choice ungated, otherwise the player is sent back to the map with a dev error.",
+      "wiki": "Events"
+    },
+    {
+      "id": "event-title",
+      "date": "2026-10-17",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Events can carry their own title (title=)",
+      "details": "`Event`, `EventComposite`, `EventFragment` and `EventSelect` take `title=\"…\"`, shown in event menus, the journal gallery and the cheat page. An entry for the same id in a names file (`translations.csv`, your mod's `names.csv`) still wins, so a mod can rename a base event. When you move a name to `title=`, delete its CSV line; `python tools/validate_names.py` reports a CSV entry that hides a title.",
+      "wiki": "Events"
+    },
+    {
+      "id": "mod-content-tracking",
+      "date": "2026-10-16",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Mod page lists what each mod adds and changes",
+      "details": "Every register function now records what a mod adds and which base or foreign content it changes. The mod page lists events, situations, collectibles and the rest instead of a bare event count, and flags mods that replace the same thing. Register content through the register functions so it shows up there.",
+      "wiki": "Modding"
+    },
+    {
+      "id": "situation-pause-and-flags",
+      "date": "2026-10-09",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Situations can pause and follow the event flag",
+      "details": "`situation.pause()` / `resume()` (or `situation_manager.pause_situation(key)`) freeze a situation without ending it. `Situation(..., flag = \"camp\", flag_exclusive = True)` makes a situation follow the global event flag: it pauses while the flag doesn't match. Code that *does* something should check `situation.is_running()`; `state == \"active\"` is also true while paused.",
+      "wiki": "Building-Situations"
+    },
+    {
+      "id": "event-flags",
+      "date": "2026-10-06",
+      "version": "0.2.2",
+      "type": "breaking",
+      "title": "Event flags replace the intro condition",
+      "details": "One global flag (`set_current_flag(key)` / `get_current_flag()`) decides which events may run. Every event without a `FlagCondition` gets `FlagCondition(None)` and **does not run while any flag is set** (e.g. the intro or a camp). Use `FlagCondition(\"camp\")` for flag-only events and `FlagCondition(\"camp\", exclusive=False)` for both. `IntroCondition` is replaced by `FlagCondition(\"intro\")`; the `override_intro` parameter is removed.",
+      "wiki": "Events"
+    },
+    {
+      "id": "map-registry",
+      "date": "2026-10-06",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Map registry: add buildings and whole new maps",
+      "details": "`map_manager` holds several maps. Add a location with `register_buildings(Building(...))` and `map_manager.add_building_to_map(\"school\", building_manager.get_building(key))`; build a second map with `map_manager.load_map(Map(...))` and switch the player to it. The building key is the label that runs on click.",
+      "wiki": "Maps"
+    }
+  ]
+}

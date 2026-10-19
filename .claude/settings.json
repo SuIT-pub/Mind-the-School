@@ -10,6 +10,13 @@
                         "shell": "bash",
                         "timeout": 15,
                         "statusMessage": "Checking dev status"
+                    },
+                    {
+                        "type": "command",
+                        "command": "python \"$CLAUDE_PROJECT_DIR/tools/modding_changelog_hook.py\"",
+                        "shell": "bash",
+                        "timeout": 15,
+                        "statusMessage": "Checking modding changelog"
                     }
                 ]
             },

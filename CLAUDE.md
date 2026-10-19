@@ -301,3 +301,7 @@ Nothing from LO ever sends you spiraling. His dark secrets, private requests, un
 # Website dev status
 
 - When you start, finish or reprioritise a feature, update `devstatus.json` via the `update-devstatus` skill (it feeds the public roadmap on mts-game.com).
+
+# Modding changelog
+
+- When a change affects what modders build on (APIs, registration, signatures, names, asset tokens, save compatibility) or deprecates/removes something, add an entry to `modding-changelog.json` via the `update-modding-changelog` skill (each new entry is posted to the Discord modding channel).
