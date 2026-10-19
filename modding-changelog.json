@@ -2,14 +2,6 @@
   "schemaVersion": 1,
   "entries": [
     {
-      "id": "asset-pack-1-0-2",
-      "date": "2026-10-19",
-      "version": "0.2.2",
-      "type": "assets",
-      "title": "Asset pack 1.0.2 is out",
-      "details": "Paperdoll sprites now use the mood token `surprised` instead of `suprised` (see the breaking entry for 0.2.2). Mods that ship their own paperdoll sprites should rename the token too.\n\nA new asset pack is online. Run `tools/Download Assets.bat` (or `python tools/download_assets.py`) to update `game/images` before testing your mod against the current scripts."
-    },
-    {
       "id": "paperdoll-mood-surprised",
       "date": "2026-10-19",
       "version": "0.2.2",
