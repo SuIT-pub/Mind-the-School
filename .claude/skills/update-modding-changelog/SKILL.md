@@ -47,7 +47,9 @@ pages and the wiki's own scripts never need an entry.
 
 Asset packs are published locally and never show up in a commit, so `tools/upload_assets.py` writes
 the entry itself after every successful upload or `--bump-version`: id `asset-pack-<version>`, type
-`assets`, the game version from `devstatus.json`'s `targetVersion`. Pass `--note "…"` to say what
+`assets`, the game version from `devstatus.json`'s `targetVersion`. A pack only reaches downloaders
+under a new version number: use `--next-version` (or the VS Code task "Assets: Upload as new
+version"), which counts the version up and saves it to `.env`. Pass `--note "…"` to say what
 changed in the pack (renamed tokens, new sprite sets, removed files); without it the entry only says
 that a new pack is online. The uploader prints a reminder to commit and push `modding-changelog.json`.
 If an upload ran without writing the entry (older script, error), add it by hand with

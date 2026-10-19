@@ -12,6 +12,10 @@ Usage:
     python tools/upload_assets.py
     python tools/upload_assets.py --reuse-archive
     python tools/upload_assets.py --bump-version
+    python tools/upload_assets.py --next-version [--note "what changed"]
+    python tools/upload_assets.py --next-version --bump-version   (new number, same archive)
+
+Every successful upload or bump also adds an entry to modding-changelog.json.
 """
 
 from __future__ import annotations
@@ -331,6 +335,59 @@ def put_version_json(client, bucket: str, metadata: dict) -> None:
         fail(f"Failed to upload {VERSION_FILE}: {exc}")
 
 
+def parse_version(text: str) -> tuple[int, ...]:
+    """'1.0.2' -> (1, 0, 2). Only dotted numbers can be counted up."""
+    parts = text.strip().split(".")
+    if not parts or not all(part.isdigit() for part in parts):
+        fail(f"Cannot count up asset version {text!r}: use dotted numbers like 1.0.2.")
+    return tuple(int(part) for part in parts)
+
+
+def next_patch_version(*versions: str | None) -> str:
+    """One patch step above the highest of the given versions (None entries are skipped).
+
+    Taking the highest of the live and the .env version means a stale .env can
+    never send downloaders backwards, and a version already live is never reused.
+    """
+    known = [parse_version(v) for v in versions if v]
+    if not known:
+        fail("No asset version to count up from: set ASSET_VERSION in .env.")
+    highest = list(max(known))
+    highest[-1] += 1
+    return ".".join(str(part) for part in highest)
+
+
+def remote_version_or_none(client, bucket: str) -> str | None:
+    """The live version from version.json, or None when nothing was published yet."""
+    try:
+        response = client.get_object(Bucket=bucket, Key=VERSION_FILE)
+        return str(json.loads(response["Body"].read().decode("utf-8"))["version"])
+    except ClientError as exc:
+        if exc.response.get("Error", {}).get("Code", "") in ("404", "NoSuchKey", "NotFound"):
+            return None
+        fail(f"Failed to fetch remote {VERSION_FILE}: {exc}")
+    except (ValueError, KeyError) as exc:
+        fail(f"Remote {VERSION_FILE} is not usable: {exc}")
+
+
+def with_env_value(text: str, key: str, value: str) -> str:
+    """.env text with `key` set to `value`; other lines (and their order) stay untouched."""
+    lines = text.splitlines()
+    for index, line in enumerate(lines):
+        if line.split("=", 1)[0].strip() == key:
+            lines[index] = f"{key}={value}"
+            break
+    else:
+        lines.append(f"{key}={value}")
+    return "\n".join(lines) + "\n"
+
+
+def save_env_version(version: str) -> None:
+    env_path = REPO_ROOT / ".env"
+    env_path.write_text(with_env_value(env_path.read_text(encoding="utf-8"), "ASSET_VERSION", version), encoding="utf-8")
+    print(f"Saved ASSET_VERSION={version} to .env")
+
+
 def bump_cloud_version(client, bucket: str, new_version: str, public_url: str) -> None:
     """Update only the version field of remote ``version.json``.
 
@@ -526,6 +583,16 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--next-version",
+        action="store_true",
+        help=(
+            "Count the asset version up by one patch step (1.0.2 -> 1.0.3) from the "
+            "higher of the live version and .env, use it for this run, and save it "
+            "to .env once the upload succeeded. Works with a full upload and with "
+            "--bump-version."
+        ),
+    )
+    parser.add_argument(
         "--note",
         default=None,
         help=(
@@ -556,8 +623,18 @@ def main() -> None:
     # (temp + live) before work and after publish; --cleanup-incomplete only.
     cleanup_keys = (TEMP_OBJECT_KEY, LIVE_OBJECT_KEY, VERSION_FILE)
 
+    if args.next_version:
+        if args.reuse_archive or args.cleanup_incomplete:
+            fail("--next-version works with a full upload or --bump-version only.")
+        live = remote_version_or_none(client, bucket)
+        new_version = next_patch_version(live, version)
+        print(f"Next asset version: {new_version} (live: {live or 'none'}, .env: {version})")
+        version = new_version
+
     if args.bump_version:
         bump_cloud_version(client, bucket, version, config["R2_PUBLIC_URL"])
+        if args.next_version:
+            save_env_version(version)
         announce_asset_release(version, args.note)
         return
 
@@ -642,6 +719,8 @@ def main() -> None:
     print(f"  Metadata: {public_url}/{VERSION_FILE}")
 
     cleanup_local(archive_path, version_path)
+    if args.next_version:
+        save_env_version(version)
     announce_asset_release(version, args.note)
 
 
@@ -650,7 +729,8 @@ def announce_asset_release(version: str, note: str | None) -> None:
     try:
         from modding_changelog_assets import record_asset_release
 
-        print("\n" + record_asset_release(version, note))
+        # A VS Code prompt left empty arrives as "" — that means "no note".
+        print("\n" + record_asset_release(version, (note or "").strip() or None))
     except Exception as exc:  # the assets are already live; a changelog hiccup must not look like a failed upload
         print(f"\nWARNING: could not update modding-changelog.json: {exc}")
 

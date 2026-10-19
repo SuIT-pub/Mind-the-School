@@ -57,6 +57,16 @@
             "problemMatcher": []
         },
         {
+            "label": "Assets: Upload as new version (R2, pushes!)",
+            "detail": "Counts the asset version up (1.0.2 -> 1.0.3), packs and uploads, saves the version to .env and adds a modding changelog entry.",
+            "type": "shell",
+            "command": "python",
+            "args": ["upload_assets.py", "--next-version", "--note", "${input:assetNote}"],
+            "options": { "cwd": "${workspaceFolder}/tools" },
+            "presentation": { "reveal": "always", "focus": true, "panel": "dedicated" },
+            "problemMatcher": []
+        },
+        {
             "label": "Images: Backup",
             "detail": "Backs up / moves images (GUI dialogs via pyautogui).",
             "type": "shell",
@@ -93,6 +103,12 @@
             "type": "promptString",
             "description": "Folder with the character-card PNGs",
             "default": "wiki/.wiki-repo/characters"
+        },
+        {
+            "id": "assetNote",
+            "type": "promptString",
+            "description": "What changed in this asset pack? (for the modding changelog; leave empty to skip)",
+            "default": ""
         }
     ]
 }
