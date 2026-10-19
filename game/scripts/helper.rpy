@@ -1779,7 +1779,7 @@ init -99 python:
         ### Returns:
         1. Tuple[Dict[str, int], int]
             - Files per type, and their size in bytes (None when some files
-              sit in an archive and have no size of their own).
+                sit in an archive and have no size of their own).
         """
 
         cache = mod_content_state["assets"]

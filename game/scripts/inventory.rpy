@@ -233,6 +233,22 @@ style computer_shop_text:
 style computer_shop_text_white take computer_shop_text:
     color "#fff"
 
+init python:
+    # Every cart change re-calls the shop screen, which would snap the list back
+    # to the top. The adjustment reports each scroll here, keyed by screen name.
+    computer_shop_scroll = {}
+
+    def remember_computer_shop_scroll(screen_name):
+        def changed(value):
+            computer_shop_scroll[screen_name] = value
+        return changed
+
+    def clamp_computer_shop_scroll(adjustment):
+        # Removing cart items shrinks the list; without this the old offset
+        # leaves blank space below the last row until the player scrolls.
+        if adjustment.value > adjustment.range:
+            adjustment.change(adjustment.range)
+
 label open_office_building_computer_shopping_screen(viewport_value = 0, **kwargs):
     call screen office_building_computer_shopping_screen(viewport_value, **kwargs)
     return
@@ -288,15 +304,11 @@ screen office_building_computer_shopping_screen(viewport_value = 0, **kwargs):
                 xalign 0.5
                 style "computer_shop_text_white"
 
-    python:
-        def viewport_change(value):
-            viewport_value = value
-
     frame:
         area(390, 215, 1150, 745)
         background Solid("#fff0")
         viewport id "ComputerShopViewport":
-            yadjustment ui.adjustment(range=1, value=viewport_value, changed=viewport_change(value))
+            yadjustment ui.adjustment(range=1, value=computer_shop_scroll.get("office_building_computer_shopping_screen", viewport_value), ranged=clamp_computer_shop_scroll, changed=remember_computer_shop_scroll("office_building_computer_shopping_screen"))
             mousewheel True
             draggable "touch"
 
@@ -458,10 +470,6 @@ screen office_building_computer_shopping_cart_screen(viewport_value = 0, **kwarg
             ysize 100
         action Call("open_office_building_computer_shopping_screen", **kwargs)
 
-    python:
-        def viewport_change(value):
-            viewport_value = value
-
     frame:
         area(1260, 215, 250, 740)
         background Solid("#8880")
@@ -538,7 +546,7 @@ screen office_building_computer_shopping_cart_screen(viewport_value = 0, **kwarg
         area(390, 215, 850, 740)
         background Solid("#8880")
         viewport id "ComputerShopCartViewport":
-            yadjustment ui.adjustment(range=1, value=viewport_value, changed=viewport_change(value))
+            yadjustment ui.adjustment(range=1, value=computer_shop_scroll.get("office_building_computer_shopping_cart_screen", viewport_value), ranged=clamp_computer_shop_scroll, changed=remember_computer_shop_scroll("office_building_computer_shopping_cart_screen"))
             mousewheel True
             draggable "touch"
 

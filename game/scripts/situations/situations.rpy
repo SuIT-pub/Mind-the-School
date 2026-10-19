@@ -613,6 +613,9 @@ init -99 python:
                 end_situation_event_deferral()
 
         def load_thumbnail(self, **kwargs):
+            # thumbnail is optional; refine_image can't take None
+            if self.thumbnail is None:
+                return None
             refined_thumbnail = refine_image(self.thumbnail, **kwargs)
             if refined_thumbnail is not None:
                 return refined_thumbnail
@@ -3125,6 +3128,9 @@ init -99 python:
             self.change_bar_value(key, value)
 
         def load_thumbnail(self, **kwargs):
+            # thumbnail is optional; refine_image can't take None
+            if self.thumbnail is None:
+                return None
             refined_thumbnail = refine_image(self.thumbnail, **kwargs)
             if refined_thumbnail is not None:
                 return refined_thumbnail
@@ -3147,8 +3153,8 @@ init -99 python:
                 closest_thumbnail = closest.load_thumbnail(**kwargs)
                 if closest_thumbnail is not None:
                     thumbnail_out = closest_thumbnail
-            if thumbnail_out == None:
-                thubmnail_out = "images/journal/empty_image.webp"
+            if thumbnail_out is None:
+                thumbnail_out = "images/journal/empty_image.webp"
             return thumbnail_out
 
         def get_descriptions(self, **kwargs):
