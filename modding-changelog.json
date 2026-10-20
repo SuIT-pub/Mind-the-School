@@ -2,6 +2,33 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "ambience-registry",
+      "date": "2026-10-20",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Ambience per building and map: register_building_ambience / register_map_ambience",
+      "details": "Room tone is now declared like backgrounds: `AmbienceStorage(fallback, *ambiences)` holds `Ambience(sound, priority=0, *conditions, volume=1.0)` candidates; the highest-priority one whose conditions pass plays.\n```python\ninit 1 python:\n    set_current_mod('mymod')\n    register_building_ambience(\"mymod_bar\", AmbienceStorage(\n        Ambience(\"audio/bar_quiet.ogg\", volume = 0.6),\n        Ambience(\"audio/bar_busy.ogg\", 1, TimeCondition(daytime = 7)),\n    ))\n```\n`register_map_ambience(map_key, storage)` does the same for a map. Add to a base place with `get_building_ambience(\"school_dormitory\").add_ambience(Ambience(...))`. Paths with a folder resolve into your mod folder. Register at `init 1` or later (the `audio.` names are init-0 defines). Inside a scene: `play_ambience(sound, volume)` / `stop_ambience()`; `end_event` brings the location's sound back. A building without a registration plays its map's ambience.",
+      "wiki": "Audio"
+    },
+    {
+      "id": "begin-event-ducks-ambience",
+      "date": "2026-10-20",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Scenes keep the room tone: begin_event ducks ambience instead of silencing it",
+      "details": "`begin_event` still stops the `sound` channel, but ambience now runs on its own channels (`ambience_a`/`ambience_b`, mixer `ambience`) and only drops to 35 % under a scene; `end_event` restores and re-resolves it. Replays play the event location's ambience. If your scene relied on silence, call `stop_ambience()` after `begin_event`.\n\nThe base audio files moved from `.mp3` to `.ogg` (`game/audio/empty-room.ogg`, …). `audio.empty_room` and the other `audio.` names are unchanged; a direct `\"empty-room.mp3\"` still plays through a `config.audio_filename_callback` fallback (it also keeps old saves loading), but switch to the `audio.` name.",
+      "wiki": "Audio#4-when-ambience-plays"
+    },
+    {
+      "id": "play-sound-loop-deprecated",
+      "date": "2026-10-20",
+      "version": "0.2.2",
+      "type": "deprecated",
+      "title": "play_sound(..., loop=True) for room tone is deprecated",
+      "details": "`play_sound(sound, loop=False, volume=1.0, fadein=1.0)` stays for one-shot effects (moved from `helper.rpy` to `audio.rpy`, same signature). Looping ambience through it still works but sits on the effects channel, is cut by the next effect and stops when a scene starts. Old:\n```python\nlabel mymod_bar ():\n    if time.get_daytime() == 7:\n        $ play_sound(\"audio/bar_busy.ogg\", True, 1.0, 1.0)\n```\nNew: `register_building_ambience(\"mymod_bar\", AmbienceStorage(...))` at init and drop the call from the label.",
+      "wiki": "Audio#5-one-shot-effects"
+    },
+    {
       "id": "asset-pack-1-0-3",
       "date": "2026-10-19",
       "version": "0.2.2",
