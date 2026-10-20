@@ -1,9 +1,9 @@
 {
   "embedMessageId": "1560625154067927071",
-  "noteMessageId": "1562065268744781876",
+  "noteMessageId": "1562079334129205329",
   "posted": {
     "schemaVersion": 1,
-    "updatedAt": "2026-10-20T11:29:15Z",
+    "updatedAt": "2026-10-20T12:25:12Z",
     "currentVersion": "0.2.2",
     "targetVersion": "0.2.2",
     "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -19,11 +19,6 @@
         "title": "Groundwork for bigger story events",
         "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
         "version": "0.2.2"
-      },
-      {
-        "id": "sound-overhaul",
-        "title": "More sound around campus",
-        "summary": "Separate volume controls, background sounds that change with time of day and school level, and sound that keeps playing during scenes."
       }
     ],
     "next": [
@@ -44,6 +39,11 @@
         "title": "A few new events",
         "summary": "Some extra scenes around campus to fill out the days.",
         "version": "0.2.2"
+      },
+      {
+        "id": "campus-music",
+        "title": "Music",
+        "summary": "Background music that follows the mood of the moment, with its own volume slider."
       }
     ],
     "later": [
@@ -74,6 +74,13 @@
       }
     ],
     "done": [
+      {
+        "id": "sound-overhaul",
+        "title": "More sound around campus",
+        "summary": "Each place has its own background sound for the time of day, scenes keep it playing quietly, and ambience and effects have their own volume sliders.",
+        "doneIn": "0.2.2",
+        "doneAt": "2026-10-20"
+      },
       {
         "id": "name-list-checks",
         "title": "No more raw labels in menus",
