@@ -23,7 +23,7 @@ init -1 python:
 init 1 python:
     set_current_mod('base')
     register_building_ambience("kiosk", AmbienceStorage(
-        Ambience(audio.empty_room, volume = 0.8),
+        Ambience(audio.empty_room, volume = 0.6),
         Ambience(audio.muffled_chatter, 1, TimeCondition(daytime = "f")),
     ))
 

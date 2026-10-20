@@ -83,7 +83,7 @@ init 1 python:
     set_current_mod('base')
 
     register_building_ambience("courtyard", AmbienceStorage(
-        Ambience(audio.empty_room, volume = 0.5),                                   # fallback
+        Ambience(audio.empty_room, volume = 0.6),                                   # fallback
         Ambience(audio.muffled_chatter, 1, TimeCondition(daytime = "3,6")),
         Ambience(audio.night_ambience, 1, TimeCondition(daytime = 7), volume = 0.8),
     ))
@@ -160,8 +160,19 @@ when a scene starts.
   channels, so it doesn't play twice.
 - Loops must be cut on a zero crossing at both ends. Test a new loop by letting it wrap
   three times with headphones on.
-- Keep ambience quiet in the file itself (around −20 LUFS); the slider is for the
-  player's taste, not for fixing a hot file.
+- **Level every file to −27 LUFS integrated** (ITU-R BS.1770), true peak at or below
+  −1 dBTP. All base ambience files sit there (±0.1 LU, 2026-10-20). −27 rather than
+  louder because room tones with sharp transients (`forest-ambience`, `empty-room`)
+  would clip above it, and future music needs room on top.
+- `volume` then states **intent only**, never compensates a badly levelled file:
+
+  | Tier | `volume` | In game | Used for |
+  |---|---|---|---|
+  | busy | `1.0` | −27 LUFS | chatter, an active gym, a full cafeteria |
+  | outdoors | `0.8` | −29 LUFS | map day/night, the courtyard at night |
+  | quiet room | `0.6` | −31 LUFS | `empty_room`, an empty cafeteria |
+
+  A new file that needs `volume = 0.1` to fit is a file that needs re-levelling.
 - Licence: record the source and licence of every file in the journal credits. Several
   royalty-free libraries forbid adult or commercial use — check both.
 

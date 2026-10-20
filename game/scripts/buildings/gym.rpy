@@ -27,8 +27,8 @@ init -1 python:
 init 1 python:
     set_current_mod('base')
     register_building_ambience("gym", AmbienceStorage(
-        Ambience(audio.empty_room, volume = 0.8),
-        Ambience(audio.gym_active, 1, TimeCondition(daytime = "c"), volume = 0.2),
+        Ambience(audio.empty_room, volume = 0.6),
+        Ambience(audio.gym_active, 1, TimeCondition(daytime = "c")),
     ))
 
     gym_event1 = Event(3, "gym_event_1",

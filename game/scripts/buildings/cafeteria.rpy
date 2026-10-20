@@ -32,9 +32,9 @@ init 1 python:
     set_current_mod('base')
 
     register_building_ambience("cafeteria", AmbienceStorage(
-        Ambience(audio.empty_room, volume = 0.8),
-        Ambience(audio.cafeteria_empty, 1, TimeCondition(daytime = "1,2,4,5"), volume = 0.5),
-        Ambience(audio.cafeteria_chatter, 1, TimeCondition(daytime = "3,6"), volume = 0.1),
+        Ambience(audio.empty_room, volume = 0.6),
+        Ambience(audio.cafeteria_empty, 1, TimeCondition(daytime = "1,2,4,5"), volume = 0.6),
+        Ambience(audio.cafeteria_chatter, 1, TimeCondition(daytime = "3,6")),
     ))
 
     cafeteria_construction_event = Event(1, "cafeteria_construction",
