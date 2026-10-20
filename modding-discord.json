@@ -8,6 +8,9 @@
     "decision-menu-docs",
     "levelcondition-char-obj",
     "paperdoll-mood-surprised",
-    "asset-pack-1-0-3"
+    "asset-pack-1-0-3",
+    "play-sound-loop-deprecated",
+    "begin-event-ducks-ambience",
+    "ambience-registry"
   ]
 }
