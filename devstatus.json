@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-17T08:18:02Z",
+  "updatedAt": "2026-10-20T11:29:15Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -16,6 +16,11 @@
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
       "version": "0.2.2"
+    },
+    {
+      "id": "sound-overhaul",
+      "title": "More sound around campus",
+      "summary": "Separate volume controls, background sounds that change with time of day and school level, and sound that keeps playing during scenes."
     }
   ],
   "next": [

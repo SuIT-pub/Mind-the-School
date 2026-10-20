@@ -1385,10 +1385,9 @@ init 2 python:
     set_current_mod('base')
 
     # Frustration — Headmaster works late in the storage room lab, trying to
-    # isolate the catalyst. Pure dialogue, so it runs entirely on Emiko's paperdoll
-    # over the blurred lab background (lab_intro_3 6). No bespoke CGs, hence no
-    # Pattern. Gated behind the Analysis (lab_intro 11). Registered on the "call
-    # secretary → talk" action, same as lab_intro_6.
+    # isolate the catalyst. Its CGs come from the "main" Pattern, which reaches
+    # the label only through kwargs. Gated behind the Analysis (lab_intro 11).
+    # Registered on the "call secretary → talk" action, same as lab_intro_6.
     lab_intro_12_event = Event(3, "lab_intro_12",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 11),
@@ -1408,7 +1407,7 @@ label lab_intro_12 (**kwargs):
     # in a stoppered flask, an open notebook with a column of chemical names.
     # He works in goggles and gloves.
 
-    $ image = convert_pattern("main")
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "The storage room is too small for the cleaning cart. He's had to wedge it in sideways between the shelving and the lab table, and now every bottle on it is lined up in a row under the bare bulb."
@@ -1555,6 +1554,7 @@ label lab_intro_12 (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 # endregion
+##############################
 
 ##############################
 # region Lab Intro 13 Events #
@@ -1563,15 +1563,16 @@ init 2 python:
     set_current_mod('base')
 
     # Strategic Planning — Headmaster and Emiko discuss the plan to fix the girls
-    # in the classroom. Pure dialogue, so it runs entirely on Emiko's paperdoll
-    # over the blurred lab background (lab_intro_3 6). No bespoke CGs, hence no
-    # Pattern. Gated behind the Frustration (lab_intro 12). Registered on the "call
+    # in the classroom. Pure dialogue on Emiko's paperdoll; the blurred background
+    # comes from the "main" Pattern, which reaches the label only through kwargs.
+    # Gated behind the Frustration (lab_intro 12). Registered on the "call
     # secretary → talk" action, same as lab_intro_6.
     lab_intro_13_event = Event(3, "lab_intro_13",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 12),
             ReplayCategoryOption("lab_intro"),
-            thumbnail = "images/events/lab_intro/lab_intro_3/lab_intro_3 6.png")
+            Pattern("main", "images/events/lab_intro/lab_intro_13/lab_intro_13 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_13/lab_intro_13 0.webp")
     office_building_call_secretary_events["talk"].add_event(lab_intro_13_event)
 
 # Strategic Planning unlocks after Frustration
@@ -1585,8 +1586,10 @@ label lab_intro_13 (**kwargs):
     # comes looking for him, and the whole planning talk happens in the cramped room.
     # Wired: blurred lab bg (lab_intro_3 6) + Emiko paperdoll.
 
+    $ image = convert_pattern("main", **kwargs)
+
     $ emiko.register_paperdoll()
-    $ paperdoll_manager.set_background("images/events/lab_intro/lab_intro_3/lab_intro_3 6.png", blur = True)
+    $ paperdoll_manager.set_background(image[0], blur = True)
 
     subtitles "Morning. Somewhere down the corridor a printer is grinding itself awake. In the storage room, the bulb has been on all night."
     subtitles "He wakes up on the mop bucket with his neck bent the wrong way, a pencil still in his hand, and the notebook in his lap covered in sums that all end in a circled, underlined {i}not enough{/i}."
@@ -1627,7 +1630,8 @@ label lab_intro_13 (**kwargs):
     emiko "...By {i}Cumulus Laboratories.{/i}"
     $ emiko.display(PDAImage(look = "follow", mouth = "closed"))
     headmaster "Don't."
-    $ emiko.display(PDAImage(pose = "22", mood = "happy", mouth = "open"), "close_body_center")
+    $ emiko.display(PDAImage(pose = "22", mood = "happy", mouth = "open"),
+        PDAPreset("close_body_center", duration = 0.5))
     emiko "I didn't say a word. I said it with my face, that's different."
 
     # She looks back at him properly now; the teasing drops a notch.
@@ -1707,7 +1711,8 @@ label lab_intro_13 (**kwargs):
     $ emiko.display(PDAImage(pose = "39", mouth = "closed"),
         PDAMove(alignX = 1.5, duration = 1.0),
         PDAPause(duration = 1.0))
-    $ emiko.clear_display()
+    
+    $ image.show(1)
 
     # Alone. He takes the jug down from the shelf and looks at the note.
     subtitles "The door clicks shut behind her. He gets up, joints complaining, and lifts the jug down off the top shelf. The DO NOT TOUCH note is already curling at one corner."
@@ -1719,6 +1724,36 @@ label lab_intro_13 (**kwargs):
 
     $ end_event("new_daytime", **kwargs)
 
+# endregion
+##############################
+
+##############################
+# region Lab Intro 14 Events #
+
+init 2 python:
+    set_current_mod('base')
+
+    # Morning Brew — Before dawn the headmaster measures the first catalysed dose in the
+    # storage-room lab and pockets it in a small dropper bottle. In the empty,
+    # dark staff room he brews the big coffee urn and adds the drops. The five
+    # teachers arrive one by one and all drink it. Within half an hour they're
+    # warm and loose: Lily stretches, Zoe strips down to her leotard, Chloe rolls
+    # up her sleeves, Yulan sits pressed up against Finola. Finola suddenly
+    # leaves. He follows her to the staff changing room and walks in on her
+    # completely naked at her locker; she covers herself a full second too late.
+    # She comes back dressed, mortified, and remembers very little. The teachers
+    # head off to class and he pours the rest of the coffee away.
+    # Wired: blurred lab bg (lab_intro_3 6), dark staff room (c teacher),
+    # daytime staff room (teacher 1 1 0), paperdolls for teachers who speak TO him.
+    lab_intro_14_event = Event(3, "lab_intro_14",
+            TimeCondition(weekday = "r", daytime = "d"),
+            ProgressCondition("lab_intro", 13),
+            ReplayCategoryOption("lab_intro"),
+            Pattern("main", "images/events/lab_intro/lab_intro_14/lab_intro_14 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_14/lab_intro_14 0.webp",
+            title = "Morning Brew")
+    office_building_call_secretary_events["talk"].add_event(lab_intro_14_event)
+
 # Morning Brew, unlocks after Strategic Planning and Brewing Session on Thursday
 label lab_intro_14 (**kwargs):
     $ begin_event(**kwargs)
@@ -1729,24 +1764,14 @@ label lab_intro_14 (**kwargs):
     $ chloe = Person["chloe_garcia"]
     $ finola = Person["finola_ryan"]
 
-    # SCENE · lab_intro_14
-    # Before dawn the headmaster measures the first catalysed dose in the
-    # storage-room lab and pockets it in a small dropper bottle. In the empty,
-    # dark staff room he brews the big coffee urn and adds the drops. The five
-    # teachers arrive one by one and all drink it. Within half an hour they're
-    # warm and loose: Lily stretches, Zoe strips to her swimsuit top, Chloe rolls
-    # up her sleeves, Yulan sits pressed up against Finola. Finola suddenly
-    # leaves. He follows her to the staff changing room and walks in on her
-    # completely naked at her locker; she covers herself a full second too late.
-    # She comes back dressed, mortified, and remembers very little. The teachers
-    # head off to class and he pours the rest of the coffee away.
-    # Wired: blurred lab bg (lab_intro_3 6), dark staff room (c teacher),
-    # daytime staff room (teacher 1 1 0), paperdolls for teachers who speak TO him.
+    $ image = convert_pattern("main", **kwargs)
 
-    ########################################
-    # Storage-room lab, before dawn
-
-    $ paperdoll_manager.set_background("images/events/lab_intro/lab_intro_3/lab_intro_3 6.png", blur = True)
+    # IMAGE (lab_intro_14 0): the storage-room lab before dawn, only the bare
+    # bulb over the lab table lit, the corridor dark behind the door. The
+    # Headmaster at the table in shirtsleeves, measuring base potion from the
+    # flask into a small dark dropper bottle; the Orgazyme jug on the shelf
+    # above with its taped-on note. Mop bucket and cleaning cart in the corners.
+    $ image.show(0)
 
     subtitles "Ten to six. The corridor outside the storage room is still dark, and the bulb over the lab table is the only light on in the building."
 
@@ -1754,6 +1779,12 @@ label lab_intro_14 (**kwargs):
     headmaster "Five teachers, one dose each. Base potion first: the staff urn does twenty cups, so enough base for all of it, call it a bit extra in case somebody goes back for seconds..."
     headmaster "And Orgazyme, ten millilitres a head. Fifty. Not fifty-five. Don't get generous at six in the morning."
 
+    # IMAGE (lab_intro_14 1): closer. The Headmaster holding the graduated
+    # cylinder at eye level, filled exactly to the line, the Orgazyme glowing
+    # that deep lit-from-inside honey colour under the bulb and throwing warm
+    # light up onto his face. Jaw tight, breath held. Dropper bottle uncapped
+    # on the table in front of him.
+    $ image.show(1)
     subtitles "He measures it in the little graduated cylinder, right down to the line, and stands there holding it for a moment before he tips it in. He doesn't breathe out until the last of it has gone. The mixture goes from amber to that deep, lit-from-inside honey colour, and the fruity sweetness rises off it for a second before he gets the cap on."
     headmaster.think "Fifty out of three hundred and fifty. A seventh of everything I'll ever have, gone before anyone's even had breakfast."
     headmaster.think "...It's fine. This is what it's for. Stop looking at the jug."
@@ -1764,7 +1795,14 @@ label lab_intro_14 (**kwargs):
     ########################################
     # Staff room, still dark
 
-    $ paperdoll_manager.set_background("images/background/office building/c teacher.webp", blur = True)
+    call screen black_screen_text ("Twenty minutes later.")
+
+    # IMAGE (lab_intro_14 2): the staff room before seven, cold blue half-light,
+    # no lamps on. The Headmaster at the counter switching on the big coffee
+    # urn, budget draft tucked under one arm, the bulge of the dropper bottle
+    # in his jacket pocket. On the desk by the window, a forgotten mug with a
+    # teabag dried to the bottom.
+    $ image.show(2)
 
     subtitles "The staff room is cold and blue in the half-light. Somebody has left a mug on the desk by the window with a teabag welded to the bottom of it."
     headmaster.think "Nobody's in before seven. Plenty of time. You're just a man making coffee. That's all this is."
@@ -1773,10 +1811,18 @@ label lab_intro_14 (**kwargs):
     subtitles "The urn takes forever. It ticks, and gurgles, and finally starts to hiss, and the room slowly fills up with the smell of cheap, strong coffee."
 
     # Waiting at the window, dawn coming up.
+    # IMAGE (lab_intro_14 3): the Headmaster at the window, seen from behind
+    # and slightly to the side, one hand in the pocket with the bottle. Grey
+    # dawn coming up over the campus outside; behind him the urn on the
+    # counter, its little red light on, a wisp of steam at the lid.
+    $ image.show(3)
     headmaster.think "It's already bound. The enzymes did their work in the flask. The heat can't do anything to it now."
     headmaster.think "...Probably. Almost certainly. I really should have tested that."
 
-    # The urn finishes. Lid up, steam, the dropper bottle.
+    # IMAGE (lab_intro_14 4): close on the urn, lid up, steam rolling out. His
+    # hand tipping the little dark dropper bottle in; a thread of amber honey
+    # dropping into black coffee. Blue half-light from the window behind.
+    $ image.show(4)
     subtitles "When the urn clicks off he lifts the lid, and steam rolls up into his face. He tips the little bottle in all at once, stirs it with the long spoon, and watches the amber vanish into the black without a trace."
     headmaster "There."
     headmaster.think "Coffee. It's just coffee. It smells like coffee. Sit down."
@@ -1784,93 +1830,117 @@ label lab_intro_14 (**kwargs):
     ########################################
     # Staff room, morning. Teachers arrive.
 
-    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
+    $ paperdoll_manager.set_background("images/background/office building/c teacher.webp", blur = True)
 
     subtitles "By quarter to seven there's grey daylight in the windows. He's at the long table with the budget draft spread out in front of him, and he has read the same line eleven times."
 
     # Zoe first, bag over her shoulder, travel mug in hand. Speaks to him.
     $ zoe.register_paperdoll()
-    $ zoe.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "surprised", mouth = "open"),
+    $ zoe.display(PDAImage(pose = "19", outfit = "uniform", level = 2, mood = "surprised", mouth = "open"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
     $ zoe.display(PDAPreset("upper_body_center", duration = 0.4))
     zoe "Oh! You're in before me? That never happens. Is everything okay? Nobody's— nothing's happened?"
-    $ zoe.display(PDAImage(mouth = "closed"))
+    # "surprised" has no closed-mouth variant, so she drops to neutral to listen.
+    $ zoe.display(PDAImage(mood = "neutral", mouth = "closed"))
     headmaster "Nothing's happened. I couldn't sleep, so I thought I'd get some work done down here. There's coffee, if you want it."
-    $ zoe.display(PDAImage(mood = "happy", mouth = "open"))
+    $ zoe.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
     zoe "You made coffee. In the staff room. Before seven."
     zoe "I'm going to pretend I'm not suspicious and just be grateful, okay? Thank you."
     $ zoe.display(PDAImage(mouth = "closed"))
 
     subtitles "She pours herself a mug, adds far too much milk, and takes a long swallow standing right there at the counter."
     $ zoe.display(PDAImage(mood = "happy", mouth = "open"))
+    $ zoe.display(PDAImage(pose = "29"))
     zoe "Oh, that's good. That's actually good. You're allowed to be in early more often."
     $ zoe.display(PDAImage(mouth = "closed"))
     headmaster.think "One."
-    $ zoe.clear_display()
+    $ zoe.display(PDAPreset("outside", duration = 0.4))
 
     # Yulan, precise, checks the clock before anything else.
     subtitles "Yulan Chen comes in two minutes later, glances at the urn, and then at the clock, in that order."
+    $ yulan.register_paperdoll()
+    $ yulan.display(PDAImage(pose = "34", outfit = "uniform", level = 2, mood = "neutral", mouth = "open"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ yulan.display(PDAPreset("upper_body_center", duration = 0.4))
     yulan "It's six fifty-two. The machine's on a timer for seven fifteen."
+    $ yulan.display(PDAImage(mouth = "closed"))
     headmaster "I overrode it."
+    $ yulan.display(PDAImage(mood = "suspicious", mouth = "open"))
     yulan "...Hm."
+    $ yulan.display(PDAImage(pose = "25", mood = "neutral"))
     yulan "Well. I'm not going to file a complaint about it."
+    $ yulan.display(PDAImage(mouth = "closed"))
     subtitles "She takes it black, in the plain white mug she always uses, and drinks it hot enough that it must hurt."
     headmaster.think "Two."
+    $ yulan.display(PDAPreset("outside", duration = 0.4))
 
     # Lily, exhausted, talking before she's through the door. Speaks to him.
     $ lily.register_paperdoll()
-    $ lily.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "sad", mouth = "open"),
+    $ lily.display(PDAImage(pose = "39", outfit = "uniform", level = 2, mood = "sad", mouth = "open"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
     $ lily.display(PDAPreset("upper_body_center", duration = 0.4))
     lily "Please tell me that's real coffee and not the smell of it coming off Yulan. I was up until past one with 3A's tests, and I swear half of them have invented a new kind of fraction—"
     $ lily.display(PDAImage(mouth = "closed"))
     headmaster "It's real. Help yourself."
-    $ lily.display(PDAImage(mood = "happy", mouth = "open"))
+    $ lily.display(PDAImage(pose = "31", mood = "happy", mouth = "open"))
     lily "Oh, bless you."
 
     subtitles "She pours, lifts the mug to her face, and stops with it just under her nose."
-    $ lily.display(PDAImage(mood = "suspicious", mouth = "open"))
+    $ lily.display(PDAImage(pose = "9", mood = "suspicious", mouth = "open"))
     lily "Is this a different brand? It's got a sort of... fruity note to it? Not bad. Just—"
+    $ lily.display(PDAImage(pose = "17", mood = "happy"))
     lily "Sorry. Science teacher. I smell everything, it's a curse. Ignore me."
     $ lily.display(PDAImage(mouth = "closed"))
     headmaster.think "Oh no. Of course it's the chemistry teacher. Of course it is."
     headmaster "Same tin as always. Maybe someone finally cleaned the machine."
-    $ lily.display(PDAImage(mood = "surprised", mouth = "open"))
+    $ lily.display(PDAImage(pose = "19", mood = "surprised", mouth = "open"))
     lily "Someone {i}cleaned{/i} the machine? Okay, now I'm actually worried."
     $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
     subtitles "She laughs, and drinks, and goes to collapse into the armchair by the radiator."
     headmaster.think "...Three. Breathe."
-    $ lily.clear_display()
+    $ lily.display(PDAPreset("outside", duration = 0.4))
 
     # Chloe, sleeves down over her tattoos as usual. Speaks to him.
     $ chloe.register_paperdoll()
-    $ chloe.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "neutral", mouth = "open"),
+    $ chloe.display(PDAImage(pose = "34", outfit = "uniform", level = 2, mood = "neutral", mouth = "open"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
     $ chloe.display(PDAPreset("upper_body_center", duration = 0.4))
     chloe "Somebody made a full pot before seven. Who are you, and what have you done with our headmaster?"
     $ chloe.display(PDAImage(mouth = "closed"))
     headmaster "Early meeting prep. Help yourself."
-    $ chloe.display(PDAImage(mood = "happy", mouth = "open"))
+    $ chloe.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
     chloe "'Meeting prep.' Sure. I'll take it, whatever it is."
     $ chloe.display(PDAImage(mouth = "closed"))
     headmaster.think "Four."
-    $ chloe.clear_display()
+    $ chloe.display(PDAPreset("outside", duration = 0.4))
 
     # Finola last, flustered, bag half open.
+    # Level-2 uniform shown here on purpose: the level-3 spare clothes after the
+    # changing room only land if the player has seen what she arrived in.
     subtitles "Finola Ryan arrives last, red bob still damp from the shower, with her bag half unzipped and a scarf she clearly grabbed on the way out the door."
+    $ finola.register_paperdoll()
+    $ finola.display(PDAImage(pose = "39", outfit = "uniform", level = 2, mood = "sad", mouth = "open"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ finola.display(PDAPreset("upper_body_center", duration = 0.4))
+    $ finola.display(PDAImage(pose = "17"))
     finola "Sorry, sorry, I overslept, I {i}never{/i} oversleep— is there any left?"
+    $ finola.display(PDAImage(mouth = "closed"))
     yulan "Plenty. He's made enough for a regiment."
+    $ finola.display(PDAImage(pose = "29", mood = "happy"))
     subtitles "Finola pours a cup, stirs in two sugars, and sits down in the only free chair, which happens to be right next to Yulan."
     headmaster.think "Five. All five of them."
+    $ finola.display(PDAPreset("outside", duration = 0.4))
 
     ########################################
     # Overheard: the teachers talking among themselves (no paperdolls).
 
     subtitles "For a while it's just a normal staff-room morning. Mugs clinking, the radiator knocking, somebody's phone buzzing on the table."
-    zoe "Did anybody actually read the agenda for Friday? Because I got as far as 'item one' and then I had to go and supervise the swimming."
+    zoe "Did anybody actually read the agenda for Friday? Because I got as far as 'item one' and then I had to go and set up the gym for 2B."
     lily "It's the budget again. It's always the budget. And behaviour, apparently, because the council has decided we need a new form for it."
     chloe "Another form. Great. I'll colour it in."
     yulan "The existing form is fine. It's that nobody fills it in properly."
@@ -1881,19 +1951,49 @@ label lab_intro_14 (**kwargs):
     # Twenty minutes later. The shift starts.
     subtitles "Twenty minutes later, the conversation has got louder, and slower, and somehow warmer."
 
+    # IMAGE (lab_intro_14 5): wide shot of the staff room, grey morning light.
+    # All four changes visible at once: Lily stretched out in the armchair by
+    # the radiator, arms up, blouse untucked over a pale strip of stomach; Zoe
+    # on a chair, red tracksuit jacket over the backrest, sitting in the yellow
+    # hex-pattern one-piece leotard and red track pants (her L2 outfit minus
+    # the jacket; the pants come off in render 2), legs crossed; Chloe with sleeves rolled past the elbow, tattoo sleeves
+    # showing; Yulan and Finola at the long table, shoulder to shoulder. The
+    # Headmaster's budget draft in the foreground. Held until Zoe stands up.
+    $ image.show(5)
+
     # Lily stretches in the armchair; her blouse rides up over her stomach.
     subtitles "Lily stretches in the armchair, arms right up over her head, and her blouse comes untucked and rides up over a pale strip of stomach. She doesn't pull it down."
     lily "Mmh— God, sorry. I think I graded myself into a knot last night. Everything's so... loose now, though. Is that weird? That's weird."
 
-    # Zoe peels off her red tracksuit jacket; yellow swimsuit top underneath.
-    subtitles "Zoe has unzipped her tracksuit jacket all the way and shrugged it off onto the back of the chair. Underneath is the yellow swimsuit top she wears for the pool, and she's sitting there in it with her legs crossed as if that's what she always wears to the staff room."
-    zoe "Is the heating on already? I'm roasting. Honestly, this coffee's doing something to me. I feel all... good-loose. Like after a really long swim."
+    # Zoe sheds the red tracksuit jacket she always wears open over her leotard.
+    subtitles "Zoe has shrugged her tracksuit jacket off onto the back of the chair. Without it there's nothing left on top but the yellow leotard she teaches PE in, and she's sitting there in it with her legs crossed as if that's what she always wears to the staff room."
+    zoe "Is the heating on already? I'm roasting. Honestly, this coffee's doing something to me. I feel all... good-loose. Like after a really good stretch."
+
+    # Zoe stands and pushes her track pants down; she teaches yoga first period anyway.
+    # IMAGE (lab_intro_14 6): Zoe standing by her chair, mug parked on the seat,
+    # thumbs hooked in the waistband of the red track pants, pushing them down
+    # over her hips. Yellow hex-pattern leotard, high-cut legs, bare thighs.
+    # Jacket over the backrest. Easy grin, no hurry. Chloe blurred behind her
+    # with a mug halfway to her mouth.
+    $ image.show(6)
+    subtitles "Then she gets up, hooks her thumbs into the waistband of her track pants, and starts pushing them down over her hips."
+    zoe "I've got yoga first period anyway, and I always teach it without these, so they'd be coming off in half an hour regardless, and these are so {i}hot{/i}, honestly, I don't know why I bother with them in the mornings. This is just efficient. It's basically sports kit."
+    subtitles "She steps out of them, kicks them under her chair, and sits back down in nothing but the leotard, bare legs crossed, and picks her coffee back up."
+    chloe "Zoe. It's the staff room."
+    zoe "What? You've all seen me in the gym in this a hundred times. And look who's talking."
+    subtitles "She nods at Chloe's arms. Chloe looks down."
 
     # Chloe rolls her sleeves right up; tattoo sleeves fully on show.
-    subtitles "Chloe, who never shows her arms in front of colleagues, has rolled both her sleeves up past the elbow without seeming to notice. The ink runs all the way up: roses, a swallow, a line of sheet music."
-    chloe "Oh, screw it. It's too warm for sleeves."
+    subtitles "Chloe, who never shows her arms in front of colleagues, has rolled both her sleeves up past the elbow without noticing. The ink runs all the way up: roses, a swallow, a line of sheet music."
+    chloe "...Huh. Oh, screw it. It's too warm for sleeves."
+
+    # IMAGE (lab_intro_14 7): closer on Yulan and Finola at the table. Shoulders
+    # pressed together, Yulan's hand flat on the tabletop a few centimetres from
+    # Finola's. Yulan looking at Finola's hair, unguarded; Finola flushed, mug in
+    # both hands, eyes down. Stays up through Finola standing (hand on chest).
 
     # Yulan and Finola, shoulder to shoulder.
+    $ image.show(7)
     subtitles "At the table, Yulan has ended up with her shoulder pressed against Finola's, and her hand resting on the table a few centimetres from Finola's own. Neither of them has moved away."
     yulan "Your hair's very red. In this light, I mean. I don't think I'd ever really noticed."
     finola "Oh— um. Thank you? It's just... hair."
@@ -1916,7 +2016,10 @@ label lab_intro_14 (**kwargs):
     ########################################
     # Corridor → staff changing room
 
-    # IMAGE: empty corridor; the staff changing room door at the end, ajar.
+    # IMAGE (lab_intro_14 8): empty corridor, morning light; the staff changing
+    # room door at the far end standing open about a hand's width. Doubles as
+    # the scene's background (no corridor background exists yet).
+    $ image.show(8)
     subtitles "The corridor's empty. At the far end, the staff changing room door is standing open about a hand's width."
     headmaster.think "Not the bathroom. The changing room. She went for her locker."
     headmaster.think "Last time she ran for it in a panic. This time she walked straight here like she knew exactly what she was doing..."
@@ -1924,15 +2027,22 @@ label lab_intro_14 (**kwargs):
     subtitles "There's movement on the other side of the door: a soft rustle of fabric, a zip, a long exhale."
     headmaster "Ms. Ryan? Are you—"
 
-    # IMAGE: through the gap, Finola at her locker, back to him, completely naked,
-    # clothes in a heap on the bench and floor. Freckles down her back.
+    # IMAGE (lab_intro_14 9): through the gap, Finola at her open locker, back to
+    # him, completely naked. Blouse, skirt, tights and underwear in a heap on the
+    # bench and floor. Freckles from her shoulders all the way down her back.
     subtitles "He pushes the door with two fingers, and it swings further than he means it to."
+    $ image.show(9)
     subtitles "Finola is standing at her open locker with her back to him, and she isn't wearing anything at all. Her blouse, her skirt, her tights and her underwear are all in a heap on the bench, as though they'd been peeled off in one go. The freckles on her shoulders carry on down her back, all the way down."
     headmaster.think "Oh— oh God."
 
-    # IMAGE: she turns at his voice; a full second passes before an arm crosses
-    # her chest and a hand drops low. Face flushed, dazed, not horrified.
-    subtitles "She turns around at the sound of his voice. For one long second she just looks at him, flushed and a bit dazed, completely bare, and it's only after that second that an arm comes up across her chest and her other hand drops to cover herself."
+    # IMAGE (lab_intro_14 10): she has turned at his voice. Facing him, fully bare,
+    # arms still at her sides. Flushed, dazed, not horrified: the one long second.
+    # IMAGE (lab_intro_14 11): same framing, the second over. One arm across her
+    # chest, the other hand dropped low to cover herself, eyes now wide.
+    $ image.show(10)
+    subtitles "She turns around at the sound of his voice. For one long second she just looks at him, flushed and a bit dazed, completely bare."
+    $ image.show(11)
+    subtitles "It's only after that second that an arm comes up across her chest and her other hand drops to cover herself."
     $ set_game_data("seen_breasts_finola_ryan", True)
     $ set_game_data("seen_ass_finola_ryan", True)
     $ set_game_data("seen_pussy_finola_ryan", True)
@@ -1941,6 +2051,7 @@ label lab_intro_14 (**kwargs):
     finola "It was all too tight. Everything. The shirt, and then the— and then it was all of it, it was all just too {i}much{/i}, I couldn't—"
     finola "Sorry. I'm sorry. Give me a minute. Please."
 
+    $ image.show(8)
     subtitles "He pulls the door shut and stands in the corridor with his hand still on the handle."
     finola.think "*He saw. He— did he see? He saw. I didn't even lock the door. I {i}always{/i} lock the door.*"
 
@@ -1953,7 +2064,7 @@ label lab_intro_14 (**kwargs):
     # ripped dark jeans, black lace-up boots). Speaks to him.
     subtitles "A few minutes later the door opens. Finola comes out dressed again, but not in what she arrived in. It's the spare clothes from her locker: a cropped yellow tank top that stops well above her navel, the lace edge of her bra showing at the neckline, ripped dark jeans and her black boots. The blouse is balled up in her hand."
     subtitles "She can't quite look at him."
-    $ finola.register_paperdoll()
+    $ paperdoll_manager.set_background(image[8], blur = True)
     $ finola.display(PDAImage(pose = "1", outfit = "uniform", level = 3, mood = "sad", mouth = "closed", look = "avert"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
@@ -1964,23 +2075,36 @@ label lab_intro_14 (**kwargs):
     $ finola.display(PDAImage(mouth = "closed"))
     finola.think "*I remember his voice. I remember the cold floor under my feet. I don't remember deciding to take everything off.*"
     headmaster "It's forgotten. Honestly. Are you feeling alright?"
-    $ finola.display(PDAImage(mood = "neutral", mouth = "open"))
+    $ finola.display(PDAImage(pose = "14", mood = "neutral", mouth = "open"))
     finola "I... yes. Fine. Better, actually, which is somehow the worst part."
     finola "These were in my locker. For... I honestly don't know what for. I couldn't make myself put the blouse back on. It felt like— it just felt {i}wrong{/i} on me."
     $ finola.display(PDAImage(mouth = "closed"))
     headmaster.think "Last time she couldn't get back into her own clothes fast enough. 'Completely inappropriate for work.' Her words."
     headmaster.think "...She's not even reaching for the blouse."
+    $ finola.display(PDAImage(pose = "13", mood = "sad", look = "avert"))
     subtitles "She gives him a small, awful smile and goes back towards the staff room with the blouse still balled up in her fist, and her arms folded tight over her bare stomach."
-    $ finola.clear_display()
+    $ finola.display(PDAPreset("outside", duration = 0.4))
 
     ########################################
     # Staff room, bell coming up
 
+    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
+
     subtitles "By the time he gets back, the teachers are gathering up bags and mugs. First period is ten minutes away."
+    # Level-2 uniform = red tracksuit jacket hanging open over the yellow
+    # leotard, which matches her pulling the jacket back on here.
+    $ zoe.display(PDAImage(pose = "2", outfit = "uniform", level = 2, mood = "neutral", mouth = "open"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ zoe.display(PDAPreset("upper_body_center", duration = 0.4))
     zoe "Is Finn alright?"
+    $ zoe.display(PDAImage(mouth = "closed"))
     headmaster "She's fine. Overheated, I think."
+    $ zoe.display(PDAImage(pose = "34", mood = "suspicious", mouth = "open"))
     zoe "Mm."
-    subtitles "Zoe looks at him for a moment longer than she needs to, then shrugs her jacket back on over the swimsuit top and zips it right up."
+    $ zoe.display(PDAImage(mouth = "closed"))
+    subtitles "Zoe looks at him for a moment longer than she needs to, then fishes her track pants out from under the chair and steps back into them, yoga or no yoga. She shrugs her jacket on over the leotard and, for once, zips it right up to the collar."
+    $ zoe.display(PDAPreset("outside", duration = 0.4))
     chloe "Thanks for the coffee, boss. Do it again sometime."
     lily "Please do it again. Every day. I'll pay you."
     yulan "Next time, leave the timer alone."
@@ -1995,6 +2119,9 @@ label lab_intro_14 (**kwargs):
     $ set_progress("lab_intro_faculty", 1)
 
     $ end_event("new_daytime", **kwargs)
+
+# endregion
+##############################
 
 # PTA Refreshments - Friday morning after Morning Brew
 label lab_intro_15 (**kwargs):
