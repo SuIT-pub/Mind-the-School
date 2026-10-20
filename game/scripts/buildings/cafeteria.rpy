@@ -30,6 +30,13 @@ init -1 python:
         
 init 1 python:
     set_current_mod('base')
+
+    register_building_ambience("cafeteria", AmbienceStorage(
+        Ambience(audio.empty_room, volume = 0.8),
+        Ambience(audio.cafeteria_empty, 1, TimeCondition(daytime = "1,2,4,5"), volume = 0.5),
+        Ambience(audio.cafeteria_chatter, 1, TimeCondition(daytime = "3,6"), volume = 0.1),
+    ))
+
     cafeteria_construction_event = Event(1, "cafeteria_construction",
         ProgressCondition("unlock_cafeteria", "2"),
         Pattern("main", "images/events/cafeteria/cafeteria_construction/cafeteria_construction <step>.webp"))
@@ -144,13 +151,6 @@ init 1 python:
 ######################################
 
 label cafeteria ():
-    if time.get_daytime() in [1, 2, 4, 5]:
-        $ play_sound(audio.cafeteria_empty, True, 0.5, 1.0)
-    elif time.get_daytime() in [3, 6]:
-        $ play_sound(audio.cafeteria_chatter, True, 0.1, 1.0)
-    else:
-        $ play_sound(audio.empty_room, True, 0.8, 1.0)
-
     call call_available_event(cafeteria_general_event) from cafeteria_4
 
 label .after_general_check (**kwargs):

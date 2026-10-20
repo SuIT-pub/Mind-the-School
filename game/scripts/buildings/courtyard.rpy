@@ -22,6 +22,11 @@ init -1 python:
 
 init 1 python:
     set_current_mod('base')
+    register_building_ambience("courtyard", AmbienceStorage(
+        Ambience(audio.empty_room, volume = 0.5),
+        Ambience(audio.muffled_chatter, 1, TimeCondition(daytime = "3,6")),
+        Ambience(audio.night_ambience, 1, TimeCondition(daytime = 7), volume = 0.8),
+    ))
 
     courtyard_event1 = Event(3, "courtyard_event_1",
         LevelCondition('1-3', char_obj = 'school'),
@@ -98,13 +103,6 @@ init 1 python:
 ######################################
 
 label courtyard ():
-    if time.get_daytime() in [1, 2, 4, 5]:
-        $ play_sound(audio.empty_room, True, 0.5, 1.0)
-    elif time.get_daytime() in [3, 6]:
-        $ play_sound(audio.muffled_chatter, True, 1.0, 1.0)
-    else:
-        $ play_sound(audio.night_ambience, True, 0.8, 1.0)
-
     call call_available_event(courtyard_general_event) from courtyard_4
 
 label .after_general_check (**kwargs):

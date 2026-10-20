@@ -323,7 +323,6 @@ The background path is redirected into your mod folder, like every other path
 
 | Gap | Effect |
 |-----|--------|
-| Ambient sound is hard-wired in `map_overview` | every map plays the forest (day) / night ambience |
 | `tutorial.rpy` and the intro labels in `daily_check.rpy` (`scene school_map`) use the campus image directly | intended for campus-only tutorials and intro scenes; they ignore the current map. `school_map` resolves through Ren'Py's automatic image name for `images/background/school_map.webp` |
 | `school_overview_images` is defined but not used anywhere | no effect |
 | Global event pools run on every map | the map does not gate events by itself; pair it with an event flag ([Events §5](Events#event-flags)) |
@@ -341,6 +340,9 @@ The background path is redirected into your mod folder, like every other path
 `add_building_to_map(map_key, building)` · `clear_maps()`.
 
 **Helpers** (`helper.rpy`) — `set_current_map(key)` · `get_current_map()`.
+
+**Ambience** — `register_map_ambience(map_key, AmbienceStorage(...))`, played by
+`map_entry`; buildings without their own ambience inherit it. See [Audio](Audio).
 
 **Buildings** — `Building(...)` · `register_buildings(*buildings)` ·
 `building_manager.get_building(key)` / `get_buildings()` / `is_open(key)` ·

@@ -67,6 +67,10 @@ init -1 python:
 
 init 1 python: 
     set_current_mod('base')  
+    register_building_ambience("office_building", AmbienceStorage(
+        Ambience(audio.empty_room, volume = 0.8),
+    ))
+
     
     office_building_events["look_around"].add_event(
         Event(3, "office_event_1",
@@ -169,8 +173,6 @@ init 1 python:
 ############################################
 
 label office_building ():
-    $ play_sound(audio.empty_room, True, 0.8, 1.0)
-
     call call_available_event(office_building_general_event) from office_building_4
 
 

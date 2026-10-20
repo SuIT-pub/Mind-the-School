@@ -2013,6 +2013,8 @@ init -3 python:
 
         hide_all()
 
+        # effects stop so nothing from the location bleeds into the scene; the
+        # room tone stays under it, ducked
         renpy.sound.stop(fadeout = 1.0)
 
         event_name = get_kwargs("event_name", "", **kwargs)
@@ -2020,6 +2022,11 @@ init -3 python:
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
         is_fragment = get_kwargs("is_fragment", False, **kwargs)
         is_decision_call = get_kwargs("is_decision_call", False, **kwargs)
+
+        # the journal is silent, so a replay starts its location's sound itself
+        if in_replay and not is_fragment and not is_decision_call and is_event_registered(event_name):
+            play_location_ambience("building", get_event_from_register(event_name).get_location(), ducked = True)
+        duck_ambience()
 
         # Map overview shows the map as `map_image` (an image, not a screen). hide_all()
         # only drops screens, so the map would stay at default zorder and cover a
@@ -2105,6 +2112,7 @@ init -3 python:
         in_replay = get_kwargs("in_replay", False, **kwargs)
         if in_replay:
             is_in_replay = False
+            stop_ambience()
             display_journal = get_kwargs("journal_display", "", **kwargs)
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return
@@ -2113,6 +2121,7 @@ init -3 python:
         # instead of advancing the game (skips daytime progression and threshold checks).
         cheat_event_return = get_kwargs("cheat_event_return", False, **kwargs)
         if cheat_event_return:
+            restore_location_ambience()
             renpy.call("open_journal", 5, "events", from_current = False)
             return
 
@@ -2124,6 +2133,8 @@ init -3 python:
         situation_manager.check_resolutions(**kwargs)
 
         renpy.sound.stop(fadeout = 1.0)
+        # re-resolved, so a level or flag the scene changed is heard right away
+        restore_location_ambience()
 
         # Situation events queued above (or during the event) run first; the
         # drain label then continues with the routing below.

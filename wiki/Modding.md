@@ -458,13 +458,14 @@ items, buildings, maps) → a `register_start_method` loader label (lifecycle wa
 `register_situations(...)` · `register_unlockables(...)` · `load_person(key, Person)` ·
 `load_pictograms(...)` / `add_pictogram(...)` · `load_item(ItemData)` ·
 `register_buildings(...)` · `map_manager.load_map(Map)` · `map_manager.add_building_to_map(map_key, building)`
-([Maps](Maps)) · `register_collectibles(...)` · `register_emiko_gifts(...)` (`game/scripts/journal/emiko_gifts.rpy`). Events use `EventStorage.add_event(...)` at init instead.
+([Maps](Maps)) · `register_building_ambience(key, storage)` · `register_map_ambience(key, storage)` ([Audio](Audio)) · `register_collectibles(...)` · `register_emiko_gifts(...)` (`game/scripts/journal/emiko_gifts.rpy`). Events use `EventStorage.add_event(...)` at init instead.
 
 ### Related pages
 
 - [Events](Events) — scene definitions & labels, `Pattern`s, decisions, characters
 - [Maps](Maps) — map buildings, extra maps, `add_building_to_map`
 - [Images](Images) — path resolution, PNG/WebP, how `images/…` becomes `mods/MyMod/images/…`
+- [Audio](Audio) — ambience for your buildings and maps, adding sound to base locations
 - [Building Situations](Building-Situations) / [Building Unlockables](Building-Unlockables) — the `register_start_method` loader pattern
 - [Selectors](Selectors) · [Conditions](Conditions) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options)
 

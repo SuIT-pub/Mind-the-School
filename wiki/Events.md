@@ -361,7 +361,10 @@ label truth_or_dare_2(**kwargs):
   choices). It hides leftover screens **and** (on a fresh scene, not a fragment or
   decision re-entry) clears the master layer, including the map overview's
   map image (tag `map_image`, see [Maps](Maps)) — that image is not a screen, so `hide_all()` alone would
-  leave it covering a paperdoll background at zorder `-100`. It stops sound,
+  leave it covering a paperdoll background at zorder `-100`. It stops one-shot
+  effects and **ducks** the location's ambience to 35 % (in a replay it first starts
+  the event location's ambience); `end_event` restores and re-resolves it — see
+  [Audio](Audio). It
   **blocks rollback** (locking in rolled selector values and choices), marks the
   event **seen** (`set_event_seen`), starts a `Gallery_Manager` for replay
   (unless `no_gallery=True` in kwargs), and `init_paperdoll_manager()`. It also

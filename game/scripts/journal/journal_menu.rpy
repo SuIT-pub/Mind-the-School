@@ -415,13 +415,32 @@ screen journal_menu_settings():
                 if config.has_music:
                     use jr_setting_slider("Music", Preference("music volume"))
                 if config.has_sound:
-                    use jr_setting_slider("Sound", Preference("sound volume"), (("test", Play("sound", config.sample_sound)) if config.sample_sound else None))
+                    use jr_setting_slider("Ambience", Preference("mixer ambience volume"))
+                    use jr_setting_slider("Effects", Preference("sound volume"), (("test", Play("sound", config.sample_sound)) if config.sample_sound else None))
+                # scene voices (moans, breathing) share the voice mixer, see wiki/Audio.md
                 if config.has_voice:
-                    use jr_setting_slider("Voice", Preference("voice volume"), (("test", Play("voice", config.sample_voice)) if config.sample_voice else None))
+                    use jr_setting_slider("Voices", Preference("voice volume"), (("test", Play("voice", config.sample_voice)) if config.sample_voice else None))
+                fixed:
+                    xysize (JR_RIGHT_W, 38)
+                    text "In background" style "jr_text" size 22 yalign 0.5
+                    hbox:
+                        xalign 1.0
+                        yalign 0.5
+                        spacing 4
+                        textbutton "play":
+                            style "jr_entry_button"
+                            text_style "jr_entry_button_text"
+                            text_size 20
+                            action [Preference("audio when unfocused", "enable"), Preference("audio when minimized", "enable")]
+                        textbutton "silent":
+                            style "jr_entry_button"
+                            text_style "jr_entry_button_text"
+                            text_size 20
+                            action [Preference("audio when unfocused", "disable"), Preference("audio when minimized", "disable")]
                 fixed:
                     xysize (JR_RIGHT_W, 38)
                     text "Mute everything" style "jr_text" size 22 yalign 0.5
-                    textbutton ("muted" if preferences.get_mute("music") and preferences.get_mute("sfx") else "mute"):
+                    textbutton ("muted" if preferences.get_mute("sfx") and preferences.get_mute("ambience") else "mute"):
                         style "jr_entry_button"
                         text_style "jr_entry_button_text"
                         text_size 20

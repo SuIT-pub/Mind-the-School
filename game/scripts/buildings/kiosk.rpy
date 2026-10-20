@@ -22,6 +22,10 @@ init -1 python:
 
 init 1 python:
     set_current_mod('base')
+    register_building_ambience("kiosk", AmbienceStorage(
+        Ambience(audio.empty_room, volume = 0.8),
+        Ambience(audio.muffled_chatter, 1, TimeCondition(daytime = "f")),
+    ))
 
     kiosk_event1 = Event(3, "kiosk_event_1",
         LevelSelector('school_level', 'school'),
@@ -62,11 +66,6 @@ init 1 python:
 ##################################
 
 label kiosk ():
-    if time.get_daytime() in [1, 3, 6]:
-        $ play_sound(audio.muffled_chatter, True, 1.0, 1.0)
-    else:
-        $ play_sound(audio.empty_room, True, 0.8, 1.0)
-    
     call call_available_event(kiosk_general_event) from kiosk_4
 
 label .after_general_check (**kwargs):

@@ -26,6 +26,10 @@ init -1 python:
     
 init 1 python:
     set_current_mod('base')
+    register_building_ambience("gym", AmbienceStorage(
+        Ambience(audio.empty_room, volume = 0.8),
+        Ambience(audio.gym_active, 1, TimeCondition(daytime = "c"), volume = 0.2),
+    ))
 
     gym_event1 = Event(3, "gym_event_1",
         LevelSelector("school_level", "school"),
@@ -100,11 +104,6 @@ init 1 python:
 ################################
 
 label gym ():
-    if time.get_daytime() in [2, 4, 5]:
-        $ play_sound(audio.gym_active, True, 0.2, 1.0)
-    else:
-        $ play_sound(audio.empty_room, True, 0.8, 1.0)
-
     call call_available_event(gym_general_event) from gym_4
 label .after_general_check (**kwargs):
     call call_event_menu (

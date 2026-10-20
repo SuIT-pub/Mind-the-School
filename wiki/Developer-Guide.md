@@ -158,6 +158,8 @@ The building blocks the content systems are made of:
   screens and classes.
 - **[Maps](Maps)** — the map overview, map buildings (sprites, positions, open/close),
   extra maps and switching between them with `set_current_map`.
+- **[Audio](Audio)** — channels and volume sliders, ambience per building and map
+  (`AmbienceStorage` with conditions), ducking under scenes, one-shot effects.
 - **[Journal Alerts](Journal-Alerts)** — unseen journal news (new teaser,
   situation activated, …): topic registry, pending items, and the map highlight
   icon. Other journal surfaces register their own topic.

@@ -322,7 +322,7 @@ tag `map_image`. Full guide: **[Maps](Maps)**.
 
 Still open for the beach camp:
 
-- **[Proposal]** Ambience per map (today `map_overview` always plays forest/night).
+- ✅ Ambience per map: `register_map_ambience` ([Audio](Audio)).
 - Restricting which events run on a special map → the event flags ([§10](#10-engine-event-flags)).
 - The camp state must survive save/load: since only `current_map` is saved and
   `map_overview` reads it, a reload already lands back on the active map.

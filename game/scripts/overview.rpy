@@ -820,10 +820,7 @@ label map_overview ():
 
     $ renpy.block_rollback()
 
-    if time.get_daytime() < 7:
-        $ play_sound(audio.forest_ambience, True, 0.8, 1.0)
-    else:
-        $ play_sound(audio.night_ambience, True, 0.8, 1.0)
+    $ play_location_ambience("map", map_manager.get_current_map().key)
 
     call screen school_overview_buttons (True)
     # call screen school_overview with dissolveM
@@ -848,6 +845,9 @@ label building(name=""):
     hide screen school_overview_buttons
 
     $ hide_all()
+
+    # before the building label, so its general-check event already ducks the right room
+    $ play_location_ambience("building", name)
 
     # $ image_code = name + str(time.get_daytime_name()) + str(time.get_day()) + str(time.get_month_name()) + str(time.year)
 

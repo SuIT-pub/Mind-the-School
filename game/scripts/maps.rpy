@@ -51,6 +51,14 @@ init -99 python:
 
     map_manager = MapManager()
 
+init 1 python:
+    set_current_mod('base')
+
+    register_map_ambience("school", AmbienceStorage(
+        Ambience(audio.forest_ambience, volume = 0.8),
+        Ambience(audio.night_ambience, 1, TimeCondition(daytime = 7), volume = 0.8),
+    ))
+
 label load_maps:
     $ set_current_mod('base')
 
