@@ -11,6 +11,7 @@
     "asset-pack-1-0-3",
     "play-sound-loop-deprecated",
     "begin-event-ducks-ambience",
-    "ambience-registry"
+    "ambience-registry",
+    "music-system"
   ]
 }
