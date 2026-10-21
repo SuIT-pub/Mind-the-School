@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-21T12:02:19Z",
+  "updatedAt": "2026-10-21T12:16:27Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -16,6 +16,11 @@
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
       "version": "0.2.2"
+    },
+    {
+      "id": "ui-sounds",
+      "title": "Sounds for the interface",
+      "summary": "Small sounds for the journal, collecting photos and other key moments, with their own volume slider."
     }
   ],
   "next": [
