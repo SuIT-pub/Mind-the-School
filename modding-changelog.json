@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "ui-sounds",
+      "date": "2026-10-21",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Interface sounds: register_ui_sound / play_ui_sound / UISound",
+      "details": "Interface moments now have sound hooks on their own `ui` channel (Effects slider): `journal_open`, `journal_close`, `page_turn`, `choice`, `collect`, `gift`, `notify`, `milestone`. A key without a registered file stays silent.\n- `register_ui_sound(key, sound, volume=1.0, rank=None)` sets or replaces a moment's sound (paths with a folder resolve into your mod folder).\n- `play_ui_sound(key)` in Python, `UISound(key)` in screen actions: `action [UISound(\"page_turn\"), Call(...)]`.\n- Your own keys work too. Within 0.6 s a lower-ranked sound is dropped, so one moment makes one sound.",
+      "wiki": "Audio#9-interface-sounds"
+    },
+    {
       "id": "music-system",
       "date": "2026-10-21",
       "version": "0.2.2",
