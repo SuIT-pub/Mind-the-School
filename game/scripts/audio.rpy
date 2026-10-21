@@ -596,6 +596,75 @@ init -5 python:
 
     config.after_load_callbacks.append(_restart_music_after_load)
 
+    class _AudioSnapshot(NoRollback):
+        # NoRollback: the snapshot has to survive the very rollback it repairs
+        def __init__(self):
+            self.data = None
+
+    _audio_snapshot = _AudioSnapshot()
+    _SNAPSHOT_CHANNELS = ("music", "ambience_a", "ambience_b")
+
+    # kept on the engine module, so a script reload wraps the engine's
+    # function again instead of wrapping the previous wrapper
+    if not hasattr(renpy.audio.audio, "_engine_rollback"):
+        renpy.audio.audio._engine_rollback = renpy.audio.audio.rollback
+
+    def _rollback_stop_sounds(_engine_stop = renpy.audio.audio._engine_rollback):
+        # Every rollback ends with renpy.audio.audio.rollback(), which cuts each
+        # channel that is not looping a file. Music never loops (the playlist
+        # advances in _music_tick), so hiding the UI killed it. While a
+        # snapshot is pending, the snapshot channels are left alone; anything
+        # else (a one-shot effect, a player's own rollback) behaves as before.
+        if _audio_snapshot.data is None:
+            return _engine_stop()
+        # compared as objects: "music" is only an alias, the channel itself
+        # is named 7 (Ren'Py's legacy numbered channels)
+        keep = [renpy.audio.audio.get_channel(name) for name in _SNAPSHOT_CHANNELS]
+        with renpy.audio.audio.lock:
+            for c in renpy.audio.audio.all_channels:
+                if not c.loop and not any(c is k for k in keep):
+                    c.fadeout(0)
+
+    renpy.audio.audio.rollback = _rollback_stop_sounds
+
+    def snapshot_audio_for_rollback():
+        """
+        Remembers what music and ambience are really doing, before a scripted
+        renpy.rollback (hiding the UI) rewinds the store and the channel
+        contexts. Pair with label restore_audio_after_rollback.
+        """
+
+        contexts = {}
+        for name in _SNAPSHOT_CHANNELS:
+            ctx = renpy.audio.audio.get_channel(name).context
+            contexts[name] = (ctx.last_changed, list(ctx.last_filenames), ctx.last_tight, ctx.last_relative_volume)
+        _audio_snapshot.data = (dict(music_state, order = list(music_state["order"])), dict(ambience_state), contexts)
+
+    def restore_audio_after_rollback():
+        # The rollback replays every statement since the last interaction. On
+        # the map that includes play_map_music, which, seeing the rewound
+        # music_state, would start the track again from the top; and Ren'Py
+        # fades out any channel whose context is older than what it plays.
+        # Putting the pre-rollback state back first makes the replay a no-op.
+        if _audio_snapshot.data is None:
+            return
+        music, ambience, contexts = _audio_snapshot.data
+        _audio_snapshot.data = None
+        music_state.clear()
+        music_state.update(music)
+        ambience_state.clear()
+        ambience_state.update(ambience)
+        for name, (changed, filenames, tight, relative_volume) in contexts.items():
+            ctx = renpy.audio.audio.get_channel(name).context
+            ctx.last_changed = changed
+            ctx.last_filenames = filenames
+            ctx.last_tight = tight
+            ctx.last_relative_volume = relative_volume
+
+label restore_audio_after_rollback:
+    $ restore_audio_after_rollback()
+    return
+
 label before_main_menu:
     $ play_menu_music()
     return

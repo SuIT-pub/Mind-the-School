@@ -146,7 +146,8 @@ label trigger_hide():
         call screen wait_hide(hidden_zoom_image)
         $ quick_menu = True
         window show
-        $ renpy.rollback(checkpoints = 2)
+        $ snapshot_audio_for_rollback()
+        $ renpy.rollback(checkpoints = 2, label = "restore_audio_after_rollback")
         $ hide_gui = False
         return
 
