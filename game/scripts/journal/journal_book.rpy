@@ -326,7 +326,7 @@ screen journal_sub_ribbons(section, entries):
             focus_mask True
             if not active:
                 at jr_sub_slide
-            action action
+            action [UISound("page_turn"), action]
             text label:
                 font JR_FONT_SEMIBOLD
                 size 20
@@ -360,9 +360,9 @@ screen journal_book(page, display, sub_entries = None):
                 if not usable:
                     $ ribbon_action = NullAction()
                 elif title_mode:
-                    $ ribbon_action = ShowMenu("journal_title", ("credits" if nav_key == "credits" else "load"))
+                    $ ribbon_action = [UISound("page_turn"), ShowMenu("journal_title", ("credits" if nav_key == "credits" else "load"))]
                 else:
-                    $ ribbon_action = [With(dissolveM), Call("open_journal", target, "")]
+                    $ ribbon_action = [UISound("page_turn"), With(dissolveM), Call("open_journal", target, "")]
                 $ ribbon_tip = title + (" [[" + digit + "]" if digit and show_keys else "")
                 if in_game_menu and not usable:
                     $ ribbon_tip = title + " (only on the map)"

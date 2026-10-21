@@ -117,6 +117,7 @@ init -1 python:
         if key not in received:
             persistent.emiko_gifts_received = received + [key]
         set_game_data("emiko_gifts_pending", [pending for pending in (get_game_data("emiko_gifts_pending", None) or []) if pending != key])
+        play_ui_sound("gift")
         show_notify_message("Kept in your collection", 12, "emiko|" + key)
         renpy.restart_interaction()
 

@@ -867,6 +867,8 @@ init -1 python:
             ):
                 unlockable.apply_group_upgrade_transition(**kwargs)
 
+            if not get_game_data(self.unlockable_situation_key + "_unlocked", False):
+                play_ui_sound("milestone")
             set_game_data(self.unlockable_situation_key + "_unlocked", True)
             if self.group_key is not None and self.group_index != -1:
                 set_game_data(self.group_key + "_level", self.group_index)

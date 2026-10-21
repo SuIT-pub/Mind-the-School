@@ -600,3 +600,86 @@ label before_main_menu:
 
 # endregion
 #############################
+
+#############################
+# region UI sounds ------- #
+#############################
+
+init -5 python:
+    # its own channel on the Effects mixer: a page turn must not cut off an
+    # effect a scene plays on "sound", and the scene must not cut the click
+    renpy.music.register_channel("ui", mixer = "sfx", loop = False, stop_on_mute = True)
+
+    # A moment that triggers several sounds at once (a collected photo also
+    # raises a notification) keeps only the most important one: within this
+    # window a lower-ranked sound is dropped
+    UI_SOUND_GUARD = 0.6
+
+    # rank of each base sound; unknown keys rank 1
+    UI_SOUND_RANKS = {
+        "milestone": 3,
+        "collect": 2,
+        "gift": 2,
+        "journal_open": 2,
+        "journal_close": 2,
+    }
+
+    ui_sounds = {}
+    # when, how important and which key the last UI sound was
+    _ui_sound_last = [0.0, 0, None]
+
+    def register_ui_sound(key: str, sound: str, volume: float = 1.0, rank: int = None):
+        """
+        Gives a UI moment its sound. Moments without a registered sound stay
+        silent, so hooks can exist before their files do.
+
+        ### Parameters:
+        1. key: str
+            - journal_open, journal_close, page_turn, choice, collect, gift, notify, milestone.
+            - A mod may add its own key and play it with play_ui_sound.
+        2. sound: str
+            - A file under game/; a path with a folder resolves into the mod's folder.
+        3. volume: float (default 1.0)
+            - Level match; UI sounds are short, so it is set by ear.
+        4. rank: int (default None)
+            - Overrides UI_SOUND_RANKS for this key.
+        """
+
+        if "/" in sound:
+            sound = get_mod_path(active_mod_key) + sound
+        record_mod_content("ui_sound", key)
+        if is_mod_active(active_mod_key):
+            ui_sounds[key] = (sound, volume)
+            if rank is not None:
+                UI_SOUND_RANKS[key] = rank
+
+    def play_ui_sound(key: str):
+        """
+        Plays the sound registered for a UI moment, if any.
+        """
+
+        entry = ui_sounds.get(key)
+        # hooks sit in game logic (levels, situations) that may also run while
+        # the game initialises, where Ren'Py refuses to play anything
+        if entry is None or renpy.game.context().init_phase:
+            return
+        rank = UI_SOUND_RANKS.get(key, 1)
+        now = _music_clock.time()
+        if now - _ui_sound_last[0] < UI_SOUND_GUARD:
+            # a lower-ranked echo of the same moment, or the milestone twice (an
+            # unlock both applies its effect and completes its situation); quick
+            # page turns or clicks stay audible
+            if rank < _ui_sound_last[1] or (key == _ui_sound_last[2] and rank >= 3):
+                return
+        _ui_sound_last[:] = [now, rank, key]
+        renpy.music.play(entry[0], channel = "ui", relative_volume = entry[1])
+
+    def UISound(key: str):
+        """
+        The screen-language form: action [UISound("page_turn"), Call(...)].
+        """
+
+        return Function(play_ui_sound, key)
+
+# endregion
+#############################

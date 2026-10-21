@@ -160,6 +160,7 @@ init -99 python:
         notify_messages.append((msg, timestamp, page, display))
         notify_messages = notify_messages[-notify_history_length:]
 
+        play_ui_sound("notify")
         renpy.show_screen("notify_container")
         renpy.restart_interaction()
 
@@ -200,6 +201,10 @@ init -99 python:
             add_notify_message(notify_str + " " + notify_val)
 
         reset_stat_notifications()
+
+        # one sound for the whole batch of slips the map shows at once
+        if any(n[1] == -1 for n in notify_messages):
+            play_ui_sound("notify")
 
         for i in range(len(notify_messages)):
 

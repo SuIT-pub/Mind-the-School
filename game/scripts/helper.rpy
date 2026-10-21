@@ -1664,13 +1664,14 @@ init -99 python:
         "background": "Backgrounds",
         "ambience": "Ambience",
         "music": "Music",
+        "ui_sound": "Interface sounds",
         "name": "Display names",
         "start_method": "Start scripts",
     }
 
     # display order; unlockable types ("unlockable_rule", ...) follow the situations
     MOD_CONTENT_ORDER = ["event", "event_fragment", "pool", "situation", "unlockable_", "collectible", "emiko_gift",
-        "person", "item", "pictogram", "building", "map", "background", "ambience", "music", "name", "start_method"]
+        "person", "item", "pictogram", "building", "map", "background", "ambience", "music", "ui_sound", "name", "start_method"]
 
     MOD_CHANGE_LABELS = {
         "event": "Replaced events",

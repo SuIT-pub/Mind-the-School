@@ -136,6 +136,7 @@ init -1 python:
         if key in get_found_collectibles() or key not in collectible_register:
             return
         set_game_data("collectibles_found", get_found_collectibles() + [key])
+        play_ui_sound("collect")
         show_notify_message("Photo added to your collection", 12, "")
         renpy.restart_interaction()
 

@@ -417,7 +417,12 @@ init -6 python:
                 return
 
             level = clamp_value(level, 0, 10)
+            # the school climbing a level is the game's biggest step; the first
+            # level set at game start (0 -> 1) is setup, not a milestone
+            previous = self.level.get_value()
             self.level.set_value(level)
+            if self is get_school() and 1 <= previous < level:
+                play_ui_sound("milestone")
 
         def get_nearest_level_delta(self, level: int) -> int:
             """

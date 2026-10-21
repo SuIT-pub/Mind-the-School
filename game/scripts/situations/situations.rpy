@@ -2812,6 +2812,7 @@ init -99 python:
             self._clear_pause()
             self.state = "completed"
             if not already_completed:
+                play_ui_sound("milestone")
                 notify_situation_journal_alert(self)
 
         def cancel(self):

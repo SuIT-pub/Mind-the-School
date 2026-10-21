@@ -81,6 +81,7 @@ label start_journal ():
     # A label used to start the journal screen
     # """
 
+    $ play_ui_sound("journal_open")
 
 
     call call_available_event(journal_events) from start_journal_2

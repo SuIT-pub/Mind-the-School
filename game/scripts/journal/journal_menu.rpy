@@ -36,10 +36,10 @@ init python:
     def journal_close_action():
         if journal_title_mode():
             # back to the title screen
-            return Return()
+            return [UISound("journal_close"), Return()]
         if journal_in_game_menu():
-            return Jump("journal_menu_leave")
-        return [With(dissolveM), Jump("map_entry")]
+            return [UISound("journal_close"), Jump("journal_menu_leave")]
+        return [UISound("journal_close"), With(dissolveM), Jump("map_entry")]
 
     def journal_parent_on_map() -> bool:
         """
@@ -95,6 +95,7 @@ label game_menu:
 
     # anything else unknown opens the journal's save page rather than failing
     $ journal_menu_request = JOURNAL_MENU_SCREENS.get(_game_menu_screen, "save")
+    $ play_ui_sound("journal_open")
 
     if journal_parent_on_map():
         $ renpy.jump_out_of_context("journal_menu_from_map")

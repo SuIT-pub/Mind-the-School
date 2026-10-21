@@ -550,8 +550,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
         for button in buttons:
             $ active, number, title, title_text, effects, raw_title, position = button
             if number != -1:
-                key ("K_" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
-                key ("K_KP" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
+                key ("K_" + str(number)) action [UISound("choice"), Call("call_element", title, effects, menu_selection = raw_title, **kwargs)]
+                key ("K_KP" + str(number)) action [UISound("choice"), Call("call_element", title, effects, menu_selection = raw_title, **kwargs)]
             if active != "empty" and position is not None:
                 fixed:
                     pos (position[0], position[1])
@@ -590,8 +590,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                     $ active, number, title, title_text, effects, raw_title, position = button
 
                     if number != -1:
-                        key ("K_" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
-                        key ("K_KP" + str(number)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
+                        key ("K_" + str(number)) action [UISound("choice"), Call("call_element", title, effects, menu_selection = raw_title, **kwargs)]
+                        key ("K_KP" + str(number)) action [UISound("choice"), Call("call_element", title, effects, menu_selection = raw_title, **kwargs)]
 
                     if active == "empty" or (title == "" and number == -1):
                         null height 60
@@ -662,7 +662,7 @@ screen jr_choice_slip(title, number, active, marked, action):
     button:
         style "jr_choice_slip"
         sensitive active
-        action action
+        action [UISound("choice"), action]
         hbox:
             spacing 12
             if number != -1 and has_keyboard() and show_shortcut():

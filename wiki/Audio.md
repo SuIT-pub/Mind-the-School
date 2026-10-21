@@ -4,11 +4,12 @@
 > `AmbienceStorage`, `register_building_ambience`, `register_map_ambience`), how events
 > treat ambience, one-shot effects (`play_sound`), **music** (`MusicTrack`,
 > `register_map_music`, `register_music_pool`, `play_music`, `stop_music`) and the
-> player's sound settings. Scene sound (rhythm/voice layers) is planned — see
-> [§9](#9-planned).
+> player's sound settings, **interface sounds** (`register_ui_sound`,
+> `play_ui_sound`, `UISound`). Scene sound (rhythm/voice layers) is planned — see
+> [§10](#10-planned).
 >
-> **Status:** §1–§7 built 2026-10-20 (step 1), §8 music built 2026-10-21 (step 2);
-> §9 is planned.
+> **Status:** §1–§7 built 2026-10-20 (step 1), §8 music 2026-10-21 (step 2), §9 interface
+> sound hooks 2026-10-21 (step 3, files arriving one by one); §10 is planned.
 
 ---
 
@@ -39,7 +40,8 @@ Each mixer is one volume slider in the journal's settings page.
 | Channel | Mixer | Loops | Used for |
 |---|---|---|---|
 | `ambience_a`, `ambience_b` | `ambience` | yes | room tone, chatter, weather. Two channels so a change of location **crossfades** instead of dipping to silence; code never addresses them directly |
-| `sound` (Ren'Py default) | `sfx` ("Effects") | no | one-shots: UI, doors, props — `play_sound` |
+| `sound` (Ren'Py default) | `sfx` ("Effects") | no | one-shots in scenes: doors, props — `play_sound` |
+| `ui` | `sfx` ("Effects") | no | interface sounds (§9). Own channel, so a page turn never cuts a scene's effect |
 | `music` (Ren'Py default) | `music` | no — the playlist advances itself (§8) | map tracks, the bed under scenes, mood pools, the main menu |
 | `scene_voice` (+ more scene channels) | `voice` ("Voices") | yes | *planned, step 4* — moans, breathing, cries in scenes. `config.has_voice` stays `False` until the first scene sound ships |
 
@@ -279,15 +281,52 @@ or ND.
 
 ---
 
-## 9. Planned
+## 9. Interface sounds
 
-- **UI effects** (step 3): journal page turns, collectible pickup, decision clicks.
+Few and diegetic: the journal is leather, paper, pencil and polaroids, so its sounds
+are too — no synth beeps, no hover sounds, no click on every button. Only moments
+that mean something get one.
+
+| Key | When | Hook |
+|---|---|---|
+| `journal_open` | the journal opens from the map, or as the game menu mid event | `label start_journal`, `label game_menu` |
+| `journal_close` | every way out of the journal | `journal_close_action()` |
+| `page_turn` | a side ribbon (or its digit key) or a sub-page ribbon | `journal_book` / `journal_sub_ribbons` |
+| `choice` | a decision is picked, by click or number key | `jr_choice_slip`, the number keys in `call_menu` |
+| `collect` | a polaroid is picked up | `collect_collectible` |
+| `gift` | Emiko's gift is kept | `receive_emiko_gift` |
+| `notify` | a notification slip appears; the map's batch gets one sound | `show_notify_message`, `call_notify` |
+| `milestone` | the school climbs a level (not the 0 → 1 setup), an unlockable is unlocked, a situation is resolved | `Char.set_level`, `UnlockableUnlockEffect.apply`, `Situation.complete` |
+
+```python
+init 1 python:
+    set_current_mod('base')
+    register_ui_sound("page_turn", "audio/ui/page-turn.ogg", volume = 0.6)
+```
+
+A key without a registered sound stays **silent**, so the hooks exist before the
+files do. In a screen: `action [UISound("page_turn"), Call(...)]`; in Python:
+`play_ui_sound("collect")`. A mod can register its own key and play it the same way.
+
+**One moment, one sound.** A collected photo also raises a notification, an unlock
+both applies its effect and completes its situation. Within `UI_SOUND_GUARD` (0.6 s)
+a lower-ranked sound is dropped, and a milestone does not ring twice. Ranks
+(`UI_SOUND_RANKS`): `milestone` 3 · `collect`, `gift`, `journal_open`,
+`journal_close` 2 · everything else 1. Quick page turns and clicks stay audible.
+
+**Files:** short (under 2 s), no leading silence, little room reverb; level by ear
+with `volume`. Same licence rules as music: CC0, CC BY or CC BY-SA, never NC or ND.
+
+---
+
+## 10. Planned
+
 - **Scene sound** (step 4): `SceneSound(rhythm=..., voice=...)` on `show_video` steps,
   voice profiles per character, on the `scene_*` channels and the `voice` mixer (§2).
 
 ---
 
-## 10. API
+## 11. API
 
 **Classes** — `Ambience(sound, priority, *conditions, volume=1.0)` ·
 `AmbienceStorage(fallback, *ambiences)` with `add_ambience(*ambience)`,
@@ -313,6 +352,10 @@ its volume, whether it is ducked, and the current location `(kind, key)`.
 `play_music(pool, volume=None)` · `stop_music(fadeout=MUSIC_FADE)` ·
 `play_map_music(key)` (map_entry) · `start_event_music(**kwargs)` (begin_event) ·
 constants `MUSIC_REFERENCE_LUFS = -20` · `MUSIC_MAP_VOLUME = 0.75` · `MUSIC_BED_VOLUME = 0.5` · `MUSIC_FADE = 2.0`.
+
+**Interface sounds** — `register_ui_sound(key, sound, volume=1.0, rank=None)` ·
+`play_ui_sound(key)` · `UISound(key)` (screen action) · `UI_SOUND_GUARD = 0.6` ·
+`UI_SOUND_RANKS`.
 
 **Mod overview** — a registration shows under *Ambience*; registering a key another
 mod owns lists it under *Places with replaced ambience*, `add_ambience` on someone
