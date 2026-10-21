@@ -821,6 +821,7 @@ label map_overview ():
     $ renpy.block_rollback()
 
     $ play_location_ambience("map", map_manager.get_current_map().key)
+    $ play_map_music(map_manager.get_current_map().key)
 
     call screen school_overview_buttons (True)
     # call screen school_overview with dissolveM

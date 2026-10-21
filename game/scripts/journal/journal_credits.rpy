@@ -29,6 +29,8 @@ init python:
         ("Notepad vectors", "Lovepik.com", "https://lovepik.com/images/png-notepad.html"),
         ("Journal & menu icons", "Flaticon", "https://www.flaticon.com/"),
         ("Sound effects", "freesound_community · Pixabay", "https://pixabay.com/users/freesound_community-46691455/"),
+        # per-track titles and licences (CC BY / CC BY-SA 4.0): game/audio/music/CREDITS.txt
+        ("Music", "Purrple Cat · CC BY / BY-SA 4.0", "https://freemusicarchive.org/music/purrple-cat/"),
     ]
 
     # (what, credit, link) for everything the journal binder is built from

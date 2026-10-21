@@ -49,7 +49,7 @@ define build.name = "MindTheSchool"
 ## appropriate mixer.
 
 define config.has_sound = True
-define config.has_music = False
+define config.has_music = True
 define config.has_voice = False
 
 

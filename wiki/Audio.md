@@ -2,11 +2,13 @@
 >
 > **Scope:** The audio channels and mixers, location/map **ambience** (`Ambience`,
 > `AmbienceStorage`, `register_building_ambience`, `register_map_ambience`), how events
-> treat ambience, one-shot effects (`play_sound`) and the player's sound settings.
-> Music and scene sound (rhythm/voice layers) are planned and not built yet —
-> see [§8](#8-planned).
+> treat ambience, one-shot effects (`play_sound`), **music** (`MusicTrack`,
+> `register_map_music`, `register_music_pool`, `play_music`, `stop_music`) and the
+> player's sound settings. Scene sound (rhythm/voice layers) is planned — see
+> [§9](#9-planned).
 >
-> **Status:** §1–§7 built (2026-10-20, step 1 of the sound overhaul); §8 is planned.
+> **Status:** §1–§7 built 2026-10-20 (step 1), §8 music built 2026-10-21 (step 2);
+> §9 is planned.
 
 ---
 
@@ -38,7 +40,7 @@ Each mixer is one volume slider in the journal's settings page.
 |---|---|---|---|
 | `ambience_a`, `ambience_b` | `ambience` | yes | room tone, chatter, weather. Two channels so a change of location **crossfades** instead of dipping to silence; code never addresses them directly |
 | `sound` (Ren'Py default) | `sfx` ("Effects") | no | one-shots: UI, doors, props — `play_sound` |
-| `music` (Ren'Py default) | `music` | yes | *planned, step 2* — `config.has_music` stays `False` until then |
+| `music` (Ren'Py default) | `music` | no — the playlist advances itself (§8) | map tracks, the bed under scenes, mood pools, the main menu |
 | `scene_voice` (+ more scene channels) | `voice` ("Voices") | yes | *planned, step 4* — moans, breathing, cries in scenes. `config.has_voice` stays `False` until the first scene sound ships |
 
 **Why scene voices don't use Ren'Py's `voice` channel:** that channel stops on every new
@@ -169,7 +171,8 @@ when a scene starts.
   | Tier | `volume` | In game | Used for |
   |---|---|---|---|
   | busy | `1.0` | −27 LUFS | chatter, an active gym, a full cafeteria |
-  | outdoors | `0.8` | −29 LUFS | map day/night, the courtyard at night |
+  | outdoors | `0.8` | −29 LUFS | the courtyard at night |
+  | map | `0.6` | −31 LUFS | map day/night: outdoors at 75 %, so the map stays calm |
   | quiet room | `0.6` | −31 LUFS | `empty_room`, an empty cafeteria |
 
   A new file that needs `volume = 0.1` to fit is a file that needs re-levelling.
@@ -184,7 +187,7 @@ The journal's **Speed & sound** page shows:
 
 - **Ambience** — `Preference("mixer ambience volume")`
 - **Effects** — `Preference("sound volume")`
-- **Music** — once `config.has_music` is on (step 2)
+- **Music** — `Preference("music volume")`
 - **Voices** — `Preference("voice volume")`, once `config.has_voice` is on (step 4).
   Kept separate from everything else on purpose: plenty of players want the room and the
   music but the moaning low or off
@@ -195,16 +198,96 @@ The journal's **Speed & sound** page shows:
 
 ---
 
-## 8. Planned
+## 8. Music
 
-- **Music** (step 2): mood loops (`music="tender"` on an event), `config.has_music = True`.
+Music works by contrast: it means something when it starts because it is not
+always there. The rules below keep it from becoming wallpaper.
+
+| Where | What plays |
+|---|---|
+| Main menu | `register_menu_music(track)`, looped (`label before_main_menu`) |
+| Map | the map's track **once** (at `MUSIC_MAP_VOLUME` = 0.75 → −22.5 LUFS) when a new daytime begins, then only ambience. Coming back within the same daytime: ambience only. A track that covers several daytimes in a row (noon → afternoon) starts once, not at every step |
+| Building menus | whatever is playing keeps playing; they have no music of their own |
+| Events | `begin_event` starts the **bed** pool unless it already plays; a scene changes mood with `play_music(pool)` or goes quiet with `stop_music()` |
+| Journal | whatever is playing keeps playing; a replay's bed stops when it returns to the journal |
+
+### Tracks
+
+```python
+MusicTrack(sound, priority=0, *conditions, loudness=None, end=None, volume=1.0)
+```
+
+- `loudness` — the file's integrated loudness in LUFS. Commercial and CC tracks are
+  mastered anywhere from −10 to −17 LUFS; the track is turned down to
+  `MUSIC_REFERENCE_LUFS` (−20) so all of them play equally loud. Measure it, don't
+  guess: an unmeasured track plays at full file level and will jump out.
+- `end` — stop at this second (Ren'Py's `<to …>`), e.g. to skip 8 s of trailing
+  silence. Never cut or re-level the file itself: most tracks are CC BY-SA, and an
+  edited file would be an adaptation. Converting to Ogg is a format change and fine.
+- Conditions pick a map's track like ambience (honest in replays).
+
+### Registering
+
+```python
+init 1 python:
+    set_current_mod('base')
+
+    register_map_music("school", MusicStorage(None,     # None: no music when nothing fits
+        MusicTrack("audio/music/look-on-the-bright-side.ogg", 1, TimeCondition(daytime = "1,2"), loudness = -12.1),
+        MusicTrack("audio/music/coffee-jelly.ogg", 1, TimeCondition(daytime = "3,4,5"), loudness = -11.0),
+    ))
+
+    register_music_pool("bed",
+        MusicTrack("audio/music/brain-fog.ogg", loudness = -14.5, end = 135.3),
+        MusicTrack("audio/music/im-lost-but-thats-ok.ogg", loudness = -14.2, end = 156.3),
+    )
+```
+
+The base game's music lives in `game/scripts/music.rpy`. Pools today: **`bed`**
+(under every scene, at `MUSIC_BED_VOLUME` = 0.5 → −26 LUFS) and **`cozy`** (tea,
+blanket, a quiet evening). A mod adds to a pool with `add_to_music_pool("bed", ...)`.
+
+### In a scene
+
+```python
+$ begin_event(**kwargs)          # the bed starts (or keeps playing)
+...
+$ play_music("cozy")             # fades over to the cozy pool
+...
+$ stop_music(fadeout = 3.0)      # deliberate silence: only the room tone is left
+```
+
+Silence is the strongest tool here — take the music away when a character says
+something unexpected or right before a decision. A silence survives decision
+re-entry; a new fragment starts the bed again.
+
+### How the playlist works
+
+Ren'Py's own looping gives every queued file the volume of the last one, so pools
+are advanced by `_music_tick` (`config.periodic_callbacks`, main thread): one track
+at a time, each with its own `relative_volume`, in a shuffled order that never
+repeats a track back to back. `music_state` (saved) holds the pool, the order and
+the last map daytime; after a load the next track starts at once.
+
+### Files and credits
+
+`game/audio/music/*.ogg`, converted from the downloaded MP3s (masters outside the
+repo in `M:\MTS Project\audio-masters\music`). Every track is listed with title,
+source and licence in `game/audio/music/CREDITS.txt`; the journal's credits page
+links the artist. Only CC0, CC BY or CC BY-SA — never NC (the game is commercial)
+or ND.
+
+---
+
+## 9. Planned
+
 - **UI effects** (step 3): journal page turns, collectible pickup, decision clicks.
 - **Scene sound** (step 4): `SceneSound(rhythm=..., voice=...)` on `show_video` steps,
   voice profiles per character, on the `scene_*` channels and the `voice` mixer (§2).
 
 ---
 
-## 9. API
+## 10. API
 
 **Classes** — `Ambience(sound, priority, *conditions, volume=1.0)` ·
 `AmbienceStorage(fallback, *ambiences)` with `add_ambience(*ambience)`,
@@ -224,12 +307,21 @@ The journal's **Speed & sound** page shows:
 **State** — `default ambience_state` (saved): the active channel, the playing sound and
 its volume, whether it is ducked, and the current location `(kind, key)`.
 
+**Music** — `MusicTrack(...)` · `MusicStorage(fallback, *tracks)` ·
+`register_map_music(key, storage)` · `register_music_pool(key, *tracks)` ·
+`add_to_music_pool(key, *tracks)` · `register_menu_music(track)` ·
+`play_music(pool, volume=None)` · `stop_music(fadeout=MUSIC_FADE)` ·
+`play_map_music(key)` (map_entry) · `start_event_music(**kwargs)` (begin_event) ·
+constants `MUSIC_REFERENCE_LUFS = -20` · `MUSIC_MAP_VOLUME = 0.75` · `MUSIC_BED_VOLUME = 0.5` · `MUSIC_FADE = 2.0`.
+
 **Mod overview** — a registration shows under *Ambience*; registering a key another
 mod owns lists it under *Places with replaced ambience*, `add_ambience` on someone
 else's place under *Existing places with new ambience*.
 
 ### Related files
-- `game/scripts/audio.rpy` — channels, classes, registry, playback *(new)*
+- `game/scripts/audio.rpy` — channels, classes, registry, playback, music playlist
+- `game/scripts/music.rpy` — the base game's map tracks, pools and menu music
+- `game/audio/music/CREDITS.txt` — titles, sources and licences of every track
 - `game/scripts/values.rpy` — `audio.` names
 - `game/scripts/event.rpy` — `begin_event` / `end_event` ducking
 - `game/scripts/overview.rpy` — `map_entry`, `label building`

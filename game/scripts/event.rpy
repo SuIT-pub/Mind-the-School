@@ -2027,6 +2027,7 @@ init -3 python:
         if in_replay and not is_fragment and not is_decision_call and is_event_registered(event_name):
             play_location_ambience("building", get_event_from_register(event_name).get_location(), ducked = True)
         duck_ambience()
+        start_event_music(**kwargs)
 
         # Map overview shows the map as `map_image` (an image, not a screen). hide_all()
         # only drops screens, so the map would stay at default zorder and cover a
@@ -2113,6 +2114,7 @@ init -3 python:
         if in_replay:
             is_in_replay = False
             stop_ambience()
+            stop_music()
             display_journal = get_kwargs("journal_display", "", **kwargs)
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return

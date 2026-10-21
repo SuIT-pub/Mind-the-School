@@ -54,9 +54,10 @@ init -99 python:
 init 1 python:
     set_current_mod('base')
 
+    # the map sits at 75 % of the outdoors tier (LO's ear test, 2026-10-21)
     register_map_ambience("school", AmbienceStorage(
-        Ambience(audio.forest_ambience, volume = 0.8),
-        Ambience(audio.night_ambience, 1, TimeCondition(daytime = 7), volume = 0.8),
+        Ambience(audio.forest_ambience, volume = 0.6),
+        Ambience(audio.night_ambience, 1, TimeCondition(daytime = 7), volume = 0.6),
     ))
 
 label load_maps:

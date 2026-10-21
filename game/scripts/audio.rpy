@@ -322,3 +322,281 @@ init -5 python:
 
 # endregion
 #############################
+
+#############################
+# region Music ----------- #
+#############################
+
+init -5 python:
+    # Where a track sits at volume 1.0: tracks come mastered anywhere between
+    # -10 and -17 LUFS, so each one states its measured loudness and is turned
+    # down to this line. -20 keeps the music about 9 LU over the map's room
+    # tone and leaves the slider's top end for players who want more.
+    MUSIC_REFERENCE_LUFS = -20.0
+    # the bed under scenes sits 6 dB below map music, over the ducked ambience
+    MUSIC_BED_VOLUME = 0.5
+    # the map plays a little under full level (LO's ear test, 2026-10-21)
+    MUSIC_MAP_VOLUME = 0.75
+    MUSIC_FADE = 2.0
+    # a track that was just started can read as "not playing" for a moment
+    # while the audio thread opens it; the playlist waits this long before it
+    # treats silence as the end of a track
+    MUSIC_START_GRACE = 1.5
+
+    class MusicTrack(Ambience):
+        """
+        One piece of music. Shaped like Ambience (priority + conditions pick it
+        from a MusicStorage), plus what music needs on top.
+
+        ### Parameters:
+        1. sound: str
+            - A file under game/ ("audio/music/brain-fog.ogg").
+            - A path with a folder resolves into the registering mod's folder.
+        2. priority: int (default 0)
+        3. *conditions: Condition
+            - Checked like Ambience conditions (honest in replays).
+        4. loudness: float (default None)
+            - The file's integrated loudness in LUFS (None = play as is).
+            - The track is turned down to MUSIC_REFERENCE_LUFS, so all play equally loud.
+        5. end: float (default None)
+            - Stop playing at this second, e.g. to skip silence at the file's end.
+            - The file itself stays untouched (licences like CC BY-SA).
+        6. volume: float (default 1.0)
+            - Extra factor on top of the loudness match.
+        """
+
+        def __init__(self, sound: str, priority: int = 0, *conditions: Condition, loudness: float = None, end: float = None, volume: float = 1.0):
+            super().__init__(sound, priority, *conditions, volume = volume)
+            self._loudness = loudness
+            self._end = end
+
+        def get_spec(self) -> str:
+            if self._end is None:
+                return self.get_sound()
+            return "<to {}>{}".format(self._end, self.get_sound())
+
+        def get_volume(self) -> float:
+            factor = 1.0
+            if self._loudness is not None:
+                factor = min(1.0, 10 ** ((MUSIC_REFERENCE_LUFS - self._loudness) / 20))
+            return factor * self._volume
+
+    class MusicStorage(AmbienceStorage):
+        """
+        Music candidates of a map, picked like ambience: the highest-priority
+        MusicTrack whose conditions pass, else the fallback (None = no music).
+        """
+
+    map_music = {}
+    music_pools = {}
+    menu_music = {"track": None}
+
+    def register_map_music(key: str, storage: MusicStorage):
+        """
+        Registers the music of a map. It plays once each time a new daytime
+        starts on that map, then the map is left to its ambience.
+        """
+
+        storage._key = "map_music:{}".format(key)
+        record_mod_content("music", storage._key)
+        if is_mod_active(active_mod_key):
+            map_music[key] = storage
+
+    def register_music_pool(key: str, *tracks: MusicTrack):
+        """
+        Registers a playlist under a mood key ("bed", "tender", ...). play_music(key)
+        plays its tracks one after another in a shuffled order, without repeats
+        until all have played.
+        """
+
+        record_mod_content("music", "pool:{}".format(key))
+        if is_mod_active(active_mod_key):
+            music_pools[key] = list(tracks)
+
+    def add_to_music_pool(key: str, *tracks: MusicTrack):
+        """
+        Adds tracks to an existing pool, e.g. from a mod to the base game's "bed".
+        """
+
+        if get_mod_content_owner("music", "pool:{}".format(key)) not in (None, active_mod_key):
+            record_mod_change("music_add", "pool:{}".format(key))
+        if is_mod_active(active_mod_key) and key in music_pools:
+            music_pools[key].extend(tracks)
+
+    def register_menu_music(track: MusicTrack):
+        """
+        Sets the main menu's music; it loops while the menu is open.
+        """
+
+        record_mod_content("music", "menu")
+        if is_mod_active(active_mod_key):
+            menu_music["track"] = track
+
+# Saved: which pool plays and in what order, so a loaded game picks the
+# playlist up again, and which daytime last got its map music.
+default music_state = {
+    "mode": None,
+    "pool": None,
+    "order": [],
+    "index": 0,
+    "level": 1.0,
+    "map_slot": None,
+    "map_track": None,
+}
+
+init -5 python:
+    import time as _music_clock
+
+    # wall-clock start of the current track; not saved, a loaded game starts fresh
+    _music_started = [0.0]
+
+    def _play_music_track(track: MusicTrack, level: float = 1.0, loop: bool = False):
+        renpy.music.play(track.get_spec(), channel = "music", loop = loop,
+            fadeout = MUSIC_FADE, fadein = MUSIC_FADE, relative_volume = track.get_volume() * level)
+        _music_started[0] = _music_clock.time()
+
+    def _play_next_pool_track():
+        tracks = music_pools.get(music_state["pool"], [])
+        if not tracks:
+            music_state["mode"] = None
+            return
+
+        order = music_state["order"]
+        if music_state["index"] >= len(order) or any(i >= len(tracks) for i in order):
+            last = order[music_state["index"] - 1] if order and 0 < music_state["index"] <= len(order) else None
+            order = list(range(len(tracks)))
+            renpy.random.shuffle(order)
+            # a fresh round never opens with the track that just ended
+            if len(order) > 1 and order[0] == last:
+                order.append(order.pop(0))
+            music_state["order"] = order
+            music_state["index"] = 0
+
+        track = tracks[order[music_state["index"]]]
+        music_state["index"] += 1
+        _play_music_track(track, music_state["level"])
+
+    def play_music(pool: str, volume: float = None):
+        """
+        Plays a music pool. The same pool already playing keeps going (no restart);
+        another one fades over.
+
+        ### Parameters:
+        1. pool: str
+            - A key from register_music_pool ("bed", ...).
+        2. volume: float (default None)
+            - Level of the pool; None = MUSIC_BED_VOLUME for "bed", else 1.0.
+        """
+
+        if volume is None:
+            volume = MUSIC_BED_VOLUME if pool == "bed" else 1.0
+        if music_state["mode"] == "pool" and music_state["pool"] == pool and renpy.music.is_playing(channel = "music"):
+            return
+
+        if pool not in music_pools:
+            log("Unknown music pool '{}'; register it with register_music_pool".format(pool), log_type = "error", category = "audio")
+            return
+
+        music_state["mode"] = "pool"
+        music_state["pool"] = pool
+        music_state["level"] = volume
+        music_state["order"] = []
+        music_state["index"] = 0
+        _play_next_pool_track()
+
+    def stop_music(fadeout: float = None):
+        """
+        Fades the music out and keeps it out until something starts music again
+        (the next event, the next daytime on the map). Use it for deliberate
+        silence inside a scene.
+        """
+
+        music_state["mode"] = None
+        renpy.music.stop(channel = "music", fadeout = MUSIC_FADE if fadeout is None else fadeout)
+
+    def play_map_music(key: str):
+        """
+        Called by map_entry. A new daytime gets the map's track once; coming
+        back to the map within the same daytime leaves it to the ambience.
+        """
+
+        slot = (time.year, time.month, time.day, time.daytime, key)
+        if music_state["map_slot"] == slot:
+            # an event's bed has no business on the map
+            if music_state["mode"] == "pool":
+                stop_music()
+            return
+        music_state["map_slot"] = slot
+
+        storage = map_music.get(key)
+        track = storage.resolve() if storage is not None else None
+        if track is None:
+            stop_music()
+            return
+
+        # one track covers several daytimes (noon to afternoon): it marks the
+        # start of that part of the day once instead of restarting at each step
+        if music_state.get("map_track") == track.get_sound():
+            if music_state["mode"] == "pool":
+                stop_music()
+            return
+        music_state["map_track"] = track.get_sound()
+
+        music_state["mode"] = "once"
+        music_state["pool"] = None
+        _play_music_track(track, MUSIC_MAP_VOLUME)
+
+    def start_event_music(**kwargs):
+        """
+        Called by begin_event: a fresh scene or fragment gets the bed unless it is
+        already playing. Decision re-entry keeps whatever the scene set up,
+        including a deliberate silence.
+        """
+
+        if get_kwargs("is_decision_call", False, **kwargs):
+            return
+        if "bed" in music_pools:
+            play_music("bed")
+
+    def play_menu_music():
+        track = menu_music["track"]
+        if track is None:
+            return
+        music_state["mode"] = None
+        _play_music_track(track, loop = True)
+
+    def _music_tick():
+        # config.periodic_callbacks run on the main thread, so the playlist can
+        # touch the store; Ren'Py's own loop would give every track the last
+        # track's volume, which is why the pool advances here
+        if music_state["mode"] not in ("pool", "once"):
+            return
+        if renpy.music.is_playing(channel = "music"):
+            return
+        if _music_clock.time() - _music_started[0] < MUSIC_START_GRACE:
+            return
+        if music_state["mode"] == "once":
+            # the map track has run out; the map belongs to its ambience now
+            music_state["mode"] = None
+            return
+        _play_next_pool_track()
+
+    config.periodic_callbacks.append(_music_tick)
+
+    def _restart_music_after_load():
+        # a playlist track is not a Ren'Py loop, so a load restores nothing on the
+        # music channel; start the next track right away instead of after the grace
+        _music_started[0] = 0.0
+        if music_state["mode"] == "pool":
+            _play_next_pool_track()
+        elif music_state["mode"] == "once":
+            music_state["mode"] = None
+
+    config.after_load_callbacks.append(_restart_music_after_load)
+
+label before_main_menu:
+    $ play_menu_music()
+    return
+
+# endregion
+#############################
