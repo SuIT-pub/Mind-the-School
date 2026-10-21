@@ -12,6 +12,7 @@
     "play-sound-loop-deprecated",
     "begin-event-ducks-ambience",
     "ambience-registry",
-    "music-system"
+    "music-system",
+    "ui-sounds"
   ]
 }
