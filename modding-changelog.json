@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "music-system",
+      "date": "2026-10-21",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Music: map tracks, mood pools under scenes, play_music / stop_music",
+      "details": "`config.has_music` is on. Declare a track as `MusicTrack(sound, priority=0, *conditions, loudness=None, end=None)`: `loudness` is the file's measured LUFS (it is turned down to -20 LUFS so all tracks match), `end` stops early without editing the file.\n- `register_map_music(map_key, MusicStorage(None, *tracks))`: picked by conditions, played once when a new daytime starts.\n- `register_music_pool(key, *tracks)` / `add_to_music_pool(\"bed\", ...)`: shuffled playlists. `begin_event` starts the `bed` pool; in a scene use `play_music(\"cozy\")` or `stop_music(fadeout)` for deliberate silence.\n- `register_menu_music(track)` for the main menu.\nIf your scene played its own track on the `music` channel, it now competes with the bed: call `stop_music()` first or register a pool.",
+      "wiki": "Audio#8-music"
+    },
+    {
       "id": "ambience-registry",
       "date": "2026-10-20",
       "version": "0.2.2",
