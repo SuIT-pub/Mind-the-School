@@ -28,7 +28,9 @@ init python:
         ("Icons", "Game-icons.net", "https://game-icons.net/"),
         ("Notepad vectors", "Lovepik.com", "https://lovepik.com/images/png-notepad.html"),
         ("Journal & menu icons", "Flaticon", "https://www.flaticon.com/"),
-        ("Sound effects", "freesound_community · Pixabay", "https://pixabay.com/users/freesound_community-46691455/"),
+        # per-file sources and licences of the ambience loops: game/audio/ambience/CREDITS.txt
+        ("Crowd ambience", "joedeshon · CC BY 4.0", "https://freesound.org/people/joedeshon/sounds/119412/"),
+        ("Ambience", "Freesound · CC0", "https://freesound.org/"),
         # per-track titles and licences (CC BY / CC BY-SA 4.0): game/audio/music/CREDITS.txt
         ("Music", "Purrple Cat · CC BY / BY-SA 4.0", "https://freemusicarchive.org/music/purrple-cat/"),
     ]

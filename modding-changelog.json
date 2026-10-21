@@ -34,7 +34,7 @@
       "version": "0.2.2",
       "type": "changed",
       "title": "Scenes keep the room tone: begin_event ducks ambience instead of silencing it",
-      "details": "`begin_event` still stops the `sound` channel, but ambience now runs on its own channels (`ambience_a`/`ambience_b`, mixer `ambience`) and only drops to 35 % under a scene; `end_event` restores and re-resolves it. Replays play the event location's ambience. If your scene relied on silence, call `stop_ambience()` after `begin_event`.\n\nThe base audio files moved from `.mp3` to `.ogg` (`game/audio/empty-room.ogg`, …). `audio.empty_room` and the other `audio.` names are unchanged; a direct `\"empty-room.mp3\"` still plays through a `config.audio_filename_callback` fallback (it also keeps old saves loading), but switch to the `audio.` name.",
+      "details": "`begin_event` still stops the `sound` channel, but ambience now runs on its own channels (`ambience_a`/`ambience_b`, mixer `ambience`) and only drops to 35 % under a scene; `end_event` restores and re-resolves it. Replays play the event location's ambience. If your scene relied on silence, call `stop_ambience()` after `begin_event`.\n\nThe base audio files moved from `.mp3` to `.ogg` (`game/audio/ambience/empty-room.ogg`, …). `audio.empty_room` and the other `audio.` names are unchanged; a direct `\"empty-room.mp3\"` still plays through a `config.audio_filename_callback` fallback (it also keeps old saves loading), but switch to the `audio.` name.",
       "wiki": "Audio#4-when-ambience-plays"
     },
     {

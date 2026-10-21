@@ -1,0 +1,45 @@
+Ambience in Mind the School
+===========================
+
+All ambience loops come from Freesound (https://freesound.org/). For the
+game each recording was cut to a loop (the end is crossfaded into the start),
+resampled to 48 kHz, levelled to -27 LUFS and converted to Ogg Vorbis. The
+gym loop also has its loudest ball bounces softened by a limiter.
+The unedited downloads are kept outside the game folder.
+
+muffled-chatter.ogg
+  "adult_crowd_ambiance.wav" by joedeshon
+  https://freesound.org/people/joedeshon/sounds/119412/
+  Licence: CC BY 4.0 - https://creativecommons.org/licenses/by/4.0/
+  Changed: cut to a 2:48 loop, volume changed.
+
+cafeteria-chatter.ogg
+  "School Cafeteria Ambience" by steeltowngaming
+  https://freesound.org/people/steeltowngaming/sounds/537761/
+  Licence: CC0 1.0
+
+cafeteria-empty.ogg
+  "Ambiente Cafeteria.WAV" by johanchoa
+  https://freesound.org/people/johanchoa/sounds/403777/
+  Licence: CC0 1.0
+
+empty-room.ogg
+  "living-room 15:00" by Yuval
+  https://freesound.org/people/Yuval/sounds/210097/
+  Licence: CC0 1.0
+
+forest-ambience.ogg
+  "Forest Ambience.m4a" by 4ndybj
+  https://freesound.org/people/4ndybj/sounds/554702/
+  Licence: CC0 1.0
+
+gym-active.ogg
+  "volleyball players training in big gym running around shoe movement and
+  ball bounces bg.flac" by kyles
+  https://freesound.org/people/kyles/sounds/637932/
+  Licence: CC0 1.0
+
+night-ambience.ogg
+  "Night Ambience.wav" by claretcanelon
+  https://freesound.org/people/claretcanelon/sounds/343683/
+  Licence: CC0 1.0

@@ -832,7 +832,9 @@ screen about():
             text _("Icons by {a=https://game-icons.net/}Game-icons.net{/a}")
             text _("Notepad Png vectors by {a=https://lovepik.com/images/png-notepad.html}Lovepik.com{/a}")
             text _("Journal and Main Menu icons created by {a=https://www.flaticon.com/}Flaticon{/a}")
-            text _("Sound Effects by {a=https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=17064}freesound_community{/a} from {a=https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=17064}Pixabay{/a}")
+            text _("Crowd ambience \"adult_crowd_ambiance\" by {a=https://freesound.org/people/joedeshon/sounds/119412/}joedeshon{/a}, licensed under {a=https://creativecommons.org/licenses/by/4.0/}CC BY 4.0{/a} (trimmed to a loop, volume changed).")
+            text _("Further ambience from {a=https://freesound.org/}Freesound{/a} (CC0).")
+            text _("Music by {a=https://freemusicarchive.org/music/purrple-cat/}Purrple Cat{/a}, licensed under {a=https://creativecommons.org/licenses/by/4.0/}CC BY 4.0{/a} and {a=https://creativecommons.org/licenses/by-sa/4.0/}CC BY-SA 4.0{/a}.")
 
 
 style about_label is gui_label

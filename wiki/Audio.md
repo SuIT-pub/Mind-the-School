@@ -61,7 +61,7 @@ the mixer; its default volume is `1.0`.
 
 One candidate sound. Shaped like `BGImage`:
 
-- `sound` — a file under `game/` (`"audio/empty-room.ogg"`) or an `audio.` name
+- `sound` — a file under `game/` (`"audio/ambience/empty-room.ogg"`) or an `audio.` name
   (`audio.empty_room`). Inside a mod, a relative path resolves into the mod's folder.
 - `priority` — the highest usable priority wins; ties keep declaration order.
 - `*conditions` — any [Conditions](Conditions); all must pass. Evaluated with no event
@@ -156,10 +156,11 @@ when a scene starts.
 ## 6. Files
 
 - **Format: `.ogg` (Vorbis).** MP3 encoders pad the start and end with silence, which
-  becomes an audible gap every time a loop wraps. The seven existing ambience files move
-  from `.mp3` to `.ogg`; the `audio.` names in `values.rpy` stay the same.
+  becomes an audible gap every time a loop wraps. The seven ambience loops live in
+  `game/audio/ambience/` as `.ogg` (before 0.2.2: `game/audio/*.mp3`); the `audio.` names in
+  `values.rpy` stay the same.
   Old saves still name the `.mp3` files on their channels: `config.audio_filename_callback`
-  (`_ambience_mp3_to_ogg`) swaps a missing `.mp3` for its `.ogg`, and an after-load
+  (`_relocated_ambience_filename`) sends a missing old name to its `.ogg` in `audio/ambience/`, and an after-load
   callback moves a pre-0.2.2 room-tone loop off the effects channel onto the ambience
   channels, so it doesn't play twice.
 - Loops must be cut on a zero crossing at both ends. Test a new loop by letting it wrap
@@ -178,8 +179,13 @@ when a scene starts.
   | quiet room | `0.6` | −31 LUFS | `empty_room`, an empty cafeteria |
 
   A new file that needs `volume = 0.1` to fit is a file that needs re-levelling.
-- Licence: record the source and licence of every file in the journal credits. Several
-  royalty-free libraries forbid adult or commercial use — check both.
+- Licence: record the source and licence of every file in `game/audio/ambience/CREDITS.txt` and
+  the journal credits. Several royalty-free libraries forbid adult or commercial use —
+  check both. **Pixabay is out**: its licence bans use in connection with pornographic
+  content. Freesound under CC0 or CC BY works; never NC.
+- Loops: an ambience file loops forever, so its end is crossfaded into its start
+  (a few seconds, equal power). A long recording is cut to its steadiest 90 s: a door
+  slam or a whistle in the loop is something players learn to hear.
 
 ---
 
@@ -364,6 +370,7 @@ else's place under *Existing places with new ambience*.
 ### Related files
 - `game/scripts/audio.rpy` — channels, classes, registry, playback, music playlist
 - `game/scripts/music.rpy` — the base game's map tracks, pools and menu music
+- `game/audio/ambience/CREDITS.txt` — source, licence and edits of every ambience loop
 - `game/audio/music/CREDITS.txt` — titles, sources and licences of every track
 - `game/scripts/values.rpy` — `audio.` names
 - `game/scripts/event.rpy` — `begin_event` / `end_event` ducking

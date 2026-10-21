@@ -32,7 +32,7 @@ init -5 python:
 
         ### Parameters:
         1. sound: str
-            - A file under game/ ("audio/empty-room.ogg") or an audio. name (audio.empty_room).
+            - A file under game/ ("audio/ambience/empty-room.ogg") or an audio. name (audio.empty_room).
             - A path with a folder resolves into the registering mod's folder.
         2. priority: int
             - The highest usable priority wins; ties keep declaration order.
@@ -273,20 +273,22 @@ init -5 python:
             return
         play_location_ambience(*location)
 
-    def _ambience_mp3_to_ogg(filename: str) -> str:
-        # Saves keep what each channel was playing, and before 0.2.2 the room tone
-        # was game/audio/*.mp3; those files are .ogg now, so an old save (or a mod
-        # naming the file directly) would crash the audio thread on load.
-        if not filename.lower().endswith(".mp3"):
+    def _relocated_ambience_filename(filename: str) -> str:
+        # Saves keep what each channel was playing. Before 0.2.2 the room tone
+        # was game/audio/*.mp3; it is game/audio/ambience/*.ogg now, so an old
+        # save (or a mod naming the file directly) would crash the audio thread
+        # on load. Only a name that no longer exists is rewritten.
+        if "<" in filename or renpy.loadable(filename) or renpy.loadable("audio/" + filename):
             return filename
-        if renpy.loadable(filename) or renpy.loadable("audio/" + filename):
-            return filename
-        ogg = filename[:-4] + ".ogg"
-        if renpy.loadable(ogg) or renpy.loadable("audio/" + ogg):
-            return ogg
+        name = filename.rsplit("/", 1)[-1]
+        if name.lower().endswith(".mp3"):
+            name = name[:-4] + ".ogg"
+        for candidate in ("audio/ambience/" + name, "audio/" + name):
+            if renpy.loadable(candidate):
+                return candidate
         return filename
 
-    config.audio_filename_callback = _ambience_mp3_to_ogg
+    config.audio_filename_callback = _relocated_ambience_filename
 
     def _move_legacy_ambience_after_load():
         # A pre-0.2.2 save has its room tone looping on the effects channel. Left
