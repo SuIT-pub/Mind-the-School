@@ -836,6 +836,10 @@ screen about():
             text _("Crowd ambience \"adult_crowd_ambiance\" by {a=https://freesound.org/people/joedeshon/sounds/119412/}joedeshon{/a}, licensed under {a=https://creativecommons.org/licenses/by/4.0/}CC BY 4.0{/a} (trimmed to a loop, volume changed).")
             text _("Further ambience from {a=https://freesound.org/}Freesound{/a} (CC0).")
             text _("Music by {a=https://freemusicarchive.org/music/purrple-cat/}Purrple Cat{/a}, licensed under {a=https://creativecommons.org/licenses/by/4.0/}CC BY 4.0{/a} and {a=https://creativecommons.org/licenses/by-sa/4.0/}CC BY-SA 4.0{/a}.")
+            text _("Journal sounds \"Open and Close a Diary Book\" by {a=https://freesound.org/people/Sabacky/sounds/774136/}Sabacky{/a}, licensed under {a=https://creativecommons.org/licenses/by/4.0/}CC BY 4.0{/a} (split in two, volume changed).")
+            text _("Photo sound \"Deal\" by {a=https://freesound.org/people/egomassive/sounds/536784/}egomassive{/a}, from \"Card Flip\" by F4ngy, licensed under {a=https://creativecommons.org/licenses/by/3.0/}CC BY 3.0{/a} (volume changed).")
+            text _("Level-up sound \"Tibetan Singing Bowl\" by {a=https://freesound.org/people/Valerie-Vivegnis/sounds/864397/}Valerie-Vivegnis{/a}, licensed under {a=https://creativecommons.org/licenses/by/4.0/}CC BY 4.0{/a} (first strike only, volume changed).")
+            text _("Further interface sounds from {a=https://freesound.org/}Freesound{/a} (CC0).")
 
 
 style about_label is gui_label

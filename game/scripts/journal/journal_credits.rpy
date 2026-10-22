@@ -33,6 +33,11 @@ init python:
         ("Ambience", "Freesound · CC0", "https://freesound.org/"),
         # per-track titles and licences (CC BY / CC BY-SA 4.0): game/audio/music/CREDITS.txt
         ("Music", "Purrple Cat · CC BY / BY-SA 4.0", "https://freemusicarchive.org/music/purrple-cat/"),
+        # per-file sources and edits of the interface sounds: game/audio/ui/CREDITS.txt
+        ("Journal sound", "Sabacky · CC BY 4.0", "https://freesound.org/people/Sabacky/sounds/774136/"),
+        ("Photo sound", "egomassive, F4ngy · CC BY 3.0", "https://freesound.org/people/egomassive/sounds/536784/"),
+        ("Level-up bowl", "Valerie-Vivegnis · CC BY 4.0", "https://freesound.org/people/Valerie-Vivegnis/sounds/864397/"),
+        ("Interface sounds", "Freesound · CC0", "https://freesound.org/"),
     ]
 
     # (what, credit, link) for everything the journal binder is built from

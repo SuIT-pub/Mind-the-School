@@ -691,6 +691,7 @@ init -5 python:
         "milestone": 3,
         "collect": 2,
         "gift": 2,
+        "journal_entry": 2,
         "journal_open": 2,
         "journal_close": 2,
     }
@@ -706,7 +707,7 @@ init -5 python:
 
         ### Parameters:
         1. key: str
-            - journal_open, journal_close, page_turn, choice, collect, gift, notify, milestone.
+            - journal_open, journal_close, page_turn, choice, collect, gift, notify, journal_entry, milestone.
             - A mod may add its own key and play it with play_ui_sound.
         2. sound: str
             - A file under game/; a path with a folder resolves into the mod's folder.

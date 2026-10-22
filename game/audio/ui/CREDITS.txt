@@ -1,0 +1,42 @@
+Interface sounds in Mind the School
+===================================
+
+All interface sounds come from Freesound (https://freesound.org/). For the
+game each recording was cut, faded, resampled to 48 kHz, changed in volume
+and converted to Ogg Vorbis. The unedited downloads are kept outside the
+game folder.
+
+journal-open.ogg, journal-close.ogg
+  "Open and Close a Diary Book" by Sabacky
+  https://freesound.org/people/Sabacky/sounds/774136/
+  Licence: CC BY 4.0 - https://creativecommons.org/licenses/by/4.0/
+  Changed: split into the opening and the closing half, volume changed.
+
+page-turn.ogg
+  "Page Turn 01" by LilMati
+  https://freesound.org/people/LilMati/sounds/397548/
+  Licence: CC0 1.0
+
+choice.ogg, notify.ogg, journal-entry.ogg
+  "Pencil scribble on paper" by MJM94
+  https://freesound.org/people/MJM94/sounds/859147/
+  Licence: CC0 1.0
+  choice and notify are single strokes cut from it, journal-entry is the whole take.
+
+collect.ogg
+  "Deal.ogg" by egomassive, made from "Card Flip" by F4ngy
+  https://freesound.org/people/egomassive/sounds/536784/
+  Licence: CC BY 3.0 - https://creativecommons.org/licenses/by/3.0/
+  Changed: resampled, volume changed.
+
+gift.ogg
+  "Leo Ming l Stone In Focus l Chimes5 - Bm" by Stone_in_Focus_FILMish
+  https://freesound.org/people/Stone_in_Focus_FILMish/sounds/866461/
+  Licence: CC0 1.0
+  Starts at the bright chime 1.9 s into the recording.
+
+milestone.ogg
+  "26.07.24- Tibetan Singing Bowl - Octave Pitch-Shifted Scale" by Valerie-Vivegnis
+  https://freesound.org/people/Valerie-Vivegnis/sounds/864397/
+  Licence: CC BY 4.0 - https://creativecommons.org/licenses/by/4.0/
+  Changed: only the first of the seven strikes (G5), faded out, volume changed.

@@ -86,6 +86,8 @@ init -20 python:
 
         def __init__(self):
             self.pending = {}
+            # a new item arrived since the map last announced one
+            self.unannounced = False
 
         def _ensure_pending(self):
             if not hasattr(self, "pending") or self.pending is None:
@@ -106,6 +108,21 @@ init -20 python:
             items = pending.setdefault(topic, [])
             if item not in items:
                 items.append(item)
+                self.unannounced = True
+
+        def take_announcement(self):
+            """
+            Whether the map should announce new journal entries, once per batch.
+
+            Returns:
+                bool: True if an item arrived since the last announcement and
+                something is still pending (an entry already read in the
+                journal is not news any more).
+            """
+            # saves from before the flag existed have no attribute
+            announce = getattr(self, "unannounced", False) and self.has_alert()
+            self.unannounced = False
+            return announce
 
         def clear_alert(self, topic, item=None):
             """

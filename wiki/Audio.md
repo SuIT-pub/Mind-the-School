@@ -302,6 +302,7 @@ that mean something get one.
 | `collect` | a polaroid is picked up | `collect_collectible` |
 | `gift` | Emiko's gift is kept | `receive_emiko_gift` |
 | `notify` | a notification slip appears; the map's batch gets one sound | `show_notify_message`, `call_notify` |
+| `journal_entry` | arriving on the map after a new journal entry appeared (the journal icon lights up); once per batch, not on every return while it stays lit | `JournalAlertManager.take_announcement` in `map_overview` |
 | `milestone` | the school climbs a level (not the 0 → 1 setup), an unlockable is unlocked, a situation is resolved | `Char.set_level`, `UnlockableUnlockEffect.apply`, `Situation.complete` |
 
 ```python
@@ -317,10 +318,17 @@ files do. In a screen: `action [UISound("page_turn"), Call(...)]`; in Python:
 **One moment, one sound.** A collected photo also raises a notification, an unlock
 both applies its effect and completes its situation. Within `UI_SOUND_GUARD` (0.6 s)
 a lower-ranked sound is dropped, and a milestone does not ring twice. Ranks
-(`UI_SOUND_RANKS`): `milestone` 3 · `collect`, `gift`, `journal_open`,
+(`UI_SOUND_RANKS`): `milestone` 3 · `collect`, `gift`, `journal_entry`, `journal_open`,
 `journal_close` 2 · everything else 1. Quick page turns and clicks stay audible.
 
-**Files:** short (under 2 s), no leading silence, little room reverb; level by ear
+**Base sounds** (`game/scripts/ui_sounds.rpy`, files in `game/audio/ui/`, sources in
+its `CREDITS.txt`): leather diary for open/close, a paper page turn, one pencil
+recording for `choice` (first stroke), `notify` (a later stroke) and `journal_entry`
+(the whole take), a dealt card for `collect`, a chime for `gift`, a singing-bowl
+strike for `milestone`. Cut and levelled to an RMS target over the audible part
+(around −27 dBFS for clicks, −21 for the milestone), peak ≤ −1 dBFS.
+
+**Files:** short (under 2 s; the milestone bowl rings out longer), no leading silence, little room reverb; level by ear
 with `volume`. Same licence rules as music: CC0, CC BY or CC BY-SA, never NC or ND.
 
 ---
@@ -372,6 +380,8 @@ else's place under *Existing places with new ambience*.
 - `game/scripts/music.rpy` — the base game's map tracks, pools and menu music
 - `game/audio/ambience/CREDITS.txt` — source, licence and edits of every ambience loop
 - `game/audio/music/CREDITS.txt` — titles, sources and licences of every track
+- `game/scripts/ui_sounds.rpy` — the base game's interface sound registrations
+- `game/audio/ui/CREDITS.txt` — source, licence and edits of every interface sound
 - `game/scripts/values.rpy` — `audio.` names
 - `game/scripts/event.rpy` — `begin_event` / `end_event` ducking
 - `game/scripts/overview.rpy` — `map_entry`, `label building`

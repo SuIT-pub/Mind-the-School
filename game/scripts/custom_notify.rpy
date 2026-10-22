@@ -276,7 +276,7 @@ screen notify_item(msg, use_atl=True, page=None, display=""):
 
                 at notify_appear
 
-            action [Hide("notify_container"), With(dissolveM), Call("open_journal", page, display)]
+            action [Hide("notify_container"), UISound("journal_open"), With(dissolveM), Call("open_journal", page, display)]
 
             # the arrow says the slip leads into the journal
             hbox:

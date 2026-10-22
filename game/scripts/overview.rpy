@@ -246,7 +246,7 @@ screen overview_stat_entry(stat, compact, interactive):
     $ title = Stat_Data[stat].get_title()
     $ change = get_overview_stat_change_value(stat)
     $ icon_path = get_stat_icon_path(stat, size=ICON_SMALL)
-    $ stat_action = Call("open_journal", 1, stat) if interactive else NullAction()
+    $ stat_action = [UISound("journal_open"), Call("open_journal", 1, stat)] if interactive else NullAction()
 
     if compact:
         $ change_color = get_overview_stat_change_color(stat, change)
@@ -292,7 +292,7 @@ screen overview_stat_entry(stat, compact, interactive):
 
 screen overview_situation_entry(situation, interactive, row_width):
     $ glyph, side, arrow_color = get_overview_situation_tendency(situation)
-    $ sit_action = Call("open_journal", 8, situation.key) if interactive else NullAction()
+    $ sit_action = [UISound("journal_open"), Call("open_journal", 8, situation.key)] if interactive else NullAction()
     $ inner_width = row_width - 34
     $ bar_width = inner_width - (OVERVIEW_SITUATION_ARROW_WIDTH * 2) - 8
 
@@ -822,6 +822,9 @@ label map_overview ():
 
     $ play_location_ambience("map", map_manager.get_current_map().key)
     $ play_map_music(map_manager.get_current_map().key)
+    # the journal icon just lit up: a pencil scribble, once, not on every return
+    if journal_alert_manager.take_announcement():
+        $ play_ui_sound("journal_entry")
 
     call screen school_overview_buttons (True)
     # call screen school_overview with dissolveM
