@@ -2,6 +2,23 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "ui-sounds-journal-entry",
+      "date": "2026-10-22",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Interface sounds are live; new key `journal_entry`",
+      "details": "The base game now registers files for every UI key (`game/scripts/ui_sounds.rpy`, files in `game/audio/ui/`). A mod replaces one with `register_ui_sound(\"choice\", \"audio/my-click.ogg\", volume = 0.8)` from `init 1 python` or later.\nNew key `journal_entry` (rank 2): plays once when the map is reached after a new journal alert was raised, not on every return while the journal icon stays lit. Anything that goes through `raise_journal_alert` / `notify_situation_journal_alert` triggers it; `JournalAlertManager.take_announcement()` reads and clears the flag.\nOpening the journal straight from a map stat/situation row or a notification slip now plays `journal_open`.",
+      "wiki": "Audio#9-interface-sounds"
+    },
+    {
+      "id": "fix-renpy-menu-title-crash",
+      "date": "2026-10-22",
+      "version": "0.2.2",
+      "type": "fixed",
+      "title": "Ren'Py `menu:` blocks no longer crash with \"Name 'title' is not defined\"",
+      "details": "Since the journal-style choice slips, any plain Ren'Py `menu:` statement crashed as soon as the menu was redrawn (the custom `call_menu` decision menus were not affected). Fixed in `screen jr_choice_slip`. If your mod avoided `menu:` or defined a global `title` as a workaround, you can drop that. Brackets inside menu captions are still not interpolated, same as before."
+    },
+    {
       "id": "ui-sounds",
       "date": "2026-10-21",
       "version": "0.2.2",
