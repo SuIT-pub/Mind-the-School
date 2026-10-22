@@ -1,9 +1,9 @@
 {
   "embedMessageId": "1560625154067927071",
-  "noteMessageId": "1562439508979351664",
+  "noteMessageId": "1562862801616248843",
   "posted": {
     "schemaVersion": 1,
-    "updatedAt": "2026-10-21T12:16:27Z",
+    "updatedAt": "2026-10-22T16:17:02Z",
     "currentVersion": "0.2.2",
     "targetVersion": "0.2.2",
     "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -19,11 +19,6 @@
         "title": "Groundwork for bigger story events",
         "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
         "version": "0.2.2"
-      },
-      {
-        "id": "ui-sounds",
-        "title": "Sounds for the interface",
-        "summary": "Small sounds for the journal, collecting photos and other key moments, with their own volume slider."
       }
     ],
     "next": [
@@ -74,6 +69,13 @@
       }
     ],
     "done": [
+      {
+        "id": "ui-sounds",
+        "title": "Sounds for the interface",
+        "summary": "The journal opens with a creak of leather, decisions are pencilled in, and a scribble on the map tells you something new is waiting in the journal.",
+        "doneIn": "0.2.2",
+        "doneAt": "2026-10-22"
+      },
       {
         "id": "campus-music",
         "title": "Music",
