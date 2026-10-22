@@ -13,6 +13,8 @@
     "begin-event-ducks-ambience",
     "ambience-registry",
     "music-system",
-    "ui-sounds"
+    "ui-sounds",
+    "fix-renpy-menu-title-crash",
+    "ui-sounds-journal-entry"
   ]
 }
