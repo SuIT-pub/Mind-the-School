@@ -54,7 +54,6 @@ init -99 python:
 init 1 python:
     set_current_mod('base')
 
-    # the map sits at 75 % of the outdoors tier (LO's ear test, 2026-10-21)
     register_map_ambience("school", AmbienceStorage(
         Ambience(audio.forest_ambience, volume = 0.6),
         Ambience(audio.night_ambience, 1, TimeCondition(daytime = 7), volume = 0.6),
@@ -65,5 +64,18 @@ label load_maps:
 
     $ map_manager.clear_maps()
 
-    $ map_manager.load_map(Map("school", "images/background/school_map.webp", "school_building", "school_dormitory", "labs", "sports_field", "beach", "staff_lodges", "gym", "swimming_pool", "cafeteria", "bath", "kiosk", "courtyard", "office_building"))
-
+    $ map_manager.load_map(Map("school", "images/background/school_map.webp", 
+        "school_building", 
+        "school_dormitory", 
+        "labs", 
+        "sports_field", 
+        "beach", 
+        "staff_lodges", 
+        "gym", 
+        "swimming_pool", 
+        "cafeteria", 
+        "bath", 
+        "kiosk", 
+        "courtyard", 
+        "office_building"
+    ))
