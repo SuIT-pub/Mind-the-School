@@ -670,10 +670,13 @@ screen jr_choice_slip(title, number, active, marked, action):
             frame:
                 style "jr_choice_label"
                 yalign 0.5
+                # an expression, not "[title]": Ren'Py 8.1 rates that string
+                # constant and, on a redraw, resolves it in the scope of the
+                # outer screen, which Ren'Py's own menu (screen choice) lacks
                 if active:
-                    text "[title]" style "jr_choice_text"
+                    text title style "jr_choice_text" substitute False
                 else:
-                    text "{s}[title]{/s}" style "jr_choice_text"
+                    text "{s}%s{/s}" % title style "jr_choice_text" substitute False
             if marked:
                 text "*" style "jr_choice_text" font JR_FONT_BOLD size 40 color JR_ACCENT yalign 0.3
 
