@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-22T16:17:02Z",
+  "updatedAt": "2026-10-23T22:23:30Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -15,6 +15,12 @@
       "id": "story-groundwork",
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
+      "version": "0.2.2"
+    },
+    {
+      "id": "story-chains-as-situations",
+      "title": "Older story chains back in the journal",
+      "summary": "Earlier story chains lost their journal hints. They return as situations you can follow and steer, starting with the sex ed curriculum.",
       "version": "0.2.2"
     }
   ],
