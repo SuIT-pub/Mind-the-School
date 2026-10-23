@@ -2,6 +2,24 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "situation-start-jumped-thresholds",
+      "date": "2026-10-24",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Situations settle thresholds the start value jumps past (`start_thresholds` / `on_start`)",
+      "details": "Before, a start value past a threshold left it unreached forever (thresholds only fire when the bar moves through them). Now `activate()` settles them right after the start values are computed, nearest first:\n- blocking, condition unmet: the bars clamp to its bound and it becomes a normal check (a start value never skips a story gate)\n- blocking, condition met / auto: marked reached as in play; repeatable ones stay re-armable\nEffects of settled thresholds run only in `\"fire\"` mode. Default for the whole situation: `Situation(..., start_thresholds=\"skip\")` (also on `Unlockable`). Per threshold: `AutoThreshold(..., on_start=\"fire\")` / `BlockingThreshold(..., on_start=\"skip\")`, `None` follows the situation. Invalid values: self-test 797 / 798.\nIf your situation relied on start modifiers carrying the bar past a blocking threshold, it now stops at that gate until its condition holds.",
+      "wiki": "Building-Situations#thresholds-the-start-value-jumps-past"
+    },
+    {
+      "id": "situation-conditional-start-modifier",
+      "date": "2026-10-24",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "`StartModifier` takes a `condition` and a `Selector` value",
+      "details": "`StartModifier(\"+\", 21, condition=ProgressCondition(\"my_chain\", 4))` only applies if the condition holds at activation. `value` can be a `Selector`, rolled fresh on every activation: `StartModifier(\"+\", ProgressSelector(...), condition=...)`. One condition per entry, combine with `AND`/`OR`/`NOT`. A non-number roll skips the entry and logs an error. `stat` can't be combined with either (self-test 778; 776 = bad condition, 777 = value neither number nor Selector). Use it to start a situation that joins a running story chain where an old save already is. Internally a `SituationConditionalStartModifier`.",
+      "wiki": "Building-Situations#conditional-start-modifiers"
+    },
+    {
       "id": "ui-sounds-journal-entry",
       "date": "2026-10-22",
       "version": "0.2.2",
