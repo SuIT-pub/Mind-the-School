@@ -15,6 +15,9 @@ init -99 python:
     TEASER_PHOTO_LAYOUTS = ("photo_left", "photo_right", "photo_top")
     TEASER_PHOTO_W = 160
     TEASER_PHOTO_H = 120
+    # Thresholds a start value lands past: "skip" marks them reached silently,
+    # "fire" also runs their effects. See Situation.apply_start_thresholds.
+    START_THRESHOLD_MODES = ("skip", "fire")
 
     #########################
     # region Helper Methods #
@@ -440,8 +443,11 @@ init -99 python:
     # region SituationThreshold #
 
     class SituationThreshold:
-        def __init__(self, approach_hint: str, threshold_hint: str, *elements: Condition | Effect, direction: int = 1, visible_range: int = 100, thumbnail: str = None, default_hold: int = 5):
+        def __init__(self, approach_hint: str, threshold_hint: str, *elements: Condition | Effect, direction: int = 1, visible_range: int = 100, thumbnail: str = None, default_hold: int = 5, on_start: str = None):
             self.bounds = {}
+            # What happens when the start value already lies past this threshold:
+            # "skip" / "fire", or None to follow the situation's start_thresholds.
+            self.on_start = on_start
             self.approach_hint = approach_hint
             self.threshold_hint = threshold_hint
             self.direction = direction
@@ -482,6 +488,7 @@ init -99 python:
             self.visible_range = threshold.visible_range
             self.thumbnail = threshold.thumbnail
             self.default_hold = threshold.default_hold
+            self.on_start = getattr(threshold, "on_start", None)
             if not hasattr(self, 'hold'):
                 self.hold = -1
 
@@ -520,6 +527,9 @@ init -99 python:
 
             if self.approach_hint == "":
                 error_messages.append((719, "Approach hint is empty. Has to be a non-empty string."))
+
+            if getattr(self, "on_start", None) not in START_THRESHOLD_MODES + (None,):
+                error_messages.append((798, f"on_start '{self.on_start}' is invalid. Has to be one of {START_THRESHOLD_MODES} or None."))
 
             return error_messages
 
@@ -1510,6 +1520,90 @@ init -99 python:
             )
             return SituationStartModifier(mod, self.stat)
 
+        def is_applicable(self, **kwargs) -> bool:
+            """Whether this entry takes part in the start calculation. Always for plain entries."""
+            return True
+
+        def resolve(self, **kwargs) -> SituationStartModifier:
+            """
+            Entry with a concrete numeric value for the start calculation.
+
+            Returns:
+                SituationStartModifier | None: self for plain entries; None skips the entry.
+            """
+            return self
+
+    class SituationConditionalStartModifier(SituationStartModifier):
+        """
+        Start-value modifier gated by a Condition, with a fixed or Selector-driven value.
+
+        The condition is checked and the selector rolled once, at activation, so the
+        start value can depend on story state (e.g. how far a chain already is on an
+        old save). Takes the place of ``stat``: a conditional entry never reads a stat.
+
+        Attributes:
+            modifier (Modifier_Obj): Operator and name; its value is the fixed operand
+                (0 placeholder when a selector supplies the value).
+            condition (Condition | None): Gate. None = always applies.
+            selector (Selector | None): Supplies the operand at activation. None = fixed value.
+        """
+
+        def __init__(self, modifier: Modifier_Obj, condition: Condition = None, selector: Selector = None, rejected_stat: str = None):
+            """
+            Args:
+                modifier (Modifier_Obj): Operator/value used during start calculation.
+                condition (Condition, optional): Gate checked at activation.
+                selector (Selector, optional): Operand source rolled at activation.
+                rejected_stat (str, optional): A stat passed alongside a condition or
+                    selector. Kept only so validate() can report the conflict.
+            """
+            super().__init__(modifier, None)
+            self.condition = condition
+            self.selector = selector
+            self.rejected_stat = rejected_stat
+
+        def validate(self, bar_key: str = None) -> list:
+            errors = super().validate(bar_key)
+            loc = f" on bar '{bar_key}'" if bar_key else ""
+
+            if self.condition is not None and not isinstance(self.condition, Condition):
+                errors.append((776, f"Start modifier condition{loc} is not a Condition."))
+            if self.selector is not None and not isinstance(self.selector, Selector):
+                errors.append((777, f"Start modifier value{loc} is neither a number nor a Selector."))
+            if self.rejected_stat is not None:
+                errors.append((778, f"Start modifier{loc} combines stat '{self.rejected_stat}' with a condition or selector. Use one or the other."))
+
+            return errors
+
+        def clone(self) -> SituationConditionalStartModifier:
+            mod = Modifier_Obj(
+                self.modifier.get_name(),
+                self.modifier._mod_type,
+                self.modifier.get_value(),
+            )
+            return SituationConditionalStartModifier(mod, self.condition, self.selector, self.rejected_stat)
+
+        def is_applicable(self, **kwargs) -> bool:
+            if self.condition is None:
+                return True
+            return self.condition.is_fulfilled(**kwargs)
+
+        def resolve(self, **kwargs) -> SituationStartModifier:
+            if self.selector is None:
+                return SituationStartModifier(self.modifier, None)
+
+            # roll() instead of get_value(): a non-realtime selector would hand back
+            # whatever it cached on the last activation.
+            value = self.selector.roll(**kwargs)
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                log(
+                    f"Start modifier '{self.modifier.get_name()}': selector '{self.selector.get_name()}' "
+                    f"rolled {value!r}, not a number. Entry skipped.",
+                    log_type="error", category="situation",
+                )
+                return None
+            return SituationStartModifier(Modifier_Obj(self.modifier.get_name(), self.op, value), None)
+
     #endregion
     #################################
 
@@ -1768,6 +1862,17 @@ init -99 python:
             self._ensure_start_fields()
             return list(self.start_modifiers) + list(self.start_shifts)
 
+        def _resolve_start_modifiers(self) -> list:
+            """Entries that apply right now, with conditional values resolved to numbers."""
+            resolved = []
+            for entry in self._iter_start_modifiers():
+                if not entry.is_applicable():
+                    continue
+                concrete = entry.resolve()
+                if concrete is not None:
+                    resolved.append(concrete)
+            return resolved
+
         def _apply_start_star(self, value: float, entry: SituationStartModifier) -> float:
             if entry.stat is None:
                 return value * entry.value
@@ -1804,7 +1909,7 @@ init -99 python:
             """
             self._ensure_start_fields()
             value = float(self.start_base)
-            entries = self._iter_start_modifiers()
+            entries = self._resolve_start_modifiers()
 
             # STAR: "*"
             for entry in entries:
@@ -2489,9 +2594,11 @@ init -99 python:
     # region Situation #
 
     class Situation:
-        def __init__(self, key: str, name: str, *elements: SituationBar | SituationPassive | SituationEventPools | SituationTeaser | SituationThreshold | SituationResolution, thumbnail: str = None, flag: str = None, flag_exclusive: bool = True):
+        def __init__(self, key: str, name: str, *elements: SituationBar | SituationPassive | SituationEventPools | SituationTeaser | SituationThreshold | SituationResolution, thumbnail: str = None, flag: str = None, flag_exclusive: bool = True, start_thresholds: str = "skip"):
             self.key = key
             self.name = name
+            # Default for thresholds the start value lands past (see apply_start_thresholds).
+            self.start_thresholds = start_thresholds
             # Event flag this situation runs under (same rules as FlagCondition).
             # Without a match the situation pauses (reason "flag").
             self.flag = flag
@@ -2633,6 +2740,9 @@ init -99 python:
                                 f"(ordered by '{bar_key}')."
                             ))
 
+            if getattr(self, "start_thresholds", "skip") not in START_THRESHOLD_MODES:
+                error_messages.append((797, f"start_thresholds '{self.start_thresholds}' is invalid. Has to be one of {START_THRESHOLD_MODES}."))
+
             if self.key is None or self.key == "":
                 error_messages.append((792, "Key is empty. Has to be a non-empty string."))
             if self.name is None or self.name == "":
@@ -2656,6 +2766,7 @@ init -99 python:
             self.pictograms = situation.pictograms
             self.flag = getattr(situation, "flag", None)
             self.flag_exclusive = getattr(situation, "flag_exclusive", True)
+            self.start_thresholds = getattr(situation, "start_thresholds", "skip")
 
             if not hasattr(self, "active_passive"):
                 self.active_passive = None
@@ -2787,13 +2898,87 @@ init -99 python:
                 self.set_passive(self.active_passive, skip_clear=True)
             if self.active_measure in self.passives:
                 self.set_measure(self.active_measure, skip_clear=True)
+            # Only bars that compute their snapshot now can carry the start past a threshold.
+            fresh_start_bases = {}
+            for bar in self.bars.values():
+                bar._ensure_start_fields()
+                if not bar._start_applied:
+                    fresh_start_bases[bar.key] = float(bar.start_base)
             for bar in self.bars.values():
                 bar.activate()
+            if fresh_start_bases:
+                self.apply_start_thresholds(fresh_start_bases)
             if not already_active:
                 notify_situation_journal_alert(self)
             # activated under a non-matching flag: pause right away
             self.sync_flag_pause()
             return self
+
+        def apply_start_thresholds(self, start_bases: Dict[str, float]):
+            """
+            Settle thresholds the start value jumped across at activation.
+
+            change_value() only fires thresholds the bar moves through, so a start
+            value past a threshold would otherwise leave it unreached forever. A
+            threshold counts as jumped when it was not reached at ``start_base`` but
+            is reached at the computed start value (all bounded bars). Nearest first:
+
+            - blocking, condition unmet: the bars clamp to its bounds and it is
+                registered as a regular check — a start value never skips a story gate.
+                Everything behind it is then no longer reached and stays untouched.
+            - blocking, condition met / auto: marked reached exactly as during play;
+                effects run only in ``"fire"`` mode (threshold ``on_start`` overrides
+                the situation's ``start_thresholds``).
+
+            Args:
+                start_bases (Dict[str, float]): ``start_base`` per bar that just
+                    computed its start value. Other bars count as not moved.
+            """
+            def is_reached_at(threshold: SituationThreshold, values: Dict[str, float]) -> bool:
+                for bar_key, bound in threshold.bounds.items():
+                    value = values[bar_key]
+                    if (threshold.direction > 0 and value < bound) or (threshold.direction < 0 and value > bound):
+                        return False
+                return True
+
+            base_values = {key: start_bases.get(key, bar.value) for key, bar in self.bars.items()}
+            start_values = {key: bar.value for key, bar in self.bars.items()}
+
+            jumped = [
+                threshold for threshold in self.thresholds.values()
+                if not threshold.reached
+                and threshold.hold == -1
+                and all(bar_key in self.bars for bar_key in threshold.bounds)
+                and not is_reached_at(threshold, base_values)
+                and is_reached_at(threshold, start_values)
+            ]
+            # An unmet gate near the base must clamp before anything behind it is settled.
+            jumped.sort(key=lambda threshold: max(abs(bound - base_values[bar_key]) for bar_key, bound in threshold.bounds.items()))
+
+            default_mode = getattr(self, "start_thresholds", "skip")
+            for threshold in jumped:
+                if not threshold.is_bar_values_reached():
+                    continue
+
+                if threshold.is_blocking() and not threshold.blocking.is_fulfilled():
+                    for bar_key, bound in threshold.bounds.items():
+                        self.bars[bar_key].value = bound
+                    threshold.trigger_threshold()
+                    continue
+
+                fire = (getattr(threshold, "on_start", None) or default_mode) == "fire"
+                if threshold.is_blocking():
+                    # Same bookkeeping as SituationManager.check_threshold: a timed
+                    # gate holds and keeps its effects for the timeout, a plain one latches.
+                    if threshold.timed_release is not None:
+                        threshold.set_hold()
+                        continue
+                    threshold.reached = True
+                else:
+                    # set_hold, not reached: a repeatable threshold must stay re-armable.
+                    threshold.set_hold()
+                if fire:
+                    threshold.trigger_effects()
 
         def complete(self):
             already_completed = self.state == "completed"
@@ -4435,7 +4620,7 @@ init -99 python:
     # Definition helpers — declarative syntax for load_situations authors.
     # Chain methods (add_*, set_*) return self; __init__ must not return self.
 
-    def AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, thumbnail=None, default_hold=-1, **bounds):
+    def AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, thumbnail=None, default_hold=-1, on_start=None, **bounds):
         """Auto-fire threshold with empty threshold_hint. Bounds via kwargs, e.g. main=10.
 
         ``default_hold=-1`` (default): fires once, then latches — never re-arms.
@@ -4443,18 +4628,25 @@ init -99 python:
         the bar must travel back past the bound by that many points before the
         threshold can fire again (hysteresis / dead zone). ``0`` re-arms on any
         re-crossing; larger values suppress flutter while the bar sits near the bound.
-        """
-        return SituationThreshold(approach_hint, "", *effects, direction=direction, visible_range=visible_range, thumbnail=thumbnail, default_hold=default_hold).add_bounds(**bounds)
 
-    def BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, thumbnail=None, default_hold=-1, **bounds):
+        ``on_start`` (``"skip"`` / ``"fire"``) overrides the situation's
+        ``start_thresholds`` for this threshold when the start value lands past it.
+        """
+        return SituationThreshold(approach_hint, "", *effects, direction=direction, visible_range=visible_range, thumbnail=thumbnail, default_hold=default_hold, on_start=on_start).add_bounds(**bounds)
+
+    def BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, thumbnail=None, default_hold=-1, on_start=None, **bounds):
         """
         Blocking threshold — progress stops until a Condition is fulfilled.
 
         ``default_hold=-1`` (default): no hysteresis; once cleared, stays reached
         and cannot re-arm. Set ``default_hold`` to ``0`` or higher to enable a
         reactivation hysteresis zone. Bounds via kwargs, e.g. main=20.
+
+        ``on_start`` (``"skip"`` / ``"fire"``) overrides the situation's
+        ``start_thresholds`` when the start value lands past this threshold and its
+        condition already holds. An unmet condition always clamps the start value.
         """
-        return SituationThreshold(approach_hint, threshold_hint, *conditions, direction=direction, visible_range=visible_range, thumbnail=thumbnail, default_hold=default_hold).add_bounds(**bounds)
+        return SituationThreshold(approach_hint, threshold_hint, *conditions, direction=direction, visible_range=visible_range, thumbnail=thumbnail, default_hold=default_hold, on_start=on_start).add_bounds(**bounds)
 
     def Bar(key, *elements: Pictogram, weight: float = None, limits = (-100, 100), stat_weights = None, regular_decrease_rate: float = 0, regular_decrease_interval: str = "daytime_change", start_base: float = 0, start_modifiers = None):
         """
@@ -4486,23 +4678,40 @@ init -99 python:
                 bar.add_pictogram(element)
         return bar
 
-    def StartModifier(op: str, value: float, name: str = None, stat: str = None):
+    def StartModifier(op: str, value: float | Selector, name: str = None, stat: str = None, condition: Condition = None):
         """
         Authoring helper for bar start-value modifiers.
 
+        StartModifier("+", 0.05, stat=HAPPINESS)                                  # stat snapshot
+        StartModifier("+", 21, condition=ProgressCondition("start_sex_ed", 4))    # gated, fixed value
+        StartModifier("+", ProgressSelector(...), condition=...)                  # gated, rolled value
+
         Args:
             op (str): ``+``, ``*``, ``value_percent``, ``range_percent`` or ``gated_percent``.
-            value (float): Operand (flat, factor, percent, or stat weight).
+            value (float | Selector): Operand (flat, factor, percent, or stat weight), or a
+                Selector rolled once at activation.
             name (str, optional): Modifier identity. Auto-generated if omitted.
-            stat (str, optional): School-stat key for snapshot contribution.
+            stat (str, optional): School-stat key for snapshot contribution. Not combinable
+                with ``condition`` or a Selector value.
+            condition (Condition, optional): Entry only applies if fulfilled at activation.
+                Combine several with AND/OR/NOT.
 
         Returns:
             SituationStartModifier: Entry for Bar(..., start_modifiers=[...]).
         """
+        selector = value if isinstance(value, Selector) else None
+        if selector is None and condition is None:
+            if name is None:
+                stat_part = stat if stat is not None else "general"
+                name = f"start:{stat_part}:{op}:{value}"
+            return SituationStartModifier(Modifier_Obj(name, op, value), stat)
+
         if name is None:
-            stat_part = stat if stat is not None else "general"
-            name = f"start:{stat_part}:{op}:{value}"
-        return SituationStartModifier(Modifier_Obj(name, op, value), stat)
+            condition_part = (condition.get_name() or condition._type) if isinstance(condition, Condition) else "always"
+            value_part = selector.get_name() if selector is not None else value
+            name = f"start:{condition_part}:{op}:{value_part}"
+        operand = 0 if selector is not None else value
+        return SituationConditionalStartModifier(Modifier_Obj(name, op, operand), condition, selector, stat)
 
     def SituationPool(key, bar_min, bar_max):
         return SituationEventPools(key, bar_min, bar_max)

@@ -21,6 +21,7 @@ init -7 python:
             inject_default_cancel: bool = True,
             flag: str = None,
             flag_exclusive: bool = True,
+            start_thresholds: str = "skip",
         ):
             self.unlockable_key = key
             self.type_key = type_key
@@ -122,7 +123,7 @@ init -7 python:
 
             # Like every situation: pauses while the event flag doesn't match (e.g. no
             # PTA work during the camp, so no risk of a negative resolution).
-            super().__init__(situation_key, name, *elements, thumbnail=thumbnail, flag=flag, flag_exclusive=flag_exclusive)
+            super().__init__(situation_key, name, *elements, thumbnail=thumbnail, flag=flag, flag_exclusive=flag_exclusive, start_thresholds=start_thresholds)
 
             # Cheat override: when True, is_visible() returns True regardless of
             # the derived condition state. Runtime-only, survives live reloads

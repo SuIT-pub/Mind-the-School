@@ -424,6 +424,65 @@ scale the base, which is 0. `range_percent` and `gated_percent`, however, scale 
 bar's **range**, not the base, so they still contribute at base 0 — as do `+` and
 stat contributions.
 
+##### Conditional start modifiers
+
+A `StartModifier` can be gated by a `condition` and take its value from a
+`Selector`. Both are evaluated **once, at activation**. Typical use: a situation
+that is added to a story chain later and has to pick up old saves where they are.
+
+```python
+Bar("main", limits=(-20, 40), start_modifiers=[
+    # fixed value, only if the condition holds at activation
+    StartModifier("+", 13, condition=ProgressCondition("start_sex_ed", 3)),
+    StartModifier("+", 21, condition=ProgressCondition("start_sex_ed", 4)),
+    # value rolled from a selector (any number-returning Selector)
+    StartModifier("+", ProgressSelector(...), condition=...),
+])
+```
+
+- `condition` takes exactly one `Condition`; combine several with `AND` / `OR` /
+  `NOT`. No condition = always applies.
+- A `Selector` value is **rolled fresh** on every activation (not the selector's
+  cached value). If it rolls something that isn't a number, the entry is skipped
+  and an error is logged (category `situation`).
+- `stat` cannot be combined with `condition` or a Selector value (self-test 778,
+  the entry is rejected).
+- Conditional entries go through the same operator order as every other entry.
+
+##### Thresholds the start value jumps past
+
+Thresholds normally only fire when the bar **moves through** them. A start value
+that already lies past a threshold would leave it behind, unreached forever. So
+right after the start values are computed, `activate()` settles every threshold
+that is **not** reached at `start_base` but **is** reached at the start value (for
+multi-bar thresholds: all bounded bars), nearest to the base first:
+
+| Threshold | What happens |
+|---|---|
+| Blocking, condition **not** met | The bounded bars are **clamped to its bound** and it is registered as a normal check. A start value never skips a story gate. Thresholds behind it are no longer reached and stay untouched. |
+| Blocking, condition met | Marked reached, exactly as in play (a timed gate goes into its hold and keeps its timeout effects). |
+| Auto | Marked reached via the hold system, so a repeatable one (`default_hold >= 0`) stays re-armable. |
+
+Whether the effects of settled thresholds run is a switch:
+
+```python
+Situation("new_management", ..., start_thresholds="skip")    # default: settle silently
+AutoThreshold("...", EventEffect("nm_thresh_yulan_thaw"), main=15,
+              on_start="fire")                                # run this one's effects
+```
+
+- `start_thresholds` (Situation / Unlockable): `"skip"` (default) or `"fire"`.
+- `on_start` (`AutoThreshold` / `BlockingThreshold`): `"skip"`, `"fire"` or `None`
+  (default, follows the situation). Invalid values fail self-test 797 / 798.
+- `"fire"` runs the effects nearest-first. `EventEffect`s are queued like any other
+  threshold event and play when the queue drains (event end, map entry, time
+  change). Use it sparingly: one activation should not unload five scenes at once.
+
+A threshold sitting **exactly** on the start value counts as reached (same
+"value ≥ bound" rule as in play). This only applies to bars whose start value is
+computed by that `activate()` call. Re-activating a running situation changes
+nothing.
+
 ### Threshold (`SituationThreshold`)
 
 A defined point on the bar where something happens. Two types:
@@ -671,11 +730,11 @@ directly, use the **definition helpers** — they reduce boilerplate (no manual
 
 | Helper | Creates |
 |--------|---------|
-| `Situation(key, name, description, *elements, thumbnail=None)` | the Situation itself |
+| `Situation(key, name, description, *elements, thumbnail=None, start_thresholds="skip")` | the Situation itself (`start_thresholds`: see [jumped thresholds](#thresholds-the-start-value-jumps-past)) |
 | `Bar(key, *pictos, weight=None, limits=(-100,100), stat_weights=None, regular_decrease_rate=0, regular_decrease_interval="daytime_change", start_base=0, start_modifiers=None)` | a bar (leading `Picto(...)` args attach preview marks — see [§18](#18-pictograms-preview-marks)) |
-| `StartModifier(op, value, name=None, stat=None)` | a start-value modifier |
-| `AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, default_hold=-1, **bounds)` | auto-fire threshold (one-shot by default; `default_hold>=0` makes it repeatable) |
-| `BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, default_hold=-1, **bounds)` | blocking threshold (no hysteresis by default) |
+| `StartModifier(op, value, name=None, stat=None, condition=None)` | a start-value modifier (`value` may be a `Selector`; see [conditional start modifiers](#conditional-start-modifiers)) |
+| `AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, default_hold=-1, on_start=None, **bounds)` | auto-fire threshold (one-shot by default; `default_hold>=0` makes it repeatable) |
+| `BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, default_hold=-1, on_start=None, **bounds)` | blocking threshold (no hysteresis by default) |
 | `PassiveOption(key, description, *effects)` | passive (Layer 2) |
 | `MeasureOption(key, description, duration, *limits, instant=None, permanent=None, open_ended=False)` | measure (Layer 3) |
 | `SituationPool(key, bar_min, bar_max)` | event pool |
@@ -1560,12 +1619,14 @@ More in `game/scripts/conditions.rpy`.
 | 718/719 | Blocking threshold without `threshold_hint`+condition, or empty `approach_hint` |
 | 730/731 · 740–744 · 750–752 | SituationEffect field errors (game-data / stat / bar / rhythm) |
 | 760–764 | `SituationEffectGeneral`: invalid `key`, no effect, non-`Effect` item, bad/empty descriptions, non-bool `revert` |
+| 776/777/778 | Conditional `StartModifier`: `condition` not a `Condition`, value neither number nor `Selector`, `stat` combined with condition/selector |
 | 780 | Resolution without an effect |
 | 781/782 | Resolution mode not `ALL`/`ANY` |
 | 784 | `NegativeResolution` `grace_count` invalid |
 | 790 | Situation without a bar |
 | 791 | Threshold bounds cross (softlock risk) |
 | 792/793 | Situation key or name empty |
+| 797/798 | `start_thresholds` / threshold `on_start` not `"skip"`/`"fire"` |
 
 ### Related files
 - `game/scripts/situations/situations.rpy` — classes, helpers, `load_situations`
