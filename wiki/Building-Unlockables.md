@@ -597,6 +597,37 @@ matching pool/threshold conditions (`SituationPoolCondition`,
 `ThresholdReachedCondition`). No Unlockable-specific API is needed; the Situation
 pool mechanism already covers "PTA discussion at these bar levels".
 
+### Story votes (a vote scene of your own)
+
+By default the Friday meeting plays the generic vote scene (`pta_vote_unregistered_1`).
+To give an Unlockable its own scene, add a fragment to `pta_vote_storage` gated by
+`JournalVoteCondition`. Constructing that condition claims the vote, so the
+generic scene steps aside for it. For one member of a group, pass `group_index`;
+without it the scene claims every level of the key.
+
+```python
+pta_vote_storage.add_event(EventFragment(2, "pta_vote_theoretical_sex_ed_1",
+    JournalVoteCondition("sex_ed", group_index = 1),
+    Pattern("main", "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 <step>.webp"),
+))
+```
+
+The scene rolls the votes from the campaign bars and hands the outcome to the shared
+result label. **Always** finish through `pta_vote_result`: it sets the vote-won
+flag and runs the unlock, applies the failure penalty, refunds escrowed money and
+frees the Schedule Vote slot. A scene that skips it leaves the campaign stuck.
+
+```renpy
+$ unlockable = get_value("vote_proposal", **kwargs)
+# one vote per bar, in bar order — map them to the bar keys for per-faction lines
+$ votes = dict(zip([bar.key for bar in unlockable.get_bars()], unlockable.roll_votes()))
+$ end_choice = get_end_choice(*votes.values())
+# ... dialogue branching on votes["Teachers"], votes["Parents"], ...
+call pta_vote_result(unlockable, end_choice, True)
+```
+
+Full example: `pta_vote_theoretical_sex_ed_1` in `game/scripts/events/sex_ed_intro.rpy`.
+
 ---
 
 ## 13. Implementing Unlockables in a mod

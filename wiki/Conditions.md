@@ -240,7 +240,8 @@ ranges** — the shared number-pattern grammar is documented in
 | `BuildingCondition(key, *options)` | a map building is currently open ([Maps](Maps)) |
 | `HasAnythingInCollectionGameDataCondition(collection_key, *options)` | a GameData collection is non-empty (backs building open/closed) |
 | `VoteProposalFreeCondition(*options)` | no PTA proposal is currently scheduled (gate for Schedule Vote) |
-| `JournalVoteCondition(journal_obj, *options)` / `JournalNRVoteCondition(*options)` | PTA vote journal state |
+| `JournalVoteCondition(unlockable_key, *options, group_index=-1)` | the scheduled PTA vote is for this unlockable (with `group_index`: only that group member). Gates a **story vote** fragment in `pta_vote_storage`; creating it also claims that vote, so the generic vote scene skips it |
+| `JournalNRVoteCondition(*options)` | the scheduled vote is **not** claimed by any story vote (the generic vote scene uses it) |
 
 ### Gating helpers
 

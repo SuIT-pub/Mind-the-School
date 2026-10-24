@@ -5,6 +5,12 @@ init -6 python:
 
     registered_vote_events = []
 
+    def vote_registration_key(unlockable_key: str, group_index: int = -1) -> str:
+        """Key a story vote claims in registered_vote_events: the whole group, or one member as ``key:index``."""
+        if group_index == -1:
+            return unlockable_key
+        return f"{unlockable_key}:{group_index}"
+
     ########################
     # region legacy stubs -- #
     ########################

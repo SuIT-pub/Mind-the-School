@@ -3456,7 +3456,7 @@ init -6 python:
                 Inherited from base Condition class.
         """
 
-        def __init__(self, journal_obj: str, *options: Option):
+        def __init__(self, journal_obj: str, *options: Option, group_index: int = -1):
             """
             Initialize a JournalVoteCondition for a specific journal object.
 
@@ -3464,12 +3464,15 @@ init -6 python:
             registered_vote_events list to track voting history.
 
             Args:
-                journal_obj (str): The identifier of the journal object to track
+                journal_obj (str): The unlockable key to track.
+                group_index (int, optional): Only match this member of an unlockable
+                    group (e.g. level 1 of ``sex_ed``). -1 matches every member.
             """
             super().__init__(*options)
             self._journal_obj = journal_obj
+            self.group_index = group_index
             global registered_vote_events
-            registered_vote_events.append(journal_obj)
+            registered_vote_events.append(vote_registration_key(journal_obj, group_index))
 
         @property
         def _type(self) -> str:
@@ -3497,9 +3500,10 @@ init -6 python:
             # voteProposal now holds a live Unlockable (see ScheduleVoteEffect);
             # its unlockable_key replaces the old journal object's get_name().
             vote_key = getattr(vote_proposal, "unlockable_key", None)
-            if vote_key is None:
+            if vote_key is None or self._journal_obj != vote_key:
                 return False
-            return self._journal_obj == vote_key
+            group_index = getattr(self, "group_index", -1)
+            return group_index == -1 or getattr(vote_proposal, "group_index", -1) == group_index
 
         def get_name(self) -> str:
             """
@@ -3511,7 +3515,7 @@ init -6 python:
             Returns:
                 str: A string in the format "JournalVoteCondition(journal_obj)"
             """
-            return f"JournalVoteCondition({self._journal_obj})"
+            return f"JournalVoteCondition({self._journal_obj}, {getattr(self, 'group_index', -1)})"
 
     class JournalNRVoteCondition(Condition):
         """A condition class that checks if a journal object has never been scheduled for voting.
@@ -3564,7 +3568,9 @@ init -6 python:
             if vote_key is None:
                 return False
 
-            return vote_key not in registered_vote_events
+            # A story vote can claim the whole group or a single member of it.
+            member_key = vote_registration_key(vote_key, getattr(vote_proposal, "group_index", -1))
+            return vote_key not in registered_vote_events and member_key not in registered_vote_events
 
         def get_name(self) -> str:
             """Get the name of this condition type.
