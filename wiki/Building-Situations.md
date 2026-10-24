@@ -524,7 +524,9 @@ A defined point on the bar where something happens. Two types:
 - **Blocking** (`BlockingThreshold`): the bar cannot rise past this point until a
   `Condition` is met. Use: narratively critical beats that MUST happen in a
   certain order ("the PTA vote must take place"). Effectively a quest goal that
-  doesn't feel like one.
+  doesn't feel like one. If the condition **already holds** when the bar reaches
+  the bound, the gate clears on the spot (effects fire) and the rest of the move
+  carries on, so an event can set progress and push the bar in the same breath.
 
 Every threshold carries two hint texts:
 - `approach_hint` — shown while the bar is **below** the threshold. Vague
@@ -1167,7 +1169,12 @@ projection entirely:
 ### Growth clamp
 
 A blocking threshold caps **each of its bounded bars individually** at that bar's
-bound until it is completed. Unbounded bars keep growing freely. Author rule: for
+bound until it is completed. Unbounded bars keep growing freely. A gate whose
+condition is already fulfilled at the moment a bar reaches it (and whose other
+bounded bars are at their bounds too) doesn't cap: it is cleared right away —
+a plain gate latches and fires, a timed one goes into its hold and keeps its
+timeout effects — and the move continues to the next unmet gate. A check left
+over from an earlier clamp is dropped, so the gate never fires twice. Author rule: for
 each bar, the bounds of consecutive blocking thresholds must be **monotonic** in the
 growth direction — non-monotonic (crossing) bounds risk a softlock and trip the
 load-time check (error 791; the offending threshold is skipped with a non-blocking

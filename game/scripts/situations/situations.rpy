@@ -637,6 +637,27 @@ init -99 python:
                 self.trigger_effects()
             return
 
+        def pass_fulfilled_gate(self, fire: bool = True):
+            """
+            Clear a blocking threshold whose condition already holds, without waiting for
+            the next threshold check.
+
+            Same bookkeeping as ``SituationManager.check_threshold``: a timed gate goes into
+            its hold and keeps its effects for the timeout; a plain gate latches and fires.
+            A check registered by an earlier clamp is dropped so it can't fire twice.
+
+            Args:
+                fire (bool): Run the effects of a plain gate (start sweep passes False in "skip").
+            """
+            if situation_manager is not None:
+                situation_manager.discard_threshold_check(self.key)
+            if self.timed_release is not None:
+                self.set_hold()
+                return
+            self.reached = True
+            if fire:
+                self.trigger_effects()
+
         def add_effect(self, *effects: Effect):
             self.effects.extend(effects)
             return self
@@ -2106,15 +2127,36 @@ init -99 python:
                 return
 
             old_value = self.value
-            thresholds, blocking = self.situation.get_thresholds_in_range(self.value, self.key, abs(delta), delta)
-            if blocking != None:
+            remaining = delta
+            crossed = []
+            while True:
+                thresholds, blocking = self.situation.get_thresholds_in_range(self.value, self.key, abs(remaining), remaining)
+                if blocking is None:
+                    self.value += remaining
+                    if self.value > self.max:
+                        self.value = self.max
+                    if self.value < self.min:
+                        self.value = self.min
+                    crossed.extend(thresholds)
+                    break
+
+                step_start = self.value
                 self.value = blocking.bounds[self.key]
-            else:
-                self.value += delta
-                if self.value > self.max:
-                    self.value = self.max
-                if self.value < self.min:
-                    self.value = self.min
+                crossed.extend(threshold for threshold in thresholds if threshold is not blocking)
+                # A gate whose condition already holds doesn't stop the push: an event
+                # that sets progress and then moves the bar would otherwise lose the
+                # rest of the move until the next threshold check.
+                if not (blocking.is_bar_values_reached() and blocking.blocking.is_fulfilled()):
+                    crossed.append(blocking)
+                    break
+                for threshold in crossed:
+                    if threshold.is_bar_values_reached():
+                        threshold.trigger_threshold()
+                crossed = []
+                blocking.pass_fulfilled_gate()
+                remaining -= self.value - step_start
+                if remaining == 0 or remaining * delta < 0:
+                    break
 
             actual_change = self.value - old_value
             self.changes.append(actual_change)
@@ -2122,7 +2164,7 @@ init -99 python:
                 self.changes.pop(0)
             self.tendency = sum(self.changes) / len(self.changes)
 
-            for threshold in thresholds:
+            for threshold in crossed:
                 if threshold.is_bar_values_reached():
                     threshold.trigger_threshold()
 
@@ -3005,15 +3047,10 @@ init -99 python:
 
                 fire = (getattr(threshold, "on_start", None) or default_mode) == "fire"
                 if threshold.is_blocking():
-                    # Same bookkeeping as SituationManager.check_threshold: a timed
-                    # gate holds and keeps its effects for the timeout, a plain one latches.
-                    if threshold.timed_release is not None:
-                        threshold.set_hold()
-                        continue
-                    threshold.reached = True
-                else:
-                    # set_hold, not reached: a repeatable threshold must stay re-armable.
-                    threshold.set_hold()
+                    threshold.pass_fulfilled_gate(fire)
+                    continue
+                # set_hold, not reached: a repeatable threshold must stay re-armable.
+                threshold.set_hold()
                 if fire:
                     threshold.trigger_effects()
 
@@ -4547,6 +4584,13 @@ init -99 python:
                 "threshold_check",
             )
             return self
+
+        def discard_threshold_check(self, key: str):
+            """Drop a pending threshold check (the threshold was cleared another way)."""
+            if key not in self.threshold_checks:
+                return
+            del self.threshold_checks[key]
+            lifecycle_registry.ping(key, REMOVE)
 
         def check_threshold(self, key: str, **kwargs):
             if key not in self.threshold_checks.keys():
