@@ -511,13 +511,14 @@ init -1 python:
 
     class ProgressEffect(Effect):
         """
-        Changes a progress in the Event Series.
+        Advances the progress of an event series, the same store `set_progress` and
+        `get_progress` work on.
 
         ### Attributes:
         1. key: str
             - Key of the progress.
         2. value: int
-            - The progress of the Event Series with the key
+            - Steps to advance the event series by (negative steps go back).
         """
 
         def __init__(self, key: str, value: int = 1, *options: Option):
@@ -525,6 +526,9 @@ init -1 python:
             self.key = key
             self.value = value
             self.prev_value = None
+            # Remembered so a revert can drop a progress key this effect created,
+            # leaving get_progress at -1 ("never started") instead of 0.
+            self.created_progress = False
 
         @property
         def _type(self) -> str:
@@ -534,18 +538,21 @@ init -1 python:
             return f"{self.value}"
 
         def apply(self, **kwargs):
-            if self.key in gameData.keys():
-                self.prev_value = gameData[self.key]
-            if self.key not in gameData.keys():
-                gameData[self.key] = 0
-            gameData[self.key] += self.value
+            if is_in_replay:
+                return kwargs
+            progress = gameData.get("progress", {})
+            self.created_progress = self.key not in progress
+            self.prev_value = progress.get(self.key)
+            advance_progress(self.key, self.value)
             return kwargs
 
         def revert(self, **kwargs):
-            if self.options.has_option("EffectNoRevert"):
+            if self.options.has_option("EffectNoRevert") or is_in_replay:
                 return kwargs
-            if self.prev_value != None:
-                gameData[self.key] = self.prev_value
+            if self.prev_value is not None:
+                set_progress(self.key, self.prev_value)
+            elif getattr(self, "created_progress", False):
+                gameData.get("progress", {}).pop(self.key, None)
             return kwargs
 
     class ModifierEffect(Effect):

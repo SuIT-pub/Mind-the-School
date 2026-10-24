@@ -152,7 +152,7 @@ constructor's own args: `MoneyEffect("cost", -1500, "ADD", EffectNoRevertOption(
 
 | Constructor | Does |
 |-------------|------|
-| `ProgressEffect(key, value=1, *options)` | set an event-series progress step (stores previous → reverts) |
+| `ProgressEffect(key, value=1, *options)` | advance an event-series progress by `value` steps, same store as `set_progress`/`get_progress` (stores previous → reverts; a key it created is removed again) |
 | `ValueEffect(key, value, *options)` | set a registered value / flag (stores previous → reverts) |
 | `ChangeKwargsEffect(key, value)` | inject/overwrite a kwarg for the rest of the current event flow |
 | `SetProficiencyEffect(subject, *, level=0, xp=0)` | set a teaching proficiency |
