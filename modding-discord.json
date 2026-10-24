@@ -17,6 +17,8 @@
     "fix-renpy-menu-title-crash",
     "ui-sounds-journal-entry",
     "situation-conditional-start-modifier",
-    "situation-start-jumped-thresholds"
+    "situation-start-jumped-thresholds",
+    "start-modifier-stat-with-condition",
+    "get-stat-number-situation-bars"
   ]
 }
