@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "change-stat-situation-replay-guard",
+      "date": "2026-10-24",
+      "version": "0.2.2",
+      "type": "fixed",
+      "title": "`change_stat(\"situation:...\")` no longer moves bars during gallery replays",
+      "details": "School stats were already protected during replays, but the situation-key branch of `change_stat` was not: replaying an event that pushes a bar moved the live bar of a running situation. It now does nothing while `is_in_replay` is set. If your mod wrapped its bar pushes in `if not is_in_replay:`, that guard is no longer needed. `change_stats_with_modifier` was already guarded.",
+      "wiki": "Building-Situations#d-direct-change-by-events"
+    },
+    {
       "id": "blocking-threshold-pass-when-fulfilled",
       "date": "2026-10-24",
       "version": "0.2.2",
