@@ -176,7 +176,7 @@ label office_call_secretary_1 (**kwargs):
     $ start_progress('start_sex_ed') # 0 -> 1
     $ sex_ed_preparations = situation_manager.get_situation("sex_ed_preparations")
     # A gallery replay must not restart a running or finished preparation.
-    if sex_ed_preparations is not None and sex_ed_preparations.state == "inactive" and not is_in_replay:
+    if sex_ed_preparations is not None and sex_ed_preparations.state == "inactive":
         $ sex_ed_preparations.activate()
 
     $ set_timer("office_call_secretary_1", "today")

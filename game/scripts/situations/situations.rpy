@@ -2968,6 +2968,8 @@ init -99 python:
                     del self.teasers[key]
 
         def activate(self):
+            if is_in_replay:
+                return self
             if self.state == "active" and self.is_paused():
                 # re-activating would wake the paused modifiers; use resume()
                 return self
