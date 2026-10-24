@@ -650,6 +650,9 @@ init -6 python:
         if stat == MONEY:
             money.change_value(change)
         elif stat.startswith("situation:"):
+            # School stats guard replays inside Char.change_stat; the bar route has to do it here.
+            if is_in_replay:
+                return
             situation_manager.apply_progress_change(stat, change)
         else:
             get_school().change_stat(stat, change)
