@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "blocking-threshold-pass-when-fulfilled",
+      "date": "2026-10-24",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "A blocking threshold whose condition already holds no longer swallows the bar move",
+      "details": "Before, a bar reaching a `BlockingThreshold` always stopped at its bound, even if the condition was already true; the gate cleared at the next threshold check and the rest of the move was lost. Now it clears on the spot (plain gate: reached + effects; timed gate: hold, timeout effects kept) and the move continues to the next unmet gate. So `set_progress(...)` followed by `change_stat(\"situation:<key>:<bar>\", n)` in one event moves the full `n`. Unmet gates clamp as before. A check registered by an earlier clamp is dropped, so effects don't fire twice. New helpers: `SituationThreshold.pass_fulfilled_gate()`, `SituationManager.discard_threshold_check(key)`.",
+      "wiki": "Building-Situations#growth-clamp"
+    },
+    {
       "id": "get-stat-number-situation-bars",
       "date": "2026-10-24",
       "version": "0.2.2",
