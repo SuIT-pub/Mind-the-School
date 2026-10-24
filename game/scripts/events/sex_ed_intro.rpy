@@ -12,6 +12,20 @@ init 1 python:
         if 1 <= get_progress("start_sex_ed") <= 5:
             situation.activate()
 
+    def activate_theoretical_sex_ed_campaign():
+        """
+        Start the PTA campaign for theoretical sex ed if it isn't running yet.
+
+        Called from the PTA discussion and from load_unlockables, which also picks up
+        saves that reached the discussion before the campaign existed (progress 6).
+        """
+        if get_progress("start_sex_ed") != 6:
+            return
+        campaign = unlockable_manager.get_unlockable_by_key("sex_ed", 1)
+        if campaign is None or campaign.state != "inactive":
+            return
+        campaign.activate()
+
     office_building_events["call_secretary"].add_event(Event(1, "office_call_secretary_1",
         NOT(ProgressCondition('start_sex_ed')),
         ProgressCondition('aona_sports_bra', '2+'),
@@ -67,7 +81,7 @@ init 1 python:
     ))
 
     pta_vote_storage.add_event(EventFragment(2, "pta_vote_theoretical_sex_ed_1",
-        JournalVoteCondition("theoretical_sex_ed"),
+        JournalVoteCondition("sex_ed", group_index = 1),
         ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 10.webp",
@@ -617,16 +631,21 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ show_notify_message("Added new rule to journal!")
 
     $ set_progress('start_sex_ed', 6) # 5 -> 6
+    # The campaign picks up straight from the meeting instead of waiting for "Start Introducing".
+    $ activate_theoretical_sex_ed_campaign()
 
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_theoretical_sex_ed_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ parent_vote =  get_value("vote_parent", **kwargs)
-    $ teacher_vote = get_value("vote_teacher", **kwargs)
-    $ student_vote = get_value("vote_student", **kwargs)
-    $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
+    $ unlockable = get_value("vote_proposal", **kwargs)
+    if not isinstance(unlockable, Unlockable):
+        $ end_event('new_daytime', **kwargs)
+
+    # One vote per campaign bar, rolled from its fill like every other PTA vote.
+    $ votes = dict(zip([bar.key for bar in unlockable.get_bars()], unlockable.roll_votes()))
+    $ end_choice = get_end_choice(*votes.values())
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -643,8 +662,7 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
     $ image.show(3)
     headmaster "So when there are no further questions, please cast your vote now."
 
-    # teacher comment on vote
-    if teacher_vote == 'yes':
+    if votes.get("Teachers") == 'yes':
         $ image.show(4)
         teacher """
         We teachers had a discussion about this topic and we came to the conclusion that theoretical sex education is 
@@ -659,8 +677,7 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
         for now.
         """
 
-    # student comment on vote
-    if student_vote == 'yes':
+    if votes.get("Students") == 'yes':
         $ image.show(6)
         sgirl """
         After thinking about it, I believe that it could be beneficial for us besides being embarrassing. So I vote yes.
@@ -670,15 +687,23 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
         sgirl "I still think the topic is embarrassing and unnecessary, so I vote no."
 
     $ image.show(8)
-    parent """
-    We believe that the introduction of theoretical sex education is not appropriate and should be discussed at home.
-    
-    For this reason, we vote against the proposal.
-    """
+    if votes.get("Parents") == 'yes':
+        parent """
+        We still think a good part of this belongs at home. But we've heard the teachers out, and we're willing to 
+        give it one term, so we vote in favour.
+        """
+    else:
+        parent """
+        We believe that the introduction of theoretical sex education is not appropriate and should be discussed at home.
+
+        For this reason, we vote against the proposal.
+        """
+
+    $ image.show(9)
+    # Unlock, failure penalty and freeing the vote slot all go through the shared result.
+    call pta_vote_result(unlockable, end_choice, True) from _call_pta_vote_result_theoretical_sex_ed_1
 
     if end_choice == 'yes':
-        $ image.show(9)
-        headmaster "With the majority of votes in favor, the proposal is accepted."
         headmaster "Theoretical Sexual Education will be introduced into the curriculum."
         $ image.show(10)
         headmaster """
@@ -686,12 +711,6 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
         distribute information material for the students and faculty members to prepare themselves over the weekend.
         """
         $ set_progress('start_sex_ed', 7) # 6 -> 7
-    else:
-        $ image.show(9)
-        headmaster "The proposal is rejected due to the majority of votes against it."
-
-    # Story vote already applied its own outcome above; only clear the schedule slot.
-    $ set_game_data('voteProposal', None)
 
     $ end_event('new_daytime', **kwargs)
 

@@ -1123,5 +1123,38 @@ label load_unlockables:
         ),
     )
 
+    # Sex ed curriculum, one group member per stage (Practical will be index 2).
+    # Index 1 is the PTA campaign that follows Sex Ed Preparations: its Teachers bar
+    # starts from how well the preparation went. No Cancel: the start_sex_ed chain
+    # waits on this vote and would be stranded by a cancelled campaign.
+    $ register_unlockables(
+        Unlockable("rule", "sex_ed", "Theoretical Sex Ed", True,
+            SituationDescription([
+                "Add a theoretical sex education unit to the curriculum: how bodies work, why they differ, and everything nobody here ever explained.",
+                "The staff is mostly on board. Parents and students still need convincing before the PTA votes.",
+            ]),
+            ProgressCondition("start_sex_ed", "6+"),
+            # Own bars replace the defaults; same limits and drift. Bar order = vote order.
+            Bar("Students", Picto("students"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={INHIBITION: -0.3}),
+            Bar("Parents", Picto("parents"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={REPUTATION: 0.4}),
+            Bar("Teachers", Picto("teachers"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={EDUCATION: 0.3},
+                start_base=10,
+                # Saves that never had the preparation read its untouched bar: 0, neutral.
+                start_modifiers=[StartModifier("+", 0.5, stat="situation:sex_ed_preparations:main")]),
+            Picto("vote"),
+            Picto("curriculum"),
+            SituationEffectSetGameData("theoretical_sex_ed_active", True, "Theoretical sex ed is part of the curriculum"),
+            thumbnail="images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 10.webp",
+            group_index=1,
+            inject_default_cancel=False,
+        ),
+    )
+
+    # Saves that reached the PTA discussion before the campaign existed.
+    $ activate_theoretical_sex_ed_campaign()
+
 # endregion
 #######################
