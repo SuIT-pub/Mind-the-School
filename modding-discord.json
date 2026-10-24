@@ -20,6 +20,7 @@
     "situation-start-jumped-thresholds",
     "start-modifier-stat-with-condition",
     "get-stat-number-situation-bars",
-    "blocking-threshold-pass-when-fulfilled"
+    "blocking-threshold-pass-when-fulfilled",
+    "journal-vote-condition-group-index"
   ]
 }
