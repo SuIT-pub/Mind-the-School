@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "journal-vote-condition-group-index",
+      "date": "2026-10-24",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "`JournalVoteCondition` can claim a single group member (`group_index=`)",
+      "details": "`JournalVoteCondition(\"sex_ed\", group_index = 1)` gates a story vote scene to level 1 of a group only; without `group_index` it still claims every member of the key. Constructing it claims the vote, so the generic vote scene (`JournalNRVoteCondition`) skips that member and keeps running for the others.\nNew wiki section on writing your own vote scene: roll with `unlockable.roll_votes()` and always finish through `call pta_vote_result(unlockable, end_choice, True)`, which runs the unlock, failure penalty, money refund and frees the vote slot.",
+      "wiki": "Building-Unlockables#story-votes-a-vote-scene-of-your-own"
+    },
+    {
       "id": "blocking-threshold-pass-when-fulfilled",
       "date": "2026-10-24",
       "version": "0.2.2",
