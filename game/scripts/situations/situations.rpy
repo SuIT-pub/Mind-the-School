@@ -5351,7 +5351,60 @@ label load_situations:
             ),
             thumbnail="images/misc/Test_16_9.png",
         ),
+        # Groundwork for the sex ed campaign (Unlockable rule:sex_ed). Follows the
+        # start_sex_ed chain in events/sex_ed_intro.rpy: each step event pushes +8,
+        # each gate waits for the progress step its hint names. No negative end on
+        # purpose: failing here would cut the guidance while the chain runs on. A weak
+        # case is paid for at the PTA vote, where the campaign reads this bar.
+        Situation("sex_ed_preparations", "Sex Ed Preparations",
+            SituationDescription([
+                "Nobody at this school ever learned how their own body works, and it shows. A sex education unit could change that, but the staff has to be on board first.",
+                "This is the groundwork. The parents get their say afterwards, at the PTA.",
+            ]),
+            Teaser("aona_sat_out",
+                "Aona would rather grit her teeth through an hour of sprints than say the word 'bra' out loud to me. She managed 'you know why'.",
+                EventSeenCondition(True, "gym_teach_pe_main_aona_bra"),
+                interpretation="Nobody here talks plainly about bodies. The silence costs them.",
+                note_type="observation"),
+            Bar("main",
+                limits=(-20, 40),
+                stat_weights={EDUCATION: 0.3, REPUTATION: 0.3},
+                # Saves already inside the chain start where the played pushes would be.
+                start_modifiers=[
+                    StartModifier("+",  8, condition=ProgressCondition("start_sex_ed", 2)),
+                    StartModifier("+", 16, condition=ProgressCondition("start_sex_ed", 3)),
+                    StartModifier("+", 24, condition=ProgressCondition("start_sex_ed", 4)),
+                    StartModifier("+", 32, condition=ProgressCondition("start_sex_ed", 5)),
+                ]),
+            BlockingThreshold(
+                "Emiko's right. If I spring this on the staff unannounced, they'll bury it before lunch.",
+                "Have Emiko call the whole staff together.",
+                ProgressCondition("start_sex_ed", "2+"), main=6, visible_range=10),
+            BlockingThreshold(
+                "Five teachers in one room, first thing in the morning. I'd better know what I'm going to say.",
+                "Make the case to the teachers at the morning meeting.",
+                ProgressCondition("start_sex_ed", "3+"), main=12, visible_range=10),
+            BlockingThreshold(
+                "I promised them a plan. Topics, methods, material, and right now none of it exists.",
+                "Write the information material for the teachers.",
+                ProgressCondition("start_sex_ed", "4+"), main=20, visible_range=10),
+            BlockingThreshold(
+                "The material is finished. Now they have to sit through all of it.",
+                "Present the material to the teachers.",
+                ProgressCondition("start_sex_ed", "5+"), main=28, visible_range=10),
+            BlockingThreshold(
+                "Five teachers, five ways of saying the same thing: the parents need to hear it too.",
+                "Raise the proposal at the next PTA discussion.",
+                ProgressCondition("start_sex_ed", "6+"), main=36, visible_range=10),
+            # Only reachable once the last gate is cleared, i.e. together with proposal_tabled.
+            PositiveResolution("ALL", DummyEffect()),
+            ConditionResolution("proposal_tabled", ProgressCondition("start_sex_ed", "6+"), DummyEffect()),
+            thumbnail="images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/office_teacher_sex_ed_introduction_2 4.webp",
+        ),
     )
+
+    # Saves that were inside the sex ed chain before the situation existed.
+    $ activate_sex_ed_preparations_for_running_chain()
 
     # Debug: Situation Test Lab (situation_test_lab.rpy). Inactive and hidden until
     # started from Journal -> Cheats -> Debug.

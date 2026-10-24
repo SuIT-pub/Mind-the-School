@@ -1,6 +1,17 @@
 init 1 python: 
     set_current_mod('base')  
 
+    def activate_sex_ed_preparations_for_running_chain():
+        """
+        Pick up saves that were inside the chain before Sex Ed Preparations existed.
+        Its start modifiers place the bar at the step the save reached.
+        """
+        situation = situation_manager.get_situation("sex_ed_preparations")
+        if situation is None or situation.state != "inactive":
+            return
+        if 1 <= get_progress("start_sex_ed") <= 5:
+            situation.activate()
+
     office_building_events["call_secretary"].add_event(Event(1, "office_call_secretary_1",
         NOT(ProgressCondition('start_sex_ed')),
         ProgressCondition('aona_sports_bra', '2+'),
@@ -163,6 +174,10 @@ label office_call_secretary_1 (**kwargs):
     headmaster.think "Then, maybe I should start work on some teaching material for the sex ed classes."
 
     $ start_progress('start_sex_ed') # 0 -> 1
+    $ sex_ed_preparations = situation_manager.get_situation("sex_ed_preparations")
+    # A gallery replay must not restart a running or finished preparation.
+    if sex_ed_preparations is not None and sex_ed_preparations.state == "inactive" and not is_in_replay:
+        $ sex_ed_preparations.activate()
 
     $ set_timer("office_call_secretary_1", "today")
 
@@ -202,6 +217,7 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
     headmaster "Thank you, Emiko."
 
     $ set_progress('start_sex_ed', 2) # 1 -> 2
+    $ change_stat("situation:sex_ed_preparations:main", 8)
 
     $ end_event('new_daytime', **kwargs)
 
@@ -256,8 +272,8 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
 
     $ image.show(6)
     headmaster """
-    I appreciate your concerns, but we cannot ignore the fact that our students are going through puberty and they 
-    need to know how their bodies work.
+    I appreciate your concerns, but we cannot ignore the fact that our students are adults who were never properly 
+    taught how their own bodies work.
     """
 
     $ image.show(7)
@@ -346,6 +362,7 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     headmaster "Thank you all for your time. I'll keep you updated on the progress."
 
     $ set_progress('start_sex_ed', 3) # 2 -> 3
+    $ change_stat("situation:sex_ed_preparations:main", 8)
 
     $ end_event('new_daytime')
 
@@ -390,6 +407,7 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
     headmaster.think "Now that's done. I think I should present it to the teachers and get their feedback."
     
     $ set_progress('start_sex_ed', 4) # 3 -> 4
+    $ change_stat("situation:sex_ed_preparations:main", 8)
 
     $ end_event('new_daytime', **kwargs)
 
@@ -510,6 +528,7 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     headmaster "The parents should be no problem when the teachers and students agree to the change."
 
     $ set_progress('start_sex_ed', 5) # 4 -> 5
+    $ change_stat("situation:sex_ed_preparations:main", 8)
 
     $ end_event('new_daytime', **kwargs)
 
