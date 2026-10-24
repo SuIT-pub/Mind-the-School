@@ -56,6 +56,34 @@ init -99 python:
             return (parts[0], parts[1])
         return None
 
+    # Keys already reported as unresolvable, so a condition evaluated every frame logs once.
+    _missing_situation_bar_keys = set()
+
+    def get_situation_bar_value(key: str) -> float:
+        """
+        Read a bar value through its stat key ``situation:<situation_key>:<bar_key>``.
+
+        Read side of the routing ``change_stat`` does for writes. Works in every state,
+        so a completed situation still reports where its bar ended.
+
+        Args:
+            key (str): Situation stat key.
+
+        Returns:
+            float: The bar value, 0 if the situation or bar doesn't exist (logged once per key).
+        """
+        parsed = parse_situation_stat_key(key)
+        situation = None
+        if parsed is not None and situation_manager is not None:
+            situation = situation_manager.get_situation(parsed[0])
+        bar = situation.get_bar(parsed[1]) if situation is not None else None
+        if bar is None:
+            if key not in _missing_situation_bar_keys:
+                _missing_situation_bar_keys.add(key)
+                log(f"Situation bar '{key}' not found; reading it as 0.", log_type="warning", category="situation")
+            return 0
+        return bar.value
+
     def compute_polaroid_metrics(photo_w=160, photo_h=120, rotation=0.0, xoff=0, yoff=0):
         """
         Layout metrics for a tilted polaroid cell.
@@ -1506,7 +1534,15 @@ init -99 python:
                 errors.append((770, f"Start modifier value '{self.value}'{loc} is not a number."))
 
             if self.stat is not None:
-                if Stat_Data[self.stat] is None:
+                if isinstance(self.stat, str) and self.stat.startswith("situation:"):
+                    # The source situation may register later (load order, mods): check the
+                    # key shape now, the bar itself is read (or reported missing) at activation.
+                    if parse_situation_stat_key(self.stat) is None:
+                        errors.append((768, f"Start modifier source '{self.stat}'{loc} is not a valid situation:<situation_key>:<bar_key> key."))
+                    # The stat formulas for the other operators assume a 0-100 stat scale.
+                    if self.op not in ["+", "add"]:
+                        errors.append((779, f"Start modifier op '{self.op}'{loc} with situation source '{self.stat}' is not supported. Use '+' (bar value x weight)."))
+                elif Stat_Data[self.stat] is None:
                     errors.append((768, f"Start modifier stat '{self.stat}'{loc} not found."))
 
             return errors
@@ -1539,28 +1575,29 @@ init -99 python:
 
         The condition is checked and the selector rolled once, at activation, so the
         start value can depend on story state (e.g. how far a chain already is on an
-        old save). Takes the place of ``stat``: a conditional entry never reads a stat.
+        old save). A selector is an alternative to ``stat`` as the operand source; a
+        condition can gate either.
 
         Attributes:
             modifier (Modifier_Obj): Operator and name; its value is the fixed operand
                 (0 placeholder when a selector supplies the value).
             condition (Condition | None): Gate. None = always applies.
             selector (Selector | None): Supplies the operand at activation. None = fixed value.
+            stat (str | None): School stat or situation bar key, as on a plain entry.
         """
 
-        def __init__(self, modifier: Modifier_Obj, condition: Condition = None, selector: Selector = None, rejected_stat: str = None):
+        def __init__(self, modifier: Modifier_Obj, condition: Condition = None, selector: Selector = None, stat: str = None):
             """
             Args:
                 modifier (Modifier_Obj): Operator/value used during start calculation.
                 condition (Condition, optional): Gate checked at activation.
                 selector (Selector, optional): Operand source rolled at activation.
-                rejected_stat (str, optional): A stat passed alongside a condition or
-                    selector. Kept only so validate() can report the conflict.
+                stat (str, optional): Stat / situation bar source. Can't be combined
+                    with a selector (both supply the operand).
             """
-            super().__init__(modifier, None)
+            super().__init__(modifier, stat)
             self.condition = condition
             self.selector = selector
-            self.rejected_stat = rejected_stat
 
         def validate(self, bar_key: str = None) -> list:
             errors = super().validate(bar_key)
@@ -1570,8 +1607,8 @@ init -99 python:
                 errors.append((776, f"Start modifier condition{loc} is not a Condition."))
             if self.selector is not None and not isinstance(self.selector, Selector):
                 errors.append((777, f"Start modifier value{loc} is neither a number nor a Selector."))
-            if self.rejected_stat is not None:
-                errors.append((778, f"Start modifier{loc} combines stat '{self.rejected_stat}' with a condition or selector. Use one or the other."))
+            if self.stat is not None and self.selector is not None:
+                errors.append((778, f"Start modifier{loc} combines stat '{self.stat}' with a selector value. Both supply the operand; use one."))
 
             return errors
 
@@ -1581,7 +1618,7 @@ init -99 python:
                 self.modifier._mod_type,
                 self.modifier.get_value(),
             )
-            return SituationConditionalStartModifier(mod, self.condition, self.selector, self.rejected_stat)
+            return SituationConditionalStartModifier(mod, self.condition, self.selector, self.stat)
 
         def is_applicable(self, **kwargs) -> bool:
             if self.condition is None:
@@ -1590,7 +1627,7 @@ init -99 python:
 
         def resolve(self, **kwargs) -> SituationStartModifier:
             if self.selector is None:
-                return SituationStartModifier(self.modifier, None)
+                return SituationStartModifier(self.modifier, self.stat)
 
             # roll() instead of get_value(): a non-realtime selector would hand back
             # whatever it cached on the last activation.
@@ -4685,14 +4722,17 @@ init -99 python:
         StartModifier("+", 0.05, stat=HAPPINESS)                                  # stat snapshot
         StartModifier("+", 21, condition=ProgressCondition("start_sex_ed", 4))    # gated, fixed value
         StartModifier("+", ProgressSelector(...), condition=...)                  # gated, rolled value
+        StartModifier("+", 0.5, stat="situation:prep:main",                         # another situation's bar
+            condition=SituationStateCondition("completed", "prep"))
 
         Args:
             op (str): ``+``, ``*``, ``value_percent``, ``range_percent`` or ``gated_percent``.
             value (float | Selector): Operand (flat, factor, percent, or stat weight), or a
                 Selector rolled once at activation.
             name (str, optional): Modifier identity. Auto-generated if omitted.
-            stat (str, optional): School-stat key for snapshot contribution. Not combinable
-                with ``condition`` or a Selector value.
+            stat (str, optional): School-stat key for snapshot contribution, or a situation
+                bar key ``situation:<situation_key>:<bar_key>`` (``+`` only: bar value x weight).
+                Not combinable with a Selector value.
             condition (Condition, optional): Entry only applies if fulfilled at activation.
                 Combine several with AND/OR/NOT.
 
@@ -4708,7 +4748,7 @@ init -99 python:
 
         if name is None:
             condition_part = (condition.get_name() or condition._type) if isinstance(condition, Condition) else "always"
-            value_part = selector.get_name() if selector is not None else value
+            value_part = selector.get_name() if selector is not None else (f"{stat}:{value}" if stat is not None else value)
             name = f"start:{condition_part}:{op}:{value_part}"
         operand = 0 if selector is not None else value
         return SituationConditionalStartModifier(Modifier_Obj(name, op, operand), condition, selector, stat)

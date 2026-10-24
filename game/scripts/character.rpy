@@ -623,6 +623,9 @@ init -6 python:
     # region Char Stat Handler #
 
     def get_stat_number(stat: str) -> float:
+        # Mirrors change_stat: a situation key reads the bar instead of a school stat.
+        if isinstance(stat, str) and stat.startswith("situation:"):
+            return get_situation_bar_value(stat)
         return get_school().get_stat_number(stat)
 
     def change_stat(stat: str, change):

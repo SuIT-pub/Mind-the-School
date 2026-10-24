@@ -357,6 +357,12 @@ situation_manager.apply_progress_change("situation:cafeteria_crisis:main", 8)
 > Caveat: the character-scoped **`StatEffect`** does *not* route here — it targets a
 > character's stat via `char_obj`. Use the module-level `change_stat` or the
 > modifier stat-change labels for bar pushes.
+>
+> **Reading works the same way.** The module-level `get_stat_number` returns the
+> bar value for a situation key (`get_stat_number("situation:cafeteria_crisis:main")`),
+> in every state, including after the situation completed. An unknown situation or
+> bar reads as `0` and logs a warning once per key. `ALL` is write-only: there is no
+> single value to read.
 
 Direct bar pushes (`apply_progress_change`, `change_stat("situation:…")`, and
 the modifier stat-change labels) are a **no-op** while the Situation is not
@@ -445,9 +451,32 @@ Bar("main", limits=(-20, 40), start_modifiers=[
 - A `Selector` value is **rolled fresh** on every activation (not the selector's
   cached value). If it rolls something that isn't a number, the entry is skipped
   and an error is logged (category `situation`).
-- `stat` cannot be combined with `condition` or a Selector value (self-test 778,
-  the entry is rejected).
+- `stat` and a Selector value both supply the operand and cannot be combined
+  (self-test 778, the entry is rejected). A `condition` can gate either.
 - Conditional entries go through the same operator order as every other entry.
+
+##### Another situation's bar as the source
+
+`stat` also takes a situation bar key (`situation:<situation_key>:<bar_key>`), the
+same key `change_stat` writes to. The bar is read at activation, so one situation
+can start where another one ended:
+
+```python
+# the campaign's Teachers bar starts at 10 + (preparation bar x 0.5)
+Bar("Teachers", limits=(0, 100), start_base=10, start_modifiers=[
+    StartModifier("+", 0.5, stat="situation:sex_ed_preparations:main",
+                  condition=SituationStateCondition("completed", "sex_ed_preparations")),
+])
+```
+
+- Only `+` is supported (bar value × weight). The other operators' stat formulas
+  assume a 0–100 scale; anything else fails self-test 779.
+- At load only the key's shape is checked (768 if malformed). The source situation
+  may register later, so the bar is looked up at activation; if it doesn't exist
+  the entry reads 0 and a warning is logged once per key.
+- A completed situation keeps its last bar value, so reading it after the end is the
+  normal case. Gate with `SituationStateCondition` if the carry-over should only
+  happen after the source actually finished.
 
 ##### Thresholds the start value jumps past
 
@@ -1619,7 +1648,8 @@ More in `game/scripts/conditions.rpy`.
 | 718/719 | Blocking threshold without `threshold_hint`+condition, or empty `approach_hint` |
 | 730/731 · 740–744 · 750–752 | SituationEffect field errors (game-data / stat / bar / rhythm) |
 | 760–764 | `SituationEffectGeneral`: invalid `key`, no effect, non-`Effect` item, bad/empty descriptions, non-bool `revert` |
-| 776/777/778 | Conditional `StartModifier`: `condition` not a `Condition`, value neither number nor `Selector`, `stat` combined with condition/selector |
+| 776/777/778 | Conditional `StartModifier`: `condition` not a `Condition`, value neither number nor `Selector`, `stat` combined with a Selector value |
+| 779 | `StartModifier` with a situation bar source and an operator other than `+` |
 | 780 | Resolution without an effect |
 | 781/782 | Resolution mode not `ALL`/`ANY` |
 | 784 | `NegativeResolution` `grace_count` invalid |
