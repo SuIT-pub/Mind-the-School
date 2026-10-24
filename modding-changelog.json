@@ -2,6 +2,24 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "get-stat-number-situation-bars",
+      "date": "2026-10-24",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "`get_stat_number` reads situation bars; `StartModifier` can start from another situation's bar",
+      "details": "The module-level `get_stat_number(\"situation:<situation_key>:<bar_key>\")` now returns that bar's value, the read side of what `change_stat` already did for writes. It works in every state (a completed situation keeps its last value). Unknown situation or bar: reads `0`, one warning per key. `ALL` stays write-only.\nThe same key works as a start-value source: `StartModifier(\"+\", 0.5, stat=\"situation:prep:main\")` adds bar value x 0.5 at activation. Only `+` is supported for situation sources (self-test 779); a malformed key fails 768. The source may register after your situation, so the bar is looked up at activation.",
+      "wiki": "Building-Situations#another-situations-bar-as-the-source"
+    },
+    {
+      "id": "start-modifier-stat-with-condition",
+      "date": "2026-10-24",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "`StartModifier`: `stat` and `condition` can now be combined",
+      "details": "Correction to the earlier conditional start modifier post: self-test 778 now only rejects `stat` together with a Selector value (both supply the operand). A `condition` can gate a stat entry: `StartModifier(\"+\", 0.5, stat=\"situation:prep:main\", condition=SituationStateCondition(\"completed\", \"prep\"))`. Entries that were rejected for `stat` + `condition` now load.",
+      "wiki": "Building-Situations#conditional-start-modifiers"
+    },
+    {
       "id": "situation-start-jumped-thresholds",
       "date": "2026-10-24",
       "version": "0.2.2",
