@@ -206,6 +206,8 @@ label after_load:
 
     $ open_mod_content_recording()
     $ lifecycle_registry.begin_check()
+    # before anything checks EventSeenConditions (teasers, situation syncs)
+    $ restore_seen_events()
 
     call load_stats from after_load_1
     call load_schools from after_load_2

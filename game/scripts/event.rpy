@@ -56,6 +56,22 @@ init -3 python:
     ######################
     # region Seen Events #
 
+    def restore_seen_events():
+        """
+        Point seenEvents at the save's seen_events after a load.
+
+        seenEvents is created at init, so a load resets it to {} while the counts live
+        on in game data; until the next set_event_seen merged them back, every
+        EventSeenCondition checked right after loading saw nothing as seen.
+        """
+        global seenEvents
+        saved = get_game_data("seen_events")
+        if not saved:
+            return
+        # very old saves stored booleans
+        seenEvents = {event: int(seen) for event, seen in saved.items()}
+        set_game_data("seen_events", seenEvents)
+
     def register_seen_event(event: str):
         global seenEvents
         if seenEvents == None:
