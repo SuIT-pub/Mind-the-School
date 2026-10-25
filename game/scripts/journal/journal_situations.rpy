@@ -280,6 +280,15 @@ screen journal_situation_overview(situation, display):
         has_photo = bool(thumbnail) and not journal_is_placeholder_image(thumbnail)
         hints = situation.get_hints() if situation.state != "completed" else []
         facts = [("Status", journal_situation_status(situation), JR_PRINT)]
+        # an unlockable's campaign: say what it belongs to and link back to its page
+        unlockable_display = None
+        if isinstance(situation, Unlockable):
+            # the names list holds the plural tab label ("Rules"), so use the key itself
+            facts.insert(0, ("Type", situation.type_key.capitalize(), JR_PRINT))
+            if situation.group_index != -1:
+                unlockable_display = unlockable_manager.build_display(situation.unlockable_key, situation.group_index)
+            else:
+                unlockable_display = situation.unlockable_key
         if situation.state != "completed":
             facts.append(("Mood", situation.get_combined_bar_value_mood(), journal_mood_ink(situation)))
             facts.append(("Trend", journal_situation_trend(situation), JR_PRINT))
@@ -318,6 +327,14 @@ screen journal_situation_overview(situation, display):
                     if situation.is_paused():
                         null height 10
                         text "Nothing changes until it continues." style "jr_small"
+                    if unlockable_display is not None:
+                        null height 12
+                        textbutton "Open its {} ›".format(situation.type_key):
+                            style "jr_entry_button"
+                            text_style "jr_value"
+                            text_size 22
+                            text_color JR_ACCENT
+                            action [With(dissolveM), Call("open_journal", 4, unlockable_display)]
 
             null height 22
             for description in situation.get_descriptions():
