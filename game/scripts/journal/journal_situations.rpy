@@ -25,6 +25,39 @@ init python:
         # literal text inside a tagged string: no text tags, no [interpolation]
         return str(value).replace("{", "{{").replace("[", "[[")
 
+    JOURNAL_NOTE_ITALIC = "fonts/CrimsonPro-Italic.ttf"
+
+    # wrapped heights only change with the text, so screens re-evaluating every frame
+    # don't lay the same paragraph out again
+    journal_note_height_cache = {}
+
+    def journal_note_text_height(note_text: str, width: int, italic: bool = False) -> int:
+        """
+        Height of a jr_body paragraph wrapped to width, as the note screen draws it.
+        """
+        key = (note_text, width, italic, renpy.variant("small"))
+        if key not in journal_note_height_cache:
+            font_kwargs = {"font": JOURNAL_NOTE_ITALIC} if italic else {}
+            journal_note_height_cache[key] = Text(note_text, style="jr_body", **font_kwargs).size(width=width)[1]
+        return journal_note_height_cache[key]
+
+    def journal_note_interpretation_below(note_text: str, interpretation: str, column_w: int, photo_h: int, extra_h: int = 0) -> bool:
+        """
+        Whether a side-photo note should run its interpretation full width under the
+        photo instead of down the narrow text column.
+
+        It moves once it would hang below the photo, as long as the observation
+        (plus extra_h, e.g. a doodle) already fills the photo's height to within two
+        lines; a short observation keeps it beside the photo, where moving it would
+        leave a hole next to the picture.
+        """
+        note_h = journal_note_text_height(note_text, column_w) + extra_h
+        beside_h = note_h + 4 + journal_note_text_height("— " + interpretation, column_w, True)
+        if beside_h <= photo_h:
+            return False
+        line_h = journal_note_text_height("X", column_w)
+        return photo_h - note_h <= 2 * line_h
+
     def journal_mood_ink(situation) -> str:
         area = situation.get_combined_bar_value_area()
         if area < 0:
@@ -467,6 +500,11 @@ screen jr_situation_note(teaser, width):
         doodle = getattr(teaser, "doodle", None)
         doodle_ink = getattr(teaser, "doodle_ink", None) or "pencil"
         doodle_seed = journal_note_seed(teaser.key, doodle)
+        interpretation_below = False
+        if has_photo and interpretation and layout_id in ("photo_left", "photo_right", "text_aside"):
+            doodle_h = (journal_pencil_note(doodle, "left", doodle_ink, 22, doodle_seed)[2] + 4) if doodle else 0
+            interpretation_below = journal_note_interpretation_below(teaser.text, interpretation, side_w, metrics["cell_h"], doodle_h)
+        side_interpretation = None if interpretation_below else interpretation
 
     vbox:
         xsize width
@@ -489,11 +527,11 @@ screen jr_situation_note(teaser, width):
             hbox:
                 spacing gap
                 use jr_teaser_photo(metrics, teaser.image_path)
-                use jr_situation_note_text(teaser.text, interpretation, side_w, 0, doodle, "left", doodle_ink, doodle_seed)
+                use jr_situation_note_text(teaser.text, side_interpretation, side_w, 0, doodle, "left", doodle_ink, doodle_seed)
         elif has_photo and layout_id == "photo_right":
             hbox:
                 spacing gap
-                use jr_situation_note_text(teaser.text, interpretation, side_w, 0, doodle, "right", doodle_ink, doodle_seed)
+                use jr_situation_note_text(teaser.text, side_interpretation, side_w, 0, doodle, "right", doodle_ink, doodle_seed)
                 use jr_teaser_photo(metrics, teaser.image_path)
         elif has_photo:
             # photo centred; the doodle takes the free space on one side, pointing at it
@@ -518,6 +556,9 @@ screen jr_situation_note(teaser, width):
             use jr_situation_note_text(teaser.text, interpretation, width - (18 if layout_id == "text_aside" else 0), (18 if layout_id == "text_aside" else 0),
                 doodle, "up_left", doodle_ink, doodle_seed)
 
+        if interpretation_below:
+            text "— " + interpretation style "jr_body" font JOURNAL_NOTE_ITALIC color JR_PENCIL
+
         null height 18
 
 screen jr_situation_note_text(note_text, interpretation, width, indent = 0, doodle = None, arrow = None, ink = "pencil", seed = 0):
@@ -527,7 +568,7 @@ screen jr_situation_note_text(note_text, interpretation, width, indent = 0, dood
         text note_text style "jr_body"
         if interpretation:
             null height 4
-            text "— " + interpretation style "jr_body" font "fonts/CrimsonPro-Italic.ttf" color JR_PENCIL
+            text "— " + interpretation style "jr_body" font JOURNAL_NOTE_ITALIC color JR_PENCIL
         if doodle:
             null height 4
             # beside a photo the note leans towards it; under plain text it sits on the right
