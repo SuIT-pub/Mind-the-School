@@ -582,10 +582,11 @@ init -3 python:
                 output = 0
                 with_highlight = False
                 for event in self.events[3].values():
-                    if event.force_highlight:
-                        with_highlight = True
                     if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
                         output += 1
+                        # only an event that can actually run may light up the action
+                        if event.force_highlight:
+                            with_highlight = True
                         # the building already lights up for a highlighted event inside a selector,
                         # so the action that opens the selector has to as well
                         if isinstance(event, EventSelect) and event.is_highlighted():
