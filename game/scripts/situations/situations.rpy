@@ -5441,6 +5441,10 @@ label load_situations:
         ),
     )
 
+    # Teasers otherwise only unlock at the end of the next event; a save that already
+    # saw their trigger events (e.g. before the situation existed) gets them on load.
+    $ situation_manager.check_teasers()
+
     # Saves that played these chains before their situations existed.
     $ sync_sex_ed_preparations()
     $ sync_truth_or_dare_situation()
