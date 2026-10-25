@@ -1,9 +1,9 @@
 {
   "embedMessageId": "1560625154067927071",
-  "noteMessageId": "1563914216384233528",
+  "noteMessageId": "1563931110445158444",
   "posted": {
     "schemaVersion": 1,
-    "updatedAt": "2026-10-25T13:54:26Z",
+    "updatedAt": "2026-10-25T14:45:54Z",
     "currentVersion": "0.2.2",
     "targetVersion": "0.2.2",
     "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -70,6 +70,13 @@
     ],
     "done": [
       {
+        "id": "rules-buildings-as-unlockables",
+        "title": "School jobs, relationships and the cafeteria at the PTA",
+        "summary": "School jobs, student relationships and reopening the cafeteria are back as proposals you campaign for and put to a PTA vote.",
+        "doneIn": "0.2.2",
+        "doneAt": "2026-10-25"
+      },
+      {
         "id": "story-chains-as-situations",
         "title": "Older story chains back in the journal",
         "summary": "The sex ed plans, the late-night game in the dorm, Aona's trouble in P.E. and the new yoga outfits are back in the journal, with hints for every step.",
@@ -131,13 +138,6 @@
         "summary": "Truth or Dare and the yoga outfit chains trigger again; new teaching events and a debug view in the journal.",
         "doneIn": "0.2.1A",
         "doneAt": "2025-09-10"
-      },
-      {
-        "id": "level-fixes",
-        "title": "School level fixes",
-        "summary": "Fixed events showing at the wrong school level and a gym error after level 6.",
-        "doneIn": "0.2.0B_1",
-        "doneAt": "2025-01-14"
       }
     ]
   }
