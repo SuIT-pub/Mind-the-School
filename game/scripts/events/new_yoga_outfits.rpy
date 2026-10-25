@@ -1,3 +1,17 @@
+init 1 python:
+    def sync_yoga_outfits():
+        """
+        Start the New Yoga Outfits situation once Zoe has announced yoga (progress 1).
+        Saves that played the chain before the situation existed land on their step
+        through its start modifiers; finished chains (progress 10) complete it.
+        """
+        situation = situation_manager.get_situation("yoga_outfits")
+        if situation is None or situation.state != "inactive":
+            return
+        if get_progress("yoga_classes") >= 1:
+            situation.activate()
+            situation.check_resolutions()
+
 init 1 python: 
     set_current_mod('base')
 
@@ -115,6 +129,7 @@ label new_yoga_outfit_1 (**kwargs):
     headmaster "That's a great idea, Zoe. I'm sure the students will appreciate it."
 
     $ start_progress("yoga_classes") # 0 -> 1
+    $ sync_yoga_outfits()
 
     $ end_event("new_daytime", **kwargs)
 
@@ -142,6 +157,7 @@ label new_yoga_outfit_2 (**kwargs):
     headmaster.think "Hmm Zoe seems to be quite knowledgeable about yoga. I wonder if she practices it herself."
 
     $ set_progress("yoga_classes", 2) # 1 -> 2
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     call change_stats_with_modifier(
         charm = TINY, education = TINY
@@ -217,6 +233,7 @@ label new_yoga_outfit_3 (**kwargs):
     $ set_timer("new_yoga_outfit_3", "today")
 
     $ set_progress("yoga_classes", 3) # 2 -> 3 
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     call change_stats_with_modifier(
         education = TINY
@@ -256,6 +273,7 @@ label new_yoga_outfit_4 (**kwargs):
     headmaster "Thanks! I'll leave you to your classes now."
 
     $ set_progress("yoga_classes", 4) # 3 -> 4
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     call change_stats_with_modifier(
         education = TINY, charm = TINY, inhibition = DEC_TINY
@@ -447,6 +465,7 @@ label .after_decision (**kwargs):
     headmaster "Hmm, that won't do."
 
     $ set_progress("yoga_classes", 5) # 4 -> 5
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     call change_stats_with_modifier(
         inhibition = DEC_SMALL, corruption = TINY, charm = TINY
@@ -501,6 +520,7 @@ label new_yoga_outfit_6 (**kwargs):
     $ set_timer("new_yoga_outfit_6", "today")
 
     $ set_progress("yoga_classes", 6) # 5 -> 6
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     call change_stats_with_modifier(
         charm = TINY, inhibition = DEC_SMALL, corruption = TINY
@@ -536,6 +556,7 @@ label new_yoga_outfit_7 (**kwargs):
     zoe "No problem, Mr. [headmaster_last_name]."
 
     $ set_progress("yoga_classes", 7) # 6 -> 7
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     $ end_event("new_daytime", **kwargs)
 
@@ -555,6 +576,7 @@ label new_yoga_outfit_8 (**kwargs):
     headmaster "Thank you."
 
     $ set_progress("yoga_classes", 8) # 7 -> 8
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     $ end_event("new_daytime", **kwargs)
 
@@ -654,6 +676,7 @@ label new_yoga_outfit_9 (**kwargs):
     $ set_timer("new_yoga_outfit_9", "today")
 
     $ set_progress("yoga_classes", 9) # 8 -> 9
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     call change_stats_with_modifier(
         education = TINY, inhibition = DEC_SMALL
@@ -704,6 +727,7 @@ label new_yoga_outfit_10 (**kwargs):
     # class processes with the yoga class
 
     $ set_progress("yoga_classes", 10) # 9 -> 10
+    $ change_stat("situation:yoga_outfits:main", 5)
 
     call change_stats_with_modifier(
         education = TINY, charm = TINY, inhibition = DEC_SMALL

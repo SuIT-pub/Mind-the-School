@@ -5456,6 +5456,74 @@ label load_situations:
             ConditionResolution("game_found", EventSeenCondition(True, "truth_or_dare_4"), DummyEffect()),
             thumbnail="images/events/truth_or_dare/truth_or_dare_4/main/truth_or_dare_4_main 6 1.webp",
         ),
+        Situation("yoga_outfits", "New Yoga Outfits",
+            SituationDescription("Zoe Parker has started yoga in P.E., and the girls are doing their stretches in sports kit that was never made for it. She's asked me to find them proper outfits."),
+            SituationDescription("We went with Hatano's pick in the end, the first set. The girls changed into them right there in the gym and went straight into the next pose.",
+                ProgressCondition("yoga_classes", "10+"), GameDataCondition("yoga_outfit_set", 1)),
+            SituationDescription("We went with Elsie's pick in the end, the plainest of the three. Nobody complained, and Zoe finally got her deeper stretches.",
+                ProgressCondition("yoga_classes", "10+"), GameDataCondition("yoga_outfit_set", 2)),
+            SituationDescription("We went with Seraphina's pick in the end, the most revealing set. A few of the girls tugged at the hems for the first minute, and then forgot about it.",
+                ProgressCondition("yoga_classes", "10+"), GameDataCondition("yoga_outfit_set", 3)),
+            Teaser("office_camera",
+                "Emiko has had a camera in my office this whole time. \"For souvenirs\", she says, in case something interesting ever happens in there.",
+                EventSeenCondition(True, "new_yoga_outfit_5"),
+                interpretation="I really should be angrier about that than I am. Then again, I did sit down next to her and watch.",
+                note_type="suspicion"),
+            # Each step event pushes +5; saves already inside the chain start where those pushes would be.
+            Bar("main",
+                limits=(0, 50),
+                start_modifiers=[
+                    StartModifier("+", 5, condition=ProgressCondition("yoga_classes", 2)),
+                    StartModifier("+", 10, condition=ProgressCondition("yoga_classes", 3)),
+                    StartModifier("+", 15, condition=ProgressCondition("yoga_classes", 4)),
+                    StartModifier("+", 20, condition=ProgressCondition("yoga_classes", 5)),
+                    StartModifier("+", 25, condition=ProgressCondition("yoga_classes", 6)),
+                    StartModifier("+", 30, condition=ProgressCondition("yoga_classes", 7)),
+                    StartModifier("+", 35, condition=ProgressCondition("yoga_classes", 8)),
+                    StartModifier("+", 40, condition=ProgressCondition("yoga_classes", 9)),
+                    StartModifier("+", 45, condition=ProgressCondition("yoga_classes", "10+")),
+                ]),
+            BlockingThreshold(
+                "Zoe's been going on about these yoga classes for days. I'd like to see how she actually runs one.",
+                "Drop in on P.E. at the gym on a weekday during class time.",
+                ProgressCondition("yoga_classes", "2+"), main=3, visible_range=10),
+            BlockingThreshold(
+                "The first class looked promising. I'll look in again and see whether the girls are keeping up.",
+                "Check on P.E. at the gym again during class time.",
+                ProgressCondition("yoga_classes", "3+"), main=8, visible_range=10),
+            BlockingThreshold(
+                "Zoe wants proper outfits, and I'd rather not pick them blind. A few of the girls could try the samples on for me.",
+                "In a few days, check on a class in the school building and ask for volunteers.",
+                ProgressCondition("yoga_classes", "4+"), main=13, visible_range=10),
+            BlockingThreshold(
+                "Three volunteers, three sets of samples, and my office as the changing room. They said they'd come by after school.",
+                "Be in the office building on a weekday evening.",
+                ProgressCondition("yoga_classes", "5+"), main=18, visible_range=10),
+            BlockingThreshold(
+                "I've picked a set, but the sizes in our records are years out of date. Zoe will know what to do about that.",
+                "Find Zoe in the office building during free time on a weekday.",
+                ProgressCondition("yoga_classes", "6+"), main=23, visible_range=10),
+            BlockingThreshold(
+                "Zoe's asking her nurse friend whether she'd do the checkups for us. Nothing to do now but wait for an answer.",
+                "Give it a few days; Zoe will find me in the school building during free time.",
+                ProgressCondition("yoga_classes", "7+"), main=28, visible_range=10),
+            BlockingThreshold(
+                "The nurse comes next Tuesday. The girls should hear it from me before then.",
+                "I'll announce it on Monday morning.",
+                ProgressCondition("yoga_classes", "8+"), main=33, visible_range=10),
+            BlockingThreshold(
+                "Checkup day tomorrow, second lesson, in the gym, everyone.",
+                "The checkup runs on Tuesday morning.",
+                ProgressCondition("yoga_classes", "9+"), main=38, visible_range=10),
+            BlockingThreshold(
+                "The order's in. Now it's just waiting for the parcel.",
+                "Once the outfits arrive in a few days, hand them out in P.E. at the gym.",
+                ProgressCondition("yoga_classes", "10+"), main=43, visible_range=10),
+            # Only reachable once the last gate is cleared, i.e. together with outfits_handed_out.
+            PositiveResolution("ALL", DummyEffect()),
+            ConditionResolution("outfits_handed_out", ProgressCondition("yoga_classes", "10+"), DummyEffect()),
+            thumbnail="images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 2 0.webp",
+        ),
     )
 
     # Teasers otherwise only unlock at the end of the next event; a save that already
@@ -5465,6 +5533,7 @@ label load_situations:
     # Saves that played these chains before their situations existed.
     $ sync_sex_ed_preparations()
     $ sync_truth_or_dare_situation()
+    $ sync_yoga_outfits()
 
     # Debug: Situation Test Lab (situation_test_lab.rpy). Inactive and hidden until
     # started from Journal -> Cheats -> Debug.

@@ -961,6 +961,10 @@ label load_unlockables:
                 "This will be removed in the future and replaced by proper level transition events.",
                 "Not all events are available at higher levels.",
             ]),
+            # Story gate: the Truth or Dare chain only exists at school levels 2-3.
+            SituationDescription("Before the school can move on, some students are up to something after dark. A night patrol of the courtyard is a good place to start.",
+                NOT(EventSeenCondition(True, "truth_or_dare_4"))),
+            UnlockableScheduleVoteConditions(EventSeenCondition(True, "truth_or_dare_4")),
             LevelCondition("2"),
             LevelEffect("set_school_level_3", 3, "SET", "school"),
             LevelEffect("set_parent_level_3", 3, "SET", "parent"),
@@ -983,6 +987,12 @@ label load_unlockables:
                 "This will be removed in the future and replaced by proper level transition events.",
                 "Not all events are available at higher levels.",
             ]),
+            # Story gate: the yoga outfit chain only exists at school levels 2-3.
+            SituationDescription("Before the school can move on, Zoe Parker has plans for P.E. that she'll bring up at a PTA meeting.",
+                NOT(ProgressCondition("yoga_classes"))),
+            SituationDescription("Before the school can move on, Zoe's yoga outfits need sorting out (see the New Yoga Outfits situation).",
+                ProgressCondition("yoga_classes", "1-9")),
+            UnlockableScheduleVoteConditions(ProgressCondition("yoga_classes", "10+")),
             LevelEffect("set_school_level_4", 4, "SET", "school"),
             LevelEffect("set_parent_level_4", 4, "SET", "parent"),
             LevelEffect("set_teacher_level_4", 4, "SET", "teacher"),
