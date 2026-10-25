@@ -8,6 +8,8 @@ default log_filter_origin = "all"
 default log_json_expanded = {}
 default event_cheat_category = "all"
 default situation_cheat_expanded = {}
+# persistent: a developer setting, not part of any save
+default persistent.log_missing_names = False
 
 init -100 python:
     import inspect
@@ -654,6 +656,64 @@ init -100 python:
         if inventory_manager is None:
             return []
         return sorted(inventory_manager.item_data.values(), key = lambda d: str(d.get_name()))
+
+    def get_name_validator_path() -> str:
+        """
+        Returns where tools/validate_names.py would be. The tools folder sits
+        next to game/ in the repository and is not shipped with builds.
+        """
+        import os
+        return os.path.join(config.basedir, "tools", "validate_names.py")
+
+    def name_validator_available() -> bool:
+        """
+        True if tools/validate_names.py exists, i.e. the game runs from the repository.
+        """
+        import os
+        return os.path.isfile(get_name_validator_path())
+
+    def run_name_validation(list_events: bool = False):
+        """
+        Runs tools/validate_names.py inside the game and writes its findings to
+        the session log under the "names" category.
+
+        The file is loaded fresh on every run, so edits to the tool apply
+        without restarting the game.
+
+        ### Parameters:
+        1. list_events: bool (default: False)
+            - Also list registered events without a name (the tool's --events).
+
+        ### Returns:
+        1. Tuple[int, int]
+            - (errors, notes), or (-1, 0) if the tool could not run.
+        """
+        import importlib.util
+
+        tool_path = get_name_validator_path()
+        if not name_validator_available():
+            log(f"Name check: {tool_path} not found (the tools folder is not part of builds)",
+                log_type="warning", category="names")
+            return -1, 0
+
+        try:
+            spec = importlib.util.spec_from_file_location("validate_names", tool_path)
+            validator = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(validator)
+            errors, notes = validator.validate(config.gamedir, list_events)
+        except Exception as e:
+            log(f"Name check crashed: {type(e).__name__}: {e}", log_type="warning", category="names")
+            return -1, 0
+
+        # "warning", not "error": log() pops a notification for every error,
+        # and a broken names file can produce dozens of them
+        for note in notes:
+            log(note, log_type="info", category="names")
+        for error in errors:
+            log(error, log_type="warning", category="names")
+        log(f"Name check{' with events' if list_events else ''}: {len(errors)} error(s), {len(notes)} note(s)",
+            log_type="info", category="names")
+        return len(errors), len(notes)
 
     def log_separator():
         """

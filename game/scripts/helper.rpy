@@ -638,14 +638,16 @@ init -99 python:
     def log_missing_name(key: str):
         """
         Warns once per key and session that a name is missing, so a raw key in
-        the UI can be traced back. Developer builds only; players never see it.
+        the UI can be traced back. Off unless "Log missing names" is switched
+        on in the journal (Cheats → Debug); the check runs on every lookup, so
+        it stays quiet by default.
 
         ### Parameters:
         1. key: str
             - The missing key, or the tried chain.
         """
 
-        if not config.developer or key in missing_names_logged:
+        if not persistent.log_missing_names or key in missing_names_logged:
             return
         missing_names_logged.add(key)
         log(f"No display name for '{key}', showing the raw key", log_type="warning", category="names")

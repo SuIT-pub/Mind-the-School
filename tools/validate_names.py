@@ -25,7 +25,10 @@ Notes (printed, never fail the run):
     spotting gaps, not a to-do.
 
 Keys built at runtime (f-strings like `event_{location}_{option}`) can't be
-checked statically; the game logs those misses in developer builds instead.
+checked statically; the game logs those misses instead while "Log missing
+names" is switched on (journal → Cheats → Debug). The same page runs this
+check in-game and shows the result on the Logs page; keep validate() callable
+on its own and free of third-party imports for that.
 """
 
 import ast

@@ -1356,6 +1356,28 @@ label clear_logs_cheat(page, display):
     $ renpy.notify("Logs cleared!")
     call open_journal(page, display) from clear_logs_cheat_1
 
+label validate_names_cheat(list_events = False):
+    # """
+    # Runs tools/validate_names.py and opens the logs page filtered to its
+    # findings.
+
+    # ### Parameters:
+    # 1. list_events: bool (default: False)
+    #     - Also list registered events without a name.
+    # """
+
+    $ name_errors, name_notes = run_name_validation(list_events)
+    if name_errors < 0:
+        $ renpy.notify("Name check could not run, see the log.")
+        call open_journal(5, "debug") from validate_names_cheat_1
+        return
+
+    $ renpy.notify("Names: {} error(s), {} note(s)".format(name_errors, name_notes))
+    $ log_filter_type = "all"
+    $ log_filter_category = "names"
+    $ log_filter_origin = "all"
+    call open_journal(5, "logs") from validate_names_cheat_2
+
 label set_building_state_cheat(page, display, building_key, state):
     # """
     # Forces a registered building's open/closed state from the cheat page.

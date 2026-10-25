@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "missing-name-log-switch",
+      "date": "2026-10-25",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Missing-name warnings are off by default; name check runs from the journal",
+      "details": "Before, developer builds always logged `No display name for '<key>'` when a name lookup (`get_translation`, `get_first_translation`, `Event.get_title`) missed. Now that warning only appears while **Log missing names** is on (journal → Cheats → Debug → Names, stored in `persistent.log_missing_names`). Switch it on while you test a mod's names files. On the same page, **Check names files** runs `tools/validate_names.py` inside the game (also with the `--events` list) and opens the Logs page filtered to category `names`. This only works when the game runs from the repository, because builds don't ship `tools/`.",
+      "wiki": "Modding"
+    },
+    {
       "id": "journal-vote-condition-group-index",
       "date": "2026-10-24",
       "version": "0.2.2",

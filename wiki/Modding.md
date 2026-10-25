@@ -158,7 +158,11 @@ init -97 python:
 lines are skipped, only the first `;` splits, and both halves are trimmed. Broken
 lines, duplicates and missing files are logged with file and line. Run
 `python tools/validate_names.py` to check every names file before shipping; it also
-flags names your mod replaces in the base game.
+flags names your mod replaces in the base game. The same check runs in-game from
+journal → Cheats → Debug → "Check names files"; its findings land on the Logs page.
+Keys built at runtime can't be checked statically: switch on "Log missing names"
+on the same page and the game warns once per key whenever a name lookup misses
+(off by default).
 
 `register_mod(key, name, version, path, **meta)` writes the mod into
 `persistent.modList`. A mod is registered **inactive by default**, and **bumping the

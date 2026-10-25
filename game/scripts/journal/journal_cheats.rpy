@@ -456,6 +456,17 @@ screen journal_cheats_debug(section):
     use jr_cheat_action("Every item once", "add all", Call("give_every_item", 5, section))
 
     null height 14
+    use jr_rubric("Names", JR_RIGHT_W)
+    null height 4
+    use jr_cheat_switch("Log missing names", persistent.log_missing_names,
+        [With(dissolveM), ToggleField(persistent, "log_missing_names")])
+    $ can_validate = name_validator_available()
+    use jr_cheat_action("Check names files", "run", Call("validate_names_cheat"), can_validate)
+    use jr_cheat_action("…and list unnamed events", "run", Call("validate_names_cheat", list_events = True), can_validate)
+    if not can_validate:
+        text "tools/validate_names.py is missing (not part of builds)." style "jr_small"
+
+    null height 14
     use jr_rubric("Gallery", JR_RIGHT_W)
     null height 4
     use jr_cheat_action("Gallery data to the log", "dump", [With(dissolveM), Call("dump_gallery_data", 5, section)])
