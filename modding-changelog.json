@@ -2,6 +2,24 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "timer-effect",
+      "date": "2026-10-25",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "TimerEffect starts a timer from an effect list",
+      "details": "`TimerEffect(key, new_time=\"today\", *options)` calls `set_timer(key, new_time)`, so a resolution, unlock or menu can start the same timer `TimerCondition` and `get_timer` read. Revert restores the previous timer, or removes it if the effect created it; `EffectNoRevert` skips that. Does nothing during gallery replays. Example: the cafeteria Unlockable sets `TimerEffect(\"cafeteria_construction\")` on a won vote so the build week counts from the vote.",
+      "wiki": "Effects"
+    },
+    {
+      "id": "base-unlockables-jobs-relations-cafeteria",
+      "date": "2026-10-25",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "School Jobs, Student Relationships and the Cafeteria are registered Unlockables",
+      "details": "`rule:school_jobs`, `rule:student_student_relation` and `building:cafeteria` now exist in `load_unlockables`, so `UnlockableCondition(\"school_jobs\")`, `UnlockableCondition(\"student_student_relation\")`, `UnlockableCondition(\"cafeteria\")` and `is_unlockable_unlocked(...)` with these keys can become true (before, they never resolved). The map building `cafeteria` opens through the unlock (`BuildingOpenEffect`). For map buildings that aren't Unlockables, check `building_manager.is_open(key)` instead of `is_unlockable_unlocked(key)`.",
+      "wiki": "Building-Unlockables"
+    },
+    {
       "id": "missing-name-log-switch",
       "date": "2026-10-25",
       "version": "0.2.2",
