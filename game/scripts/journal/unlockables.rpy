@@ -465,6 +465,17 @@ init -7 python:
 
         @property
         def description(self):
+            # the escrowed vote cost would otherwise only show up when money goes missing
+            unlockable = None
+            if self.passive is not None and self.passive.situation is not None:
+                unlockable = self.passive.situation
+            elif situation_manager is not None:
+                unlockable = situation_manager.get_situation(self.situation_key)
+            cost = 0
+            if isinstance(unlockable, Unlockable):
+                cost = sum(entry[0] for entry in unlockable.get_vote_money_escrow_entries())
+            if cost > 0:
+                return f"Schedules the PTA vote and sets aside ${cost}: spent if it passes, returned if it fails or is cancelled."
             return "Schedules the PTA vote."
 
         def clone(self):
@@ -1283,7 +1294,7 @@ label load_unlockables:
         Unlockable("building", "cafeteria", "Cafeteria", True,
             SituationDescription([
                 "Reopen the old cafeteria next to the kiosk. The students would get proper meals instead of living off overpriced snacks, and Adelaide is willing to run the kitchen.",
-                "The building work takes about a week once the PTA says yes, and running it costs $100 a week after that.",
+                "Reopening it costs $1500, set aside as soon as the vote is on the agenda. The building work takes about a week once the PTA says yes, and running it costs $100 a week after that.",
             ]),
             ProgressCondition("unlock_cafeteria", "1+"),
             # escrow pair (wiki Building-Unlockables 6): reserved on scheduling, spent on a won vote

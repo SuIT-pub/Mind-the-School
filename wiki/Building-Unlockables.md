@@ -346,6 +346,10 @@ won vote, it consumes the reserved stash instead of charging again. On
 schedule the amount is set aside with `reserve_money`; on failure/cancel it is
 returned with `release_money`.
 
+The Schedule Vote measure names the reserved total on its own ("sets aside $1500:
+spent if it passes, returned if it fails or is cancelled"). Say what the money buys
+in your `SituationDescription` too; the measure text only states the amount.
+
 The pairing is matched by **absolute value**, and the self-test enforces it
 (codes 800–803, see [§15](#15-reference-tables)): every `MoneyCondition` needs a
 cost `MoneyEffect` of equal magnitude carrying the escrow option, and vice versa.
