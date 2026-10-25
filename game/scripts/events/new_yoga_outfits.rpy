@@ -29,6 +29,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 1),
         LevelCondition("2,3", char_obj = "school"),
+        ForceHighlightOption(),
         ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 2 0.webp")
@@ -37,6 +38,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 2),
         LevelCondition("2,3", char_obj = "school"),
+        ForceHighlightOption(),
         ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 2 0.webp")
@@ -48,6 +50,7 @@ init 1 python:
         ProgressCondition("yoga_classes", 3),
         LevelCondition("2,3", char_obj = "school"),
         TimerCondition("new_yoga_outfit_3", day = 4),
+        ForceHighlightOption(),
         ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 3 5.webp")
@@ -108,6 +111,7 @@ init 1 python:
         LevelCondition("2,3", char_obj = "school"),
         TimerCondition("new_yoga_outfit_9", day = 4),
         GameDataSelector("yoga_outfit_set", "yoga_outfit_set", 1),
+        ForceHighlightOption(),
         ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 <school_level> <yoga_outfit_set> <step>.webp", "school_level", "yoga_outfit_set"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 2 $ 0.webp")
