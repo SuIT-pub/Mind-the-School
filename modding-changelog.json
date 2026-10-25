@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "schedule-vote-shows-escrow",
+      "date": "2026-10-25",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Schedule Vote measure names the escrowed vote cost",
+      "details": "An Unlockable with a money escrow pair (`UnlockableScheduleVoteConditions(MoneyCondition(n))` + cost `MoneyEffect`) now shows the reserved total in its Schedule Vote effect text: \"Schedules the PTA vote and sets aside $n: spent if it passes, returned if it fails or is cancelled.\" Nothing to change in mods; unpaired or cost-free Unlockables keep \"Schedules the PTA vote.\" Mention the cost in your `SituationDescription` as well.",
+      "wiki": "Building-Unlockables#6-money-costs-escrow"
+    },
+    {
       "id": "timer-effect",
       "date": "2026-10-25",
       "version": "0.2.2",
