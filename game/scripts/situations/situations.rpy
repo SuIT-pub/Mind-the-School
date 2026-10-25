@@ -3034,7 +3034,8 @@ init -99 python:
                 and is_reached_at(threshold, start_values)
             ]
             # An unmet gate near the base must clamp before anything behind it is settled.
-            jumped.sort(key=lambda threshold: max(abs(bound - base_values[bar_key]) for bar_key, bound in threshold.bounds.items()))
+            # helper.rpy's max() shadows the builtin and only takes separate values
+            jumped.sort(key=lambda threshold: max(*[abs(bound - base_values[bar_key]) for bar_key, bound in threshold.bounds.items()]))
 
             default_mode = getattr(self, "start_thresholds", "skip")
             for threshold in jumped:
