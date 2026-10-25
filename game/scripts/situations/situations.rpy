@@ -5376,7 +5376,7 @@ label load_situations:
                     StartModifier("+",  8, condition=ProgressCondition("start_sex_ed", 2)),
                     StartModifier("+", 16, condition=ProgressCondition("start_sex_ed", 3)),
                     StartModifier("+", 24, condition=ProgressCondition("start_sex_ed", 4)),
-                    StartModifier("+", 32, condition=ProgressCondition("start_sex_ed", 5)),
+                    StartModifier("+", 32, condition=ProgressCondition("start_sex_ed", "5+")),
                 ]),
             BlockingThreshold(
                 "Emiko's got a point. If I just spring this on the teachers, half of them will have made up their minds against it before I've finished my first sentence.",
@@ -5440,9 +5440,9 @@ label load_situations:
         ),
     )
 
-    # Saves that were inside the sex ed chain before the situation existed.
-    $ activate_sex_ed_preparations_for_running_chain()
-    $ activate_truth_or_dare_for_running_chain()
+    # Saves that played these chains before their situations existed.
+    $ sync_sex_ed_preparations()
+    $ sync_truth_or_dare_situation()
 
     # Debug: Situation Test Lab (situation_test_lab.rpy). Inactive and hidden until
     # started from Journal -> Cheats -> Debug.

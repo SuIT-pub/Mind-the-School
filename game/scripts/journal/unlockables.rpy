@@ -1153,8 +1153,8 @@ label load_unlockables:
         ),
     )
 
-    # Saves that reached the PTA discussion before the campaign existed.
-    $ activate_theoretical_sex_ed_campaign()
+    # Saves that reached the PTA discussion or won the vote before the campaign existed.
+    $ sync_theoretical_sex_ed_campaign()
 
 # endregion
 #######################

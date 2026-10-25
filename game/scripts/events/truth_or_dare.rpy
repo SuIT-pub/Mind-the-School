@@ -4,7 +4,7 @@ init -1 python:
     truth_or_dare_end_storage = FragmentStorage("truth_or_dare_end")
 
 init 1 python:
-    def activate_truth_or_dare_for_running_chain():
+    def sync_truth_or_dare_situation():
         """
         Start the Truth or Dare situation once the meeting place is known (progress 3).
         Also picks up saves that got there before the situation existed; a save that
@@ -15,6 +15,7 @@ init 1 python:
             return
         if get_progress("truth_or_dare") >= 3:
             situation.activate()
+            situation.check_resolutions()
 
 init 1 python: 
     set_current_mod('base')
@@ -168,7 +169,7 @@ label truth_or_dare_3 (**kwargs):
         happiness = TINY) from _stats_truth_or_dare_3_1
 
     $ set_progress("truth_or_dare", 3) # 2 -> 3
-    $ activate_truth_or_dare_for_running_chain()
+    $ sync_truth_or_dare_situation()
 
     $ end_event("new_daytime", **kwargs)
 

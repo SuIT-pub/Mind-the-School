@@ -1,30 +1,39 @@
 init 1 python: 
     set_current_mod('base')  
 
-    def activate_sex_ed_preparations_for_running_chain():
+    def sync_sex_ed_preparations():
         """
-        Pick up saves that were inside the chain before Sex Ed Preparations existed.
-        Its start modifiers place the bar at the step the save reached.
+        Bring Sex Ed Preparations in line with saves that played the chain before the
+        situation existed. Its start modifiers place the bar at the step the save
+        reached; a save past the PTA discussion (progress 6+) completes it right away,
+        so the campaign can still read the bar as carry-over.
         """
         situation = situation_manager.get_situation("sex_ed_preparations")
         if situation is None or situation.state != "inactive":
             return
-        if 1 <= get_progress("start_sex_ed") <= 5:
+        if get_progress("start_sex_ed") >= 1:
             situation.activate()
+            situation.check_resolutions()
 
-    def activate_theoretical_sex_ed_campaign():
+    def sync_theoretical_sex_ed_campaign():
         """
-        Start the PTA campaign for theoretical sex ed if it isn't running yet.
+        Start the PTA campaign for theoretical sex ed once the proposal is tabled
+        (progress 6), and unlock it for saves that already won the vote (progress 7+)
+        before the campaign existed, through the same resolution a won vote fires.
 
-        Called from the PTA discussion and from load_unlockables, which also picks up
-        saves that reached the discussion before the campaign existed (progress 6).
+        Called from the PTA discussion and from load_unlockables.
         """
-        if get_progress("start_sex_ed") != 6:
+        progress = get_progress("start_sex_ed")
+        if progress < 6:
             return
         campaign = unlockable_manager.get_unlockable_by_key("sex_ed", 1)
-        if campaign is None or campaign.state != "inactive":
+        if campaign is None or campaign.state not in ("inactive", "active"):
             return
-        campaign.activate()
+        if campaign.state == "inactive":
+            campaign.activate()
+        if progress >= 7:
+            set_game_data(campaign.key + "_vote_won", True)
+            campaign.check_resolutions()
 
     office_building_events["call_secretary"].add_event(Event(1, "office_call_secretary_1",
         NOT(ProgressCondition('start_sex_ed')),
@@ -632,7 +641,7 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
 
     $ set_progress('start_sex_ed', 6) # 5 -> 6
     # The campaign picks up straight from the meeting instead of waiting for "Start Introducing".
-    $ activate_theoretical_sex_ed_campaign()
+    $ sync_theoretical_sex_ed_campaign()
 
     $ end_event('new_daytime', **kwargs)
 
