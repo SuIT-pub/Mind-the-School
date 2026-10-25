@@ -904,6 +904,30 @@ init -7 python:
             set_game_data(unlockable.key + "_vote_won", True)
             unlockable.check_resolutions()
 
+    def sync_legacy_building_unlocks():
+        """
+        Carry buildings a pre-Unlockable save had unlocked over to their Unlockables.
+
+        Runs in load_unlockables, before clean_legacy_journal_objects() drops the old
+        journal buildings. Unlike rules this skips the vote path: its cost would be
+        charged a second time, and the old unlock already set progress and the build
+        date. Only the unlock flag, the open map building and the running cost remain.
+        """
+        legacy_buildings = getattr(renpy.store, "buildings", None)
+        if not legacy_buildings or unlockable_manager is None:
+            return
+        old_cafeteria = legacy_buildings.get("cafeteria")
+        if getattr(old_cafeteria, "_level", 0) < 1:
+            return
+        cafeteria = unlockable_manager.get_unlockable_by_key("cafeteria")
+        if cafeteria is None or cafeteria.is_unlocked():
+            return
+        set_game_data(cafeteria.key + "_unlocked", True)
+        BuildingOpenEffect("cafeteria").apply()
+        ModifierEffect("weekly_cost_cafeteria", "money", Modifier_Obj("Cafeteria", "+", -100), collection="payroll_weekly").apply()
+        if cafeteria.state in ("inactive", "active", "cancelled"):
+            cafeteria.complete()
+
     def sync_level_unlockables():
         """
         Mark the level group unlocked up to the school's current level.
@@ -1256,12 +1280,39 @@ label load_unlockables:
             SituationEffectSetGameData("student_relationships_allowed", True, "Students may date each other openly"),
             thumbnail="images/journal/rules/student_student_relation 1 0.webp",
         ),
+        Unlockable("building", "cafeteria", "Cafeteria", True,
+            SituationDescription([
+                "Reopen the old cafeteria next to the kiosk. The students would get proper meals instead of living off overpriced snacks, and Adelaide is willing to run the kitchen.",
+                "The building work takes about a week once the PTA says yes, and running it costs $100 a week after that.",
+            ]),
+            ProgressCondition("unlock_cafeteria", "1+"),
+            # escrow pair (wiki Building-Unlockables 6): reserved on scheduling, spent on a won vote
+            UnlockableScheduleVoteConditions(MoneyCondition(1500)),
+            MoneyEffect("cafeteria_cost", -1500, "ADD"),
+            Bar("Students", Picto("students"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={HAPPINESS: 0.3}),
+            Bar("Parents", Picto("parents"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={REPUTATION: 0.3}),
+            Bar("Teachers", Picto("teachers"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={EDUCATION: 0.3}),
+            Picto("vote"),
+            Picto("money"),
+            Picto("facility"),
+            BuildingOpenEffect("cafeteria"),
+            # 1 -> 2 starts the construction scene; its week counts from this timer
+            ProgressEffect("unlock_cafeteria", 1),
+            TimerEffect("cafeteria_construction"),
+            ModifierEffect("weekly_cost_cafeteria", "money", Modifier_Obj("Cafeteria", "+", -100), collection="payroll_weekly"),
+            SituationEffectSetGameData("cafeteria_reopened", True, "The cafeteria reopens after a week of building work"),
+            thumbnail="images/journal/buildings/cafeteria 1 0.webp",
+        ),
     )
 
     # Saves that reached the PTA discussion or won the vote before the campaign existed.
     $ sync_theoretical_sex_ed_campaign()
     # Saves from before Unlockables: old rule unlocks and levels reached through old rules.
     $ sync_legacy_rule_unlocks()
+    $ sync_legacy_building_unlocks()
     $ sync_level_unlockables()
 
 # endregion

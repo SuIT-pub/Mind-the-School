@@ -174,8 +174,13 @@ label .after_general_check (**kwargs):
 label cafeteria_construction(**kwargs):
     show screen black_screen_text("cafeteria_construction")
 
+    # the week counts from the won PTA vote (TimerEffect on the cafeteria unlockable);
+    # saves from the old building system already carry their end date
     if not contains_game_data("cafeteria_construction_end"):
-        $ set_game_data("cafeteria_construction_end", time.day_to_string())
+        $ construction_start = get_timer("cafeteria_construction")
+        $ construction_end = Time(construction_start.day_to_string() if construction_start is not None else time.day_to_string())
+        $ construction_end.add_time(day = 7)
+        $ set_game_data("cafeteria_construction_end", construction_end.day_to_string())
 
     $ end_time = Time(get_game_data("cafeteria_construction_end"))
     $ time_comparison = compare_time(time, end_time)

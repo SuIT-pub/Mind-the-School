@@ -88,7 +88,7 @@ Whether `revert` actually undoes depends on the effect. Three groups:
 - **Symmetric (inverse) revert:** `StatEffect`, `MoneyEffect` — `apply` adds/sets,
   `revert` applies the inverse. Correct even if the effect object is fresh, because
   it's pure arithmetic. `revert` respects the `EffectNoRevert` option (skips undo).
-- **Stored-previous revert:** `ValueEffect`, `ProgressEffect`,
+- **Stored-previous revert:** `ValueEffect`, `ProgressEffect`, `TimerEffect`,
   `UnlockableUnlockEffect` — `apply` remembers the prior value and `revert` restores
   it. A genuine undo, but it needs the *same* instance that applied it.
 - **No revert:** the default (`revert` does nothing) — `NotificationEffect`,
@@ -153,6 +153,7 @@ constructor's own args: `MoneyEffect("cost", -1500, "ADD", EffectNoRevertOption(
 | Constructor | Does |
 |-------------|------|
 | `ProgressEffect(key, value=1, *options)` | advance an event-series progress by `value` steps, same store as `set_progress`/`get_progress` (stores previous → reverts; a key it created is removed again) |
+| `TimerEffect(key, new_time="today", *options)` | start a timer, the store `set_timer` / `TimerCondition` use (stores previous → reverts; a timer it created is removed) |
 | `ValueEffect(key, value, *options)` | set a registered value / flag (stores previous → reverts) |
 | `ChangeKwargsEffect(key, value)` | inject/overwrite a kwarg for the rest of the current event flow |
 | `SetProficiencyEffect(subject, *, level=0, xp=0)` | set a teaching proficiency |
@@ -288,7 +289,7 @@ inside a situation — `SituationEffectBarChangeModifier` / `SituationEffectRegu
 
 ### Revert behavior by effect
 - Inverse: `StatEffect`, `MoneyEffect`
-- Stored-previous: `ValueEffect`, `ProgressEffect`, `UnlockableUnlockEffect`
+- Stored-previous: `ValueEffect`, `ProgressEffect`, `TimerEffect`, `UnlockableUnlockEffect`
 - Add/remove: `BuildingOpenEffect`, `BuildingCloseEffect`, `BlockBuildingEffect`, `ModifierEffect`
 - No-op: most others (`NotificationEffect`, `EventEffect`, `DummyEffect`, …)
 

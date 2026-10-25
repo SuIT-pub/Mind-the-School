@@ -555,6 +555,46 @@ init -1 python:
                 gameData.get("progress", {}).pop(self.key, None)
             return kwargs
 
+    class TimerEffect(Effect):
+        """
+        Starts a timer, the same store ``set_timer`` and ``TimerCondition`` use.
+
+        ### Attributes:
+        1. key: str
+            - Key of the timer.
+        2. new_time: str | Time (default "today")
+            - When the timer starts; "today" or a Time / time string.
+        """
+
+        def __init__(self, key: str, new_time: str = "today", *options: Option):
+            super().__init__(key, *options)
+            self.key = key
+            self.new_time = new_time
+            self.prev_value = None
+
+        @property
+        def _type(self) -> str:
+            return "timer"
+
+        def __str__(self):
+            return f"{self.key}"
+
+        def apply(self, **kwargs):
+            if is_in_replay:
+                return kwargs
+            self.prev_value = get_timer(self.key)
+            set_timer(self.key, self.new_time)
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert") or is_in_replay:
+                return kwargs
+            if self.prev_value is not None:
+                set_timer(self.key, self.prev_value)
+            else:
+                remove_timer(self.key)
+            return kwargs
+
     class ModifierEffect(Effect):
         """
         Adds a modifier to a stat.
