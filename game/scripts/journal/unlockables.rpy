@@ -871,6 +871,65 @@ init -7 python:
             unlockable_manager.apply_group_chain_conditions()
             unlockable_manager.run_unlockables_test()
 
+    # Legacy rule name -> (unlockable key, group index) for saves from before Unlockables.
+    LEGACY_RULE_UNLOCKABLES = {
+        "school_jobs": ("school_jobs", -1),
+        "student_student_relation": ("student_student_relation", -1),
+    }
+
+    def sync_legacy_rule_unlocks():
+        """
+        Carry rules a pre-Unlockable save had unlocked over to their Unlockables.
+
+        Runs in load_unlockables, before clean_legacy_journal_objects() drops the old
+        Rule objects. Goes the way a won vote goes (activate, vote won, resolutions),
+        so unlock effects land exactly as in play.
+        """
+        legacy_rules = getattr(renpy.store, "rules", None)
+        if not legacy_rules or unlockable_manager is None:
+            return
+        for rule_name, (key, index) in LEGACY_RULE_UNLOCKABLES.items():
+            rule = legacy_rules.get(rule_name)
+            unlocked = getattr(rule, "_unlocked", False)
+            # very old saves kept one flag per campus
+            if isinstance(unlocked, dict):
+                unlocked = any(unlocked.values())
+            if not unlocked:
+                continue
+            unlockable = unlockable_manager.get_unlockable_by_key(key, index)
+            if unlockable is None or unlockable.is_unlocked() or unlockable.state not in ("inactive", "active"):
+                continue
+            if unlockable.state == "inactive":
+                unlockable.activate()
+            set_game_data(unlockable.key + "_vote_won", True)
+            unlockable.check_resolutions()
+
+    def sync_level_unlockables():
+        """
+        Mark the level group unlocked up to the school's current level.
+
+        Saves that rose through the old level rules have no ``level_level``, and the
+        group chain only shows Level N+1 once Level N is unlocked, so they could never
+        move on. Flags are set directly instead of through the vote: that would
+        re-apply each stage's level effects and revert the previous stage's.
+        """
+        if unlockable_manager is None:
+            return
+        school = get_character_by_key("school")
+        if school is None:
+            return
+        school_level = school.get_level()
+        current = get_game_data("level_level")
+        if school_level < 3 or (current is not None and current >= school_level):
+            return
+        for member in unlockable_manager.get_unlockables_by_key("level"):
+            if 3 <= member.group_index <= school_level and not member.is_unlocked():
+                set_game_data(member.key + "_unlocked", True)
+                # as after a won vote; an inactive member would still offer "Start introducing"
+                if member.state in ("inactive", "active", "cancelled"):
+                    member.complete()
+        set_game_data("level_level", school_level)
+
     def is_unlockable_unlocked(key: str, index: int = -1) -> bool:
         """
         Return whether an unlockable is unlocked.
@@ -1161,10 +1220,49 @@ label load_unlockables:
             group_index=1,
             inject_default_cancel=False,
         ),
+        Unlockable("rule", "school_jobs", "School Jobs", True,
+            SituationDescription([
+                "Let students take paid shifts in the school's facilities, starting with Adelaide's kitchen. It keeps the place running, and the girls who are short on money get a way to earn some.",
+                "Adelaide has promised to argue for it at the PTA herself.",
+            ]),
+            ProgressCondition("unlock_school_jobs", "3+"),
+            Bar("Students", Picto("students"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={HAPPINESS: 0.3}),
+            # Adelaide backs it with the other parents (cafeteria_event_3).
+            Bar("Parents", Picto("parents"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={REPUTATION: 0.3},
+                start_base=15),
+            Bar("Teachers", Picto("teachers"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={EDUCATION: 0.3}),
+            Picto("vote"),
+            Picto("facility"),
+            SituationEffectSetGameData("school_jobs_active", True, "Students can take paid shifts in school facilities"),
+            thumbnail="images/journal/rules/school_jobs_1.webp",
+        ),
+        Unlockable("rule", "student_student_relation", "Student Relationships", True,
+            SituationDescription("Lift the ban on relationships between students. Half the couples on campus are only hiding it anyway, and I already told one of them the rule wouldn't last."),
+            SituationDescription("Not ready for a vote yet: it needs inhibition at 95 or below and corruption at 2 or above.",
+                NOT(StatCondition(inhibition="95-", corruption="2+"))),
+            ProgressCondition("unlock_student_relationship", "1+"),
+            UnlockableScheduleVoteConditions(StatCondition(inhibition="95-", corruption="2+")),
+            Bar("Students", Picto("students"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={HAPPINESS: 0.3, INHIBITION: -0.3}),
+            Bar("Parents", Picto("parents"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={REPUTATION: 0.3}),
+            Bar("Teachers", Picto("teachers"), limits=(0, 100), regular_decrease_rate=0.5,
+                stat_weights={CORRUPTION: 0.3}),
+            Picto("vote"),
+            Picto("rapport"),
+            SituationEffectSetGameData("student_relationships_allowed", True, "Students may date each other openly"),
+            thumbnail="images/journal/rules/student_student_relation 1 0.webp",
+        ),
     )
 
     # Saves that reached the PTA discussion or won the vote before the campaign existed.
     $ sync_theoretical_sex_ed_campaign()
+    # Saves from before Unlockables: old rule unlocks and levels reached through old rules.
+    $ sync_legacy_rule_unlocks()
+    $ sync_level_unlockables()
 
 # endregion
 #######################
