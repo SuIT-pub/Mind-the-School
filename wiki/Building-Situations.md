@@ -1635,6 +1635,9 @@ for `value_percent`** (normalized automatically).
 ### Teaser `layout`
 Text: `text_full`, `text_aside` · Photo: `photo_left`, `photo_right`, `photo_top`
 (only with `image`). If omitted: random on activation.
+With a side photo, the interpretation moves full width under the photo once it would
+hang below it and the observation already fills the photo's height to within two
+lines. A short observation keeps it beside the photo.
 
 ### Common conditions
 | Goal | Condition |
