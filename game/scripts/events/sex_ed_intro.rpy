@@ -689,8 +689,8 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
     $ image.show(8)
     if votes.get("Parents") == 'yes':
         parent """
-        We still think a good part of this belongs at home. But we've heard the teachers out, and we're willing to 
-        give it one term, so we vote in favour.
+        Honestly, we'd still rather a lot of this were talked about at home. But we've listened, and if it's really 
+        this bad, we'd rather they hear it from the school than from each other. So we'll vote yes, for now.
         """
     else:
         parent """

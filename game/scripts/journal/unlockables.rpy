@@ -1130,8 +1130,8 @@ label load_unlockables:
     $ register_unlockables(
         Unlockable("rule", "sex_ed", "Theoretical Sex Ed", True,
             SituationDescription([
-                "Add a theoretical sex education unit to the curriculum: how bodies work, why they differ, and everything nobody here ever explained.",
-                "The staff is mostly on board. Parents and students still need convincing before the PTA votes.",
+                "Put a theoretical sex education unit on the curriculum: how bodies work, why no two look the same, and all the things nobody here ever bothered to explain.",
+                "Most of the staff will go along with it now. The parents and the students still need some convincing before the PTA votes on it.",
             ]),
             ProgressCondition("start_sex_ed", "6+"),
             # Own bars replace the defaults; same limits and drift. Bar order = vote order.
@@ -1147,7 +1147,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("curriculum"),
             SituationEffectSetGameData("theoretical_sex_ed_active", True, "Theoretical sex ed is part of the curriculum"),
-            thumbnail="images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 10.webp",
+            thumbnail="images/events/sex_ed_intro/first_sex_ed_day/first_sex_ed_day 0.webp",
             group_index=1,
             inject_default_cancel=False,
         ),
