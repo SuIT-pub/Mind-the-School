@@ -5403,10 +5403,44 @@ label load_situations:
             ConditionResolution("proposal_tabled", ProgressCondition("start_sex_ed", "6+"), DummyEffect()),
             thumbnail="images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/office_teacher_sex_ed_introduction_2 4.webp",
         ),
+        Situation("truth_or_dare", "Truth or Dare",
+            SituationDescription("A handful of students have been playing a game in the dorm late at night. Truth or Dare, as it turns out. I know where they meet, but I haven't caught them at it yet."),
+            SituationDescription("I've watched a round now: a weeknight, the dorm lounge, Ishimaru's deck of cards going around, and dares that go a lot further than anything they'd try in the hallways. I know when to come back.",
+                EventSeenCondition(True, "truth_or_dare_4")),
+            Teaser("night_runner",
+                "Nearly midnight, and a student came tearing across the courtyard with her top gone and both arms wrapped over her chest. She ran straight for the dorms and never looked my way. I'm honestly not sure she even saw me.",
+                EventSeenCondition(True, "truth_or_dare_1"),
+                interpretation="Running like that, at that hour... somebody put her up to it, I'd almost bet on it. And if it was some kind of game, I'll hear about it in the hallways soon enough. Nothing stays quiet around here for long.",
+                note_type="observation"),
+            Teaser("card_set",
+                "Caught Miwa Igarashi and Lin Kato in the corridor when they should have been in class, whispering about some girl who \"really did it\" and whether Lin would have taken \"the punishment\" instead. Apparently Ishimaru bought a new card set. Next round, same time. Where, of course, nobody bothered to say.",
+                EventSeenCondition(True, "truth_or_dare_2"),
+                interpretation="Dares, a punishment if you back out, a new deck for the next round... that's a proper game, and it sounds like it's been going on for a while. If I keep walking these halls during class, one of them is bound to let the place slip.",
+                note_type="suspicion"),
+            Teaser("dorm_lounge",
+                "Lin stopped Ikushi Ito in the hallway to ask if she was coming today. To Truth or Dare, obviously, what else. Ikushi only wanted to know if it was \"the dorm lounge again\", so it's always the same spot, and it's tonight.",
+                EventSeenCondition(True, "truth_or_dare_3"),
+                interpretation="Ikushi said yes on the spot, and she usually needs half the group talking her into things. Whatever happens in that lounge, she wants to be there for it. I'd like to see that for myself, some weeknight after dark, from somewhere they won't notice me.",
+                note_type="insight"),
+            # The bar only carries the hint: activation (progress 3) lifts it past the gate,
+            # the start sweep clamps it there and shows the threshold hint right away.
+            Bar("main",
+                limits=(0, 20),
+                start_modifiers=[StartModifier("+", 10, condition=ProgressCondition("truth_or_dare", "3+"))]),
+            BlockingThreshold(
+                "The dorm lounge, on a weeknight, after dark. Now I just have to be there when they actually play.",
+                "Peek in on the students in the dorm on a weeknight.",
+                EventSeenCondition(True, "truth_or_dare_4"), main=10, visible_range=10),
+            # Nothing to lose here, so no negative end; the "ALL" end at 20 is never reached.
+            PositiveResolution("ALL", DummyEffect()),
+            ConditionResolution("game_found", EventSeenCondition(True, "truth_or_dare_4"), DummyEffect()),
+            thumbnail="images/events/truth_or_dare/truth_or_dare_4/main/truth_or_dare_4_main 6 1.webp",
+        ),
     )
 
     # Saves that were inside the sex ed chain before the situation existed.
     $ activate_sex_ed_preparations_for_running_chain()
+    $ activate_truth_or_dare_for_running_chain()
 
     # Debug: Situation Test Lab (situation_test_lab.rpy). Inactive and hidden until
     # started from Journal -> Cheats -> Debug.

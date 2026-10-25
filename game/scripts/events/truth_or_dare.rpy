@@ -3,6 +3,19 @@ init -1 python:
         FragmentRepeatOption(RandomValueSelector("", 2, 6, True), False))
     truth_or_dare_end_storage = FragmentStorage("truth_or_dare_end")
 
+init 1 python:
+    def activate_truth_or_dare_for_running_chain():
+        """
+        Start the Truth or Dare situation once the meeting place is known (progress 3).
+        Also picks up saves that got there before the situation existed; a save that
+        already watched truth_or_dare_4 resolves it straight away.
+        """
+        situation = situation_manager.get_situation("truth_or_dare")
+        if situation is None or situation.state != "inactive":
+            return
+        if get_progress("truth_or_dare") >= 3:
+            situation.activate()
+
 init 1 python: 
     set_current_mod('base')
 
@@ -90,7 +103,7 @@ label truth_or_dare_1 (**kwargs):
 
     $ end_event("new_daytime", **kwargs)
 
-# School Building: Patrol - Freetime
+# School Building: Patrol - Class Time
 label truth_or_dare_2 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -127,7 +140,7 @@ label truth_or_dare_2 (**kwargs):
 
     $ end_event("new_daytime", **kwargs)
 
-# School Building: Patrol - Freetime
+# School Building: Patrol - Class Time
 label truth_or_dare_3 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -155,6 +168,7 @@ label truth_or_dare_3 (**kwargs):
         happiness = TINY) from _stats_truth_or_dare_3_1
 
     $ set_progress("truth_or_dare", 3) # 2 -> 3
+    $ activate_truth_or_dare_for_running_chain()
 
     $ end_event("new_daytime", **kwargs)
 
