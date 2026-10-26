@@ -990,7 +990,7 @@ init -6 python:
             - e.g. `{"level": 5}` when the character has no level-1 uniform
         """
 
-        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None, styleOverrides: Dict[str, Any] = None, keywords: List[Union[str, Tuple[str, Condition]]] = None):
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None, styleOverrides: Dict[str, Any] = None, keywords: List[Union[str, Tuple[str, Condition]]] = None, relations: Dict[str, List[str]] = None):
             self.name = name
             self.first_name = first_name
             self.last_name = last_name
@@ -1014,6 +1014,10 @@ init -6 python:
             # known from the start; (text, condition) is "found" while the condition holds.
             # Order = discovery order: the journal pencils the last two, lists the rest.
             self.keywords = list(keywords) if keywords else []
+            # Family ties, e.g. {"mother_of": ["soyoon_yamamoto"]}. Enter them on both
+            # people; a side that is missing (a mod person related to a base one)
+            # is still filled in from RELATION_INVERSES.
+            self.relations = {relation: list(people) for relation, people in (relations or {}).items()}
 
         @classmethod
         def __class_getitem__(cls, key):
@@ -1050,6 +1054,8 @@ init -6 python:
                 self.styleOverrides = {}
             if not hasattr(self, 'keywords'):
                 self.keywords = []
+            if not hasattr(self, 'relations'):
+                self.relations = {}
 
             if data != None:
                 self.name = data.name
@@ -1065,6 +1071,7 @@ init -6 python:
                 if hasattr(data, 'styleOverrides'):
                     self.styleOverrides = dict(data.styleOverrides) if data.styleOverrides else {}
                 self.keywords = list(getattr(data, 'keywords', None) or [])
+                self.relations = {relation: list(people) for relation, people in (getattr(data, 'relations', None) or {}).items()}
 
         def get_name(self) -> str:
             return self.name
@@ -1264,6 +1271,101 @@ init -6 python:
 
                 return person_storage[key][name]
         return None
+
+    #############
+    # Relations
+
+    # each relation and what it makes the other person
+    RELATION_INVERSES = {
+        "mother_of": "daughter_of",
+        "daughter_of": "mother_of",
+        "sister_of": "sister_of",
+        "grandmother_of": "granddaughter_of",
+        "granddaughter_of": "grandmother_of",
+        "aunt_of": "niece_of",
+        "niece_of": "aunt_of",
+        "cousin_of": "cousin_of",
+    }
+
+    def register_relation_type(relation: str, inverse: str):
+        """
+        Adds a relation type, e.g. for a mod: ``register_relation_type(
+        "stepmother_of", "stepdaughter_of")``. Symmetric relations pass the
+        same name twice.
+        """
+
+        RELATION_INVERSES[relation] = inverse
+        RELATION_INVERSES[inverse] = relation
+
+    def _person_key(person) -> str:
+        return person.name if isinstance(person, Person) else str(person)
+
+    def get_relations(person) -> Dict[str, List[str]]:
+        """
+        All family ties of a person, from both sides: what she entered herself
+        and what others entered about her, mirrored.
+
+        ### Returns:
+        1. Dict[str, List[str]]
+            - relation -> person keys, e.g. {"daughter_of": ["yuki_yamamoto"]}.
+        """
+
+        key = _person_key(person)
+        output = {}
+
+        def add(relation, other):
+            if other != key and other not in output.setdefault(relation, []):
+                output[relation].append(other)
+
+        for group in person_storage.values():
+            for other in group.values():
+                for relation, people in getattr(other, "relations", {}).items():
+                    if other.name == key:
+                        for target in people:
+                            add(relation, target)
+                    elif key in people:
+                        inverse = RELATION_INVERSES.get(relation)
+                        if inverse is None:
+                            log(f"{other.name}: unknown relation '{relation}', register it with register_relation_type", log_type = "warning", category = "relations")
+                            continue
+                        add(inverse, other.name)
+        return output
+
+    def get_relation(person, other) -> Optional[str]:
+        """
+        What ``person`` is to ``other`` ("mother_of", "sister_of", ...), or
+        None when they aren't related.
+        """
+
+        other_key = _person_key(other)
+        for relation, people in get_relations(person).items():
+            if other_key in people:
+                return relation
+        return None
+
+    def are_related(person, other, relation: str = None) -> bool:
+        """
+        Whether two people are family; with ``relation``, whether ``person``
+        is exactly that to ``other`` (``are_related("yuki_yamamoto",
+        "soyoon_yamamoto", "mother_of")``).
+        """
+
+        found = get_relation(person, other)
+        if relation is None:
+            return found is not None
+        return found == relation
+
+    def get_related_persons(person, relation: str = None) -> List[str]:
+        """
+        Keys of everyone related to ``person``, or only those she is
+        ``relation`` to.
+        """
+
+        output = []
+        for found_relation, people in get_relations(person).items():
+            if relation is None or found_relation == relation:
+                output.extend(target for target in people if target not in output)
+        return output
 
     def get_person(key: str, name: str):
         """
@@ -1468,6 +1570,7 @@ label load_characters ():
             (["", "{b}Under the surface{/b}", "Beneath the shyness runs a sly, mischievous streak deeper than anyone expects. With Seraphina she's one half of the class's chaos-and-pranks duo — and often the real schemer behind it, the innocent-looking one nobody suspects until the trap is already sprung. She lags half a step behind her sister at every stage, needing Sera's cover before she'll open up; the higher the school climbs, the more that trickster shows."], NOT(LevelCondition("5+"))),
         ],
         thumbnail = "images/characters/luna_clark/level_1.webp",
+        relations = {"sister_of": ["seraphina_clark"]},
         keywords = ["quiet twin", "red glasses", ("the real schemer", LevelCondition("3+")), ("way too big", GameDataCondition("seen_breasts_luna_clark", True)), ("way too round", GameDataCondition("seen_ass_luna_clark", True))],
     ))
     $ load_person("class_3a", Person("seraphina_clark", "Seraphina", "Clark", school_char, [
@@ -1481,6 +1584,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "The forward Clark twin — active, socially confident, and a prankster at heart. She's the loud, visible half of the chaos-and-pranks duo, happy to be the grinning face of a scheme."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Precocious and quick with a teasing joke, she fronts the mischief while quiet Luna plots behind her. Even at the lowest levels she reads as more open and curious than her peers — though open isn't explicit; at level 1 she's still fundamentally innocent, just less shy about it. She reaches each new stage of the campus a little early, pulling hesitant Luna along after her."], NOT(LevelCondition("5+"))),
         ],
+        relations = {"sister_of": ["luna_clark"]},
         keywords = ["loud twin", "prankster", ("black glasses", LevelCondition("3+")), ("out of scale", GameDataCondition("seen_breasts_seraphina_clark", True)), ("bare and pink", GameDataCondition("seen_pussy_seraphina_clark", True))],
     ))
     $ load_person("class_3a", Person("hatano_miwa", "Hatano", "Miwa", school_char, [
@@ -1580,6 +1684,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "A haughty, fashionable ice queen — cool, composed, and image-conscious, with a distinct air of looking down her nose at everyone. She keeps most people at arm's length and is hard to fluster or read."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Where Hatano Miwa's superiority is loud and style-obsessed, Soyoon's is cold and snobbish — quiet condescension, not catty commentary. The chill is partly a front, but she doesn't let it drop easily, or for just anyone; as the campus opens up the poise holds, slipping only rarely and on her own terms."], NOT(LevelCondition("5+"))),
         ],
+        relations = {"daughter_of": ["yuki_yamamoto"]},
         keywords = ["ice queen", "Yuki's daughter", ("just a front?", LevelCondition("3+")), ("vivid pink", GameDataCondition("seen_breasts_soyoon_yamamoto", True)), ("openly pink", GameDataCondition("seen_pussy_soyoon_yamamoto", True))],
     ))
     $ load_person("class_3a", Person("yuriko_oshima", "Yuriko", "Oshima", school_char, [
@@ -1632,6 +1737,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "A protective, conservative parent — her reflex is that these things belong at home with the parents, and she voices her doubts plainly."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "But she can see the benefits when they're laid out and comes around rather than digging in. As the campus opens up she's persuadable, following rather than resisting once the argument is made."], NOT(LevelCondition("5+"))),
         ],
+        relations = {"mother_of": ["soyoon_yamamoto"]},
         keywords = ["protective", "Soyoon's mother", ("can be persuaded", LevelCondition("3+")), ("puffy nipples", GameDataCondition("seen_breasts_yuki_yamamoto", True)), ("shaved clean", GameDataCondition("seen_pussy_yuki_yamamoto", True))],
     ))
 

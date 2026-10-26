@@ -904,6 +904,66 @@ init -3 python:
 
             return get_kwargs(key, None, **kwargs)
 
+    class RelationSelector(Selector):
+        """
+        A Selector-class that picks a random person who is related to another
+        one (see ``get_relations`` in character.rpy), e.g. to roll a pairing
+        that a KinkCondition then gates.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+        2. of: str | Selector
+            - Whose relative to pick: the value of an earlier selector of the
+                same event (by its key), a Selector, or a person key.
+        3. relation: str (default: None)
+            - What ``of``'s person is to the one picked: "sister_of" picks
+                her sister, "mother_of" her daughter, "daughter_of" her mother.
+                None picks any relative.
+        4. alt: Any (default: None)
+            - The value when nobody fits.
+
+        ```python
+        RandomListSelector("girl", "luna_clark", "soyoon_yamamoto"),
+        RelationSelector("relative", "girl"),
+        ```
+        """
+
+        def __init__(self, key: str, of: str | Selector, relation: str = None, *options: Option, alt: Any = None, realtime: bool = False):
+            super().__init__(realtime, key, *options)
+            self._of = of
+            self._relation = relation
+            self._alt = alt
+
+        @property
+        def _type(self) -> str:
+            return "relation"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._of, Selector):
+                output.extend(self._of.find_by_type(type))
+            return output
+
+        def roll(self, **kwargs) -> Any:
+            """
+            Returns the key of a random relative, or ``alt``.
+            """
+
+            person = self._of
+            if isinstance(person, Selector):
+                person = person.get_value(**kwargs)
+            elif person in kwargs:
+                # an earlier selector of the same set already rolled it
+                person = kwargs[person]
+
+            relatives = get_related_persons(person, self._relation) if person else []
+            if not relatives:
+                return self._alt
+            return random.choice(relatives)
+
     class DictSelector(Selector):
         """
         A Selector-class that chooses a value from a dictionary.
