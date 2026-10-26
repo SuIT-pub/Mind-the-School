@@ -287,12 +287,19 @@ keys (`mymod_…`) so they never collide.
 ### Replacing and changing base events
 
 Three functions change an event the base game (or another mod) registered. They run
-**once at load time** — in `init 1` or later, after `set_current_mod(...)` — and do
+**once at load time** — in **`init 2` or later**, after `set_current_mod(...)` — and do
 nothing while your mod is off. Afterwards the game holds one ordinary event under the
 key, so selection, menus, highlights and the kink prompt treat it like any other.
 
+> **Why `init 2`:** the base game creates all its events in `init 1`. Within the same
+> priority Ren'Py runs files in path order, and `game/mods/…` sorts before
+> `game/scripts/…`, so an `init 1` block in your mod runs **before** the base events
+> exist. The call then finds nothing, logs "no event '…'" (category `event`) and the
+> game plays the original. To change another mod's event, run after that mod's
+> `init` block too.
+
 ```python
-init 1 python:
+init 2 python:
     set_current_mod('mymod_key')
 
     # play your own scene, keep the definition (conditions, images, priority)
@@ -507,7 +514,9 @@ in `register_mod` on updates (players re-enable afterward).
 ### Init timing
 
 `register_mod` → `init -97` (early) · **events** → `init 1` (after base pools, via
-`add_event`) · **everything else** (situations, unlockables, characters, pictograms,
+`add_event`) · **replacing or changing existing events** (`replace_event`,
+`set_event_label`, `add_event_conditions`) → `init 2` (after the base events) ·
+**everything else** (situations, unlockables, characters, pictograms,
 items, buildings, maps) → a `register_start_method` loader label (lifecycle wave).
 
 ### Content register functions (all mod-gated)

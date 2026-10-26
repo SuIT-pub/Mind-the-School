@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "event-replacement-init-2",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "docs",
+      "title": "Correction: call replace_event / set_event_label / add_event_conditions in init 2+",
+      "details": "The earlier note said `init 1` or later. The base game creates all its events in `init 1`, and at the same priority Ren'Py runs `game/mods/…` before `game/scripts/…`, so an `init 1` call finds no event, logs \"no event '…'\" and the original keeps playing. Use `init 2 python:` (or later) for these calls.",
+      "wiki": "Modding#replacing-and-changing-base-events"
+    },
+    {
       "id": "event-replacement",
       "date": "2026-10-26",
       "version": "0.2.2",
