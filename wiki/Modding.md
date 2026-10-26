@@ -151,8 +151,14 @@ init -97 python:
         description="Adds a small cafeteria scene.",
         author="YourName",
         # translations=["translations.csv"],   # optional
+        # kinks=[Kink("mymod_kink", "My Kink", "Neutral one-line description.")],  # optional
     )
 ```
+
+**Kinks** (`kinks`) are content preferences the player can allow, block or be asked
+about; gate your content on them with `KinkCondition` / `kink_check`. A key another
+mod or the base game already registered is shared — one kink, one setting. See
+[Kinks](Kinks).
 
 **Names files** (`translations`) hold one `key;Name` per line. Blank lines and `#`
 lines are skipped, only the first `;` splits, and both halves are trimmed. Broken
@@ -447,7 +453,7 @@ in `register_mod` on updates (players re-enable afterward).
 
 ### Mod API
 
-`register_mod(key, name, version, path, description=…, author=…, translations=[…])` ·
+`register_mod(key, name, version, path, description=…, author=…, translations=[…], kinks=[…])` ·
 `set_current_mod(key)` · `is_mod_active(key)` · `get_mod_path(key)` /
 `get_current_mod_path()` · `register_start_method(label)`.
 
@@ -472,6 +478,7 @@ items, buildings, maps) → a `register_start_method` loader label (lifecycle wa
 - [Audio](Audio) — ambience for your buildings and maps, adding sound to base locations
 - [Building Situations](Building-Situations) / [Building Unlockables](Building-Unlockables) — the `register_start_method` loader pattern
 - [Selectors](Selectors) · [Conditions](Conditions) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options)
+- [Kinks](Kinks) — content preferences, `KinkCondition`, `kink_check`, family relations
 
 ### Related files
 

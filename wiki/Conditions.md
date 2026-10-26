@@ -228,6 +228,7 @@ ranges** — the shared number-pattern grammar is documented in
 | `IntroCondition(is_intro=True, *options)` | **legacy**, unused. Date-based intro gate (before 10 Jan 2023), replaced by `FlagCondition("intro")` |
 | `TutorialCondition(*options)` | tutorial state |
 | `CheckReplay(condition, *options)` | wraps a condition so it also evaluates in replay |
+| `KinkCondition(*keys)` | none of the kinks is turned off by the player (`yes`, `neutral` and "yes, for now" pass; an open kink is asked about right before the event runs). Also applies in replays, never listed in journal requirements — see [Kinks](Kinks) |
 | `RandomCondition(threshold, limit=100, *options)` | a random roll below `threshold` out of `limit` (probabilistic gate) |
 
 ### Situations, unlockables & PTA

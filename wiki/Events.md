@@ -142,6 +142,13 @@ A scene that lives in a `FragmentStorage` (location `"fragment"`) and is pulled 
 composite. Authored like a normal event label; it does **not** register into a
 location pool.
 
+A fragment label must **end with `$ end_event(...)`**, which hands over to the next
+fragment or ends the composite. It is entered via `call_event`, which returns to the
+same statement, so a plain `return` re-runs the fragment forever.
+
+Content gated on a player's kink settings uses `KinkCondition`; how composites and
+fragments handle kinks is described in [Kinks §5](Kinks#5-composites-and-fragments).
+
 ### `EventSelect` — a routing menu
 
 ```python

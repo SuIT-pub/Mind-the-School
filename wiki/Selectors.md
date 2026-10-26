@@ -158,6 +158,7 @@ hard-coding the link.
 | `GameDataSelector(key, index, alt=None, *options)` | a GameData entry (`alt` fallback) |
 | `DictSelector(key, index, dict, *options)` | a lookup into a provided dict |
 | `KwargsValueSelector(key, kwargs_key, *options)` | copy another kwarg's value under `key` |
+| `RelationSelector(key, of, relation=None, *options, alt=None)` | a random relative of `of` (an earlier selector's key, a selector or a person key); `relation` is what `of` is to the one picked (`"mother_of"` → her daughter). `alt` if nobody fits — see [Kinks §7](Kinks#7-family-relations) |
 | `ProgressSelector(key, index, *options)` | an event-series progress value |
 | `NumClampSelector(key, value, *options, min_value=-1, max_value=-1)` | clamp a number/selector into a range |
 

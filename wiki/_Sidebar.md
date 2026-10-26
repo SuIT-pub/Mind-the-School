@@ -104,6 +104,7 @@ _Parents_
 - [Effects](Effects)
 - [Modifiers](Modifiers)
 - [Options](Options)
+- [Kinks](Kinks)
 - [Items & Inventory](Items-and-Inventory)
 - [Maps](Maps)
 - [Paperdoll](Paperdoll)
