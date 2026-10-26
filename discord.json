@@ -1,9 +1,9 @@
 {
   "embedMessageId": "1560625154067927071",
-  "noteMessageId": "1563931110445158444",
+  "noteMessageId": "1564339039165882451",
   "posted": {
     "schemaVersion": 1,
-    "updatedAt": "2026-10-25T14:45:54Z",
+    "updatedAt": "2026-10-26T18:00:51Z",
     "currentVersion": "0.2.2",
     "targetVersion": "0.2.2",
     "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -19,6 +19,11 @@
         "title": "Groundwork for bigger story events",
         "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
         "version": "0.2.2"
+      },
+      {
+        "id": "content-preferences",
+        "title": "Content preferences",
+        "summary": "A menu where you decide which kinds of scenes you want to see."
       }
     ],
     "next": [
@@ -46,11 +51,6 @@
         "id": "usable-potions",
         "title": "Potions you can use",
         "summary": "Brew something in the lab, take it to a location on campus and see what happens."
-      },
-      {
-        "id": "content-preferences",
-        "title": "Content preferences",
-        "summary": "A menu where you decide which kinds of scenes you want to see."
       },
       {
         "id": "school-trip",
