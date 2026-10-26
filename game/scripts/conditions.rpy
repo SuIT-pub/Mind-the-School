@@ -87,7 +87,6 @@ init -6 python:
             self.conditions = []
             self.list_conditions = []
             self.desc_conditions = []
-            self.ignores = []
             self.is_locked = False
 
             for condition in conditions:
@@ -110,8 +109,6 @@ init -6 python:
                     self.list_conditions.append(condition)
                 if condition.display_in_desc:
                     self.desc_conditions.append(condition)
-                if isinstance(condition, PTAOverride) and condition.accept == 'ignore':
-                    self.ignores.append(condition.char)
 
         def add_storage(self, storage: ConditionStorage):
             for condition in storage.conditions:
@@ -3247,17 +3244,10 @@ init -6 python:
     @deprecated(version='0.2.3', reason="Replaced by Unlockables; kept for save compatibility.")
     class PTAOverride(Condition):
         """
-        A class representing a condition that can override other conditions in PTA voting.
+        Legacy per-faction vote override of the old journal rules. Does nothing.
 
-        This condition allows for special handling of PTA voting based on specific characters
-        and acceptance states. It can be used to force accept, reject, or ignore votes for
-        specific characters or globally.
-
-        Attributes:
-            char (str): The character this override applies to. Empty string means it applies globally.
-            accept (str): The override state - "yes" to force accept, "no" to force reject,
-                "ignore" to skip/ignore. Defaults to "yes".
-            display_in_desc (bool): Whether this condition should be displayed in descriptions
+        Kept so old saves whose pickled rule conditions contain one still unpickle.
+        Unlockable votes are rolled from the faction bars only.
         """
 
         def __init__(self, char: str = "", accept: str = "yes", *options: Option):

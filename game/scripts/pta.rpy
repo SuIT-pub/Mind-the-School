@@ -152,20 +152,17 @@ init -6 python:
         Gets the end choice based on the votes.
 
         Args:
-            *votes (str): ``\"yes\"``, ``\"no\"``, ``\"ignore\"``, or ``\"veto\"``.
+            *votes (str): ``\"yes\"`` or ``\"no\"``, one per faction bar.
 
         Returns:
-            str: ``\"yes\"``, ``\"no\"``, or ``\"veto\"``.
+            str: ``\"yes\"`` when at least half voted yes, else ``\"no\"``.
         """
 
         if len(votes) == 0:
             return 'no'
-        if 'veto' in votes:
-            return 'veto'
-        elif votes.count('yes') + votes.count('ignore') >= len(votes) / 2:
+        if votes.count('yes') >= len(votes) / 2:
             return 'yes'
-        else:
-            return 'no'
+        return 'no'
 
     # endregion
     ##############################
