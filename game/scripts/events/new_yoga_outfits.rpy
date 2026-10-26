@@ -94,7 +94,6 @@ init 1 python:
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 1.webp")
 
-
     new_yoga_outfit_9_event = Event(1, "new_yoga_outfit_9",
         TimeCondition(weekday = "2", daytime = "3"),
         ProgressCondition("yoga_classes", 8),
