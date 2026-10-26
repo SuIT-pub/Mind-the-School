@@ -469,15 +469,15 @@ screen jr_rubric(label, width):
     # Small tracked caps heading with a thin rule, like a pre-printed organizer.
     # """
 
-    # a fixed height: below an overflowing column the side would only get the
-    # leftover (none) and cut the heading off at the top
-    $ rubric_h = int(Text(label.upper(), style = "jr_rubric").size()[1])
-    side "l c":
-        xsize width
-        ysize rubric_h
-        spacing 10
-        text label.upper() style "jr_rubric" yalign 0.5
-        add Transform(Solid(JR_ACCENT + "90"), ysize = 1) yalign 0.6
+    # absolute positions, no yalign: in a column that already overflows a
+    # child gets no height left, and yalign 0.5 then centres the caps on y=0,
+    # which cuts off their top half
+    $ caps = label.upper()
+    $ caps_w, caps_h = (int(v) for v in Text(caps, style = "jr_rubric").size())
+    fixed:
+        xysize (width, caps_h)
+        text caps style "jr_rubric"
+        add Solid(JR_ACCENT + "90") pos (caps_w + 10, int(caps_h * 0.6)) xysize (max(0, width - caps_w - 10), 1)
 
 screen jr_double_rule(width):
     vbox:

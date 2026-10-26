@@ -272,10 +272,12 @@ screen journal_credit_row(label, value, url = None):
 
     # a link button carries the entry padding (6 left, 8 right) around its text
     $ value_w = journal_text_width(value, style = "jr_value", size = 21) + (14 if url else 0)
+    # centred on ypos 16, not yalign 0.5: rows past the bottom of a scrolling
+    # column get no height, and yalign would centre them on y=0
     fixed:
         xysize (JR_RIGHT_W, 32)
         use jr_leader(journal_text_width(label, size = 21), JR_RIGHT_W - value_w)
-        text label style "jr_text" size 21 yalign 0.5
+        text label style "jr_text" size 21 yanchor 0.5 ypos 16
         if url:
             textbutton value:
                 style "jr_entry_button"
@@ -283,11 +285,12 @@ screen journal_credit_row(label, value, url = None):
                 text_size 21
                 text_color JR_ACCENT
                 xalign 1.0
-                yalign 0.5
+                yanchor 0.5
+                ypos 16
                 tooltip url
                 action OpenURL(url)
         else:
-            text value style "jr_value" size 21 xalign 1.0 yalign 0.5
+            text value style "jr_value" size 21 xalign 1.0 yanchor 0.5 ypos 16
 
 screen journal_folded_sheet(patron_count):
     # """
