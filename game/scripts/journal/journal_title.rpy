@@ -422,6 +422,15 @@ screen journal_menu_mods(selected_mod = None):
                     null height 6
                     text "Changes the same things as: {}".format(", ".join(summary["conflicts"])) style "jr_small" color JR_ACCENT
 
+                # its kinks, settable here too (also before switching it on);
+                # a kink shared with other mods has one setting for all of them
+                $ mod_kinks = get_mod_kinks(picked)
+                if mod_kinks:
+                    null height 20
+                    use jr_rubric("Kinks", JR_RIGHT_W)
+                    null height 4
+                    use kink_setting_rows(mod_kinks, JR_RIGHT_W)
+
                 null height 20
                 use jr_rubric("Description", JR_RIGHT_W)
                 null height 6

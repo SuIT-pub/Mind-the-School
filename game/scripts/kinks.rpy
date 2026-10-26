@@ -205,6 +205,23 @@ init -99 python:
                 output.append(key)
         return output
 
+    class SetKinkSetting(Action):
+        """
+        Screen action for the yes / neutral / no choices; selected while the
+        kink has that setting, so the active choice gets the marker.
+        """
+
+        def __init__(self, key: str, setting: str):
+            self.key = normalize_kink_key(key)
+            self.setting = setting
+
+        def __call__(self):
+            set_kink_setting(self.key, self.setting)
+            renpy.restart_interaction()
+
+        def get_selected(self) -> bool:
+            return get_kink_setting(self.key) == self.setting
+
 init -98 python:
     # The base game's kinks. Mods pass theirs to register_mod(kinks = [...]).
     base_kinks = []
@@ -455,6 +472,48 @@ screen kink_prompt(keys, show_host = True):
                 xalign 1.0
                 sensitive len(answers) == len(keys)
                 action [Function(apply_kink_answers, answers), Return(answers)]
+
+screen kink_setting_rows(kinks, width):
+    # """
+    # yes / neutral / no per kink, for the settings page and the mod page.
+    # A neutral kink answered "for now" says so next to its title.
+    # Positions are absolute: these rows sit in columns that scroll, where
+    # yalign would cut them off past the bottom of the page.
+    # """
+
+    vbox:
+        xsize width
+        spacing 6
+        for kink in kinks:
+            $ session_answer = get_kink_session_answer(kink.key) if get_kink_setting(kink.key) == "neutral" else None
+            vbox:
+                xsize width
+                fixed:
+                    xysize (width, 38)
+                    hbox:
+                        yanchor 0.5
+                        ypos 19
+                        spacing 8
+                        text kink.get_title() style "jr_text" size 22
+                        if session_answer is not None:
+                            text ("this session: yes" if session_answer else "this session: no"):
+                                style "jr_small"
+                                font "fonts/CrimsonPro-Italic.ttf"
+                                color JR_PENCIL
+                                yalign 1.0
+                    hbox:
+                        xalign 1.0
+                        yanchor 0.5
+                        ypos 19
+                        spacing 4
+                        for setting in KINK_SETTINGS:
+                            textbutton setting:
+                                style "jr_entry_button"
+                                text_style "jr_entry_button_text"
+                                text_size 20
+                                action SetKinkSetting(kink.key, setting)
+                if kink.get_description():
+                    text kink.get_description() style "jr_small" size 17 color JR_PENCIL xmaximum width
 
 screen kink_prompt_rows(keys, answers, width):
     # one row per kink: title, description and the four answers

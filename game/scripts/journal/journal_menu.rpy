@@ -449,6 +449,16 @@ screen journal_menu_settings():
                         yalign 0.5
                         action Preference("all mute", "toggle")
 
+            # kinks from the base game and active mods; neutral = ask first
+            $ known_kinks = get_known_kinks()
+            if known_kinks:
+                null height 14
+                use jr_rubric("Content preferences", JR_RIGHT_W)
+                null height 4
+                text "Neutral asks before a scene that contains it." style "jr_small" size 17
+                null height 4
+                use kink_setting_rows(known_kinks, JR_RIGHT_W)
+
 # endregion
 ##################
 
