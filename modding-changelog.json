@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "remove-pta-override-veto",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "removed",
+      "title": "Old PTA vote overrides removed: ConditionStorage.ignores, veto, VETO",
+      "details": "Leftovers of the pre-Unlockable vote are gone. `ConditionStorage.ignores` no longer exists. `get_end_choice(*votes)` only knows `\"yes\"`/`\"no\"` and returns `\"yes\"` when at least half voted yes; it no longer returns `\"veto\"` or counts `\"ignore\"` as yes. The `VETO` constant is removed. `PTAOverride` remains only as an inert, deprecated stub for old saves: don't use it, it has no effect. To steer a vote, set the faction bars of your Unlockable (`start_base`, `stat_weights`, measures).",
+      "wiki": "Building-Unlockables#5-the-pta-vote"
+    },
+    {
       "id": "unlockable-vote-comments",
       "date": "2026-10-26",
       "version": "0.2.2",
