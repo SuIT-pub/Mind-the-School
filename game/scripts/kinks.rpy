@@ -6,6 +6,9 @@
 # Shared by all saves; a key that is missing counts as "neutral".
 default persistent.kink_settings = {}
 
+# Gallery switch: hide replays with a blocked kink instead of marking them.
+default persistent.gallery_hide_blocked_kinks = False
+
 init -99 python:
     from typing import Dict, List, Optional, Tuple
 
@@ -379,6 +382,59 @@ init python:
         if no_fallback or fallback is None or fallback is default_fallback:
             return
         fallback.call(**kwargs)
+
+    ##########
+    # Replays
+
+    def get_replay_kinks(event_obj, fragments = None) -> List[str]:
+        """
+        The kinks a replay would show: the event's own, plus those of the
+        fragments picked for it (a composite replay plays recorded fragments,
+        not every fragment it could roll).
+
+        ### Parameters:
+        1. event_obj: Event
+        2. fragments: List[str] (Default None)
+            - Event names of the fragments the replay plays.
+        """
+
+        if event_obj is None:
+            return []
+        # Event's version: a composite's own would add every possible fragment
+        output = Event.get_kinks(event_obj)
+        for fragment_name in fragments or []:
+            fragment = get_event_from_register(fragment_name)
+            if fragment is None:
+                continue
+            for key in fragment.get_kinks():
+                if key not in output:
+                    output.append(key)
+        return output
+
+    def get_blocked_kinks(keys) -> List[str]:
+        return [key for key in keys if get_kink_state(key) is False]
+
+    def get_kink_titles(keys) -> str:
+        """
+        Comma-separated kink titles, e.g. for the gallery's "turned off" note.
+        """
+
+        titles = []
+        for key in keys:
+            kink = get_kink(key)
+            titles.append(kink.get_title() if kink else key)
+        return ", ".join(titles)
+
+    def settle_replay_kinks(event_name: str, fragments = None) -> bool:
+        """
+        Before a replay starts: asks about its open kinks, then tells whether
+        it may play. Replays follow the current settings, never what was
+        recorded with the gallery entry.
+        """
+
+        keys = get_replay_kinks(get_event_from_register(event_name), fragments)
+        ask_kinks(*keys)
+        return not get_blocked_kinks(keys)
 
     def consume_kink_declined_return() -> bool:
         global kink_declined_return

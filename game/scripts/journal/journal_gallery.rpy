@@ -54,6 +54,7 @@ init python:
         """
 
         events = [get_event_from_register(name) for name in category_events if journal_gallery_has_event(name)]
+        events = [event_obj for event_obj in events if not is_replay_hidden_by_kinks(event_obj)]
         return sorted(events, key = lambda event_obj: event_obj.get_title())
 
     def journal_gallery_thumbnail(event_obj) -> str:
@@ -71,6 +72,15 @@ init python:
         for i, frag_storage_name in enumerate(options['Frag_Storage']):
             if i >= len(options['frag_order']):
                 options['frag_order'].append(list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0])
+
+        # with turned-off content hidden, a slot holding a blocked fragment
+        # moves on to the first seen fragment that is allowed
+        if persistent.gallery_hide_blocked_kinks:
+            for i, slot_fragments in enumerate(journal_gallery_slot_fragments(location, event)):
+                if i < len(options['frag_order']) and journal_gallery_fragment_blocked(options['frag_order'][i]):
+                    allowed = [name for name in slot_fragments if not journal_gallery_fragment_blocked(name)]
+                    if allowed:
+                        options['frag_order'][i] = allowed[0]
         return options['frag_order']
 
     def journal_gallery_prepare_values(base_gallery, display_location: str, display_event: str):
@@ -140,6 +150,40 @@ init python:
         gallery_chooser["values"][variant_name] = value
         update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_values)
 
+    def journal_gallery_slot_fragments(location: str, event: str) -> List[List[str]]:
+        """
+        Per fragment slot of a composite, the names of the fragments seen in it.
+        """
+
+        options = persistent.gallery.get(location, {}).get(event, {}).get('options', {})
+        output = []
+        for frag_storage_name in options.get('Frag_Storage', []):
+            output.append(list(persistent.gallery["FragStorage"].get(frag_storage_name, {}).get('values', {}).keys()))
+        return output
+
+    def journal_gallery_fragment_blocked(fragment_name: str) -> bool:
+        fragment = get_event_from_register(fragment_name)
+        return fragment is not None and bool(get_blocked_kinks(fragment.get_kinks()))
+
+    def is_replay_hidden_by_kinks(event_obj) -> bool:
+        """
+        With the gallery switch on "hidden": a scene disappears when one of its
+        own kinks is turned off, or, for a composite, when a fragment slot has
+        no seen fragment left without a turned-off kink. A composite that can
+        still be played in some combination stays listed.
+        """
+
+        if not persistent.gallery_hide_blocked_kinks:
+            return False
+        if get_blocked_kinks(Event.get_kinks(event_obj)):
+            return True
+        if event_obj.get_form() != "composite":
+            return False
+        for slot_fragments in journal_gallery_slot_fragments(event_obj.get_location(), event_obj.get_event()):
+            if slot_fragments and all(journal_gallery_fragment_blocked(name) for name in slot_fragments):
+                return True
+        return False
+
     def journal_gallery_fragment_candidates(location: str, event: str, slot: int) -> List[Event]:
         options = persistent.gallery[location][event]['options']
         frag_storage = options['Frag_Storage'][slot]
@@ -147,7 +191,7 @@ init python:
         candidates = []
         for name in persistent.gallery["FragStorage"][frag_storage]['values'].keys():
             event_obj = get_event_from_register(name)
-            if event_obj is not None and event_obj.is_available(in_journal_gallery = True, **base_event_data):
+            if event_obj is not None and event_obj.is_available(in_journal_gallery = True, **base_event_data) and not is_replay_hidden_by_kinks(event_obj):
                 candidates.append(event_obj)
         return sorted(candidates, key = lambda event_obj: event_obj.get_title())
 
@@ -260,6 +304,19 @@ screen journal_gallery_index(mode, categories, category, event):
                         selected (mode == option)
                         yalign 0.5
                         action [With(dissolveM), Call("journal_gallery_switch_category", option, 7, "")]
+
+            # scenes with a kink the player turned off: listed with a note, or hidden
+            if get_known_kinks():
+                hbox:
+                    spacing 6
+                    text "Turned-off content" style "jr_small" yalign 0.5
+                    for option_label, option_value in (("marked", False), ("hidden", True)):
+                        textbutton option_label:
+                            style "jr_entry_button"
+                            text_style "jr_small"
+                            text_color JR_PRINT
+                            yalign 0.5
+                            action [With(dissolveM), SetField(persistent, "gallery_hide_blocked_kinks", option_value)]
 
             null height 18
             use jr_rubric(mode, JR_LEFT_W)
@@ -382,6 +439,10 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
             rows, disable_play = journal_gallery_prepare_values(base_gallery, location, event)
             value_base = base_gallery['values']
 
+        # kinks turned off since the scene was seen: no replay, and the note
+        # names them (the replay itself would also refuse to start)
+        blocked_kinks = get_blocked_kinks(get_replay_kinks(event_obj, frag_order if is_composite else None))
+
         subtitle = "Composite scene" if is_composite else "Scene"
         if display_mode == "fragment_selection_mode":
             subtitle = "Slot {} of {}".format(slot + 1, len(frag_order))
@@ -483,6 +544,11 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
                     action [With(dissolveM), Call("open_journal", 7, base_display + ".fragment_mode")]
             elif disable_play:
                 text "Replay not available — a variant is missing." style "jr_small"
+            elif blocked_kinks:
+                text "Replay not available — it contains content you turned off: {}.".format(get_kink_titles(blocked_kinks)):
+                    style "jr_small"
+                    color JR_ACCENT
+                    substitute False
             elif is_composite:
                 textbutton "Replay this scene  ›":
                     style "jr_entry_button"

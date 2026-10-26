@@ -1138,6 +1138,12 @@ label start_gallery_composite_replay(location, event, gallery_chooser, fragments
     #     - the display to be opened after the replay
     # """
 
+    # replays play by the current kink settings: ask about open ones, and a
+    # "no" sends the player back to the scene's page
+    if not settle_replay_kinks(event, fragments):
+        $ renpy.call("open_journal", 7, display, from_current = False)
+        return
+
     # prepare data for the kwargs
     $ is_in_replay = True
     $ event_obj = get_event_from_register(event)
@@ -1189,6 +1195,12 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     # 4. display: str
     #     - the display to be opened after the replay
     # """
+
+    # replays play by the current kink settings: ask about open ones, and a
+    # "no" sends the player back to the scene's page
+    if not settle_replay_kinks(event):
+        $ renpy.call("open_journal", 7, display, from_current = False)
+        return
 
     # prepare data for the kwargs
     $ is_in_replay = True
