@@ -30,6 +30,8 @@ If you think modders should know, add it.
 | Docs corrected in a way that changes how to use something | `docs` |
 | A new asset pack was published (`upload_assets.py`) | `assets` |
 
+`breaking` entries ping the Discord **Modder** role; no other type does. Use it only when a mod really has to change, not to get attention.
+
 Not for: story content, dialogue, art, balancing, player-only UI, refactors that keep the API, tooling
 that only the core team runs. One entry per idea; a big commit can produce several entries.
 

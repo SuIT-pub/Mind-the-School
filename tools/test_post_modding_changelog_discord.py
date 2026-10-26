@@ -8,7 +8,7 @@ import unittest
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 from post_modding_changelog_discord import (  # noqa: E402
-    TYPE_STYLE, build_message, pending_entries, post_pending,
+    MODDER_ROLE_ID, TYPE_STYLE, build_message, pending_entries, post_pending,
 )
 from test_validate_modding_changelog import VALID  # noqa: E402
 
@@ -48,7 +48,20 @@ class BuildMessageTest(unittest.TestCase):
 
     def test_nobody_gets_pinged(self):
         entry = dict(VALID["entries"][0], details="@everyone look")
-        self.assertEqual(build_message(entry)["allowed_mentions"], {"parse": []})
+        message = build_message(entry)
+        self.assertEqual(message["allowed_mentions"], {"parse": []})
+        self.assertNotIn("content", message)
+
+    def test_breaking_change_pings_only_the_modder_role(self):
+        entry = dict(VALID["entries"][1], details="@everyone look")
+        message = build_message(entry)
+        self.assertEqual(message["content"], f"<@&{MODDER_ROLE_ID}>")
+        self.assertEqual(message["allowed_mentions"], {"parse": [], "roles": [MODDER_ROLE_ID]})
+
+    def test_other_types_do_not_ping_the_role(self):
+        for entry_type in set(TYPE_STYLE) - {"breaking"}:
+            message = build_message(dict(VALID["entries"][0], type=entry_type))
+            self.assertNotIn("content", message, entry_type)
 
     def test_multi_word_wiki_page_reads_with_spaces(self):
         entry = dict(VALID["entries"][0], wiki="Building-Situations#situation-flags")

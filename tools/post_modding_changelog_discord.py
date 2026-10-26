@@ -30,6 +30,10 @@ WEBHOOK_ENV = "DISCORD_MODDING_WEBHOOK"
 STATE_FILE = "modding-discord.json"
 WIKI_URL = "https://github.com/SuIT-pub/Mind-the-School/wiki/"
 FOOTER = "Mind the School · Modding changelog"
+# The "Modder" role. Only entries that break existing mods ping it; everything else
+# stays silent so the role keeps meaning "drop what you're doing and check your mod".
+MODDER_ROLE_ID = "1564364054393389129"
+PING_TYPES = {"breaking"}
 
 # (label, colour) per entry type. Breaking is red so it can't be skimmed past.
 TYPE_STYLE = {
@@ -65,7 +69,15 @@ def build_message(entry):
     }
     if entry.get("wiki"):
         embed["url"] = wiki_link(entry["wiki"])
-    return {"embeds": [embed], "allowed_mentions": NO_MENTIONS}
+    if entry["type"] not in PING_TYPES:
+        return {"embeds": [embed], "allowed_mentions": NO_MENTIONS}
+    # Mentions inside embeds never ping, so the role goes in `content`; allowed_mentions
+    # whitelists exactly this role, keeping a stray @everyone in the details harmless.
+    return {
+        "content": f"<@&{MODDER_ROLE_ID}>",
+        "embeds": [embed],
+        "allowed_mentions": {"parse": [], "roles": [MODDER_ROLE_ID]},
+    }
 
 
 def pending_entries(document, posted_ids):
