@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "unlockable-vote-pitch",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Generic PTA vote speaks an Unlockable's pitch=, no longer its description",
+      "details": "`Unlockable(..., pitch=\"…\" | [\"…\", …])` sets what the headmaster says at the Friday meeting in the generic vote scene `pta_vote_unregistered_1`. Before, that scene read every `SituationDescription` line aloud, including journal-only warnings. Descriptions are now journal-only. Without `pitch`, he says one stock line for the `type_key` (`UNLOCKABLE_STOCK_PITCH`). Add a `pitch` to your Unlockables, written as speech to the parents, teachers and student representative at the table. `unlockable.get_vote_pitch()` returns the lines. Story votes with their own scene (`JournalVoteCondition`) are unaffected.",
+      "wiki": "Building-Unlockables#10-the-definition-helper-author-api"
+    },
+    {
       "id": "schedule-vote-shows-escrow",
       "date": "2026-10-25",
       "version": "0.2.2",
