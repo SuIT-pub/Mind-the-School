@@ -29,6 +29,10 @@
     "unlockable-vote-pitch",
     "unlockable-vote-comments",
     "remove-pta-override-veto",
-    "remove-test-situations"
+    "remove-test-situations",
+    "fragment-end-event-docs",
+    "person-relations",
+    "kink-condition-kink-check",
+    "kink-system"
   ]
 }
