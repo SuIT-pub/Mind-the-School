@@ -250,6 +250,18 @@ Relation types and their other side (`RELATION_INVERSES`): `mother_of` ↔ `daug
 All take person keys or `Person` objects. A side that is missing is filled in from
 `RELATION_INVERSES` (and an unknown type logs a warning, category `relations`).
 
+A mod adds ties to people that already exist with
+`add_person_relations(person, **relations)`, in its start loader (after the base
+persons are loaded); nothing happens while the mod is off:
+
+```python
+label load_mymod:
+    $ set_current_mod('mymod_key')
+    $ add_person_relations("luna_clark", sister_of = ["seraphina_clark"])
+    $ add_person_relations("seraphina_clark", sister_of = ["luna_clark"])
+    return
+```
+
 `RelationSelector(key, of, relation = None, *options, alt = None)` rolls a relative of
 another person — see [Selectors](Selectors):
 
@@ -276,6 +288,10 @@ sister, `"mother_of"` her daughter, `"daughter_of"` her mother.
   to a base one), not the way to write base content.
 - **Reuse keys.** If another mod or the base game already has a kink for the same
   content, register the same key so players decide once.
+- **Kink versions of base scenes from a mod** go through `replace_event` /
+  `set_event_label` ([Modding](Modding#replacing-and-changing-base-events)). A replaced
+  event that needs a kink no longer runs for players who turned it off, so add a
+  version without it if the scene matters.
 - **Fragments end with `end_event`**, never `return` (§5).
 
 ---
@@ -294,7 +310,7 @@ sister, `"mother_of"` her daughter, `"daughter_of"` her mother.
 | `Event.get_kinks()` · `Event.kinks_allow()` · `settle_event_kinks(event)` | `event.rpy`, `kinks.rpy` |
 | `get_available_events(..., exclude=())` | `event.rpy` |
 | `get_replay_kinks(event, fragments)` · `get_blocked_kinks(keys)` · `get_kink_titles(keys)` | `kinks.rpy` |
-| `Person(..., relations={...})` · `get_relations` · `get_relation` · `are_related` · `get_related_persons` · `register_relation_type` | `character.rpy` |
+| `Person(..., relations={...})` · `add_person_relations` · `get_relations` · `get_relation` · `are_related` · `get_related_persons` · `register_relation_type` | `character.rpy` |
 | `RelationSelector(key, of, relation=None, *options, alt=None)` | `selector.rpy` |
 
 ### Related pages

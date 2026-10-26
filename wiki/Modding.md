@@ -284,6 +284,51 @@ You can also add **teasers/pictograms to base situations**, **events to base poo
 and gate base events on your progress — all without editing base files. Prefix your
 keys (`mymod_…`) so they never collide.
 
+### Replacing and changing base events
+
+Three functions change an event the base game (or another mod) registered. They run
+**once at load time** — in `init 1` or later, after `set_current_mod(...)` — and do
+nothing while your mod is off. Afterwards the game holds one ordinary event under the
+key, so selection, menus, highlights and the kink prompt treat it like any other.
+
+```python
+init 1 python:
+    set_current_mod('mymod_key')
+
+    # play your own scene, keep the definition (conditions, images, priority)
+    set_event_label("truth_or_dare_1", "mymod_truth_or_dare_1", title = "Truth or Dare (My Mod)")
+
+    # replace the whole definition; the new event must carry the same key
+    replace_event("truth_or_dare_2", Event(3, "truth_or_dare_2",
+        TimeCondition(daytime = "n"), KinkCondition("mymod_kink"),
+        Pattern("main", "images/mymod_truth_or_dare_2 <step>.webp"),
+        label = "mymod_truth_or_dare_2"))
+
+    # add conditions to an existing event
+    add_event_conditions("truth_or_dare_3", LevelCondition("3+"))
+```
+
+- **`set_event_label(key, label, title=None)`** — only the scene changes. It works on a
+  copy, so the original and its gallery entry stay as they were. `title` names the new
+  scene (a names-file entry for the label wins over it).
+- **`replace_event(key, event)`** — swaps the event in every storage that holds the key,
+  fragment storages included, and in the event register. The replacement **must use
+  the same key**: that keeps "seen", progress and every story chain waiting on the key
+  intact. It replaces everything, so if you add a kink, give players an alternative
+  yourself (see [Kinks §8](Kinks#8-conventions)).
+- **`add_event_conditions(key, *conditions)`** — appends conditions (only conditions,
+  no selectors, options or patterns).
+- **Gallery:** a scene you swapped in is filed under its label, so it gets an entry of
+  its own; the base entry, if the player saw it, keeps replaying the base scene with
+  its own values. Give your scene `title=` (or a names-file entry for its label), or both
+  entries carry the same name.
+- **Two mods, same key:** the one that runs last wins, like `overwrite_event`. The mod
+  page lists replaced events and added conditions under "What it changes".
+
+To add family ties between people that already exist, use
+`add_person_relations("luna_clark", sister_of = ["seraphina_clark"])` in your start
+loader — see [Kinks §7](Kinks#7-family-relations).
+
 ---
 
 ## 6. Step 4 — assets
@@ -455,7 +500,9 @@ in `register_mod` on updates (players re-enable afterward).
 
 `register_mod(key, name, version, path, description=…, author=…, translations=[…], kinks=[…])` ·
 `set_current_mod(key)` · `is_mod_active(key)` · `get_mod_path(key)` /
-`get_current_mod_path()` · `register_start_method(label)`.
+`get_current_mod_path()` · `register_start_method(label)` ·
+`replace_event(key, event)` · `set_event_label(key, label, title=None)` ·
+`add_event_conditions(key, *conditions)` · `add_person_relations(person, **relations)`.
 
 ### Init timing
 

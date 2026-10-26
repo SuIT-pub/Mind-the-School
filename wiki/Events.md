@@ -100,11 +100,16 @@ All four subclass `Event`; the differences are how they select/run their content
 
 ```python
 Event(select_type, event, *conditions_selectors_options_patterns,
-      thumbnail="", register_self=True, override_location=None, title=None)
+      thumbnail="", register_self=True, override_location=None, title=None, label=None)
 ```
 
 - **`select_type`** — priority 1/2/3 (§5).
-- **`event`** — the scene label name (string).
+- **`event`** — the event's key, and by default also the name of its scene label.
+- **`label`** — the scene label to play when it differs from the key. Mods use it to
+  point a base event at a scene of their own ([Modding §5](Modding#replacing-and-changing-base-events)).
+  The key stays the event's identity ("seen", progress, conditions); the gallery files
+  the scene under its label, so a swapped-in scene gets an entry of its own
+  (`event.get_gallery_name()`). `EventComposite` and `EventFragment` take it too.
 - **`*args`** — a **mixed list** sorted by type: `Condition` (gates), `Selector`
   (values), `Option` (flags), `Pattern` (images) — in any order (§4).
 - **`thumbnail`** — journal/menu image (falls back to `journal/empty_image_wide.webp`).
@@ -116,6 +121,8 @@ Event(select_type, event, *conditions_selectors_options_patterns,
   in a names file (`translations.csv`, a mod's `names.csv`) still wins, so a mod can
   rename a base event without touching its definition. With neither, the raw id shows
   and developer builds log it once. All three subclasses take `title` too.
+  For an event whose `label` differs from its key, a names-file entry for the **label**
+  comes first, then `title`, then the key's entry (which names the original scene).
   When you move a name from the CSV to `title=`, delete the CSV line, or the title never
   shows; `python tools/validate_names.py` reports that case as an error.
 
