@@ -329,6 +329,46 @@ init python:
         ask_kinks(*keys)
         return all(get_kink_state(key) is True for key in keys)
 
+    def settle_event_kinks(event_obj, **kwargs) -> bool:
+        """
+        Right before an event runs: asks about its open kinks (a composite's
+        include those of every fragment it could roll), then tells whether the
+        answers let it run. Events without kinks pass straight through.
+        """
+
+        keys = event_obj.get_kinks(**kwargs)
+        if not keys:
+            return True
+        ask_kinks(*keys)
+        return event_obj.kinks_allow(**kwargs)
+
+    # set when a storage call ended with every pick turned down, so the menu
+    # that started it shows again instead of running its exit (call_element)
+    kink_declined_return = False
+
+    def route_kink_declined(event_storage, no_fallback: bool = False, **kwargs):
+        """
+        Nothing is left after the player turned events down. A storage with its
+        own fallback (a building's entry storage, whose fallback is the action
+        menu) uses it; everything else just returns, which puts the player back
+        into the menu they picked from, without a daytime change, instead of
+        the default "There is nothing to do here." and the map.
+        """
+
+        global kink_declined_return
+        kink_declined_return = True
+
+        fallback = event_storage.get_fallback()
+        if no_fallback or fallback is None or fallback is default_fallback:
+            return
+        fallback.call(**kwargs)
+
+    def consume_kink_declined_return() -> bool:
+        global kink_declined_return
+        declined = kink_declined_return
+        kink_declined_return = False
+        return declined
+
 style kink_prompt_answer is jr_entry_button
 style kink_prompt_answer_text is jr_value:
     size 22

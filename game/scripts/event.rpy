@@ -662,7 +662,7 @@ init -3 python:
                 return 1, False
             return output, prio
 
-        def get_available_events(self, priority: int = 0, debuff = False, **kwargs) -> List[Event]:
+        def get_available_events(self, priority: int = 0, debuff = False, exclude = (), **kwargs) -> List[Event]:
             """
             Returns a list of all available events.
             If priority is 0, all available events are returned.
@@ -672,6 +672,11 @@ init -3 python:
             1. priority: int (Default 0)
                 - The priority of the events that are returned.
                 - If priority is 0, all events are returned.
+            2. debuff: bool (Default False)
+                - Weighs the priority-3 pick by how often each event was seen.
+            3. exclude: Iterable[str] (Default ())
+                - Event ids to leave out, e.g. events the player just declined
+                    in the kink prompt, so the storage picks another one.
 
             ### Returns:
             1. List[:class:`Event`]
@@ -680,22 +685,25 @@ init -3 python:
                 - If priority is 2 a list of all available events with priority 2 are returned
                 - If priority is 3 a random event from all available priority 3 events is returned
             """
-            
+
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
+            def candidates(select_type: int) -> List[Event]:
+                return [event for event in self.events[select_type].values() if event.get_id() not in exclude]
+
             if priority == 0 or priority == 1:
-                events = get_highest_priority_available_events(*self.events[1].values(), **kwargs)
+                events = get_highest_priority_available_events(*candidates(1), **kwargs)
                 if len(events) != 0:
                     return [events[0]]
 
             if priority == 0 or priority == 2:
-                output = get_highest_priority_available_events(*self.events[2].values(), **kwargs)
+                output = get_highest_priority_available_events(*candidates(2), **kwargs)
                 if len(output) != 0:
                     return output
 
             if priority == 0 or priority == 3:
-                output = get_highest_priority_available_events(*self.events[3].values(), **kwargs)
+                output = get_highest_priority_available_events(*candidates(3), **kwargs)
                 if len(output) != 0:
                     if debuff:
                         self.check_debuff_reset()
@@ -1599,6 +1607,15 @@ init -3 python:
                         output.append(key)
             return output
 
+        def kinks_allow(self, **kwargs) -> bool:
+            """
+            Whether the player's kink answers let this event run. Only the
+            kinks are checked, not the other conditions, so it can be asked
+            right after the prompt without re-rolling anything.
+            """
+
+            return all(get_kink_state(key) is not False for key in self.get_kinks())
+
         ###############
 
         ##############
@@ -1612,6 +1629,12 @@ init -3 python:
             1. **kwargs
                 - The arguments that are passed to the event.
             """
+
+            # every way of starting an event ends up here (storages, effects,
+            # situations), so open kinks are asked about here at the latest;
+            # a "no" means the event simply doesn't run
+            if not settle_event_kinks(self, **kwargs):
+                return
 
             events = self.get_event_label()
             if "event_type" not in kwargs.keys():
@@ -1732,14 +1755,21 @@ init -3 python:
 
             if not super().is_available(**kwargs):
                 return False
-            if get_kwargs('ignore_kinks', False, **kwargs) or not self._has_fragment_kinks():
+            if get_kwargs('ignore_kinks', False, **kwargs):
                 return True
+            return self._fragments_allow_kinks(**kwargs)
 
+        def _fragments_allow_kinks(self, **kwargs) -> bool:
+            if not self._has_fragment_kinks():
+                return True
             check_kwargs = self._fragment_check_kwargs(**kwargs)
             for fragment in self.fragments:
                 if fragment.has_available_events(ignore_kinks = True, **check_kwargs) and not fragment.has_available_events(**check_kwargs):
                     return False
             return True
+
+        def kinks_allow(self, **kwargs) -> bool:
+            return super().kinks_allow(**kwargs) and self._fragments_allow_kinks(**kwargs)
 
         def get_kinks(self, **kwargs) -> List[str]:
             """
@@ -2325,6 +2355,8 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     # """
 
     $ events_list = []
+    # events the player turned down in the kink prompt during this call
+    $ declined_events = []
 
     if no_fallback:
         $ events_list = event_storage.get_available_events(priority, True, **kwargs)
@@ -2341,19 +2373,35 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
         $ continue_loop = False
         $ event_obj = events_list[i]
 
-        if event_storage.get_type() == "TempEventStorage":
-            $ event_storage.remove_event(event_obj.get_id())
+        # Ask about open kinks before anything else happens to the event (a
+        # declined temp event stays in its storage for later).
+        if not settle_event_kinks(event_obj, **kwargs):
+            # skipped; the rest of a priority-2 group still runs
+            $ declined_events.append(event_obj.get_id())
+            $ i += 1
+        else:
+            if event_storage.get_type() == "TempEventStorage":
+                $ event_storage.remove_event(event_obj.get_id())
 
-            if event_obj.get_id() in temp_event_blocker:
-                $ continue_loop = True
-            else:
-                $ temp_event_blocker.append(event_obj.get_id())
+                if event_obj.get_id() in temp_event_blocker:
+                    $ continue_loop = True
+                else:
+                    $ temp_event_blocker.append(event_obj.get_id())
 
-        if not continue_loop or event_obj.get_id() == event_storage.get_fallback().get_id():
-            # Dispatch through Event.call() so subclasses (EventSelect) can inject
-            # their extra kwargs. Calling get_event_label() here skipped that.
-            $ event_obj.call(**kwargs)
-        $ i += 1
+            if not continue_loop or event_obj.get_id() == event_storage.get_fallback().get_id():
+                # Dispatch through Event.call() so subclasses (EventSelect) can inject
+                # their extra kwargs. Calling get_event_label() here skipped that.
+                $ event_obj.call(**kwargs)
+            $ i += 1
+
+        # Every event of this pick was turned down (a single priority-1 or -3
+        # pick, or a whole priority-2 group): pick again without them. With
+        # priority 0 that falls through 1 → 2 → 3 like the first pick did.
+        if i >= len(events_list) and all(event.get_id() in declined_events for event in events_list):
+            $ events_list = event_storage.get_available_events(priority, True, exclude = declined_events, **kwargs)
+            $ i = 0
+            if len(events_list) == 0:
+                $ route_kink_declined(event_storage, no_fallback, **kwargs)
 
     return
 

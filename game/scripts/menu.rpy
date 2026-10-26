@@ -401,6 +401,10 @@ label call_event_menu(text, events, fallback, person = character.subtitles, menu
     #     - Nine-point anchor forwarded to custom_menu_choice.
     # """
 
+    # lets call_element rebuild this menu after the player turned down every
+    # event behind a choice in the kink prompt (the list may have changed)
+    $ kwargs['kink_event_menu'] = (text, events, fallback, person, menu_anchor)
+
     $ kwargs = apply_menu_anchor(menu_anchor, **kwargs)
 
     $ renpy.block_rollback()
@@ -743,6 +747,9 @@ label call_element(key, effects, **kwargs):
             else:
                 $ kwargs['made_decisions'].append(key)
 
+    # cleared first, so only a decline in this very choice counts below
+    $ kink_declined_return = False
+
     if isinstance(effects, str):
         $ renpy.call(effects, **kwargs)
 
@@ -754,6 +761,18 @@ label call_element(key, effects, **kwargs):
         while (i < len(effects)):
             $ kwargs = call_effects(effects[i], **kwargs)
             $ i += 1
+
+    # the player turned down every event behind this choice in the kink
+    # prompt: back to the same menu rather than through its exit (an
+    # EventSelect menu would otherwise leave to the map), rebuilt so a choice
+    # whose events are now blocked is gone
+    if consume_kink_declined_return():
+        $ kink_event_menu = get_kwargs('kink_event_menu', None, **kwargs)
+        if kink_event_menu is not None:
+            $ menu_text, menu_events, menu_fallback, menu_person, menu_anchor = kink_event_menu
+            $ renpy.call("call_event_menu", menu_text, menu_events, menu_fallback, menu_person, menu_anchor = menu_anchor,
+                **{key: value for key, value in kwargs.items() if key not in ("kink_event_menu", "menu_anchor")})
+        return
 
     $ override = get_kwargs('override_menu_exit', None, **kwargs)
     if override != None:
