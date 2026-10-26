@@ -1846,7 +1846,7 @@ label lab_intro_14 (**kwargs):
     headmaster "Nothing's happened. I couldn't sleep, so I thought I'd get some work done down here. There's coffee, if you want it."
     $ zoe.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
     zoe "You made coffee. In the staff room. Before seven."
-    zoe "I'm going to pretend I'm not suspicious and just be grateful, okay? Thank you."
+    zoe "I'm telling everyone, you know. Nobody's going to believe me. Thank you, honestly, I was going to have to survive on that vending-machine stuff."
     $ zoe.display(PDAImage(mouth = "closed"))
 
     subtitles "She pours herself a mug, adds far too much milk, and takes a long swallow standing right there at the counter."
@@ -1866,11 +1866,11 @@ label lab_intro_14 (**kwargs):
     $ yulan.display(PDAPreset("upper_body_center", duration = 0.4))
     yulan "It's six fifty-two. The machine's on a timer for seven fifteen."
     $ yulan.display(PDAImage(mouth = "closed"))
-    headmaster "I overrode it."
-    $ yulan.display(PDAImage(mood = "suspicious", mouth = "open"))
-    yulan "...Hm."
-    $ yulan.display(PDAImage(pose = "25", mood = "neutral"))
-    yulan "Well. I'm not going to file a complaint about it."
+    headmaster "I overrode it. I needed it earlier than seven fifteen."
+    $ yulan.display(PDAImage(mouth = "open"))
+    yulan "...That menu has defeated half this staff room. Most people just pull the plug."
+    $ yulan.display(PDAImage(pose = "25"))
+    yulan "Well. I'm not going to complain about it."
     $ yulan.display(PDAImage(mouth = "closed"))
     subtitles "She takes it black, in the plain white mug she always uses, and drinks it hot enough that it must hurt."
     headmaster.think "Two."
@@ -1911,9 +1911,10 @@ label lab_intro_14 (**kwargs):
     $ chloe.display(PDAPreset("upper_body_center", duration = 0.4))
     chloe "Somebody made a full pot before seven. Who are you, and what have you done with our headmaster?"
     $ chloe.display(PDAImage(mouth = "closed"))
-    headmaster "Early meeting prep. Help yourself."
+    # Zoe already has his answer, so nobody hears a second excuse.
+    zoe "He couldn't sleep. Be nice, or he'll never do it again."
     $ chloe.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
-    chloe "'Meeting prep.' Sure. I'll take it, whatever it is."
+    chloe "Insomnia suits you, boss. I'll take it."
     $ chloe.display(PDAImage(mouth = "closed"))
     headmaster.think "Four."
     $ chloe.display(PDAPreset("outside", duration = 0.4))
@@ -2100,10 +2101,10 @@ label lab_intro_14 (**kwargs):
     zoe "Is Finn alright?"
     $ zoe.display(PDAImage(mouth = "closed"))
     headmaster "She's fine. Overheated, I think."
-    $ zoe.display(PDAImage(pose = "34", mood = "suspicious", mouth = "open"))
-    zoe "Mm."
+    $ zoe.display(PDAImage(pose = "34", mood = "sad", mouth = "open"))
+    zoe "Overheated. She looked— okay. I'll catch her at break and make her drink something."
     $ zoe.display(PDAImage(mouth = "closed"))
-    subtitles "Zoe looks at him for a moment longer than she needs to, then fishes her track pants out from under the chair and steps back into them, yoga or no yoga. She shrugs her jacket on over the leotard and, for once, zips it right up to the collar."
+    subtitles "Zoe fishes her track pants out from under the chair, glances down at her own bare legs as if she's only just noticed them, and steps back into the pants, yoga or no yoga. She shrugs her jacket on over the leotard and, for once, zips it right up to the collar."
     $ zoe.display(PDAPreset("outside", duration = 0.4))
     chloe "Thanks for the coffee, boss. Do it again sometime."
     lily "Please do it again. Every day. I'll pay you."
