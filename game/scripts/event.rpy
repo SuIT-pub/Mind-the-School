@@ -1465,6 +1465,15 @@ init -3 python:
             """
 
             keys = name_keys or (self.event_id,)
+            # A scene a mod swapped in under this key (label=): its own name comes
+            # first, from the names file by label, then its title; only then the
+            # key's entry, which names the original scene.
+            label = getattr(self, 'label', self.event_id)
+            if not name_keys and label != self.event_id:
+                if label in translation_texts:
+                    return translation_texts[label]
+                if getattr(self, 'title', None):
+                    return self.title
             for key in keys:
                 if key in translation_texts:
                     return translation_texts[key]
@@ -1533,6 +1542,15 @@ init -3 python:
             return self.event
 
         def get_event_label(self) -> str:
+            return self.label
+
+        def get_gallery_name(self) -> str:
+            """
+            The name the gallery files this event under: its label, so a scene a
+            mod swapped in gets an entry of its own (its values needn't fit the
+            original's). Equal to the key for every event without ``label=``.
+            """
+
             return self.label
 
         def get_select_type(self) -> int:
@@ -1664,6 +1682,7 @@ init -3 python:
                 self.values.roll_values()
 
             kwargs["event_name"] = self.get_event()
+            kwargs["gallery_name"] = self.get_gallery_name()
             kwargs["in_event"] = True
             kwargs["event_obj"] = self
 
@@ -1879,9 +1898,10 @@ init -3 python:
                 events.values.roll_values()
 
             kwargs["event_name"] = events.get_event()
+            kwargs["gallery_name"] = events.get_gallery_name()
             kwargs["in_event"] = True
 
-            event_obj = get_event_from_register(events.get_event())
+            event_obj = events
 
             kwargs["event_obj"] = event_obj
 
@@ -1892,8 +1912,8 @@ init -3 python:
             kwargs["is_fragment"] = True
 
             if is_replay(**kwargs):
-                kwargs['decision_data'] = persistent.gallery['fragment'][events.get_id()]['decisions']
-                last_data = get_last_data('fragment', events.get_id())
+                kwargs['decision_data'] = persistent.gallery['fragment'][events.get_gallery_name()]['decisions']
+                last_data = get_last_data('fragment', events.get_gallery_name())
                 data_keys = list(last_data.keys())
                 j = 0
 
@@ -1905,7 +1925,7 @@ init -3 python:
                     kwargs["values"][data_key] = last_data[data_key]
                     j += 1
     
-            renpy.call("call_event", events.get_event_label(), self.select_type, **kwargs)
+            renpy.call("call_event", events.get_event_label(), self.select_type, events.get_event(), **kwargs)
 
         def select_fragments(self, **kwargs) -> List[Event]:
             """
@@ -2166,11 +2186,12 @@ init -3 python:
             renpy.hide("map_image")
 
         if in_replay:
-            event = get_kwargs('event_name', None, **kwargs)
+            event = get_gallery_name_from_kwargs(**kwargs)
             event_form = get_kwargs('event_form', 'event', **kwargs)
             location = get_kwargs('location', 'misc', **kwargs)
-            if is_event_registered(event):
-                location = get_event_from_register(event).get_location()
+            gallery_event = get_gallery_event(event)
+            if gallery_event is not None:
+                location = gallery_event.get_location()
 
             if not is_decision_call:
                 if 'version' not in persistent.gallery[location][event]['options'].keys():
@@ -2375,12 +2396,23 @@ init -3 python:
 
         event_register[key] = event
         event_label_register.setdefault(event.get_event_label(), event)
+        register_event_replay_category(event)
 
-    def set_event_label(key: str, label: str):
+    def set_event_label(key: str, label: str, title: str = None):
         """
         Lets the registered event ``key`` play the scene ``label`` instead,
         keeping its conditions, images and priority. Works on a copy, so the
         original (and its gallery entry) stays as it was.
+
+        ### Parameters:
+        1. key: str
+            - The event to point elsewhere.
+        2. label: str
+            - The scene to play.
+        3. title: str (Default None)
+            - The name of the new scene, e.g. for its gallery entry. A names-file
+              entry for ``label`` wins over it; without either, the original's
+              title is kept.
         """
 
         if not is_mod_active(active_mod_key):
@@ -2393,6 +2425,8 @@ init -3 python:
         import copy
         relabeled = copy.copy(original)
         relabeled.label = str(label)
+        if title:
+            relabeled.title = title
         record_mod_change("event", key)
         replace_event(key, relabeled)
 
@@ -2534,6 +2568,8 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
             if event_obj_name == "":
                 $ event_obj_name = event_obj_var
             $ kwargs["event_name"] = event_obj_name
+            # the caller (Event.call, call_fragment, a replay) knows the gallery name
+            $ kwargs.setdefault("gallery_name", event_obj_name)
             $ kwargs["in_event"] = True
             $ renpy.call(event_obj_var, from_current="call_event_1", **kwargs)
     if isinstance(event_obj_var, list):
@@ -2544,6 +2580,7 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
                 if event_obj_name == "":
                     $ event_obj_name = event_obj_var[i]
                 $ kwargs["event_name"] = event_obj_name
+                $ kwargs.setdefault("gallery_name", event_obj_name)
                 $ kwargs["in_event"] = True
                 $ renpy.call(event_obj_var[i], from_current="call_event_2", **kwargs)
             $ i += 1

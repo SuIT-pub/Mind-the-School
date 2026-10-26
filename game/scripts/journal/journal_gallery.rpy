@@ -26,7 +26,7 @@ init python:
         return mode
 
     def journal_gallery_has_event(event_name: str) -> bool:
-        event_obj = get_event_from_register(event_name)
+        event_obj = get_gallery_event(event_name)
         return (event_obj is not None
             and renpy.has_label(event_obj.get_event_label())
             and event_name in persistent.gallery.get(event_obj.get_location(), {}))
@@ -53,7 +53,7 @@ init python:
         Replayable events of one category, sorted by title.
         """
 
-        events = [get_event_from_register(name) for name in category_events if journal_gallery_has_event(name)]
+        events = [get_gallery_event(name) for name in category_events if journal_gallery_has_event(name)]
         events = [event_obj for event_obj in events if not is_replay_hidden_by_kinks(event_obj)]
         return sorted(events, key = lambda event_obj: event_obj.get_title())
 
@@ -162,7 +162,7 @@ init python:
         return output
 
     def journal_gallery_fragment_blocked(fragment_name: str) -> bool:
-        fragment = get_event_from_register(fragment_name)
+        fragment = get_gallery_event(fragment_name)
         return fragment is not None and bool(get_blocked_kinks(fragment.get_kinks()))
 
     def is_replay_hidden_by_kinks(event_obj) -> bool:
@@ -179,7 +179,7 @@ init python:
             return True
         if event_obj.get_form() != "composite":
             return False
-        for slot_fragments in journal_gallery_slot_fragments(event_obj.get_location(), event_obj.get_event()):
+        for slot_fragments in journal_gallery_slot_fragments(event_obj.get_location(), event_obj.get_gallery_name()):
             if slot_fragments and all(journal_gallery_fragment_blocked(name) for name in slot_fragments):
                 return True
         return False
@@ -190,7 +190,7 @@ init python:
         base_event_data = options.get('last_data', {})
         candidates = []
         for name in persistent.gallery["FragStorage"][frag_storage]['values'].keys():
-            event_obj = get_event_from_register(name)
+            event_obj = get_gallery_event(name)
             if event_obj is not None and event_obj.is_available(in_journal_gallery = True, **base_event_data) and not is_replay_hidden_by_kinks(event_obj):
                 candidates.append(event_obj)
         return sorted(candidates, key = lambda event_obj: event_obj.get_title())
@@ -219,7 +219,7 @@ screen journal_gallery(display):
         elif event and not journal_gallery_has_event(event):
             event = ""
 
-        event_obj = get_event_from_register(event) if event else None
+        event_obj = get_gallery_event(event) if event else None
         location = event_obj.get_location() if event_obj is not None else ""
         is_composite = event_obj is not None and event_obj.get_form() == "composite"
         if not is_composite and display_mode != "value_mode":
@@ -231,7 +231,7 @@ screen journal_gallery(display):
             if slot >= len(frag_order):
                 slot = 0
             # a fragment picked for a slot comes in through the display string
-            if display_mode == "fragment_selection_mode" and get_event_from_register(slot_fragment) is not None:
+            if display_mode == "fragment_selection_mode" and get_gallery_event(slot_fragment) is not None:
                 frag_order[slot] = slot_fragment
 
         base_display = "{}.{}".format(category, event)
@@ -348,8 +348,8 @@ screen journal_gallery_index(mode, categories, category, event):
                         button:
                             style "jr_entry_button"
                             xoffset 28
-                            selected (event_obj.get_event() == event)
-                            action [With(dissolveM), Call("open_journal", 7, "{}.{}".format(key, event_obj.get_event()))]
+                            selected (event_obj.get_gallery_name() == event)
+                            action [With(dissolveM), Call("open_journal", 7, "{}.{}".format(key, event_obj.get_gallery_name()))]
                             text event_obj.get_title() style "jr_entry_button_text" size 22
                     if debug_mode:
                         textbutton "Reset this {}".format("location" if mode == "Locations" else "category"):
@@ -392,7 +392,7 @@ screen journal_gallery_category(mode, category, category_events):
                             xsize cell_w
                             background None
                             padding (0, 0, 0, 0)
-                            action [With(dissolveM), Call("open_journal", 7, "{}.{}".format(category, event_obj.get_event()))]
+                            action [With(dissolveM), Call("open_journal", 7, "{}.{}".format(category, event_obj.get_gallery_name()))]
                             vbox:
                                 spacing 6
                                 fixed:
@@ -415,7 +415,7 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
     # """
 
     python:
-        event = event_obj.get_event()
+        event = event_obj.get_gallery_name()
         base_display = "{}.{}".format(category, event)
         is_composite = event_obj.get_form() == "composite"
         thumb = journal_gallery_thumbnail(event_obj)
@@ -453,7 +453,7 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
         vbox:
             xsize JR_RIGHT_W
 
-            text get_event_title(event) style "jr_title"
+            text event_obj.get_title() style "jr_title"
             null height 4
             use jr_double_rule(JR_RIGHT_W)
             null height 6
@@ -493,7 +493,7 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
                             yalign 0.5
                             tooltip "Choose another fragment for this slot"
                             action [With(dissolveM), Call("open_journal", 7, ".".join([category, event, "fragment_selection_mode", str(i), fragment_name]))]
-                            text get_event_title(fragment_name, 'fragment') + "  ›" style "jr_entry_button_text" size 22
+                            text (get_gallery_event(fragment_name).get_title() if get_gallery_event(fragment_name) else get_event_title(fragment_name, 'fragment')) + "  ›" style "jr_entry_button_text" size 22
 
             elif display_mode == "fragment_selection_mode":
                 null height 20
@@ -501,7 +501,7 @@ screen journal_gallery_scene(event_obj, category, location, display, display_mod
                 null height 4
                 if candidates:
                     for candidate in candidates:
-                        $ candidate_name = candidate.get_event()
+                        $ candidate_name = candidate.get_gallery_name()
                         button:
                             style "jr_entry_button"
                             selected (candidate_name == slot_fragment)

@@ -403,7 +403,7 @@ init python:
         # Event's version: a composite's own would add every possible fragment
         output = Event.get_kinks(event_obj)
         for fragment_name in fragments or []:
-            fragment = get_event_from_register(fragment_name)
+            fragment = get_gallery_event(fragment_name)
             if fragment is None:
                 continue
             for key in fragment.get_kinks():
@@ -432,7 +432,7 @@ init python:
         recorded with the gallery entry.
         """
 
-        keys = get_replay_kinks(get_event_from_register(event_name), fragments)
+        keys = get_replay_kinks(get_gallery_event(event_name), fragments)
         ask_kinks(*keys)
         return not get_blocked_kinks(keys)
 

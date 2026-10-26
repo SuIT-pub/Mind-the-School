@@ -11,7 +11,23 @@ init python:
         global event_replay_categories
         if event.replay_category not in event_replay_categories.keys():
             event_replay_categories[event.replay_category] = []
-        event_replay_categories[event.replay_category].append(event.get_name())
+        if event.get_gallery_name() not in event_replay_categories[event.replay_category]:
+            event_replay_categories[event.replay_category].append(event.get_gallery_name())
+
+    def get_gallery_event(name: str):
+        """
+        The event a gallery entry belongs to. Gallery entries are named after
+        the label, and the label register keeps the event that was created with
+        it, so an entry of a replaced event still finds the original.
+        """
+
+        if name in event_label_register:
+            return event_label_register[name]
+        return event_register.get(name)
+
+    def get_gallery_name_from_kwargs(**kwargs) -> str:
+        # the gallery name, falling back to the key for callers that set none
+        return get_kwargs('gallery_name', None, **kwargs) or get_kwargs('event_name', None, **kwargs)
 
     #####################################
     # region Gallery Persistent handler #
@@ -85,9 +101,10 @@ init python:
                         persistent.gallery.pop(location, None)
             else:
                 for event in event_replay_categories[location]:
-                    persistent.gallery[get_event_from_register(event).get_location()].pop(event, None)
-                    if len(persistent.gallery[get_event_from_register(event).get_location()].keys()) == 0:
-                        persistent.gallery.pop(get_event_from_register(event).get_location(), None)
+                    event_location = get_gallery_event(event).get_location()
+                    persistent.gallery[event_location].pop(event, None)
+                    if len(persistent.gallery[event_location].keys()) == 0:
+                        persistent.gallery.pop(event_location, None)
         elif event == "":
             persistent.gallery = {}
 
@@ -198,7 +215,7 @@ init python:
         """
 
         def __init__(self, **kwargs):
-            event = get_kwargs('event_name', None, **kwargs)
+            event = get_gallery_name_from_kwargs(**kwargs)
             event_form = get_kwargs('event_form', 'event', **kwargs)
             if event == None:
                 return
@@ -209,8 +226,8 @@ init python:
             self.version = get_kwargs('version', "1", **kwargs)
 
             self.location = get_kwargs('location', 'misc', **kwargs)
-            if is_event_registered(event):
-                self.location = get_event_from_register(event).get_location()
+            if get_gallery_event(event) is not None:
+                self.location = get_gallery_event(event).get_location()
 
             self.already_registered_values = []
 
@@ -422,14 +439,14 @@ init python:
         if gallery_manager == None:
 
             if is_replay(**kwargs):
-                event_name = get_kwargs('event_name', None, **kwargs)
+                event_name = get_gallery_name_from_kwargs(**kwargs)
                 if event_name == None:
                     return alt
-                event_obj = get_event_from_register(event_name)
+                event_obj = get_gallery_event(event_name)
                 if event_obj == None:
                     return alt
                 if event_obj.get_form() == 'fragment':
-                    new_key = event_obj.get_id() + '.' + key
+                    new_key = event_obj.get_gallery_name() + '.' + key
                                 
                     if "values" not in kwargs.keys():
                         return alt
@@ -487,14 +504,14 @@ init python:
         level = get_character_by_key(key).get_level()
 
         if is_replay(**kwargs):
-            event_name = get_kwargs('event_name', None, **kwargs)
+            event_name = get_gallery_name_from_kwargs(**kwargs)
             if event_name == None:
                 return 0
-            event_obj = get_event_from_register(event_name)
+            event_obj = get_gallery_event(event_name)
             if event_obj == None:
                 return 0
             if event_obj.get_form() == 'fragment':
-                new_key = event_obj.get_id() + '.' + key + '_level'
+                new_key = event_obj.get_gallery_name() + '.' + key + '_level'
                 value = get_kwargs(
                     new_key, 
                     get_kwargs(
@@ -551,14 +568,14 @@ init python:
         """
 
         if is_replay(**kwargs):
-            event_name = get_kwargs('event_name', None, **kwargs)
+            event_name = get_gallery_name_from_kwargs(**kwargs)
             if event_name == None:
                 return alt
-            event_obj = get_event_from_register(event_name)
+            event_obj = get_gallery_event(event_name)
             if event_obj == None:
                 return alt
             if event_obj.get_form() == 'fragment':
-                new_key = event_obj.get_id() + '.' + key
+                new_key = event_obj.get_gallery_name() + '.' + key
                 if "values" in kwargs.keys():
                     value = get_kwargs(new_key, get_kwargs(key, alt, **kwargs["values"]), **kwargs["values"])
                 else:
@@ -588,14 +605,14 @@ init python:
         """
 
         if is_replay(**kwargs):
-            event_name = get_kwargs('event_name', None, **kwargs)
+            event_name = get_gallery_name_from_kwargs(**kwargs)
             if event_name == None:
                 return alt
-            event_obj = get_event_from_register(event_name)
+            event_obj = get_gallery_event(event_name)
             if event_obj == None:
                 return alt
             if event_obj.get_form() == 'fragment':
-                new_key = event_obj.get_id() + '.' + key
+                new_key = event_obj.get_gallery_name() + '.' + key
                 if "values" in kwargs.keys():
                     value = get_kwargs(new_key, get_kwargs(key, alt, **kwargs["values"]), **kwargs["values"])
                 else:
@@ -665,7 +682,7 @@ init python:
             for i, storage in enumerate(event_obj.get_fragment_storages()):
                 if gallery_manager != None:
                     Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
-                    register_value("fragment", str(fragments[i]))
+                    register_value("fragment", fragments[i].get_gallery_name())
 
         return fragments
 

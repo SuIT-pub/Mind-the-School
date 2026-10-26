@@ -1146,15 +1146,17 @@ label start_gallery_composite_replay(location, event, gallery_chooser, fragments
 
     # prepare data for the kwargs
     $ is_in_replay = True
-    $ event_obj = get_event_from_register(event)
+    $ event_obj = get_gallery_event(event)
 
     $ gallery_chooser['in_replay'] = True
     $ gallery_chooser['journal_display'] = display
     $ gallery_chooser['in_event'] = True
 
-    $ gallery_chooser['replay_frag_list'] = [get_event_from_register(event_name) for event_name in fragments if is_event_registered(event_name)]
+    $ gallery_chooser['replay_frag_list'] = [get_gallery_event(fragment_name) for fragment_name in fragments if get_gallery_event(fragment_name) is not None]
 
-    $ gallery_chooser['event_name'] = event
+    # `event` is the gallery name (the label); the key keeps seen/progress apart
+    $ gallery_chooser['event_name'] = event_obj.get_event()
+    $ gallery_chooser['gallery_name'] = event
     $ gallery_chooser['event_obj'] = event_obj
     $ gallery_chooser['event_type'] = event_obj.event_type
     $ gallery_chooser['event_form'] = 'composite'
@@ -1179,7 +1181,7 @@ label start_gallery_composite_replay(location, event, gallery_chooser, fragments
     $ hide_all()
 
     # call event
-    $ renpy.call("call_event", event_obj.get_event_label(), event_obj.priority, **gallery_chooser)
+    $ renpy.call("call_event", event_obj.get_event_label(), event_obj.priority, event_obj.get_event(), **gallery_chooser)
 
 label start_gallery_replay(location, event, gallery_chooser, display):
     # """
@@ -1207,9 +1209,11 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ gallery_chooser['in_replay'] = True
     $ gallery_chooser['journal_display'] = display
     $ gallery_chooser['in_event'] = True
-    $ gallery_chooser['event_name'] = event
 
-    $ event_obj = get_event_from_register(event)
+    # `event` is the gallery name (the label); the key keeps seen/progress apart
+    $ event_obj = get_gallery_event(event)
+    $ gallery_chooser['event_name'] = event_obj.get_event()
+    $ gallery_chooser['gallery_name'] = event
 
     $ gallery_chooser['image_patterns'] = event_obj.get_pattern()
 
