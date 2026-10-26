@@ -4006,6 +4006,51 @@ init -6 python:
         def get_name(self) -> str:
             return f"FlagCondition({self.flag_key}, {self.exclusive})"
 
+    class KinkCondition(Condition):
+        """
+        Gates content on the player's kink settings (see kinks.rpy).
+
+        Fulfilled while none of the kinks is disallowed: "yes", "neutral"
+        and a "for now" yes all pass, so an event with an open kink still
+        counts as available and the player is asked right before it runs
+        (call_available_event). Unlike other conditions it also holds in
+        replays: a replay plays by the current settings.
+
+        ### Parameters:
+        1. *keys: str | Option
+            - The kink keys; Options may be mixed in like on other conditions.
+
+        ```python
+        Event(3, "my_scene", KinkCondition("incest_sisters"), ...)
+        ```
+        """
+
+        def __init__(self, *keys_and_options):
+            super().__init__(*[value for value in keys_and_options if isinstance(value, Option)])
+            self.keys = [normalize_kink_key(value) for value in keys_and_options if isinstance(value, str)]
+
+        @property
+        def _type(self) -> str:
+            return "kink_condition"
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            # the base class waves every condition through in replays; kinks
+            # must not be skipped there. The gallery list still shows the
+            # entry (it marks blocked kinks itself), and the composite check
+            # asks with ignore_kinks to see what would be available otherwise.
+            if get_kwargs('ignore_kinks', False, **kwargs) or get_kwargs('in_journal_gallery', False, **kwargs):
+                return True
+            return self.check_condition(**kwargs)
+
+        def check_condition(self, **kwargs) -> bool:
+            return all(get_kink_state(key) is not False for key in self.keys)
+
+        def get_kinks(self) -> List[str]:
+            return list(self.keys)
+
+        def get_name(self) -> str:
+            return f"KinkCondition({', '.join(self.keys)})"
+
     class SituationFlagCondition(FlagCondition):
         """
         Automatic flag check for situation pool events without their own

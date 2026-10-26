@@ -1583,6 +1583,22 @@ init -3 python:
                     return False
             return True
 
+        def get_kinks(self, **kwargs) -> List[str]:
+            """
+            The kink keys of this event's KinkConditions, without duplicates.
+
+            ### Returns:
+            1. List[str]
+                - The kink keys, in the order they were attached.
+            """
+
+            output = []
+            for condition in self.conditions_storage.find_by_type("kink_condition"):
+                for key in condition.get_kinks():
+                    if key not in output:
+                        output.append(key)
+            return output
+
         ###############
 
         ##############
@@ -1690,6 +1706,59 @@ init -3 python:
 
             if any(not isinstance(fragment, EventStorage) or isinstance(fragment, TempEventStorage) for fragment in self.fragments):
                 log("Composite Event " + self.event_id + ": Fragments have to be EventStorages!", log_type="error", category="event")
+
+        def _fragment_check_kwargs(self, **kwargs) -> Dict[str, Any]:
+            # roughly what select_fragments hands the fragments: the
+            # composite's rolled values, its event type, fragment form
+            kwargs = dict(kwargs)
+            kwargs["values"] = dict(kwargs.get("values", {}))
+            if self.values is not None:
+                kwargs["values"].update(self.values.get_values())
+            kwargs.setdefault("event_type", self.event_type)
+            kwargs["event_form"] = "fragment"
+            return kwargs
+
+        def _has_fragment_kinks(self) -> bool:
+            return any(event.get_kinks() for fragment in self.fragments for event in fragment.get_events())
+
+        def is_available(self, **kwargs) -> bool:
+            """
+            Like :meth:`Event.is_available`, plus: when kinks leave a fragment
+            storage without a single event, the composite can't run and is
+            unavailable. A storage that is empty for other reasons keeps the
+            old behaviour (an error in the log when the composite runs), so
+            composites without kinked fragments behave exactly as before.
+            """
+
+            if not super().is_available(**kwargs):
+                return False
+            if get_kwargs('ignore_kinks', False, **kwargs) or not self._has_fragment_kinks():
+                return True
+
+            check_kwargs = self._fragment_check_kwargs(**kwargs)
+            for fragment in self.fragments:
+                if fragment.has_available_events(ignore_kinks = True, **check_kwargs) and not fragment.has_available_events(**check_kwargs):
+                    return False
+            return True
+
+        def get_kinks(self, **kwargs) -> List[str]:
+            """
+            The composite's own kinks plus those of every fragment that could
+            be rolled, so a single prompt before the composite settles all of
+            them and no fragment comes up later with an open kink.
+            """
+
+            output = super().get_kinks(**kwargs)
+            check_kwargs = self._fragment_check_kwargs(**kwargs)
+            check_kwargs["ignore_kinks"] = True
+            for fragment in self.fragments:
+                for event in fragment.get_events():
+                    if not event.is_available(**check_kwargs):
+                        continue
+                    for key in event.get_kinks():
+                        if key not in output:
+                            output.append(key)
+            return output
 
         def get_event(self) -> str:
             """
