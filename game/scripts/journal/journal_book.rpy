@@ -469,8 +469,12 @@ screen jr_rubric(label, width):
     # Small tracked caps heading with a thin rule, like a pre-printed organizer.
     # """
 
+    # a fixed height: below an overflowing column the side would only get the
+    # leftover (none) and cut the heading off at the top
+    $ rubric_h = int(Text(label.upper(), style = "jr_rubric").size()[1])
     side "l c":
         xsize width
+        ysize rubric_h
         spacing 10
         text label.upper() style "jr_rubric" yalign 0.5
         add Transform(Solid(JR_ACCENT + "90"), ysize = 1) yalign 0.6
