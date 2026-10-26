@@ -2,6 +2,42 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "kink-system",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Kinks: player content preferences, register_mod(kinks=[...])",
+      "details": "Players set each kink to yes, neutral (ask first) or no, in the journal settings and on the mod page. Register yours with `register_mod(..., kinks=[Kink(\"key\", \"Title\", \"Neutral one-line description.\")])`. Keys are case-insensitive and shared: if another mod or the base game registers the same key (e.g. `\"ntr\"`), it is one kink with one setting, and the first text wins (a different one logs a warning). A kink no active source knows counts as not allowed.",
+      "wiki": "Kinks#2-registering-kinks"
+    },
+    {
+      "id": "kink-condition-kink-check",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "KinkCondition, kink_check() and the kink prompt",
+      "details": "Gate an event (or composite, fragment, EventSelect) with `KinkCondition(\"key\", ...)`: it passes unless a kink is turned off, also in replays. An open (neutral) kink is asked about right before the event runs; a declined event is skipped and the storage picks again (priority 1 → 2 → 3), or the player returns to the menu without a daytime change. Composites ask once for every fragment they could roll and turn unavailable when a fragment storage has nothing allowed. Inside scenes: `if kink_check(\"key\"):` asks if needed and returns whether it is allowed; `$ ask_kinks(...)` only asks. `get_available_events` takes `exclude=` event ids.",
+      "wiki": "Kinks#3-gating-content"
+    },
+    {
+      "id": "person-relations",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Family relations: Person(relations=...), are_related(), RelationSelector",
+      "details": "`Person(..., relations={\"mother_of\": [\"soyoon_yamamoto\"]})` records family ties; enter them on both people (a missing side is mirrored). Look them up with `get_relations`, `get_relation(a, b)`, `are_related(a, b, relation=None)` and `get_related_persons(person, relation=None)`. Add types with `register_relation_type(\"stepmother_of\", \"stepdaughter_of\")`. `RelationSelector(key, of, relation=None, alt=None)` rolls a relative of another selected person. Base: Yuki/Soyoon (mother/daughter), Luna/Seraphina (sisters).",
+      "wiki": "Kinks#7-family-relations"
+    },
+    {
+      "id": "fragment-end-event-docs",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "docs",
+      "title": "Fragment labels must end with end_event, never return",
+      "details": "A fragment label is entered through `call_event`, which returns to the same statement: a plain `return` re-runs the fragment forever. End every fragment with `$ end_event(...)`, which hands over to the next fragment or ends the composite.",
+      "wiki": "Events#eventfragment--a-reusable-scene-fragment"
+    },
+    {
       "id": "remove-test-situations",
       "date": "2026-10-26",
       "version": "0.2.2",
