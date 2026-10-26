@@ -4,6 +4,14 @@ init -7 python:
 
     unlockable_manager = None
 
+    # Fallback pitch for an Unlockable without pitch= (generic PTA vote scene).
+    UNLOCKABLE_STOCK_PITCH = {
+        "rule": "You've all had the details on your desks for a week now, so I'll keep this short. I think the school is better off with this rule than without it.",
+        "club": "You've all had the details on your desks for a week now. A few students have been asking for something like this, and I think it would do them good.",
+        "building": "You've all had the details and the costs on your desks for a week now. I think the campus needs it, and I'd rather not put it off any longer.",
+        "other": "You've all had the details on your desks for a week now, so I'll keep this short.",
+    }
+
     class UnlockableScheduleVoteConditions:
         def __init__(self, *conditions: Condition):
             self.conditions = list(conditions)
@@ -22,8 +30,12 @@ init -7 python:
             flag: str = None,
             flag_exclusive: bool = True,
             start_thresholds: str = "skip",
+            pitch: str | list = None,
         ):
             self.unlockable_key = key
+            # what the headmaster tells the PTA in the generic vote scene; the
+            # descriptions are journal notes and never read out
+            self.pitch = [pitch] if isinstance(pitch, str) else list(pitch or [])
             self.type_key = type_key
             self.group_index = group_index
             self.conditions = ConditionStorage()
@@ -209,6 +221,18 @@ init -7 python:
                 return self.name
             return title
 
+        def get_vote_pitch(self):
+            """
+            Lines the headmaster speaks for this proposal in the generic PTA vote.
+
+            Returns:
+                list[str]: The ``pitch=`` lines, or one stock line for the type.
+            """
+            pitch = getattr(self, "pitch", None)
+            if pitch:
+                return list(pitch)
+            return [UNLOCKABLE_STOCK_PITCH.get(self.type_key, UNLOCKABLE_STOCK_PITCH["other"])]
+
         def update_data(self, situation: Situation):
             """
             Sync definition fields from a freshly loaded unlockable template.
@@ -222,6 +246,7 @@ init -7 python:
                 self.type_key = situation.type_key
                 self.group_index = situation.group_index
                 self.conditions = situation.conditions
+                self.pitch = situation.pitch
             return self
 
         def run_self_test(self):
@@ -1045,6 +1070,11 @@ label load_unlockables:
 
     # Temporary school-level progress group (mirrors old level_3..level_10 rules).
     # One journal list entry ("level"); group_index matches the target school level.
+    # Every stage shares one pitch until real level transitions replace the group.
+    $ level_vote_pitch = [
+        "Since I took over, this school has changed more than any of us expected when we first sat around this table. The students are calmer, and they talk to each other again. Most of you have noticed it too, I think.",
+        "What I'm asking for is that our guidelines catch up with how people here already live. A little more freedom, a little less pretending. We've been heading this way for weeks, and I'd like us to take the next step on purpose rather than drift into it.",
+    ]
     $ register_unlockables(
         Unlockable("rule", "level", "Level 3", True,
             SituationDescription([
@@ -1070,6 +1100,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_3.webp",
+            pitch=level_vote_pitch,
             group_index=3,
         ),
         Unlockable("rule", "level", "Level 4", True,
@@ -1097,6 +1128,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_4.webp",
+            pitch=level_vote_pitch,
             group_index=4,
         ),
         Unlockable("rule", "level", "Level 5", True,
@@ -1118,6 +1150,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_5.webp",
+            pitch=level_vote_pitch,
             group_index=5,
         ),
         Unlockable("rule", "level", "Level 6", True,
@@ -1139,6 +1172,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_6.webp",
+            pitch=level_vote_pitch,
             group_index=6,
         ),
         Unlockable("rule", "level", "Level 7", True,
@@ -1160,6 +1194,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_7.webp",
+            pitch=level_vote_pitch,
             group_index=7,
         ),
         Unlockable("rule", "level", "Level 8", True,
@@ -1181,6 +1216,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_8.webp",
+            pitch=level_vote_pitch,
             group_index=8,
         ),
         Unlockable("rule", "level", "Level 9", True,
@@ -1202,6 +1238,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_9.webp",
+            pitch=level_vote_pitch,
             group_index=9,
         ),
         Unlockable("rule", "level", "Level 10", True,
@@ -1223,6 +1260,7 @@ label load_unlockables:
             Picto("vote"),
             Picto("dresscode"),
             thumbnail="images/journal/rules/level_10.webp",
+            pitch=level_vote_pitch,
             group_index=10,
         ),
     )
@@ -1273,6 +1311,10 @@ label load_unlockables:
             Picto("facility"),
             SituationEffectSetGameData("school_jobs_active", True, "Students can take paid shifts in school facilities"),
             thumbnail="images/journal/rules/school_jobs_1.webp",
+            pitch=[
+                "Some of you will have heard about this from Mrs. Hall already, since she was the one who brought it to me. Students would be allowed to take paid shifts in the school's facilities, starting in her kitchen.",
+                "It keeps those places running without me hiring for every single post, and the girls who are short on money get an honest way to earn some. Nobody will be made to work, of course. It's an offer, not a duty.",
+            ],
         ),
         Unlockable("rule", "student_student_relation", "Student Relationships", True,
             SituationDescription("Lift the ban on relationships between students. Half the couples on campus are only hiding it anyway, and I already told one of them the rule wouldn't last."),
@@ -1290,6 +1332,11 @@ label load_unlockables:
             Picto("rapport"),
             SituationEffectSetGameData("student_relationships_allowed", True, "Students may date each other openly"),
             thumbnail="images/journal/rules/student_student_relation 1 0.webp",
+            pitch=[
+                "Right now the rules forbid relationships between students, and I'd like to lift that ban.",
+                "Let's be honest with each other for a moment. Half the couples on this campus are already together, they just sneak around to do it. All the rule teaches them is to hide things from us.",
+                "I'd rather they could be open about it, and come to one of us when something goes wrong, than keep it behind dorm doors where nobody can help.",
+            ],
         ),
         Unlockable("building", "cafeteria", "Cafeteria", True,
             SituationDescription([
@@ -1316,6 +1363,10 @@ label load_unlockables:
             ModifierEffect("weekly_cost_cafeteria", "money", Modifier_Obj("Cafeteria", "+", -100), collection="payroll_weekly"),
             SituationEffectSetGameData("cafeteria_reopened", True, "The cafeteria reopens after a week of building work"),
             thumbnail="images/journal/buildings/cafeteria 1 0.webp",
+            pitch=[
+                "The old cafeteria next to the kiosk has been closed for years now. I'd like to reopen it, so the students get proper meals again instead of living off whatever the kiosk has on the shelf.",
+                "Mrs. Hall has kindly offered to run the kitchen. The renovation costs fifteen hundred dollars, which I've already set aside, and after that about a hundred a week to keep it going. The builders say they need roughly a week.",
+            ],
         ),
     )
 

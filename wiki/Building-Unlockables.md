@@ -470,8 +470,15 @@ Unlockable(
     thumbnail=None,           # journal image (inherited Situation thumbnail)
     group_index=-1,           # chain level; -1 = standalone
     inject_default_cancel=True,  # False → supply your own Cancel measure
+    pitch=None,               # what the headmaster tells the PTA (str or [lines…])
 )
 ```
+
+`pitch` is spoken in the generic vote scene (see [§12](#story-votes-a-vote-scene-of-your-own)).
+The description is the headmaster's private journal note and is never read out at
+the meeting. Without `pitch` he says one stock line for the `type_key`
+(`UNLOCKABLE_STOCK_PITCH`). Write the pitch as speech to the people at the table:
+the parents, teachers and the student representative are listening.
 
 Supporting helpers you will use inside `*elements`:
 
@@ -603,7 +610,9 @@ pool mechanism already covers "PTA discussion at these bar levels".
 
 ### Story votes (a vote scene of your own)
 
-By default the Friday meeting plays the generic vote scene (`pta_vote_unregistered_1`).
+By default the Friday meeting plays the generic vote scene (`pta_vote_unregistered_1`):
+the headmaster names the proposal, speaks its `pitch` (or the stock line for its
+type), and the votes are rolled.
 To give an Unlockable its own scene, add a fragment to `pta_vote_storage` gated by
 `JournalVoteCondition`. Constructing that condition claims the vote, so the
 generic scene steps aside for it. For one member of a group, pass `group_index`;

@@ -350,29 +350,27 @@ label pta_vote_unregistered_1 (**kwargs):
     $ end_choice = get_end_choice(*votes)
     $ obj_title = unlockable.get_title()
     $ obj_type = unlockable.type_key
-    $ obj_desc = unlockable.get_descriptions()
+    $ obj_pitch = unlockable.get_vote_pitch()
     $ vote_probability = int(unlockable.get_vote_probability() * 100)
 
     $ image = convert_pattern("base", **kwargs)
 
     $ image.show(4)
     if obj_type == "rule":
-        headmaster "Today I want to put to vote a change in the schools ruleset."
-        headmaster "I want to implement the Rule: [obj_title]."
+        headmaster "The next point is a change to the school rules. I'd like us to vote on [obj_title] today."
     elif obj_type == "club":
-        headmaster "Today I want to put to vote if we want to open a new club at the school."
-        headmaster "I want to open the [obj_title]."
+        headmaster "The next point is a new club. I'd like us to vote on opening the [obj_title] today."
     elif obj_type == "building":
-        headmaster "Today I want to put to vote on the [obj_title]."
+        headmaster "The next point concerns the campus itself. I'd like us to vote on the [obj_title] today."
     else:
-        headmaster "Today I want to put [obj_title] to a vote."
+        headmaster "The next point is [obj_title], and I'd like us to vote on it today."
 
     $ image.show(5)
-    $ pta_desc_i = 0
-    while pta_desc_i < len(obj_desc):
-        $ desc_text = obj_desc[pta_desc_i]
-        headmaster "[desc_text]"
-        $ pta_desc_i += 1
+    $ pta_pitch_i = 0
+    while pta_pitch_i < len(obj_pitch):
+        $ pitch_text = obj_pitch[pta_pitch_i]
+        headmaster "[pitch_text]"
+        $ pta_pitch_i += 1
 
     $ image.show(6)
     headmaster "Support among the stakeholders sits at about [vote_probability] percent."
