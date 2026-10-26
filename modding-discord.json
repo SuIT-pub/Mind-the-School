@@ -26,6 +26,9 @@
     "base-unlockables-jobs-relations-cafeteria",
     "timer-effect",
     "schedule-vote-shows-escrow",
-    "unlockable-vote-pitch"
+    "unlockable-vote-pitch",
+    "unlockable-vote-comments",
+    "remove-pta-override-veto",
+    "remove-test-situations"
   ]
 }
