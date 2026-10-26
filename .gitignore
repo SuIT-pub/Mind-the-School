@@ -4,6 +4,7 @@ game/saves/
 wiki/.wiki-repo/
 game/mods/*
 !game/mods/CheatMod
+!game/mods/IncestContent
 game/cache/
 **.rpy.bak
 **.bak
