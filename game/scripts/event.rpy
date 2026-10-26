@@ -2411,8 +2411,8 @@ init -3 python:
             - The scene to play.
         3. title: str (Default None)
             - The name of the new scene, e.g. for its gallery entry. A names-file
-              entry for ``label`` wins over it; without either, the original's
-              title is kept.
+                entry for ``label`` wins over it; without either, the original's
+                title is kept.
         """
 
         if not is_mod_active(active_mod_key):
