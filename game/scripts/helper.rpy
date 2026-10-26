@@ -1540,6 +1540,10 @@ init -99 python:
 
         kwargs['path'] = path
 
+        # the mod list lives in persistent: keep only plain data there, never
+        # the Kink objects (a removed or changed class would break unpickling)
+        kwargs['kinks'] = register_kinks(key, kwargs.get('kinks') or [])
+
         available_keys.append(key)
 
         mod = {}
