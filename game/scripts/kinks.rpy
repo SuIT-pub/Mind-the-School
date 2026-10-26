@@ -214,3 +214,228 @@ init -98 python:
 
 # endregion
 ##################################
+
+#######################################
+# region Kink prompt ---------------- #
+#######################################
+
+init python:
+    # answer -> (button text, what it does)
+    KINK_ANSWERS = (
+        ("yes", "Yes"),
+        ("no", "No"),
+        ("yes_now", "Yes, for now"),
+        ("no_now", "No, for now"),
+    )
+
+    def kink_prompt_text(keys: List[str]) -> str:
+        """
+        The line in the dialogue box under the prompt, naming the kinks.
+        """
+
+        titles = []
+        for key in keys:
+            kink = get_kink(key)
+            titles.append(kink.get_title() if kink else key)
+        if len(titles) == 1:
+            listed = titles[0]
+        else:
+            listed = ", ".join(titles[:-1]) + " and " + titles[-1]
+        return "Quick check before we go on: what comes next can involve {}. How do you want me to handle {}?".format(listed, "that" if len(titles) == 1 else "those")
+
+    def apply_kink_answers(answers: Dict[str, str]):
+        """
+        Stores the prompt's answers: "yes"/"no" become the setting,
+        "yes_now"/"no_now" leave the setting neutral and only hold for this
+        session.
+        """
+
+        for key, answer in answers.items():
+            if answer in ("yes", "no"):
+                set_kink_setting(key, answer)
+            elif answer == "yes_now":
+                set_kink_session_answer(key, True)
+            elif answer == "no_now":
+                set_kink_session_answer(key, False)
+
+    def ask_kinks(*keys: str):
+        """
+        Shows the prompt for every key that is still open (neutral and not
+        answered this session). Nothing happens when none is. Has to run in
+        script (a ``$`` line or an ``if`` in a label), never in screen code.
+        """
+
+        open_keys = get_open_kinks(keys)
+        if not open_keys:
+            return
+
+        # a taller line still on screen would peek out above the prompt's box
+        renpy.hide_screen("say")
+        renpy.call_screen("kink_prompt", open_keys, show_host = not _kink_prompt_host_on_stage())
+        # rolling back past the answer would only bring the same question back
+        renpy.block_rollback()
+
+    def _kink_prompt_host_on_stage() -> bool:
+        """
+        True when a scene has already put Emiko's paperdoll up: the prompt
+        then doesn't draw a second Emiko next to her.
+        """
+
+        if paperdoll_manager is None:
+            return False
+        obj = paperdoll_manager.paperdoll_objs.get("emiko_langley")
+        return obj is not None and paperdoll_is_visible(obj)
+
+    def kink_prompt_host_layers() -> List[str]:
+        """
+        Emiko's two paperdoll layers (body, face) for the prompt, resolved
+        straight from her patterns: the prompt also runs outside events,
+        where there is no paperdoll manager to ask.
+
+        ### Returns:
+        1. List[str]
+            - The two image paths; empty strings for layers that are missing.
+        """
+
+        emiko_person = Person["emiko_langley"]
+        if emiko_person is None:
+            return []
+
+        values = update_dict(
+            {"mood": "neutral", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed", "state": "", "char_var": 1, "look": "follow", "extra1": "", "extra2": ""},
+            getattr(emiko_person, "paperdollDefaults", None) or {},
+        )
+        values = update_dict(values, {"pose": "36", "outfit": "uniform", "level": get_character_by_key("secretary").get_level(), "mood": "happy", "mouth": "open"})
+        alt_keys = ["level", "mouth", "state", "char_var", "extra1", "extra2"]
+
+        base = f"{emiko_person.basePath}images/paperdoll/{emiko_person.name}"
+        patterns = (
+            f"{base}/bottom/{emiko_person.name} <char_var> <pose> <outfit> <level> <state> <extra1>.png",
+            f"{base}/top/{emiko_person.name} <char_var> <pose> <mood> <mouth> <look> <extra2>.png",
+        )
+        return [find_available_images(refine_image_with_alternatives(pattern, alt_keys, **values)) for pattern in patterns]
+
+    def kink_check(*keys: str) -> bool:
+        """
+        For a short branch inside an event: asks about the open keys first,
+        then tells whether all of them are allowed.
+
+        ```renpy
+        if kink_check("incest_sisters"):
+            # the extra beat
+        ```
+        """
+
+        ask_kinks(*keys)
+        return all(get_kink_state(key) is True for key in keys)
+
+style kink_prompt_answer is jr_entry_button
+style kink_prompt_answer_text is jr_value:
+    size 22
+    color JR_PRINT
+    hover_color "#000"
+    selected_color JR_ACCENT
+
+transform kink_prompt_host_enter:
+    on show:
+        xoffset -500 alpha 0.0
+        easein 0.4 xoffset 0 alpha 1.0
+
+screen kink_prompt(keys, show_host = True):
+    # """
+    # Asks how to handle one or more kinks before content that contains them:
+    # Emiko on the left, her question in the dialogue box, the answers on a
+    # card. Every kink gets four answers; Continue unlocks once all are
+    # answered. There is deliberately no way to cancel: every answer belongs
+    # to a kink. Stores the answers (apply_kink_answers) and returns them.
+    # """
+
+    modal True
+    zorder 50
+
+    default answers = {}
+    # resolved once: the file lookups don't need to run on every redraw
+    default host_layers = [Image(path) for path in kink_prompt_host_layers() if path] if show_host else []
+
+    $ text = kink_prompt_text(keys)
+    $ dialog_height = journal_dialog_box_height(text)
+    $ card_w = 900
+    $ rows_w = card_w - 84
+    $ emiko_person = Person["emiko_langley"]
+
+    # drawn before the box, so the box covers her from the waist down
+    if host_layers:
+        fixed:
+            fit_first True
+            at kink_prompt_host_enter
+            xpos 470
+            xanchor 0.5
+            ypos 40
+            for layer in host_layers:
+                add Transform(layer, fit = "contain", xysize = (900, 1620))
+
+    # with Emiko standing there, her roster photo in the box would be a double
+    if emiko_person is not None:
+        use say(emiko_person.get_full_name(), text, speaker = (None if host_layers else emiko_person.name))
+    else:
+        use say(None, text)
+
+    frame:
+        background Frame("gui/journal/ui/choice_slip.webp", 14, 12, 14, 14)
+        padding (40, 28, 44, 30)
+        xsize card_w
+        xalign 1.0
+        xoffset -40
+        yalign 1.0
+        yoffset -(dialog_height + 6)
+
+        vbox:
+            spacing 18
+
+            # up to three kinks fit above the box; more scroll
+            if len(keys) > 3:
+                side "c r":
+                    xsize rows_w
+                    ysize 1080 - dialog_height - 190
+                    spacing 8
+
+                    viewport id "kink_prompt_rows":
+                        mousewheel True
+                        draggable "touch"
+                        use kink_prompt_rows(keys, answers, rows_w - 26)
+
+                    vbar value YScrollValue("kink_prompt_rows") style "jr_vscrollbar"
+            else:
+                use kink_prompt_rows(keys, answers, rows_w)
+
+            textbutton "Continue ›":
+                style "jr_choice_slip"
+                text_style "jr_choice_text"
+                text_color JR_ACCENT
+                xalign 1.0
+                sensitive len(answers) == len(keys)
+                action [Function(apply_kink_answers, answers), Return(answers)]
+
+screen kink_prompt_rows(keys, answers, width):
+    # one row per kink: title, description and the four answers
+    vbox:
+        xsize width
+        spacing 22
+        for key in keys:
+            $ kink = get_kink(key)
+            vbox:
+                spacing 4
+                text (kink.get_title() if kink else key) style "jr_text" font JR_FONT_SEMIBOLD size 28
+                if kink and kink.get_description():
+                    text kink.get_description() style "jr_small" xmaximum width
+                null height 2
+                hbox:
+                    spacing 14
+                    for answer, label in KINK_ANSWERS:
+                        textbutton label:
+                            style "kink_prompt_answer"
+                            selected answers.get(key) == answer
+                            action [UISound("choice"), SetDict(answers, key, answer)]
+
+# endregion
+#######################################

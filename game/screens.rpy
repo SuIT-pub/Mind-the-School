@@ -233,11 +233,13 @@ screen say(who, what, speaker = None):
             window:
                 id "namebox"
                 style "namebox"
-                text who id "who"
+                # explicit styles for screens that `use say` without a Character
+                # (kink_prompt); a Character's who_/what_ styles still win
+                text who id "who" style "say_label"
 
         # on the full leather box the text needs no outline; at 50% and 0% the
         # scene shows through and the outline keeps it readable
-        text what id "what":
+        text what id "what" style "say_dialogue":
             if persistent.display_textbox == 0:
                 outlines []
                 
