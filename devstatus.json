@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-26T18:00:51Z",
+  "updatedAt": "2026-10-26T19:12:37Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -16,11 +16,6 @@
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
       "version": "0.2.2"
-    },
-    {
-      "id": "content-preferences",
-      "title": "Content preferences",
-      "summary": "A menu where you decide which kinds of scenes you want to see."
     }
   ],
   "next": [
@@ -66,6 +61,13 @@
     }
   ],
   "done": [
+    {
+      "id": "content-preferences",
+      "title": "Content preferences",
+      "summary": "A menu where you decide which kinds of scenes you want to see.",
+      "doneIn": "0.2.2",
+      "doneAt": "2026-10-26"
+    },
     {
       "id": "rules-buildings-as-unlockables",
       "title": "School jobs, relationships and the cafeteria at the PTA",
@@ -127,13 +129,6 @@
       "title": "Smaller save files",
       "summary": "Save files shrank, plus fixes for outfit numbers and missing images.",
       "doneIn": "0.2.1B_1",
-      "doneAt": "2025-09-10"
-    },
-    {
-      "id": "event-chain-fixes",
-      "title": "Event chain fixes",
-      "summary": "Truth or Dare and the yoga outfit chains trigger again; new teaching events and a debug view in the journal.",
-      "doneIn": "0.2.1A",
       "doneAt": "2025-09-10"
     }
   ]
