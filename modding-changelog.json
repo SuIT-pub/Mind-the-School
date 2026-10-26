@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "remove-test-situations",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "removed",
+      "title": "Test situations cafeteria_crisis and pta_multi_bar_test removed",
+      "details": "Both were placeholders from building the situation system and are no longer registered. `situation_manager.get_situation(\"cafeteria_crisis\")` now returns `None`: guard it, or move your teasers/pool events to a real situation (e.g. `new_management`). The wiki still uses `cafeteria_crisis` as an example key in code snippets. For the cafeteria itself, use the `building:cafeteria` Unlockable (`UnlockableCondition(\"cafeteria\")`).",
+      "wiki": "Building-Situations#path-b--extend-existing-situations"
+    },
+    {
       "id": "remove-pta-override-veto",
       "date": "2026-10-26",
       "version": "0.2.2",
