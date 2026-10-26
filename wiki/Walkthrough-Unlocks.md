@@ -41,10 +41,6 @@ Helping her is the kind choice for *her*, not the unlock.
 After the vote passes, the building spends time **under construction**. Visiting
 it during that window plays a short "still building" beat, then it opens.
 
-The **Cafeteria Crisis** situation in the journal is a longer Adelaide/kitchen
-arc on top of this. Several of its thresholds are still placeholders — use it
-for flavour and injected events, not as a required walkthrough.
-
 <a id="school-jobs"></a>
 ## School jobs (rule)
 

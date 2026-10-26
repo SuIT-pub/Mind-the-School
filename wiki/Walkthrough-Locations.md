@@ -155,5 +155,4 @@ active they can replace or join the pool:
 | Situation | Where extra scenes show up |
 |-----------|----------------------------|
 | [New Management](Walkthrough-Event-Chains#new-management) | Office look around / call secretary / work; courtyard patrol / search; school patrol / check class / teach; kiosk snack |
-| Cafeteria Crisis | Cafeteria and related (WIP thresholds) |
 | Body Conflict | Gym changing room, cafeteria, dorm peek, courtyard, teaching, counselling (WIP thresholds) |

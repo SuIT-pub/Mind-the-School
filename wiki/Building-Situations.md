@@ -112,7 +112,7 @@ usual "why isn't it working" cases.
 ## 1. What is a Situation?
 
 A **Situation** represents an ongoing problem or development at the school that
-the player can actively influence — e.g. "Cafeteria Crisis" or "Body Conflict".
+the player can actively influence — e.g. "Sex Ed Preparations" or "New Yoga Outfits".
 It replaces the classic quest system as the primary player-guidance system.
 
 The key difference from a quest: the player does **not** work through a
@@ -787,7 +787,9 @@ directly, use the **definition helpers** — they reduce boilerplate (no manual
 
 ## 6. Full example
 
-Here is a real single-bar Situation (abridged from `load_situations`):
+Here is an example single-bar Situation. `cafeteria_crisis` was the system's first
+test case and is no longer registered in the game; the other snippets on this page
+reuse its key as an example.
 
 ```python
 Situation("cafeteria_crisis", "Cafeteria Crisis",
@@ -998,12 +1000,12 @@ definition is updated, the save state is preserved.
 
 Thanks to the pull architecture of teasers, you can add your own teasers to an
 existing Situation **without touching base code** — e.g. a mod event as another
-observation for "Cafeteria Crisis":
+observation for "New Management":
 
 ```python
-$ situation_manager.get_situation("cafeteria_crisis").add_teaser(
+$ situation_manager.get_situation("new_management").add_teaser(
     Teaser("mymod_extra_hint",
-        "A supplier left a flyer — cheaper ingredients, if someone asks.",
+        "A teacher left a note in my tray — she wants a word about the staff room, in private.",
         EventSeenCondition(True, "mymod_supplier_event"),
         note_type="insight")
 )

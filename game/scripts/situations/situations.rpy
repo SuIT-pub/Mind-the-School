@@ -4941,41 +4941,6 @@ label load_situations:
     $ situation_manager.begin_situation_load_wave()
 
     $ register_situations(
-        Situation("cafeteria_crisis", "Cafeteria Crisis", "The school doesn't have a proper cafeteria. The students have to rely on the expensive snack bar. Adelaide Hall has agreed to help, but she has no experience managing a commercial kitchen. The protagonist must get the cafeteria up and running and support Adelaide.",
-            Bar("main", limits = (-30, 60), stat_weights = {HAPPINESS: 0.5, EDUCATION: 0.2, REPUTATION: 0.2}),
-            BlockingThreshold("The students need a permanent place to eat lunch. There must be somewhere on campus—I just need to look a little closer.", "The vacant building next to the courtyard—there used to be a kitchen there. I should inspect it and see if it's suitable for a cafeteria", PlaceholderCondition(), main = -5),
-            AutoThreshold("If I push forward with the cafeteria idea, someone from the PTA will surely reach out. I should be open to suggestions.", main = 10, visible_range = 10),
-            BlockingThreshold("A school cafeteria isn't something I can do on my own. The PTA has to be on board—I need their approval before we can move forward.", "The PTA must approve the opening of the cafeteria. I should plan a vote and gather enough support.", PlaceholderCondition(), main = 20, visible_range = 10),
-            AutoThreshold("With the PTA's approval, the renovation can begin. The kitchen will take a while to be ready for use again.", main = 35),
-            BlockingThreshold("Adelaide has agreed to help, but managing a commercial kitchen is new to her. At some point, she'll need concrete support.", "Adelaide is stuck on the meal plan. I should work in the office or check on her in the cafeteria and help her.", PlaceholderCondition(), main = 40),
-            AutoThreshold("Once the kitchen and menu are set, the crucial test comes—the first real lunch service for the students.", main = 50),
-            AutoThreshold("The cafeteria is up and running. Just a few more steps, and Adelaide will have gotten the hang of it, and the whole thing will run on its own.", main = 60),
-            PassiveOption(
-                "leave_adelaide",
-                "Leave Adelaide alone",
-                # No-op effect so SituationPassive self-check passes.
-                SituationEffectSetGameData("cafeteria_crisis_leave_adelaide_noop", 0, "No-op"),
-            ),
-            PassiveOption(
-                "hire_staff",
-                "Hire additional staff",
-                # No-op effect so SituationPassive self-check passes.
-                SituationEffectSetGameData("cafeteria_crisis_hire_staff_noop", 0, "No-op"),
-            ),
-            PassiveOption(
-                "train_adelaide",
-                "Train Adelaide personally",
-                # No-op effect so SituationPassive self-check passes.
-                SituationEffectSetGameData("cafeteria_crisis_train_adelaide_noop", 0, "No-op"),
-            ),
-            SituationPool("Delivery problem", 35, 54),
-            SituationPool("Student Complaints", -10, 54),
-            SituationPool("Adelaide Overwhelmed", 10, 48),
-            SituationPool("Teacher Feedback", -5, 54),
-            PositiveResolution("ALL", DummyEffect()),
-            NegativeResolution("ANY", DummyEffect()),
-            thumbnail="images/misc/Test_16_9.png",
-        ),
         # Trigger: sb_event_6. Startwert -20 at activation (events can shift via shift_start_value).
         Situation("body_conflict", "Body Conflict", "Body-related conflicts among female students are escalating. Aona uses her physical development as a status symbol. Miwa is the primary target, but the toxic dynamic affects the entire school. The protagonist must decide how to handle this.",
             # The Aona sports bra chain is the prequel: her insecurity before it turns on Miwa.
@@ -5029,70 +4994,6 @@ label load_situations:
             PositiveResolution("ALL", DummyEffect()),
             NegativeResolution("ANY", DummyEffect()),
             thumbnail="images/misc/Test_16_9.png",
-        ),
-        # Multi-bar smoke test: three stakeholder bars + mixed bounds (subset vs all).
-        # Combined handle uses bar_weights; each bar starts at -10.
-        Situation("pta_multi_bar_test", "PTA Multi-Bar Test", "Test situation with separate teacher, parent, and student progress bars. Used to validate multi-bar thresholds, projected markers, and combined resolution.",
-            Bar("teachers", weight = 0.4, limits=(-40, 60), stat_weights={REPUTATION: 0.4, EDUCATION: 0.3}, start_base=-10),
-            Bar("parents", weight = 0.4, limits=(-40, 60), stat_weights={REPUTATION: 0.5, HAPPINESS: 0.2}, start_base=-10),
-            Bar("students", weight = 0.2, limits=(-40, 60), stat_weights={HAPPINESS: 0.5, EDUCATION: 0.2}, start_base=-10),
-            AutoThreshold("Opposition is hardening on all sides. If this keeps sliding, the PTA idea dies quietly.", teachers=-35, parents=-35, direction=-1),
-            BlockingThreshold("Nobody will even discuss a PTA while the factions refuse to admit there's a problem.", "I need a first acknowledgment from teachers and parents—something that puts the issue on record.", PlaceholderCondition(), teachers=-10, parents=-10),
-            AutoThreshold("The faculty seems more open lately. Parent opinion may still lag behind.", teachers=15, visible_range=15),
-            BlockingThreshold("A PTA only works if staff and parents both commit. Students can wait—the vote can't.", "I should schedule a PTA vote and secure enough teacher and parent support.", PlaceholderCondition(), teachers=25, parents=30, visible_range=15),
-            AutoThreshold("Momentum is building across the school. Even the students are starting to notice.", teachers=40, parents=40, students=20),
-            BlockingThreshold("Almost there—but all three groups have to land in the same place before this sticks.", "Final consensus: teachers, parents, and students each need a clear win before we lock this in.", PlaceholderCondition(), teachers=50, parents=50, students=45),
-            AutoThreshold("The PTA structure is stable. The rest should run without constant firefighting.", teachers=60, parents=60, students=60),
-            PassiveOption("court_teachers", "Prioritize teacher outreach", SituationEffectStatChangeModifier("corruption", 10, "+")),
-            PassiveOption("court_parents", "Prioritize parent outreach", SituationEffectStatChangeModifier("inhibition", 10, "+")),
-            PassiveOption("court_students", "Prioritize student voice", SituationEffectStatChangeModifier("happiness", 10, "+")),
-            MeasureOption(
-                "faculty_briefing",
-                "Call a short faculty briefing. Steady teacher support for a few periods.",
-                TimerCondition("pta_multi_bar_faculty_duration", daytime=3),
-                TimerCondition("pta_multi_bar_faculty_cooldown", daytime=2),
-                ManualCounterCondition("pta_multi_bar_faculty_count", 3),
-                instant=[SituationEffectSetGameData("pta_multi_bar_faculty_ping", 1, "Staff puts the PTA on today's agenda")],
-                permanent=[SituationEffectBarChangeModifier("teachers", 3, "+", "daytime_change")],
-            ),
-            MeasureOption(
-                "parent_coffee",
-                "Host a parent coffee hour. Softens parent resistance while it runs.",
-                TimerCondition("pta_multi_bar_parent_duration", daytime=4),
-                TimerCondition("pta_multi_bar_parent_cooldown", daytime=3),
-                ManualCounterCondition("pta_multi_bar_parent_count", 2),
-                instant=[SituationEffectSetGameData("pta_multi_bar_parent_ping", 1, "Parents feel heard—for now")],
-                permanent=[SituationEffectBarChangeModifier("parents", 3, "+", "daytime_change")],
-            ),
-            MeasureOption(
-                "student_forum",
-                "Open a student forum. Quick bump in student voice, short burn.",
-                TimerCondition("pta_multi_bar_student_duration", daytime=2),
-                TimerCondition("pta_multi_bar_student_cooldown", daytime=2),
-                ManualCounterCondition("pta_multi_bar_student_count", 3),
-                instant=[SituationEffectSetGameData("pta_multi_bar_student_ping", 1, "Students get a microphone")],
-                permanent=[SituationEffectBarChangeModifier("students", 4, "+", "daytime_change")],
-            ),
-            MeasureOption(
-                "all_hands_push",
-                "All-hands outreach week. Mild lift on every stakeholder bar.",
-                TimerCondition("pta_multi_bar_allhands_duration", daytime=5),
-                TimerCondition("pta_multi_bar_allhands_cooldown", day=1),
-                ManualCounterCondition("pta_multi_bar_allhands_count", 1),
-                instant=[SituationEffectSetGameData("pta_multi_bar_allhands_ping", 1, "School-wide attention spike")],
-                permanent=[
-                    SituationEffectBarChangeModifier("teachers", 1, "+", "daytime_change"),
-                    SituationEffectBarChangeModifier("parents", 1, "+", "daytime_change"),
-                    SituationEffectBarChangeModifier("students", 2, "+", "daytime_change"),
-                ],
-            ),
-            SituationPool("office_building_work_pta_faculty", -10, 50),
-            SituationPool("courtyard_patrol_pta_parents", -10, 50),
-            SituationPool("school_building_teach_pta_students", 15, 55),
-            PositiveResolution("ALL", DummyEffect()),
-            NegativeResolution("ANY", DummyEffect()),
-            thumbnail="images/misc/Test_16_9.png",
-       
         ),
         Situation("new_management", "New Management",
             SituationDescription([
