@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "unlockable-vote-comments",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Generic PTA vote: one speaker per faction, Unlockable vote_comments=",
+      "details": "After the pitch, `pta_vote_unregistered_1` now has one random member speak for each faction bar (`\"Teachers\"`, `\"Parents\"`, `\"Students\"`), shown in her `pta_vote <level> <Name>` render, saying a stock yes/no line. `Unlockable(..., vote_comments={\"Parents\": {\"yes\": \"…\", \"no\": [\"…\", \"…\"]}})` replaces those lines for your Unlockable; write them for the faction, since the speaker is random. Bars with other keys are counted without a speaker. Speakers and stock lines live in `PTA_FACTION_SPEAKERS` / `PTA_STOCK_VOTE_COMMENTS` (pta.rpy); `get_pta_vote_turn(unlockable, bar_key, vote)` returns one turn. The `vote` pattern on `pta_vote_unregistered_1` is now `pta_vote <level> <name>.webp`.",
+      "wiki": "Building-Unlockables#10-the-definition-helper-author-api"
+    },
+    {
       "id": "unlockable-vote-pitch",
       "date": "2026-10-26",
       "version": "0.2.2",
