@@ -2,6 +2,51 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "event-replacement",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "replace_event, set_event_label, add_event_conditions: change base events from a mod",
+      "details": "At load time (`init 1`+, after `set_current_mod`) a mod can change an event it doesn't own. `set_event_label(key, label, title=None)` plays your scene with the original definition. `replace_event(key, Event(..., same key, label=\"mymod_scene\"))` swaps the whole definition in every storage holding the key; the key must stay the same so \"seen\" and story chains keep working. `add_event_conditions(key, *conditions)` appends conditions. Nothing happens while the mod is off; when two mods change the same key, the one that runs last wins.",
+      "wiki": "Modding#replacing-and-changing-base-events"
+    },
+    {
+      "id": "event-label-param",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Events can play a label other than their key (label=)",
+      "details": "`Event`, `EventComposite` and `EventFragment` take `label=`; it defaults to the key, so nothing changes for existing events. `get_event_label()` returns it and `get_gallery_name()` names the gallery entry after it. For an event whose label differs from its key, a names-file entry for the label wins, then `title=`, then the key's entry.",
+      "wiki": "Events#event--the-plain-event"
+    },
+    {
+      "id": "gallery-name-kwarg",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Gallery entries are filed under the scene label (gallery_name kwarg)",
+      "details": "Events now pass `gallery_name` (the label) next to `event_name` (the key). The gallery, replays and the journal gallery use the gallery name; \"seen\" and progress keep using the key. Code that read gallery data via `kwargs[\"event_name\"]` should use `get_gallery_name_from_kwargs(**kwargs)`, and look events up for gallery entries with `get_gallery_event(name)` instead of `get_event_from_register`. For events without `label=` both are the same, so stored gallery data stays valid.",
+      "wiki": "Events#event--the-plain-event"
+    },
+    {
+      "id": "add-person-relations",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "add_person_relations: family ties for existing persons",
+      "details": "`add_person_relations(\"luna_clark\", sister_of=[\"seraphina_clark\"])` adds relations to a loaded person without replacing her. Call it in a `register_start_method` loader; it does nothing while the mod is off. Enter ties on both people.",
+      "wiki": "Kinks#7-family-relations"
+    },
+    {
+      "id": "remove-event-fix",
+      "date": "2026-10-26",
+      "version": "0.2.2",
+      "type": "fixed",
+      "title": "EventStorage.remove_event no longer raises KeyError",
+      "details": "`remove_event(event_id)` deleted the id from all three priority lists and raised a `KeyError` for the two it wasn't in. It now removes it from the one it is in. To swap a base event, prefer `replace_event`.",
+      "wiki": "Events"
+    },
+    {
       "id": "kink-system",
       "date": "2026-10-26",
       "version": "0.2.2",
