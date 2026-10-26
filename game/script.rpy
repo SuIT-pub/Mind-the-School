@@ -222,6 +222,8 @@ label after_load:
 
     $ clean_legacy_journal_objects()
     $ clean_legacy_quests()
+    # an old PTAProposal would hold the vote slot and block every Schedule Vote
+    $ clean_legacy_vote_proposal()
 
     $ check_event_selectors()
 

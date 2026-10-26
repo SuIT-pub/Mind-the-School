@@ -140,9 +140,9 @@ screen journal_overview(display, char = "school"):
     }
     $ school_object = object_overview[char]
 
+    # legacy proposals are cleared in after_load; a screen must not write game data
     $ pta_proposal = get_game_data('voteProposal')
-    if pta_proposal is not None and not isinstance(pta_proposal, Unlockable):
-        $ clean_legacy_vote_proposal()
+    if not isinstance(pta_proposal, Unlockable):
         $ pta_proposal = None
 
     if display == "":

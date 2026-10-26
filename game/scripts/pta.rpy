@@ -33,10 +33,17 @@ init -6 python:
         """
         Drop legacy ``PTAProposal`` (or other non-Unlockable) values from
         ``voteProposal`` so old saves do not keep obsolete scheduled votes.
+
+        The old journal reserved the vote's money under ``vote_<condition>_<name>``
+        when it scheduled the vote. With only one proposal at a time, every ``vote_``
+        stash next to a legacy proposal is that vote's, so it goes back to the wallet.
         """
         proposal = get_game_data("voteProposal")
-        if proposal is not None and not isinstance(proposal, Unlockable):
-            set_game_data("voteProposal", None)
+        if proposal is None or isinstance(proposal, Unlockable):
+            return
+        for stash_key in [key for key in reserved_money.keys() if key.startswith("vote_")]:
+            release_money(stash_key)
+        set_game_data("voteProposal", None)
 
     # endregion
     ########################

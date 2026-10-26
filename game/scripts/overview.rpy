@@ -752,14 +752,6 @@ label new_daytime ():
 
     jump map_overview
 
-label after_load_entry():
-
-    $ clean_legacy_vote_proposal()
-
-    call time_event_check from call_after_load_entry_1
-
-    jump map_entry
-
 label map_entry():
 
     # stop sound fadeout 1.0
