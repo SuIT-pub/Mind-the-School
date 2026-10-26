@@ -1297,6 +1297,43 @@ init -6 python:
         RELATION_INVERSES[relation] = inverse
         RELATION_INVERSES[inverse] = relation
 
+    def add_person_relations(person, **relations: List[str]):
+        """
+        Adds family ties to a person who is already loaded, without replacing
+        her, e.g. from a mod: ``add_person_relations("luna_clark",
+        sister_of = ["seraphina_clark"])``. Call it in a register_start_method
+        loader (after the base persons are loaded); it does nothing while the
+        mod is off. Enter the tie on both people, like in ``Person(relations=…)``.
+
+        ### Parameters:
+        1. person: str | Person
+            - Who gets the relations.
+        2. **relations: List[str] | str
+            - relation type → person key(s).
+        """
+
+        if not is_mod_active(active_mod_key):
+            return
+        key = _person_key(person)
+        target = find_person(key)
+        if target is None:
+            log(f"add_person_relations: no person '{key}'", log_type = "warning", category = "relations")
+            return
+
+        if not hasattr(target, "relations") or target.relations is None:
+            target.relations = {}
+        for relation, people in relations.items():
+            if relation not in RELATION_INVERSES:
+                log(f"add_person_relations('{key}'): unknown relation '{relation}', register it with register_relation_type", log_type = "warning", category = "relations")
+            if isinstance(people, str):
+                people = [people]
+            entries = target.relations.setdefault(relation, [])
+            for other in people:
+                other = _person_key(other)
+                if other not in entries:
+                    entries.append(other)
+        record_mod_change("person", key)
+
     def _person_key(person) -> str:
         return person.name if isinstance(person, Person) else str(person)
 
