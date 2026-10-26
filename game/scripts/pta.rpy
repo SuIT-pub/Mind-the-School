@@ -11,6 +11,101 @@ init -6 python:
             return unlockable_key
         return f"{unlockable_key}:{group_index}"
 
+    ##########################
+    # region vote speakers --- #
+    ##########################
+
+    # Who may speak for a faction bar at the generic vote: the stat character whose
+    # level picks the render, and the members with a `pta_vote <level> <Name>` image.
+    PTA_FACTION_SPEAKERS = {
+        "Teachers": ("teacher", ["lily_anderson", "yulan_chen", "finola_ryan", "chloe_garcia", "zoe_parker"]),
+        "Parents": ("parent", ["adelaide_hall", "nubia_davis", "yuki_yamamoto"]),
+        "Students": ("school", ["yuriko_oshima"]),
+    }
+
+    # Level-neutral on purpose: they have to fit any proposal at any school level.
+    # An Unlockable's vote_comments= replaces them for its own vote.
+    PTA_STOCK_VOTE_COMMENTS = {
+        "lily_anderson": {
+            "yes": "I've gone over it twice, and— well, I still have a list of questions, but none of them are reasons to say no. So yes. The teachers are in favour.",
+            "no": "I'm sorry, I just can't see how we'd manage this on top of everything else. We're stretched thin as it is. The teachers vote no.",
+        },
+        "yulan_chen": {
+            "yes": "We went through the proposal point by point in the staff room. It holds up. The teachers vote in favour.",
+            "no": "There are too many open questions. Who supervises it, what happens when it goes wrong, who answers to the parents. Until someone can answer those, the teachers vote against.",
+        },
+        "finola_ryan": {
+            "yes": "We talked it over properly, and I'll be honest, not everyone was comfortable at first. But we agreed it's the right thing for the students. The teachers vote yes.",
+            "no": "I'd rather be honest than polite about this: most of us don't think it's ready. So the teachers vote no. For now.",
+        },
+        "chloe_garcia": {
+            "yes": "I'll admit I came in expecting to argue against this. But the more we talked about it, the less I could find wrong with it. The teachers are in favour.",
+            "no": "Personally, I don't mind it. But we have to think about how this looks from outside these walls, and right now it doesn't look good. The teachers vote no.",
+        },
+        "zoe_parker": {
+            "yes": "As long as somebody keeps an eye on how the girls are actually doing with it, I don't see a problem. The teachers vote yes.",
+            "no": "Nobody's convinced me yet that it's good for the students, and that's the only thing that counts for me. The teachers vote no.",
+        },
+        "adelaide_hall": {
+            "yes": "I can't say I love every part of it. But I've seen the girls lately, and I'd be lying if I said things weren't getting better. The parents vote yes.",
+            "no": "I'm sorry, but this goes further than I'm comfortable with. We trusted the school to be careful, and this doesn't feel careful to me. The parents vote no.",
+        },
+        "nubia_davis": {
+            "yes": "We've talked this to death. It makes sense, so let's stop going in circles. The parents say yes.",
+            "no": "No. I've heard the pitch, I've read the paper, and I'm still not buying it. The parents vote no, and I'd like us to move on.",
+        },
+        "yuki_yamamoto": {
+            "yes": "I had my doubts, and I told my daughter as much. But you've explained it well enough, and I can see what it would do for them. The parents agree.",
+            "no": "Some things are better left to the families. I'm not convinced the school should be the one deciding this. The parents vote no.",
+        },
+        "yuriko_oshima": {
+            "yes": "I asked around. Most of them want it, and the rest don't care either way. So, yes. The students vote in favour.",
+            "no": "Half of them laughed when I brought it up, and the other half didn't want to talk about it. That's a no from the students.",
+        },
+    }
+
+    def get_pta_vote_turn(unlockable, bar_key: str, vote: str):
+        """
+        Pick who speaks for one faction bar at the generic PTA vote, and what she says.
+
+        Args:
+            unlockable (Unlockable): The proposal being voted on.
+            bar_key (str): Key of the bar the vote was rolled from.
+            vote (str): ``"yes"`` or ``"no"``.
+
+        Returns:
+            dict | None: ``person`` (Person), ``name`` (image token), ``level``
+            (image level) and ``lines`` (list[str]); None for a bar without a
+            faction speaker (custom mod bars just count silently).
+        """
+        faction = PTA_FACTION_SPEAKERS.get(bar_key)
+        if faction is None:
+            return None
+        char_key, person_keys = faction
+        people = [(key, Person[key]) for key in person_keys if Person[key] is not None]
+        if not people:
+            return None
+        person_key, person = renpy.random.choice(people)
+
+        lines = unlockable.get_vote_comment(bar_key, vote)
+        if not lines:
+            lines = [PTA_STOCK_VOTE_COMMENTS.get(person_key, {}).get(vote, "")]
+        lines = [line for line in lines if line]
+        if not lines:
+            return None
+
+        char = get_character_by_key(char_key)
+        level = char.get_level() if char is not None else 1
+        return {
+            "person": person,
+            "name": person.first_name,
+            "level": clamp_value(level, 1, 10),
+            "lines": lines,
+        }
+
+    # endregion
+    ##########################
+
     ########################
     # region legacy stubs -- #
     ########################
@@ -100,7 +195,8 @@ init 1 python:
 
     pta_vote_unregistered_1_event = EventFragment(2, "pta_vote_unregistered_1",
         JournalNRVoteCondition(),
-        Pattern("vote", "images/events/pta/regular meeting/pta_vote <school_level> <name>.webp"))
+        # one render per speaker; <level> is her faction's level (get_pta_vote_turn)
+        Pattern("vote", "images/events/pta/regular meeting/pta_vote <level> <name>.webp"))
 
     pta_vote_nothing_1_event = EventFragment(2, "pta_vote_nothing_1",
         CompareCondition("vote_proposal", None))
@@ -375,6 +471,21 @@ label pta_vote_unregistered_1 (**kwargs):
     $ image.show(6)
     headmaster "Support among the stakeholders sits at about [vote_probability] percent."
     headmaster "Please cast your vote now."
+
+    # one speaker per faction bar, in bar order (the order roll_votes used)
+    $ pta_bars = unlockable.get_bars()
+    $ pta_bar_i = 0
+    while pta_bar_i < len(pta_bars):
+        $ pta_turn = get_pta_vote_turn(unlockable, pta_bars[pta_bar_i].key, votes[pta_bar_i])
+        if pta_turn is not None:
+            call show_image(get_pattern_from_kwargs("vote", **kwargs).get_path(), **with_values(kwargs, level = pta_turn["level"], name = pta_turn["name"])) from _call_show_image_pta_vote_unregistered_1
+            $ pta_speaker = pta_turn["person"]
+            $ pta_line_i = 0
+            while pta_line_i < len(pta_turn["lines"]):
+                $ pta_line = pta_turn["lines"][pta_line_i]
+                pta_speaker "[pta_line]"
+                $ pta_line_i += 1
+        $ pta_bar_i += 1
 
     $ image.show(7)
     $ yes_count = votes.count("yes")

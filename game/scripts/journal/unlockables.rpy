@@ -31,11 +31,15 @@ init -7 python:
             flag_exclusive: bool = True,
             start_thresholds: str = "skip",
             pitch: str | list = None,
+            vote_comments: dict = None,
         ):
             self.unlockable_key = key
             # what the headmaster tells the PTA in the generic vote scene; the
             # descriptions are journal notes and never read out
             self.pitch = [pitch] if isinstance(pitch, str) else list(pitch or [])
+            # {bar key: {"yes": str | [lines], "no": ...}}: what that faction's speaker
+            # says at the generic vote instead of her stock line
+            self.vote_comments = dict(vote_comments or {})
             self.type_key = type_key
             self.group_index = group_index
             self.conditions = ConditionStorage()
@@ -233,6 +237,22 @@ init -7 python:
                 return list(pitch)
             return [UNLOCKABLE_STOCK_PITCH.get(self.type_key, UNLOCKABLE_STOCK_PITCH["other"])]
 
+        def get_vote_comment(self, bar_key: str, vote: str) -> list:
+            """
+            This Unlockable's own comment for a faction's vote, if it brings one.
+
+            Args:
+                bar_key (str): Faction bar key (``"Teachers"``, ``"Parents"``, ...).
+                vote (str): ``"yes"`` or ``"no"``.
+
+            Returns:
+                list[str]: The lines, or an empty list for the speaker's stock line.
+            """
+            comment = getattr(self, "vote_comments", {}).get(bar_key, {}).get(vote)
+            if comment is None:
+                return []
+            return [comment] if isinstance(comment, str) else list(comment)
+
         def update_data(self, situation: Situation):
             """
             Sync definition fields from a freshly loaded unlockable template.
@@ -247,6 +267,7 @@ init -7 python:
                 self.group_index = situation.group_index
                 self.conditions = situation.conditions
                 self.pitch = situation.pitch
+                self.vote_comments = situation.vote_comments
             return self
 
         def run_self_test(self):

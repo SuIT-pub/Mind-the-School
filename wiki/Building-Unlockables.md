@@ -471,6 +471,7 @@ Unlockable(
     group_index=-1,           # chain level; -1 = standalone
     inject_default_cancel=True,  # False → supply your own Cancel measure
     pitch=None,               # what the headmaster tells the PTA (str or [lines…])
+    vote_comments=None,       # {bar key: {"yes": …, "no": …}} faction speakers' lines
 )
 ```
 
@@ -479,6 +480,24 @@ The description is the headmaster's private journal note and is never read out a
 the meeting. Without `pitch` he says one stock line for the `type_key`
 (`UNLOCKABLE_STOCK_PITCH`). Write the pitch as speech to the people at the table:
 the parents, teachers and the student representative are listening.
+
+After the pitch, one member speaks for each faction bar and gives its vote. The
+speaker is picked at random (`PTA_FACTION_SPEAKERS`: a teacher for `"Teachers"`, a
+parent for `"Parents"`, Yuriko for `"Students"`) and shown in her
+`pta_vote <level> <Name>` render at her faction's level. She says her stock yes/no
+line (`PTA_STOCK_VOTE_COMMENTS`) unless the Unlockable brings its own:
+
+```python
+vote_comments={
+    "Parents": {
+        "yes": "If it keeps the girls out of the kiosk queue, I'm for it.",
+        "no": ["We've seen the costs.", "The parents vote no."],   # str or [lines…]
+    },
+},
+```
+
+The comment is said by whoever was picked, so write it for the faction, not for one
+person. A bar whose key is not a faction (a mod's own bar) is counted silently.
 
 Supporting helpers you will use inside `*elements`:
 
@@ -611,8 +630,9 @@ pool mechanism already covers "PTA discussion at these bar levels".
 ### Story votes (a vote scene of your own)
 
 By default the Friday meeting plays the generic vote scene (`pta_vote_unregistered_1`):
-the headmaster names the proposal, speaks its `pitch` (or the stock line for its
-type), and the votes are rolled.
+the headmaster names the proposal and speaks its `pitch` (or the stock line for its
+type), the votes are rolled, and one speaker per faction gives her faction's vote
+(`vote_comments`, see [§10](#10-the-definition-helper-author-api)).
 To give an Unlockable its own scene, add a fragment to `pta_vote_storage` gated by
 `JournalVoteCondition`. Constructing that condition claims the vote, so the
 generic scene steps aside for it. For one member of a group, pass `group_index`;
