@@ -214,9 +214,6 @@ style buttons_selected_small take buttons_idle_small:
 style buttons_active take buttons_idle:
     color "#008800"
 
-style journal_pta_overview take buttons_idle:
-    size 25
-
 
 
 # endregion

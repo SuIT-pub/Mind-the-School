@@ -312,7 +312,7 @@ label first_pta_meeting (**kwargs):
         Of course, I'm not planning to run these schools alone. I wouldn't be able to handle it. That's why I've called 
         this group together, so that we can work together to improve these schools!
 
-        I plan to hold this meeting every Friday evening so that we can share ideas, talk about the current state of 
+        I plan to hold this meeting every Friday morning so that we can share ideas, talk about the current state of 
         the schools and discuss and vote on changes that are planned for the schools.
 
         Here's to working together and thank you all for listening.
@@ -392,10 +392,6 @@ label first_pta_meeting (**kwargs):
 label pta_meeting (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ schoolLevel = get_level("school_level")
-    $ secretaryLevel = get_level("secretary_level")
-
-    $ kwargs = load_kwargs_values(kwargs, schoolLevel = schoolLevel, secretaryLevel = secretaryLevel)
     $ image = convert_pattern("base", **kwargs)
 
     $ image.show(0)

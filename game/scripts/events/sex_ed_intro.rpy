@@ -637,7 +637,7 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ image.show(3)
     headmaster "Great! Then let's move onto the next topic."
     
-    $ show_notify_message("Added new rule to journal!")
+    $ show_notify_message("New unlockable in the journal: Theoretical Sex Ed")
 
     $ set_progress('start_sex_ed', 6) # 5 -> 6
     # The campaign picks up straight from the meeting instead of waiting for "Start Introducing".
