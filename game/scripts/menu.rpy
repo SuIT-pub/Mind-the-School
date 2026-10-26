@@ -779,7 +779,7 @@ label call_element(key, effects, **kwargs):
         if isinstance(override, str):
             $ renpy.call(override)
         elif isinstance(override, Event):
-            $ renpy.call(override.get_event())
+            $ renpy.call(override.get_event_label())
 
     $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
     if override_kwargs != None:
@@ -805,7 +805,7 @@ label close_menu(**kwargs):
         if isinstance(override, str):
             $ renpy.call(override)
         elif isinstance(override, Event):
-            $ renpy.call(override.get_event())
+            $ renpy.call(override.get_event_label())
     $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
     if override_kwargs != None:
         if isinstance(override_kwargs, str):

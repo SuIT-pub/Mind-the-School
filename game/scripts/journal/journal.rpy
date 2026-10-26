@@ -1219,7 +1219,8 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ hide_all()
 
     # call event
-    $ renpy.call(event, **gallery_chooser)
+    # the scene label, which a mod may have pointed elsewhere (label=)
+    $ renpy.call(event_obj.get_event_label(), **gallery_chooser)
 
 # endregion
 ##################

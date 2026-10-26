@@ -7,6 +7,9 @@ init -98 python:
 
     location_event_register = {}
     event_register = {}
+    # label -> the Event created with it; replacements never remove entries, so a
+    # replaced event's gallery entry still finds the original (see replace_event)
+    event_label_register = {}
     event_register_by_max_level = {}
     fragment_storage_register = {}
 

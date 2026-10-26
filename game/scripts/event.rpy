@@ -1240,9 +1240,11 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_location = None, title: str = None):
+        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_location = None, title: str = None, label: str = None):
             self.event_id = str(event)
             self.event = event
+            # the scene label; the key by default, a mod can point a key at its own scene
+            self.label = str(label) if label else str(event)
             self.thumbnail = thumbnail
             self.title = title
 
@@ -1302,6 +1304,7 @@ init -3 python:
 
             if register_self and is_mod_active(active_mod_key):
                 event_register[self.event_id] = self
+                event_label_register.setdefault(self.label, self)
             self.location = "misc"
             self.override_location = override_location
             if self.override_location != None:
@@ -1343,6 +1346,9 @@ init -3 python:
             if not hasattr(self, 'select_type'):
                 self.select_type = 3
 
+            if not hasattr(self, 'label'):
+                self.label = self.event
+
             if not hasattr(self, 'event_type'):
                 self.event_type = ""
 
@@ -1373,8 +1379,8 @@ init -3 python:
                 log("Event " + self.event_id + ": Select Type " + str(self.select_type) + " is not valid!", log_type="error", category="event")
                 self._invalid = True
 
-            if not renpy.has_label(self.event):
-                log("Event " + self.event_id + ": Label " + self.event + " is missing!", log_type="error", category="event")
+            if not renpy.has_label(self.label):
+                log("Event " + self.event_id + ": Label " + self.label + " is missing!", log_type="error", category="event")
                 self._invalid = True
 
         def check_selectors(self):
@@ -1521,7 +1527,7 @@ init -3 python:
             return self.event
 
         def get_event_label(self) -> str:
-            return self.get_event()
+            return self.label
 
         def get_select_type(self) -> int:
             """
@@ -1690,10 +1696,10 @@ init -3 python:
             - The thumbnail of the event.
         """
 
-        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = "", title: str = None):
+        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = "", title: str = None, label: str = None):
             self.event_form = "composite"
 
-            super().__init__(priority, event, *conditions, thumbnail = thumbnail, title = title)
+            super().__init__(priority, event, *conditions, thumbnail = thumbnail, title = title, label = label)
 
             self.fragments = [fragment for fragment in fragments if isinstance(fragment, FragmentStorage)]
             
@@ -1806,7 +1812,7 @@ init -3 python:
             Returns the event label.
             """
 
-            return self.event
+            return self.label
 
         def get_length(self) -> int:
             """
@@ -1993,10 +1999,10 @@ init -3 python:
             super().call(**kwargs)
 
     class EventFragment(Event):
-        def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", title: str = None):
+        def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", title: str = None, label: str = None):
             self.event_form = "fragment"
 
-            super().__init__(select_type, event, *conditions, thumbnail = thumbnail, title = title)
+            super().__init__(select_type, event, *conditions, thumbnail = thumbnail, title = title, label = label)
 
             self.set_location("fragment")
 
