@@ -184,6 +184,21 @@ init python:
             return minimum
         return int(max(minimum, text_h + gui.dialogue_ypos + 34))
 
+    def shown_dialog_box_height():
+        """
+        Height of the dialogue box that is on screen right now, or the
+        three-line minimum when none is. A menu caption longer than three
+        lines grows the box, and the choices have to sit above that, not
+        above the minimum.
+        """
+
+        # read the text off the say screen itself: a menu caption doesn't
+        # always pass through _last_say_what
+        say_screen = renpy.get_screen("say")
+        if say_screen is None:
+            return gui.textbox_height
+        return journal_dialog_box_height(say_screen.scope.get("what"))
+
 screen say(who, what, speaker = None):
     style_prefix "say"
 
@@ -368,8 +383,7 @@ screen choice(items):
 
     frame:
         background None
-        area (0, 0, 1880, 1080 - gui.textbox_height - 6)
-
+        area (0, 0, 1880, 1080 - shown_dialog_box_height() - 6)
         vbox:
             xalign 1.0
             yalign 1.0
