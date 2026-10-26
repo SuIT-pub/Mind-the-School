@@ -33,6 +33,11 @@
     "fragment-end-event-docs",
     "person-relations",
     "kink-condition-kink-check",
-    "kink-system"
+    "kink-system",
+    "remove-event-fix",
+    "add-person-relations",
+    "gallery-name-kwarg",
+    "event-label-param",
+    "event-replacement"
   ]
 }
