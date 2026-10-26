@@ -329,37 +329,6 @@ label sd_event_4 (**kwargs):
 
     $ end_event(**kwargs)
 
-define anim_sde5_path = "images/events/school dormitory/sd_event_5/sd_event_5 "
-image anim_sd_event_5_7_5   = Movie(play = anim_sde5_path + "7 5.webm",   start_image = anim_sde5_path + "7 5.webp", loop = True)
-image anim_sd_event_5_7_6   = Movie(play = anim_sde5_path + "7 6.webm",   start_image = anim_sde5_path + "7 6.webp", loop = True)
-image anim_sd_event_5_7_7   = Movie(play = anim_sde5_path + "7 7.webm",   start_image = anim_sde5_path + "7 7.webp", loop = True)
-image anim_sd_event_5_7_8   = Movie(play = anim_sde5_path + "7 8.webm",   start_image = anim_sde5_path + "7 8.webp")
-image anim_sd_event_5_7_9   = Movie(play = anim_sde5_path + "7 9.webm",   start_image = anim_sde5_path + "7 9.webp")
-image anim_sd_event_5_7_10  = Movie(play = anim_sde5_path + "7 10.webm",  start_image = anim_sde5_path + "7 10.webp", loop = True)
-image anim_sd_event_5_8_5   = Movie(play = anim_sde5_path + "8 5.webm",   start_image = anim_sde5_path + "8 5.webp", loop = True)
-image anim_sd_event_5_8_6   = Movie(play = anim_sde5_path + "8 6.webm",   start_image = anim_sde5_path + "8 6.webp", loop = True)
-image anim_sd_event_5_8_7   = Movie(play = anim_sde5_path + "8 7.webm",   start_image = anim_sde5_path + "8 7.webp", loop = True)
-image anim_sd_event_5_8_8   = Movie(play = anim_sde5_path + "8 8.webm",   start_image = anim_sde5_path + "8 8.webp", loop = True)
-image anim_sd_event_5_8_9   = Movie(play = anim_sde5_path + "8 9.webm",   start_image = anim_sde5_path + "8 9.webp", loop = True)
-image anim_sd_event_5_8_10  = Movie(play = anim_sde5_path + "8 10.webm",  start_image = anim_sde5_path + "8 10.webp", loop = True)
-image anim_sd_event_5_8_11  = Movie(play = anim_sde5_path + "8 11.webm",  start_image = anim_sde5_path + "8 11.webp")
-image anim_sd_event_5_8_12  = Movie(play = anim_sde5_path + "8 12.webm",  start_image = anim_sde5_path + "8 12.webp", loop = True)
-image anim_sd_event_5_9_5   = Movie(play = anim_sde5_path + "9 5.webm",   start_image = anim_sde5_path + "9 5.webp", loop = True)
-image anim_sd_event_5_9_6   = Movie(play = anim_sde5_path + "9 6.webm",   start_image = anim_sde5_path + "9 6.webp", loop = True)
-image anim_sd_event_5_9_7   = Movie(play = anim_sde5_path + "9 7.webm",   start_image = anim_sde5_path + "9 7.webp", loop = True)
-image anim_sd_event_5_9_8   = Movie(play = anim_sde5_path + "9 8.webm",   start_image = anim_sde5_path + "9 8.webp", loop = True)
-image anim_sd_event_5_9_9   = Movie(play = anim_sde5_path + "9 9.webm",   start_image = anim_sde5_path + "9 9.webp", loop = True)
-image anim_sd_event_5_9_10  = Movie(play = anim_sde5_path + "9 10.webm",  start_image = anim_sde5_path + "9 10.webp", loop = True)
-image anim_sd_event_5_9_11  = Movie(play = anim_sde5_path + "9 11.webm",  start_image = anim_sde5_path + "9 11.webp")
-image anim_sd_event_5_9_12  = Movie(play = anim_sde5_path + "9 12.webm",  start_image = anim_sde5_path + "9 12.webp", loop = True)
-image anim_sd_event_5_10_5  = Movie(play = anim_sde5_path + "10 5.webm",  start_image = anim_sde5_path + "10 5.webp", loop = True)
-image anim_sd_event_5_10_6  = Movie(play = anim_sde5_path + "10 6.webm",  start_image = anim_sde5_path + "10 6.webp", loop = True)
-image anim_sd_event_5_10_7  = Movie(play = anim_sde5_path + "10 7.webm",  start_image = anim_sde5_path + "10 7.webp", loop = True)
-image anim_sd_event_5_10_8  = Movie(play = anim_sde5_path + "10 8.webm",  start_image = anim_sde5_path + "10 8.webp", loop = True)
-image anim_sd_event_5_10_9  = Movie(play = anim_sde5_path + "10 9.webm",  start_image = anim_sde5_path + "10 9.webp", loop = True)
-image anim_sd_event_5_10_10 = Movie(play = anim_sde5_path + "10 10.webm", start_image = anim_sde5_path + "10 10.webp", loop = True)
-image anim_sd_event_5_10_11 = Movie(play = anim_sde5_path + "10 11.webm", start_image = anim_sde5_path + "10 11.webp")
-image anim_sd_event_5_10_12 = Movie(play = anim_sde5_path + "10 12.webm", start_image = anim_sde5_path + "10 12.webp", loop = True)
 label sd_event_5 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -395,48 +364,9 @@ label .leave (**kwargs):
 label .stay (**kwargs):
     $ begin_event(**kwargs)
 
-    if school_level >= 8:
-        $ image.show(3)
-        luna "Oh Mr. [headmaster_last_name], you're watching?"
-        $ image.show(4)
-        seraphina "Why not join us?"
-        $ image.show_video(5)
-        seraphina "Ahh, you're so big!"
-        $ image.show_video(6, pause = True)
-        $ image.show_video(7, pause = True)
-        $ image.show_video(8, pause = True)
-        $ image.show_video(9, pause = True)
-        $ image.show_video(10, pause = True)
-        $ image.show_video(11)
-        $ renpy.pause(5.3333)
-        $ image.show_video(12)
-        luna "Mr. [headmaster_last_name], that was amazing!"
-
-        call change_stats_with_modifier(
-            inhibition = DEC_SMALL, corruption = SMALL, charm = TINY, happiness = SMALL
-        ) from _call_sd_event_5_stay_6
-    elif school_level >= 7:
-        $ image.show(3)
-        luna "Oh Mr. [headmaster_last_name], you're watching?"
-        $ image.show(4)
-        seraphina "Do you like what you see?"
-        luna "Why not make it fair and show us yours?"
-        $ image.show_video(5)
-        seraphina "Wow Mr. [headmaster_last_name], you're quite big!"
-        $ image.show_video(6)
-        seraphina "Hmm, you like that?"
-        $ image.show_video(7, pause = True)
-        $ image.show_video(8)
-        $ renpy.pause(7.61)
-        $ image.show_video(9)
-        $ renpy.pause(5.3333)
-        $ image.show_video(10, pause = True)
-        luna "Thanks for the meal!"
-
-        call change_stats_with_modifier(
-            inhibition = DEC_SMALL, corruption = SMALL, charm = TINY, happiness = SMALL
-        ) from _call_sd_event_5_stay_5
-    elif school_level >= 5:
+    # From level 7 the twins inviting him in, and what follows, live in the
+    # IncestContent mod; the base game plays this version on every level from 5.
+    if school_level >= 5:
         $ image.show(3)
         seraphina "Oh Mr. [headmaster_last_name], you're watching?"
         $ image.show(4)
