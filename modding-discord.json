@@ -38,6 +38,7 @@
     "add-person-relations",
     "gallery-name-kwarg",
     "event-label-param",
-    "event-replacement"
+    "event-replacement",
+    "event-replacement-init-2"
   ]
 }
