@@ -12,6 +12,8 @@ init -98 python:
     event_label_register = {}
     event_register_by_max_level = {}
     fragment_storage_register = {}
+    # every EventStorage / FragmentStorage, so replace_event finds all that hold a key
+    event_storage_register = []
 
     gallery_exclude = []
     load_gallery_exclude()

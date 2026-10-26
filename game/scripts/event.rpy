@@ -219,6 +219,11 @@ init -3 python:
             self.location = location
             
             self.options = OptionSet(*options)
+
+            # load-time storages only: replacements happen at load time, and a
+            # storage built later (TempEventStorage) mustn't grow the list
+            if renpy.is_init_phase():
+                event_storage_register.append(self)
             
             self.debuff_list = []
             self.debuff_value = 0.0
@@ -386,9 +391,10 @@ init -3 python:
             Removes an event from the :class:`EventStorage`.
             """
 
-            del self.events[1][event_id]
-            del self.events[2][event_id]
-            del self.events[3][event_id]
+            # an event sits under one priority only; a plain del on all three
+            # raised a KeyError for the other two
+            for events in self.events.values():
+                events.pop(event_id, None)
 
         ###############
 
@@ -2319,6 +2325,99 @@ init -3 python:
         if name in event_register.keys():
             return event_register[name]
         return None
+
+    ##############################
+    # region Mod replacement
+
+    def replace_event(key: str, event: Event):
+        """
+        Puts ``event`` in place of the registered event ``key``, in every
+        storage that holds it and in the event register. Done once at load
+        time (init 1 or later, after set_current_mod); nothing happens while
+        the mod is off. The new event must carry the same key, which keeps
+        "seen", progress and every story chain that waits on the key intact.
+        It replaces everything (conditions, images, priority, label); offering
+        alternatives, e.g. without a kink, is up to the mod.
+
+        ### Parameters:
+        1. key: str
+            - The key of the event to replace.
+        2. event: :class:`Event`
+            - The replacement, created with the same key (use ``label=`` to
+                play a scene of your own).
+        """
+
+        if not is_mod_active(active_mod_key):
+            return
+        if event.get_id() != key:
+            log(f"replace_event: the replacement for '{key}' has the key '{event.get_id()}'; it must use the same key", log_type = "error", category = "event")
+            return
+
+        original = event_register.get(key)
+        if original is None:
+            log(f"replace_event: no event '{key}' to replace", log_type = "warning", category = "event")
+
+        found = False
+        for storage in event_storage_register:
+            for events in storage.events.values():
+                if key not in events:
+                    continue
+                old = events.pop(key)
+                storage.events[event.get_select_type()][key] = event
+                storage.register_event_for_location(event, storage.location)
+                for location_events in location_event_register.values():
+                    location_events.discard(old)
+                found = True
+                break
+
+        if original is not None and not found:
+            log(f"replace_event: '{key}' is in no storage; only the register entry was replaced", log_type = "warning", category = "event")
+
+        event_register[key] = event
+        event_label_register.setdefault(event.get_event_label(), event)
+
+    def set_event_label(key: str, label: str):
+        """
+        Lets the registered event ``key`` play the scene ``label`` instead,
+        keeping its conditions, images and priority. Works on a copy, so the
+        original (and its gallery entry) stays as it was.
+        """
+
+        if not is_mod_active(active_mod_key):
+            return
+        original = event_register.get(key)
+        if original is None:
+            log(f"set_event_label: no event '{key}'", log_type = "warning", category = "event")
+            return
+
+        import copy
+        relabeled = copy.copy(original)
+        relabeled.label = str(label)
+        record_mod_change("event", key)
+        replace_event(key, relabeled)
+
+    def add_event_conditions(key: str, *conditions: Condition):
+        """
+        Adds conditions to the registered event ``key`` (load time, mod-gated).
+        Only conditions: selectors, options and patterns are not taken here.
+        """
+
+        if not is_mod_active(active_mod_key):
+            return
+        event = event_register.get(key)
+        if event is None:
+            log(f"add_event_conditions: no event '{key}'", log_type = "warning", category = "event")
+            return
+
+        for condition in conditions:
+            if not isinstance(condition, Condition):
+                log(f"add_event_conditions('{key}'): {condition!r} is not a Condition, skipped", log_type = "error", category = "event")
+                continue
+            event.conditions_storage.add_condition(condition)
+        record_mod_change("event_conditions", key)
+
+    # endregion
+    ##############################
 
     def get_fragment_storage_from_register(id: str) -> EventStorage:
         """

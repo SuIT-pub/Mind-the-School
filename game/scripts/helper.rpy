@@ -1682,6 +1682,7 @@ init -99 python:
     MOD_CHANGE_LABELS = {
         "event": "Replaced events",
         "event_image": "Replaced event images",
+        "event_conditions": "Events with extra conditions",
         "pool_event": "Existing actions with new events",
         "teaser": "Existing situations with new teasers",
         "map_building": "Buildings put on existing maps",
@@ -1868,7 +1869,7 @@ init -99 python:
             other_changes = mod_content_changes.get(other_key, {})
             for kind, keys in changes.items():
                 # adding to the same action or map is fine, replacing the same thing is not
-                if kind in ("pool_event", "teaser", "map_building"):
+                if kind in ("pool_event", "teaser", "map_building", "event_conditions"):
                     continue
                 if other_changes.get(kind, set()) & set(keys):
                     conflicts.add(other.get('name', other_key))
