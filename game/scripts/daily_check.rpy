@@ -1,12 +1,5 @@
 init -1 python:
     set_current_mod('base')
-    def after_load_event_check(location: str, events: Dict[str, EventStorage], general_event: EventStorage):
-        
-        general_event.check_all_events()
-        if events != None:
-            for storage in events.values():
-                storage.check_all_events()
-
     after_event_check = Event(2, "time_event_check.after_event_check")
 
     time_check_events = EventStorage("time_check_events", "misc", fallback = after_event_check)

@@ -21,6 +21,7 @@ label start ():
     $ fix_modifier()
 
     $ check_event_selectors()
+    $ check_registered_events()
 
     $ i = 0
     while i < len(start_methods):
@@ -111,6 +112,7 @@ label after_load:
     $ clean_legacy_vote_proposal()
 
     $ check_event_selectors()
+    $ check_registered_events()
 
     # also creates the budget and payroll modifiers, so it runs for every save
     $ fix_modifier()
@@ -131,24 +133,6 @@ label after_load:
     if contains_game_data("names") and "headmaster" in get_game_data("names"):
         $ headmaster_first_name = get_game_data("names")["headmaster"][0]
         $ headmaster_last_name = get_game_data("names")["headmaster"][1]
-
-    #################
-    # load all events
-    $ after_load_event_check('daily', None, time_check_events)
-    $ after_load_event_check('bath', bath_events, bath_general_event)
-    $ after_load_event_check('cafeteria', cafeteria_events, cafeteria_general_event)
-    $ after_load_event_check('courtyard', courtyard_events, courtyard_general_event)
-    $ after_load_event_check('gym', gym_events, gym_general_event)
-    $ after_load_event_check('kiosk', kiosk_events, kiosk_general_event)
-    $ after_load_event_check('labs', labs_events, labs_general_event)
-    $ after_load_event_check('office_building', office_building_events, office_building_general_event)
-    $ after_load_event_check('school_building', sb_events, sb_general_event)
-    $ after_load_event_check('school_dormitory', sd_events, sd_general_event)
-    $ after_load_event_check('sports_field', sports_field_events, sports_field_general_event)
-    $ after_load_event_check('swimming_pool', swimming_pool_events, swimming_pool_general_event)
-    $ after_load_event_check('beach', beach_events, beach_general_event)
-    $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event)
-    #################
 
     $ update_intro_flag()
     # a save made outside an event may still hold the static Character speakers

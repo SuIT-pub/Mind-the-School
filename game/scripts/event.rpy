@@ -2342,6 +2342,15 @@ init -3 python:
                 log("end_event: unknown return_type '" + str(return_type) + "', falling back to map_entry", log_type="error", category="event")
             renpy.jump("map_entry")
 
+    def check_registered_events():
+        """
+        Validates every registered event (select type, label) and hides the broken
+        ones. Reads event_register, so a mod's events and new buildings are covered
+        without being listed anywhere.
+        """
+        for event in event_register.values():
+            event.check_event()
+
     def is_event_registered(name: str) -> bool:
         """
         Checks if an event is registered.
