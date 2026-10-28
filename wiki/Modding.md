@@ -440,8 +440,7 @@ init 1 python:
 label snackmod_snack_chat(**kwargs):
     $ begin_event(**kwargs)
     $ snack = get_value("snack", **kwargs)
-    $ miwa  = Person["miwa_igarashi"]
-    $ image = convert_pattern("main", **kwargs)
+    $ image = convert_pattern("main", **kwargs)     # `miwa` is bound by begin_event
     $ image.show(0)
     miwa.say "Ooh, a [snack]! My favourite."
     $ image.show(1)

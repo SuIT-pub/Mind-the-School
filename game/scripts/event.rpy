@@ -4,6 +4,7 @@ init -2 python:
 init -3 python:
     import re
     import random
+    import keyword
     import time
     from typing import Any, Dict, List, Optional, Tuple, Union
     from deprecated import deprecated
@@ -2126,20 +2127,49 @@ init -3 python:
 
         event_dict[event_storage.get_name()] = event_storage
 
+    # speaker names already reported, so a clash is logged once per session, not per event
+    _speaker_bind_warned = set()
+
+    def _warn_speaker_bind(name: str, message: str):
+        if name in _speaker_bind_warned:
+            return
+        _speaker_bind_warned.add(name)
+        log(message, log_type="error", category="dialogue")
+
     def bind_event_speakers():
         """
-        Binds the two ever-present speakers so every event can use `headmaster` /
-        `emiko` without repeating the lookup. Both are per-save Person objects (see
-        the Dialogue wiki). Guarded so a missing person leaves the static
-        `character.*` fallback intact instead of shadowing it with None.
+        Binds every registered Person under its speaker name (Person.get_speaker_name,
+        `aona_komuro` -> `aona`) so a scene can write `aona "..."`, `aona.think "..."`
+        or `aona.get_first_name()` without looking her up first. The persons come from
+        person_storage, so a mod's persons are bound as soon as the mod is active.
         Called by begin_event; call it directly in labels that skip begin_event.
+
+        A name that already holds anything other than a speaker (a Person, a Character
+        or None, as left by older per-event bindings) is not overwritten: that would
+        clobber game state like `time`. The clash is logged and the person stays
+        reachable through Person["key"].
         """
-        hm_person = Person["headmaster"]
-        if hm_person is not None:
-            renpy.store.headmaster = hm_person
-        emiko_person = Person["emiko_langley"]
-        if emiko_person is not None:
-            renpy.store.emiko = emiko_person
+        bound = {}
+        for group in person_storage.values():
+            for person in group.values():
+                if not isinstance(person, Person):
+                    continue
+                name = person.get_speaker_name()
+                if not name:
+                    continue
+                if not name.isidentifier() or keyword.iskeyword(name):
+                    _warn_speaker_bind(name, "Person " + person.name + ": speaker name '" + name + "' is not a valid variable name; set speaker= on the Person.")
+                    continue
+                if name in bound:
+                    if bound[name] is not person:
+                        _warn_speaker_bind(name, "Persons " + bound[name].name + " and " + person.name + " share the speaker name '" + name + "'; " + bound[name].name + " keeps it. Set speaker= on one of them.")
+                    continue
+                current = getattr(renpy.store, name, None)
+                if current is not None and not isinstance(current, (Person, ADVCharacter)):
+                    _warn_speaker_bind(name, "Person " + person.name + ": speaker name '" + name + "' is already a store variable (" + type(current).__name__ + "); set speaker= on the Person.")
+                    continue
+                bound[name] = person
+                setattr(renpy.store, name, person)
 
     def begin_event(version: str = "1", **kwargs):
         """

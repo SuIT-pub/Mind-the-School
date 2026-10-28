@@ -13,10 +13,11 @@
 
 ## Quick start
 
-Grab the `Person`, then talk through its speech modes:
+`begin_event` binds every registered `Person` under its **speaker name** — the part of
+its key before the first `_` (`miwa_igarashi` → `miwa`). Inside an event you just speak:
 
 ```python
-$ miwa = Person["miwa_igarashi"]
+$ begin_event(**kwargs)            # binds miwa, aona, headmaster, emiko, … for you
 miwa "That was crazy..."           # bare call == normal speech
 miwa.say     "That was crazy..."   # same thing, explicit
 miwa.think   "...why did she do that?"
@@ -25,11 +26,11 @@ miwa.shout   "Watch out!"
 "[miwa.get_full_name()] blushes."  # same object, other members
 ```
 
-The player (Headmaster) and the secretary (Emiko) are ordinary `Person`s too, and
-`begin_event` already binds them — inside any event you can just speak:
+The player (Headmaster) and the secretary (Emiko) are ordinary `Person`s too, bound the
+same way:
 
 ```python
-$ begin_event(**kwargs)      # binds `headmaster` and `emiko` for you
+$ begin_event(**kwargs)
 emiko "Caught you glaring at it. Don't worry — everyone glares at it."
 headmaster.think "That plaque again."
 headmaster "Then let's stop waiting on it. Chase it today."
@@ -88,11 +89,11 @@ player, has *no* stat-`Char` (`character` is `None`), and is handled by name —
 
 ## 2. Speaking as a fixed character
 
-Keep the **`Person`** and speak through it — you get dialogue *and* the rest of the
-person from one variable, no second definition:
+Speak through the **`Person`** — you get dialogue *and* the rest of the person from one
+variable, no second definition. `begin_event` binds it for you (see
+[Speaker names](#speaker-names) below):
 
 ```python
-$ miwa = Person["miwa_igarashi"]
 miwa         "Normal line."     # __call__ delegates to .say
 miwa.say     "Normal line."
 miwa.think   "Inner monologue."
@@ -118,6 +119,26 @@ Under the hood every one calls `get_renpy_char(char_type="")` (`char_type` ∈ `
 `$ x = Person["key"].get_renpy_char(...)` form still works and returns the same
 `Character`; the property/bare-call form just avoids carrying that extra line. Building a
 new `Character` per access is cheap and behaves identically (same name, `retain=False`).
+
+### Speaker names
+
+`begin_event` calls `bind_event_speakers()`, which walks `person_storage` and binds each
+`Person` to a store variable named by `Person.get_speaker_name()`:
+
+- default: the key up to the first `_` — `aona_komuro` → `aona`, `ishimaru_maki` →
+  `ishimaru`, `emiko_langley` → `emiko`, `headmaster` → `headmaster`;
+- `Person(..., speaker="tanaka")` picks another name;
+- `speaker=""` leaves the person unbound (the `default_*` placeholders use this).
+
+Mod persons are included as soon as the mod is active — nothing to register. The variable
+holds the **`Person`**, so `aona.get_first_name()` works next to `aona "..."`.
+
+A speaker name is **not** bound, and the clash is logged once (category `dialogue`), when
+it is not a valid Python name, when two persons share it (the first one keeps it), or
+when the store already holds something else under it (anything but a `Person`, a
+`Character` or `None`) — so a person can never overwrite `time` or `money`. Fix it with
+`speaker=`. A label that skips `begin_event` can call `$ bind_event_speakers()` itself;
+outside an event the person is always reachable as `Person["key"]`.
 
 ---
 
@@ -172,11 +193,11 @@ she automatically picks up the `character.secretary` look. Write her lines as `e
 (the old `secretary "..."` speaker was retired in favour of the `Person`).
 
 > Static safety nets `character.headmaster` and `character.emiko` exist in `values.rpy`
-> so a bare `headmaster`/`emiko` say line can't crash even if a code path forgot the
-> `$ ... = Person[...]` binding. The legacy `character.*_thought/_whisper/_shout`
-> definitions still exist (referenced by version-compat fixups) but are **redundant for
-> dialogue** — the char-type modes generate that formatting dynamically. Don't add new
-> ones; use `.think`/`.whisper`/`.shout`.
+> so a bare `headmaster`/`emiko` say line can't crash in a label that runs before
+> `begin_event` bound the speakers. The legacy `character.*_thought/_whisper/_shout`
+> definitions still exist but are **redundant for dialogue** — the char-type modes
+> generate that formatting dynamically. Don't add new ones; use
+> `.think`/`.whisper`/`.shout`.
 
 ---
 
@@ -284,6 +305,7 @@ $ load_person("class_3a", Person(
     school_char,                # the Char this Person draws stats & category from
     [ "• Height: 172.5 cm", ... ],   # description lines (see Characters page format)
     styleOverrides = { ... },   # optional, see §6
+    speaker = None,             # optional: variable name begin_event binds; None = "aona", "" = unbound
 ))
 ```
 
@@ -299,9 +321,10 @@ Related: registering a **sprite** for the same person is a separate call —
 
 ## 9. Conventions
 
-- **`headmaster` and `emiko` are auto-bound by `begin_event`** — don't bind them
-  yourself; just speak. For any *other* fixed character, bind it once near the top:
-  `$ x = Person["key"]`, then speak.
+- **Every person is auto-bound by `begin_event`** under its speaker name — don't bind
+  them yourself; just speak (`aona "..."`, `headmaster.think "..."`). A
+  `$ aona = Person["aona_komuro"].get_renpy_char()` line in older events is redundant
+  and only narrows `aona` down to a `Character`.
 - **Speak through the `Person`**, not a hand-defined `Character`. Reserve
   `values.rpy` `Character` definitions for the shared **categories** and the two static
   safety nets (`headmaster`, `emiko`).
@@ -320,13 +343,14 @@ Related: registering a **sprite** for the same person is a separate call —
 
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
-| `NameError: emiko is not defined` on a say line | the label never called `begin_event` (which binds `headmaster`/`emiko`) | call `$ begin_event(**kwargs)` first, or for a non-event context rely on the static `character.emiko` |
+| `NameError: aona is not defined` on a say line | the label never called `begin_event` (which binds the speakers) | call `$ begin_event(**kwargs)` first, or `$ bind_event_speakers()` in a non-event label |
+| A person's speaker name isn't bound; log says "speaker name '…' is already a store variable" / "share the speaker name" | the default name clashes with a store variable or another person | set `speaker="…"` on the `Person` |
 | `AttributeError: 'ADVCharacter' has no attribute 'register_paperdoll'` | using `emiko.register_paperdoll()` where `emiko` fell back to the static Character | that call needs the `Person` — make sure `begin_event` ran in this label |
 | Headmaster's name shows literal `[headmaster_first_name]` | reading the raw def field instead of a getter/tag | use `get_full_name()` in Python or the `[...]` tag in dialogue text |
 | A character speaks with the neutral/centered subtitle look | their `Person.character` matches no known role (`kind` fell through to `subtitles`) | check the `Char` passed to the `Person`; for the Headmaster the name must be exactly `"headmaster"` |
 | `styleOverrides` seems ignored | key typo, or a char-type marker overrides it (e.g. `.whisper` forces italic) | verify the kwarg name; remember char-type markers win on their own keys |
 | `AttributeError: ... has no attribute 'get_character'` | calling the old method name on a `Person` | the method is `get_renpy_char(char_type="")` |
-| Lint prints `Could not evaluate '<name>' in the who part` | expected — lint can't run the per-event `$ x = Person[...]` binding | harmless; it's the same for every dynamically-bound speaker (`aona`, `miwa`, …) |
+| Lint prints `Could not evaluate '<name>' in the who part` | expected — the speakers are bound at runtime by `begin_event`, which lint doesn't run | harmless; the `renpy_lint` tool filters these lines |
 
 ---
 
@@ -349,6 +373,7 @@ Related: registering a **sprite** for the same person is a separate call —
 | `person(...)` / `person.say` | `Character` | normal speech |
 | `person.think` / `.whisper` / `.shout` | `Character` | speech modes |
 | `person.get_renpy_char(char_type="")` | `Character` | the underlying builder |
+| `person.get_speaker_name()` | `str` | variable `begin_event` binds the person to; `""` = none |
 | `person.get_first_name()` / `get_last_name()` / `get_full_name()` | `str` | Headmaster reads `get_name` live |
 
 **Helpers**

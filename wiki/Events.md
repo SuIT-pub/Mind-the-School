@@ -382,8 +382,9 @@ label truth_or_dare_2(**kwargs):
   **blocks rollback** (locking in rolled selector values and choices), marks the
   event **seen** (`set_event_seen`), starts a `Gallery_Manager` for replay
   (unless `no_gallery=True` in kwargs), and `init_paperdoll_manager()`. It also
-  **binds `headmaster` and `emiko`** (the two ever-present speakers) so the scene can
-  use them without a per-event `$ ... = Person[...]` — see [Dialogue](Dialogue). Bump
+  **binds every registered `Person`** under its speaker name (`aona_komuro` → `aona`,
+  plus `headmaster` and `emiko`) so the scene can speak without a per-event
+  `$ ... = Person[...]` — see [Dialogue](Dialogue#speaker-names). Bump
   `version` when a scene's structure changes so stale replays are invalidated.
 - **`$ end_event(return_type="new_daytime", **kwargs)`** — call it last. `"new_daytime"`
   advances to the next daytime segment; `"map_entry"` returns to the map; in replay it
@@ -548,12 +549,12 @@ Dialogue uses Ren'Py `say` statements with a **Character** object.
 
 ### Fixed characters
 
-Keep the **`Person` object** and speak through its speech-mode properties — you get
+Speak through the **`Person` object** and its speech-mode properties — you get
 dialogue *and* access to the rest of the person (name, level, …) from one variable, no
-second definition:
+second definition. `begin_event` binds every person under its speaker name (the key up to
+the first `_`, or `Person(speaker=...)`), so there is nothing to look up:
 
 ```python
-$ miwa = Person["miwa_igarashi"]
 miwa.say     "That was crazy..."
 miwa.think   "...why did she do that?"
 miwa.whisper "Don't tell anyone."
@@ -579,13 +580,13 @@ works and returns the same `Character` (`char_type` ∈ `""` / `"thought"` / `"w
 some events still carry. Each property access builds a new `Character`; that's cheap
 and behaves identically (same name, `retain=False`).
 
-The player (**Headmaster**) and the secretary (**Emiko**) are full `Person`s too, and
-**`begin_event` binds them for you** — no `$ headmaster = Person[...]` needed. The
+The player (**Headmaster**) and the secretary (**Emiko**) are full `Person`s too, bound
+the same way — no `$ headmaster = Person[...]` needed. The
 Headmaster has a player-chosen, save-specific name (resolved live), so his def carries
 no name; Emiko picks up the secretary look automatically:
 
 ```python
-$ begin_event(**kwargs)      # binds `headmaster` and `emiko`
+$ begin_event(**kwargs)      # binds every person, `headmaster` and `emiko` included
 emiko "Anything urgent this morning?"
 headmaster.think "Same plaque, still 'in process.'"
 headmaster "Chase it today."

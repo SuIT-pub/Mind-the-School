@@ -985,9 +985,13 @@ init -6 python:
         10. paperdollDefaults: Dict[str, Any]
             - Optional value defaults that replace the house paperdoll seeds for this person
             - e.g. `{"level": 5}` when the character has no level-1 uniform
+        11. speaker: str (default None)
+            - The variable begin_event binds this person to, so scenes can write `aona "..."`
+            - None uses the part of the name before the first "_" (`aona_komuro` -> `aona`)
+            - "" keeps the person unbound (placeholders, persons nobody speaks as)
         """
 
-        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None, styleOverrides: Dict[str, Any] = None, keywords: List[Union[str, Tuple[str, Condition]]] = None, relations: Dict[str, List[str]] = None):
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None, styleOverrides: Dict[str, Any] = None, keywords: List[Union[str, Tuple[str, Condition]]] = None, relations: Dict[str, List[str]] = None, speaker: str = None):
             self.name = name
             self.first_name = first_name
             self.last_name = last_name
@@ -1015,6 +1019,7 @@ init -6 python:
             # people; a side that is missing (a mod person related to a base one)
             # is still filled in from RELATION_INVERSES.
             self.relations = {relation: list(people) for relation, people in (relations or {}).items()}
+            self.speaker = speaker
 
         @classmethod
         def __class_getitem__(cls, key):
@@ -1053,6 +1058,8 @@ init -6 python:
                 self.keywords = []
             if not hasattr(self, 'relations'):
                 self.relations = {}
+            if not hasattr(self, 'speaker'):
+                self.speaker = None
 
             if data != None:
                 self.name = data.name
@@ -1069,6 +1076,7 @@ init -6 python:
                     self.styleOverrides = dict(data.styleOverrides) if data.styleOverrides else {}
                 self.keywords = list(getattr(data, 'keywords', None) or [])
                 self.relations = {relation: list(people) for relation, people in (getattr(data, 'relations', None) or {}).items()}
+                self.speaker = getattr(data, 'speaker', None)
 
         def get_name(self) -> str:
             return self.name
@@ -1141,6 +1149,15 @@ init -6 python:
             if not resolved:
                 return "images/journal/empty_image.webp"
             return resolved
+
+        def get_speaker_name(self) -> str:
+            """
+            The variable name bind_event_speakers binds this person to; "" for none.
+            """
+            speaker = getattr(self, 'speaker', None)
+            if speaker is not None:
+                return speaker
+            return self.name.split("_")[0]
 
         def get_first_name(self) -> str:
             # The headmaster's name is player-chosen and save-specific, so it lives in
@@ -1538,11 +1555,11 @@ label load_characters ():
     $ secretary_char = get_character_by_key('secretary')
     $ staff_char = get_character_by_key('staff')
 
-    $ load_person("NoView", Person("default", "", "Person", school_char, []))
-    $ load_person("NoView", Person("default_school", "", "Student", school_char, []))
-    $ load_person("NoView", Person("default_parent", "", "Parent", parent_char, []))
-    $ load_person("NoView", Person("default_teacher", "", "Teacher", teacher_char, []))
-    $ load_person("NoView", Person("default_secretary", "", "Secretary", secretary_char, []))
+    $ load_person("NoView", Person("default", "", "Person", school_char, [], speaker = ""))
+    $ load_person("NoView", Person("default_school", "", "Student", school_char, [], speaker = ""))
+    $ load_person("NoView", Person("default_parent", "", "Parent", parent_char, [], speaker = ""))
+    $ load_person("NoView", Person("default_teacher", "", "Teacher", teacher_char, [], speaker = ""))
+    $ load_person("NoView", Person("default_secretary", "", "Secretary", secretary_char, [], speaker = ""))
 
     # Name deliberately left blank: the headmaster's name is save-specific and resolved
     # dynamically from get_name("headmaster"), so nothing name-related is baked in here.
