@@ -1028,9 +1028,8 @@ init -6 python:
                 str: The title of the building if it exists in the buildings dictionary,
                     empty string if the building key is invalid.
             """
-            if self.name not in buildings.keys():
-                return ""
-            return get_building(self.name).title
+            # the legacy journal buildings are gone; nothing left to name
+            return ""
 
     class LevelCondition(Condition):
         """A condition class that checks if a character has reached a specific level.

@@ -45,21 +45,11 @@ default intro_dev_message = "This version of the game only includes content up t
 
 default hide_gui = False
 
-default rules = {}
-default buildings = {}
-default clubs = {}
 default charList = {
     'staff': {},
 }
 
 default person_storage = {}
-
-default quests = {}
-default all_quests = {}
-default goals = {}
-default tasks = {}
-default task_check = {}
-default category_quest = {}
 
 default money = Stat(MONEY, 1000)
 
@@ -75,7 +65,6 @@ default replay_data = {}
 default event_data = {}
 
 default dialogue_manager = None
-default quest_manager = None
 
 default inventory_manager = None
 

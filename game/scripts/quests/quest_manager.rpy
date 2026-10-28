@@ -2,7 +2,8 @@ init -99 python:
     from deprecated import deprecated
 
     # Full quest system archived under quests/legacy_archive/*.archive.txt.
-    # These stubs exist so old saves can unpickle and live call sites no-op safely.
+    # These stubs exist only so old saves can unpickle; clean_legacy_quests then
+    # drops the quest variables from the store.
 
     @deprecated(version='0.2.3', reason="Quest system archived; stub for save/call-site compatibility.")
     class QuestManager:
@@ -216,9 +217,18 @@ init -99 python:
     class ScheduleVotingTask(Task):
         pass
 
-    def clean_legacy_quests():
-        """Replace any loaded quest manager with an empty stub instance."""
-        global quest_manager
-        quest_manager = QuestManager()
+    def drop_legacy_store_vars(*names: str):
+        """
+        Remove store variables an old save still carries. Ren'Py records the
+        deletion, so the next save no longer writes them.
+        """
+        for name in names:
+            if hasattr(renpy.store, name):
+                delattr(renpy.store, name)
 
-    quest_manager = QuestManager()
+    def clean_legacy_quests():
+        """
+        Drop the quest system's store variables from an old save. The stub
+        classes above only have to exist long enough for that save to unpickle.
+        """
+        drop_legacy_store_vars("quest_manager", "quests", "all_quests", "goals", "tasks", "task_check", "category_quest")

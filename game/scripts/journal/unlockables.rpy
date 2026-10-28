@@ -1068,10 +1068,7 @@ init -6 python:
 
         Map buildings live on ``building_manager``. Unlock state lives on Unlockables.
         """
-        global rules, clubs, buildings
-        rules = {}
-        clubs = {}
-        buildings = {}
+        drop_legacy_store_vars("rules", "clubs", "buildings")
 
 # endregion
 ###############################################
