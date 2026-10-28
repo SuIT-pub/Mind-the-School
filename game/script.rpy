@@ -69,10 +69,9 @@ init python:
         teacher = get_character_by_key("teacher")
         secretary = get_character_by_key("secretary")
 
-        map(lambda: x._repair(), school.get_stats().values())
-        map(lambda: x._repair(), parent.get_stats().values())
-        map(lambda: x._repair(), teacher.get_stats().values())
-        map(lambda: x._repair(), secretary.get_stats().values())
+        for char_obj in (school, parent, teacher, secretary):
+            for stat in char_obj.get_stats().values():
+                stat._repair()
 
         if time.today_is_after_date(9, 1, 2023):
             if school.get_level() == 0:

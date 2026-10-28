@@ -1385,8 +1385,9 @@ init -3 python:
                 log("Event " + self.event_id + ": Select Type " + str(self.select_type) + " is not valid!", log_type="error", category="event")
                 self._invalid = True
 
-            if not renpy.has_label(self.label):
-                log("Event " + self.event_id + ": Label " + self.label + " is missing!", log_type="error", category="event")
+            # EventSelect has no label of its own; it runs through select_event_runner
+            if not renpy.has_label(self.get_event_label()):
+                log("Event " + self.event_id + ": Label " + self.get_event_label() + " is missing!", log_type="error", category="event")
                 self._invalid = True
 
         def check_selectors(self):

@@ -4,7 +4,8 @@ init -1 python:
         
         general_event.check_all_events()
         if events != None:
-            map(lambda x: x.check_all_events(), events.values())
+            for storage in events.values():
+                storage.check_all_events()
 
     after_event_check = Event(2, "time_event_check.after_event_check")
 
