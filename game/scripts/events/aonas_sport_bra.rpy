@@ -27,6 +27,7 @@ init 2 python:
         Event(1, "aona_sports_bra_event_1", 
             ProgressCondition("aona_sports_bra", 1),
             TimeCondition(daytime = 6),
+            StatSelector('inhibition', INHIBITION, "school", [90, 95, 100]),
             ReplayCategoryOption("aona_sports_bra"),
             Pattern("main", "images/events/misc/aona_sports_bra_event_1/aona_sports_bra_event_1 <secretary_level> <step>.webp", 'secretary_level'),
             thumbnail = "images/events/misc/aona_sports_bra_event_1/aona_sports_bra_event_1 # 23.webp"),
