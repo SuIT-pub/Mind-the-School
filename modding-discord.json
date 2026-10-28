@@ -39,6 +39,10 @@
     "gallery-name-kwarg",
     "event-label-param",
     "event-replacement",
-    "event-replacement-init-2"
+    "event-replacement-init-2",
+    "end-event-unknown-return-type",
+    "quest-system-unhooked",
+    "legacy-store-vars-removed",
+    "save-compat-0-1-removed"
   ]
 }
