@@ -30,8 +30,8 @@ init 1 python:
 
     sd_event1 = Event(3, "sd_event_1",
         LevelSelector('school_level', 'school'),
-        StatSelector('education', EDUCATION, "school", [89, 100]),
-        StatSelector('inhibition', INHIBITION, "school", [50, 100]),
+        StatSelector('education', EDUCATION, "school", [50, 100]),
+        StatSelector('inhibition', INHIBITION, "school", [89, 100]),
         OR(
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
