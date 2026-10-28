@@ -466,7 +466,8 @@ label pta_vote_unregistered_1 (**kwargs):
     headmaster "Please cast your vote now."
 
     # one speaker per faction bar, in bar order (the order roll_votes used)
-    $ pta_bars = unlockable.get_bars()
+    # get_bars() is a dict view; the loop below indexes it
+    $ pta_bars = list(unlockable.get_bars())
     $ pta_bar_i = 0
     while pta_bar_i < len(pta_bars):
         $ pta_turn = get_pta_vote_turn(unlockable, pta_bars[pta_bar_i].key, votes[pta_bar_i])
