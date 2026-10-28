@@ -275,9 +275,7 @@ label truth_or_dare_truth_3 (**kwargs):
     $ begin_event(**kwargs)
 
     $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ miwa_whisper = Person["whisper"].get_renpy_char()
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    $ ishimaru_shout = Person["shout"].get_renpy_char()
     $ ikushi = Person["ikushi_ito"].get_renpy_char()
     $ lin = Person["lin_kato"].get_renpy_char()
 
@@ -293,9 +291,9 @@ label truth_or_dare_truth_3 (**kwargs):
     $ image.show(2)
     miwa "Ms. *mumbles*..." # 1
     $ image.show(3)
-    ishimaru_shout "LOUDER!" # 2
+    ishimaru.shout "LOUDER!" # 2
     $ image.show(4)
-    miwa_whisper "Ms. Ryan..." # 1
+    miwa.whisper "Ms. Ryan..." # 1
     $ image.show(5)
     ikushi "Ms. Ryan?!" #3
     $ image.show(6)
@@ -503,7 +501,6 @@ label truth_or_dare_dare_3 (**kwargs):
     $ begin_event(**kwargs)
 
     $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ miwa_shout = Person["shout"].get_renpy_char()
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
     $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
@@ -515,13 +512,13 @@ label truth_or_dare_dare_3 (**kwargs):
     $ image.show(0)
     miwa "Alright! *clears throat*" 
     $ image.show(1)
-    miwa_shout "Happy birthday to me..." 
+    miwa.shout "Happy birthday to me..." 
     $ image.show(2)
-    miwa_shout "Happy birthday to me..." 
+    miwa.shout "Happy birthday to me..." 
     $ image.show(3)
-    miwa_shout "Happy birthday dear me..." 
+    miwa.shout "Happy birthday dear me..." 
     $ image.show(4)
-    miwa_shout "Happy birthday to me..." 
+    miwa.shout "Happy birthday to me..." 
     $ image.show(5)
     miwa "Alright, done! Wasn't it beautiful?" 
     $ image.show(6)
