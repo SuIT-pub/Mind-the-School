@@ -2312,6 +2312,9 @@ init -3 python:
         elif return_type == "custom":
             renpy.call(get_value_ng('return_label', 'map_entry', **kwargs))
         else:
+            # a typo here used to fall through silently and skip the daytime advance
+            if return_type != "map_entry":
+                log("end_event: unknown return_type '" + str(return_type) + "', falling back to map_entry", log_type="error", category="event")
             renpy.jump("map_entry")
 
     def is_event_registered(name: str) -> bool:

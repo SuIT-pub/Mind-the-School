@@ -204,7 +204,7 @@ label cafeteria_construction(**kwargs):
 
         $ quest_manager.check_task_type("trigger", name = "cafeteria_opening")
 
-        $ end_event('next_daytime', **kwargs)
+        $ end_event('new_daytime', **kwargs)
 
 #########################
 # region Regular Events #
