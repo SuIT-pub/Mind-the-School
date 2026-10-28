@@ -775,8 +775,6 @@ label map_overview ():
 
     $ reroll_selectors()
 
-    # $ check_old_versions()
-
     $ is_in_replay = False
 
     $ renpy.choice_for_skipping()

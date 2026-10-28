@@ -484,9 +484,6 @@ init -6 python:
             - The random school
         """
         
-        if 'school' not in charList.keys():
-            fix_schools()
-
         return charList['school']
 
     def get_school_stat(stat: str):
@@ -1520,10 +1517,16 @@ label load_schools ():
         }
     })
 
-    #############################################
-    # compatibility with version 0.1.2
-    # loading of school is included
-    $ fix_schools()
+    $ load_character("school", "School", charList, {
+        'stats_objects': {
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 12),
+            "education": Stat(EDUCATION, 9),
+            "charm": Stat(CHARM, 8),
+            "reputation": Stat(REPUTATION, 7),
+        }
+    })
 
     return
 

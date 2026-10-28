@@ -67,14 +67,6 @@ init -6 python:
             self.changed_value = 0
             self.image_path = "icons/" + str(type) + "_icon_50.webp"
 
-        def _repair(self) -> bool:
-            if not hasattr(self, 'type') and hasattr(self, 'image_path'):
-                stat_type = re.sub(r'icons/', '', self.image_path)
-                stat_type = re.sub(r'_icon_50.webp', '', stat_type)
-                self.type = stat_type
-                return True
-            return False
-
         def get_image_path(self):
             if self.image_path.endswith('.png'):
                 self.image_path = re.sub(r'\.png$', '.webp', self.image_path)

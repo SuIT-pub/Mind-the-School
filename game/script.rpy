@@ -62,30 +62,6 @@ init python:
     # --- Version Compatibility Functions --- #
     ###########################################
 
-    def check_stats_compatibility():
-        """
-        Check if the stats are compatible with the current version
-        """
-
-        school = get_character_by_key("school")
-        parent = get_character_by_key("parent")
-        teacher = get_character_by_key("teacher")
-        secretary = get_character_by_key("secretary")
-
-        for char_obj in (school, parent, teacher, secretary):
-            for stat in char_obj.get_stats().values():
-                stat._repair()
-
-        if time.today_is_after_date(9, 1, 2023):
-            if school.get_level() == 0:
-                school.set_level(1)
-            if parent.get_level() == 0:
-                parent.set_level(1)
-            if teacher.get_level() == 0:
-                teacher.set_level(1)
-            if secretary.get_level() == 0:
-                secretary.set_level(5)
-
     def fix_modifier():
         """
         Fix the modifiers for the new version
@@ -103,92 +79,6 @@ init python:
         if get_modifier('teacher_pay', 'money', 'payroll_weekly') == None:
             set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), stat = 'money', collection = 'payroll_weekly')
     
-    def fix_schools():
-        """
-        Fix the schools for the new version
-        Merges the multiple schools from 0.1.2 into one school
-        """
-
-        fix_thinking_characters(character.headmaster_thought)
-        fix_shouting_characters(character.headmaster_shout)
-        fix_whisper_characters(character.headmaster_whisper)
-        fix_shouting_characters(character.secretary_shout)
-        fix_whisper_characters(character.secretary_whisper)
-        fix_shouting_characters(character.crowd_shout)
-        fix_whisper_characters(character.crowd_whisper)
-
-
-        old_character = get_character("school_mean_values", charList)
-        if old_character != None:
-            max_level = 0
-            if 'schools' in charList:
-                for legacy in charList['schools'].values():
-                    if legacy != None:
-                        max_level = max(max_level, legacy.get_level())
-
-            old_character.name = "school"
-            old_character.title = "School"
-            old_character.level = Stat("level", max_level)
-            charList["school"] = old_character
-            charList.pop("school_mean_values")
-        if 'schools' in charList:
-            charList.pop('schools')
-
-        load_character("school", "School", charList, {
-            'stats_objects': {
-                "corruption": Stat(CORRUPTION, 0),
-                "inhibition": Stat(INHIBITION, 100),
-                "happiness": Stat(HAPPINESS, 12),
-                "education": Stat(EDUCATION, 9),
-                "charm": Stat(CHARM, 8),
-                "reputation": Stat(REPUTATION, 7),
-            }
-        })
-
-    def fix_whisper_characters(person: Person):
-        """
-        Fix the whispering characters for the new version
-        """
-
-        person.who_suffix = " (whispering)"
-        fix_characters(person)
-
-    def fix_shouting_characters(person: Person):
-        """
-        Fix the shouting characters for the new version
-        """
-
-        person.who_suffix = " (shouting)"
-        fix_characters(person)
-
-    def fix_thinking_characters(person: Person):
-        """
-        Fix the thinking characters for the new version
-        """
-
-        person.who_suffix = " (thinking)"
-        fix_characters(person)
-    
-    def fix_characters(person: Person):
-        """
-        Fix the characters for the new version
-        """
-
-        person.what_size = 33
-        person.what_italic = True
-        person.what_prefix = "(  {i}"
-        person.what_suffix = "{/i}  )"
-
-    def check_old_versions():
-        """
-        Check for old versions and apply the necessary fixes
-        """
-
-        if 'headmaster_first_name' in gameData.keys() and 'headmaster_last_name' in gameData.keys():
-            set_name("headmaster", gameData['headmaster_first_name'], gameData['headmaster_last_name'])
-            gameData.pop('headmaster_first_name')
-            gameData.pop('headmaster_last_name')
-
     def check_event_selectors():
         for event in event_register.values():
             event.check_selectors()
@@ -222,14 +112,8 @@ label after_load:
 
     $ check_event_selectors()
 
-    #####################################
-    # check for version incompatibilities
-    $ check_old_versions()
-
-    $ check_stats_compatibility()
-
+    # also creates the budget and payroll modifiers, so it runs for every save
     $ fix_modifier()
-    ####################################
 
     $ i = 0
     while i < len(start_methods):
