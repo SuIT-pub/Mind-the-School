@@ -53,6 +53,10 @@ label splashscreen:
 
     subtitles "The game downloads the current list of {a=[patreon]}Patreon{/a} supporters every time the game starts. The file's size is max 1KB. If you don't want the game to download this file, you can disable it in the options menu."
     subtitles "For everyone with an old save-game from the previous version:\nYou can still open the game with the old save-game. If you encounter an error after loading because of a missing image, just press 'Ignore' and the game will continue normally."
+
+    # without it, execution runs past the init block below into label after_load
+    return
+
 init python:
     
     ###########################################
