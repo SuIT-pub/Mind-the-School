@@ -208,6 +208,13 @@ init python:
     # would otherwise pack its webp/webm into the images archive.
     build.classify("game/mods/IncestContent/**", None)
 
+    # Dev-only fixtures for the mod list; the "mods" archive rule below would ship them.
+    build.classify("game/mods/TestModA/**", None)
+    build.classify("game/mods/TestModB/**", None)
+
+    # '*.txt' further down only matches the project root; these sit in game/scripts.
+    build.classify("game/**.archive.txt", None)
+
     build.classify('**~', None)
     build.classify('**.bak', None)
     build.classify('**.psd', None)
