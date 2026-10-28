@@ -43,6 +43,7 @@
     "end-event-unknown-return-type",
     "quest-system-unhooked",
     "legacy-store-vars-removed",
-    "save-compat-0-1-removed"
+    "save-compat-0-1-removed",
+    "auto-bound-speakers"
   ]
 }
