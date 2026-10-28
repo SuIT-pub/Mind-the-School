@@ -138,8 +138,6 @@ label sd_event_1 (**kwargs):
     $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
     $ education = get_stat_value('education', [50, 100], **kwargs)
 
-    $ easkey = Person["easkey_tanaka"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     if education > 50:
@@ -294,8 +292,6 @@ label sd_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
-    $ soyoon = Person["soyoon_yamamoto"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -331,9 +327,6 @@ label sd_event_4 (**kwargs):
 
 label sd_event_5 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ luna = Person["luna_clark"].get_renpy_char()
-    $ seraphina = Person["seraphina_clark"].get_renpy_char()
 
     $ school_level = get_level('school_level', **kwargs)
     $ image = convert_pattern("main", **kwargs)

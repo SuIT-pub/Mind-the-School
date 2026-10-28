@@ -152,8 +152,6 @@ label gym_event_1 (**kwargs):
 
     $ school_level = get_value('school_level', **kwargs)
 
-    $ aona = Person["aona_komuro"].get_renpy_char()
-
     $ image = convert_pattern("main", video_prefix = "anim_", **kwargs)
 
     $ image.show(0)
@@ -264,9 +262,6 @@ label gym_event_3 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
-    $ zoe = Person["zoe_parker"].get_renpy_char()
-
     $ image.show(0)
     headmaster "Miss Nakamura! I'm sorry but that top doesn't conform to the uniform policy."
     $ image.show(1)
@@ -318,9 +313,6 @@ label gym_event_3 (**kwargs):
 label gym_event_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-    $ easkey = get_person_char_with_key("class_3a", "easkey_tanaka")
-
     $ image = convert_pattern("main", **kwargs)
 
     # two girls bump into each other in the locker room
@@ -345,9 +337,6 @@ label gym_event_4 (**kwargs):
 
 label gym_event_5 (**kwargs):
     $ begin_event("2", **kwargs)
-
-    $ aona = Person["aona_komuro"].get_renpy_char()
-    $ soyoon = Person["soyoon_yamamoto"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 

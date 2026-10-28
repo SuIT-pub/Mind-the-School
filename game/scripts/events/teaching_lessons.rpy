@@ -217,8 +217,6 @@ label first_class_sb_event (**kwargs):
 
     $ school_class = get_value('class', **kwargs)
 
-    $ finola = Person["finola_ryan"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -334,8 +332,6 @@ label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
 label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ gloria = Person["gloria_goto"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -371,8 +367,6 @@ label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
 label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ aona = Person["aona_komuro"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -405,8 +399,6 @@ label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
 label sb_teach_sex_ed_qa_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -427,8 +419,6 @@ label sb_teach_sex_ed_qa_1 (**kwargs):
 
 label sb_teach_sex_ed_qa_2 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ luna = Person["luna_clark"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -498,10 +488,6 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
 
 label sb_teach_history_main_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ sakura = Person["sakura_mori"].get_renpy_char()
-    $ luna = Person["luna_clark"].get_renpy_char()
-    $ easkey = Person["easkey_tanaka"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -833,8 +819,6 @@ label sb_teach_math_main_1 (**kwargs):
 label sb_teach_math_main_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ seraphina = Person["seraphina_clark"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -1009,8 +993,6 @@ label gym_teach_pe_warm_up_1 (**kwargs):
 
 label gym_teach_pe_main_1 (**kwargs): # Football
     $ begin_event("2", **kwargs)
-
-    $ sakura = Person["sakura_mori"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     

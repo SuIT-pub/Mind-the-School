@@ -66,9 +66,6 @@ image anim_sd_event_5_10_12 = Movie(play = incest_sde5_path + "10 12.webm", star
 label incest_sd_event_5 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ luna = Person["luna_clark"].get_renpy_char()
-    $ seraphina = Person["seraphina_clark"].get_renpy_char()
-
     $ school_level = get_level('school_level', **kwargs)
     $ image = convert_pattern("main", **kwargs)
 

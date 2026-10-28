@@ -211,8 +211,6 @@ label first_week_gym_event (**kwargs):
 label first_week_kiosk_event (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = Person["lin_kato"].get_renpy_char()
-
     $ image = convert_pattern("main", step_start = 1, **kwargs)
 
     $ image.show(1)

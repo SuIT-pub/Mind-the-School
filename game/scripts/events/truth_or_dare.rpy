@@ -108,9 +108,6 @@ label truth_or_dare_1 (**kwargs):
 label truth_or_dare_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1) from _call_show_image_truth_or_dare_2_event_1
@@ -145,9 +142,6 @@ label truth_or_dare_2 (**kwargs):
 label truth_or_dare_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -179,8 +173,6 @@ label truth_or_dare_4 (**kwargs):
 
     $ image = convert_pattern("base", **kwargs)
 
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-
     $ image.show(0)
     headmaster.think "Now let's see what they're up to..."
 
@@ -208,11 +200,6 @@ label truth_or_dare_end (**kwargs):
 # ikushi1 lin2 miwa3 ishimaru4
 label truth_or_dare_truth_1 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
@@ -247,9 +234,6 @@ label truth_or_dare_truth_1 (**kwargs):
 label truth_or_dare_truth_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)
 
@@ -273,11 +257,6 @@ label truth_or_dare_truth_2 (**kwargs):
 # miwa1 ishimaru2 ikushi3 lin4
 label truth_or_dare_truth_3 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "miwa_igarashi"}, **kwargs)
@@ -310,11 +289,6 @@ label truth_or_dare_truth_3 (**kwargs):
 label truth_or_dare_truth_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "ishimaru_maki"}, **kwargs)
 
@@ -340,11 +314,6 @@ label truth_or_dare_truth_4 (**kwargs):
 # ikushi1 lin2 miwa3 ishimaru4
 label truth_or_dare_truth_5 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
@@ -386,10 +355,6 @@ label truth_or_dare_truth_5 (**kwargs):
 label truth_or_dare_truth_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)
 
@@ -428,10 +393,6 @@ label truth_or_dare_truth_6 (**kwargs):
 label truth_or_dare_dare_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
 
@@ -464,11 +425,6 @@ label truth_or_dare_dare_1 (**kwargs):
 label truth_or_dare_dare_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)
 
@@ -499,10 +455,6 @@ label truth_or_dare_dare_2 (**kwargs):
 # miwa1 ishimaru2 ikushi3 lin4
 label truth_or_dare_dare_3 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "miwa_igarashi"}, **kwargs)
@@ -537,11 +489,6 @@ label truth_or_dare_dare_3 (**kwargs):
 label truth_or_dare_dare_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "ishimaru_maki"}, **kwargs)
 
@@ -575,11 +522,6 @@ label truth_or_dare_dare_4 (**kwargs):
 # ikushi1 lin2 miwa3 ishimaru4    
 label truth_or_dare_dare_5 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
@@ -631,11 +573,6 @@ label truth_or_dare_dare_5 (**kwargs):
 # lin1 miwa2 ishimaru3 ikushi4
 label truth_or_dare_dare_6 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ lin = Person["lin_kato"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)

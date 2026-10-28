@@ -214,8 +214,6 @@ label cafeteria_event_1(**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
     
-    $ adelaide = Person["adelaide_hall"].get_renpy_char()
-
     $ image.show(0)
     adelaide "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?"
 
@@ -522,9 +520,6 @@ label cafeteria_event_7(**kwargs):
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
-
-    $ luna = Person["luna_clark"].get_renpy_char()
-    $ seraphina = Person["seraphina_clark"].get_renpy_char()
 
     $ image.show(0)
     headmaster "What are you girls doing here at this time?"

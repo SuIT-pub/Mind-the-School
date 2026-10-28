@@ -247,12 +247,6 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
 label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ finola = Person["finola_ryan"].get_renpy_char()
-    $ chloe  = Person["chloe_garcia"].get_renpy_char()
-    $ lily   = Person["lily_anderson"].get_renpy_char()
-    $ yulan  = Person["yulan_chen"].get_renpy_char()
-    $ zoe    = Person["zoe_parker"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -437,12 +431,6 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
 label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ finola = Person["finola_ryan"].get_renpy_char()
-    $ chloe  = Person["chloe_garcia"].get_renpy_char()
-    $ lily   = Person["lily_anderson"].get_renpy_char()
-    $ yulan  = Person["yulan_chen"].get_renpy_char()
-    $ zoe    = Person["zoe_parker"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -557,18 +545,6 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
 
 label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
-
-    $ finola = Person["finola_ryan"].get_renpy_char()
-    $ chloe  = Person["chloe_garcia"].get_renpy_char()
-    $ lily   = Person["lily_anderson"].get_renpy_char()
-    $ yulan  = Person["yulan_chen"].get_renpy_char()
-    $ zoe    = Person["zoe_parker"].get_renpy_char()
-
-    $ adelaide = Person["adelaide_hall"].get_renpy_char()
-    $ nubia    = Person["nubia_davis"].get_renpy_char()
-    $ yuki     = Person["yuki_yamamoto"].get_renpy_char()
-
-    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -861,8 +837,6 @@ label first_sex_ed_day(**kwargs):
 
 label first_sex_ed_class_1 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ finola = Person["finola_ryan"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 

@@ -153,8 +153,6 @@ label sb_event_1 (**kwargs): # patrol, check class
 
     $ school_level = get_value('school_level', **kwargs)
     
-    $ sakura = Person["sakura_mori"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -195,8 +193,6 @@ label .stop (**kwargs):
 
 label sb_event_3 (**kwargs): # patrol
     $ begin_event("2", **kwargs)
-
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -352,8 +348,6 @@ label .chin_up (**kwargs):
 label sb_event_4(**kwargs):
     $ begin_event("2", **kwargs)
 
-    $ ikushi = Person["ikushi_ito"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1) from _call_Image_Series_show_image_9
@@ -446,9 +440,6 @@ label sb_event_5 (**kwargs):
 label sb_event_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ aona = Person["aona_komuro"].get_renpy_char()
-
     $ image = convert_pattern('main', **kwargs)
 
     call Image_Series.show_image(image, 0, 1) from _call_show_image_sb_event_6_event_1
@@ -472,9 +463,6 @@ label sb_event_6 (**kwargs):
 
 label sb_event_7 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern('main', **kwargs)
 

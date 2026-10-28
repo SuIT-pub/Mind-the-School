@@ -133,8 +133,6 @@ label kiosk_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value("topic", **kwargs)
 
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)

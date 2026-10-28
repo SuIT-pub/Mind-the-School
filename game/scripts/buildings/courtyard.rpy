@@ -175,8 +175,6 @@ label courtyard_event_2 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
-
     $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
@@ -265,8 +263,6 @@ label courtyard_event_6(**kwargs):
 
     $ school_level = get_value('school_level', **kwargs)
 
-    $ seraphina = Person["seraphina_clark"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     # headmaster approaches a student sitting on the courtyard
@@ -318,8 +314,6 @@ label courtyard_event_8(**kwargs):
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
-
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image.show(0)
     # You find a girl playing the guitar. You sit down and listen to her play.

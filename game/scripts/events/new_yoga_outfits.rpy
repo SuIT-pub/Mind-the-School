@@ -121,8 +121,6 @@ init 1 python:
 label new_yoga_outfit_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = Person["zoe_parker"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -139,8 +137,6 @@ label new_yoga_outfit_1 (**kwargs):
 # Gym: Check P.E.
 label new_yoga_outfit_2 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ zoe = Person["zoe_parker"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -171,9 +167,6 @@ label new_yoga_outfit_2 (**kwargs):
 # Gym: Check P.E.
 label new_yoga_outfit_3 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ zoe = Person["zoe_parker"].get_renpy_char()
-    $ sakura = Person["sakura_mori"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -248,10 +241,6 @@ label new_yoga_outfit_3 (**kwargs):
 label new_yoga_outfit_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ seraphina = Person["seraphina_clark"].get_renpy_char()
-    $ hatano = Person["hatano_miwa"].get_renpy_char()
-    $ elsie = Person["elsie_johnson"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1) from _call_show_image_new_yoga_outfit_4_event_1
@@ -287,10 +276,6 @@ label new_yoga_outfit_4 (**kwargs):
 # Office Building: Evening
 label new_yoga_outfit_5 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ seraphina = Person["seraphina_clark"].get_renpy_char()
-    $ hatano = Person["hatano_miwa"].get_renpy_char()
-    $ elsie = Person["elsie_johnson"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -480,8 +465,6 @@ label .after_decision (**kwargs):
 label new_yoga_outfit_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = Person["zoe_parker"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -535,8 +518,6 @@ label new_yoga_outfit_6 (**kwargs):
 label new_yoga_outfit_7 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = Person["zoe_parker"].get_renpy_char()
-
     $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1) from _call_show_image_new_yoga_outfit_7_event_1
@@ -588,7 +569,6 @@ label new_yoga_outfit_9 (**kwargs):
     $ begin_event(**kwargs)
 
     $ nurse = Person["linh_nguyen"].get_renpy_char()
-    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -690,9 +670,6 @@ label new_yoga_outfit_9 (**kwargs):
 # Gym: Check P.E.
 label new_yoga_outfit_10 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ zoe = Person["zoe_parker"].get_renpy_char()
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 

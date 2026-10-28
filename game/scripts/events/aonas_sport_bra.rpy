@@ -42,9 +42,6 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ kwargs = load_kwargs_values(kwargs, skimpy = str(skimpy))
     $ image = convert_pattern("main", skimpy = skimpy, **kwargs)
 
-    $ miwa = Person["miwa_igarashi"].get_renpy_char()
-    $ aona = Person["aona_komuro"].get_renpy_char()
-
     $ image.show(0)
     miwa "And the headmaster really took you to the city to buy a sports bra?"
     $ image.show(1)
@@ -117,8 +114,6 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
 
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
-
-    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -193,8 +188,6 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ aona = Person["aona_komuro"].get_renpy_char()
-
     $ bra = get_value('skimpy_bra', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -253,8 +246,6 @@ label aona_sports_bra_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
-
-    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 

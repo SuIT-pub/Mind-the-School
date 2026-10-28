@@ -373,8 +373,6 @@ label work_office_session_event_first_naughty (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ secretary_level = get_value('secretary_level', **kwargs)
 
-    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
-
     $ image = convert_pattern("main", video_prefix = "anim_", **kwargs)
 
     # secretary enters office
@@ -801,8 +799,6 @@ label office_event_2 (**kwargs):
 
 label office_event_3 (**kwargs):
     $ begin_event("2", **kwargs);
-
-    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 

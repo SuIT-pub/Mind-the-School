@@ -217,7 +217,7 @@ init -99:
         retain = False,
     )
     # Static fallback so a bare `emiko "..."` say line never crashes if a code path
-    # speaks as her without first binding `$ emiko = Person["emiko_langley"]`. Mirrors
+    # speaks as her before bind_event_speakers bound `emiko` to her Person. Mirrors
     # how `character.headmaster` backs an unbound `headmaster`. Same styling as secretary.
     define character.emiko = Character(
         "Emiko Langley",

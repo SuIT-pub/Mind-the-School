@@ -834,8 +834,6 @@ label test_label():
 label test_event (**kwargs):
     $ begin_event(**kwargs)
 
-    $ luna = Person["luna_clark"]
-
     $ paperdoll_manager.set_background_split("images/background/school building/1 0 0.png", "images/background/office building/c teacher.webp", blur = True, bw_left = True)
     $ luna.register_paperdoll(level = 10, mood = "happy", mouth = "closed")
     $ emiko.register_paperdoll(level = 9, mood = "neutral", mouth = "closed", pose = "35")
