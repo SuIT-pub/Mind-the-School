@@ -2,6 +2,41 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "save-compat-0-1-removed",
+      "date": "2026-10-28",
+      "version": "0.2.2",
+      "type": "removed",
+      "title": "0.1.x save migration removed: fix_schools, check_old_versions, check_stats_compatibility, Stat._repair",
+      "details": "Only 0.2.x saves are supported now. Removed from `script.rpy`: `fix_schools()`, `fix_whisper_characters`/`fix_shouting_characters`/`fix_thinking_characters`/`fix_characters`, `check_old_versions()`, `check_stats_compatibility()`; `Stat._repair()` is gone too. `load_schools` now creates the `school` character itself, and `get_school()` no longer falls back to `fix_schools()`. If your mod called any of these, drop the call. `fix_modifier()` stays (it creates the budget and payroll modifiers)."
+    },
+    {
+      "id": "legacy-store-vars-removed",
+      "date": "2026-10-28",
+      "version": "0.2.2",
+      "type": "removed",
+      "title": "Legacy store variables gone: rules, clubs, buildings, quests, goals, tasks and friends",
+      "details": "New saves no longer get `rules`, `clubs`, `buildings`, `quests`, `all_quests`, `goals`, `tasks`, `task_check` or `category_quest`, and loading an old save now deletes them from the store (new helper `drop_legacy_store_vars(*names)`) instead of resetting them to `{}`. Code that read `store.rules` / `store.buildings` gets a NameError: use `is_unlockable_unlocked(key)` / `UnlockableCondition(key)` for unlock state and `building_manager` for map buildings.",
+      "wiki": "Building-Unlockables"
+    },
+    {
+      "id": "quest-system-unhooked",
+      "date": "2026-10-28",
+      "version": "0.2.2",
+      "type": "removed",
+      "title": "Quest system unhooked: quest_manager global removed, Quest*Effect are no-ops",
+      "details": "The archived quest system had no live hooks left, so they are gone: `quest_manager` (no global anymore, `QuestManager()` is not created), `fix_quests()`, `label load_quests`, and the `check_task_type` calls in `begin_event`, `end_event`, stat changes and the daytime labels. `QuestCompleteEffect`, `QuestVisibleEffect`, `QuestInvisibleEffect` and `QuestActivateEffect` are `@deprecated` and do nothing; the classes only stay so old saves unpickle. Replace `quest_manager.check_task_type(...)` calls with nothing, and quest effects with Situations or Unlockables.",
+      "wiki": "Effects#quests-removed"
+    },
+    {
+      "id": "end-event-unknown-return-type",
+      "date": "2026-10-28",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "end_event logs unknown return types instead of silently using map_entry",
+      "details": "`end_event(return_type)` knows `\"new_daytime\"`, `\"new_day\"`, `\"none\"`, `\"custom\"` and `\"map_entry\"`. Anything else (e.g. the typo `\"next_daytime\"`) still falls back to `map_entry`, but now writes an error to the log, because the fallback skips the daytime advance. Check your log for `end_event: unknown return_type`.",
+      "wiki": "Events"
+    },
+    {
       "id": "event-replacement-init-2",
       "date": "2026-10-26",
       "version": "0.2.2",
