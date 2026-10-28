@@ -2220,9 +2220,6 @@ init -3 python:
         if not is_fragment:
             renpy.block_rollback()
 
-        if not in_replay:
-            quest_manager.check_task_type("event", **kwargs)
-
         init_paperdoll_manager()
 
         if event_name != "":
@@ -2276,8 +2273,6 @@ init -3 python:
             restore_location_ambience()
             renpy.call("open_journal", 5, "events", from_current = False)
             return
-
-        quest_manager.check_task_type("event_end", **kwargs)
 
         situation_manager.check_all_thresholds(**kwargs)
         situation_manager.check_passives(**kwargs)
@@ -2618,16 +2613,6 @@ label default_fallback_event (**kwargs):
 
     $ local_subtitles(text)
     jump map_entry
-
-label test_normal_test_event(**kwargs):
-    $ begin_event(**kwargs)
-
-    $ test = get_value('test', **kwargs)
-    $ test2 = get_value('test2', **kwargs)
-
-    subtitles "Test Event [test] [test2]"
-
-    call composite_event_runner(**kwargs) from _call_composite_event_runner_3
 
 label select_event_runner(**kwargs):
 

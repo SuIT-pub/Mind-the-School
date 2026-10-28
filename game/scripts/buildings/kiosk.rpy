@@ -183,8 +183,6 @@ label .leave (**kwargs):
         headmaster.think "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster.think "I should think about doing something about that."
 
-        $ quest_manager.check_task_type("trigger", name = "unlock_cafeteria_1_task_1")
-
         call change_stats_with_modifier(
             happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_35
     

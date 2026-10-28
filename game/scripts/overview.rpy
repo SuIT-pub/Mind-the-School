@@ -730,9 +730,6 @@ label new_day ():
     # time_event_check updates the intro flag first
     call time_event_check from new_day_2
 
-    $ quest_manager.check_task_type("daytime_change")
-    $ quest_manager.check_task_type("day_change")
-
     jump map_overview
 
 label new_daytime ():
@@ -747,8 +744,6 @@ label new_daytime ():
         $ renpy.force_autosave()
 
     call time_event_check from new_daytime_2
-
-    $ quest_manager.check_task_type("daytime_change")
 
     jump map_overview
 
@@ -787,9 +782,6 @@ label map_overview ():
     $ renpy.choice_for_skipping()
 
     $ call_notify()
-
-    $ quest_manager.check_all()
-    $ quest_manager.update_complete_all()
 
     $ situation_manager.check_all_thresholds()
     $ situation_manager.check_passives()

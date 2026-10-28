@@ -186,11 +186,11 @@ constructor's own args: `MoneyEffect("cost", -1500, "ADD", EffectNoRevertOption(
 | `UnlockableUnlockEffect(unlockable_situation_key, group_key=None, group_index=-1, *options)` | mark an unlockable unlocked (+ group level); reverts. Injected by the Unlockable machinery — you don't add it yourself |
 | `ScheduleVoteEffect(situation_key, *options)` | put an item on the PTA schedule; reverts |
 
-### Quests (legacy path)
+### Quests (removed)
 
 | Constructor | Does |
 |-------------|------|
-| `QuestCompleteEffect(quest_type, key)` · `QuestVisibleEffect(...)` · `QuestInvisibleEffect(...)` · `QuestActivateEffect(key)` | drive the legacy quest system (Situations/Unlockables replaced quests for new content) |
+| `QuestCompleteEffect(quest_type, key)` · `QuestVisibleEffect(...)` · `QuestInvisibleEffect(...)` · `QuestActivateEffect(key)` | **deprecated, do nothing.** The quest system is archived; the classes only remain so old saves unpickle. Use Situations ([Building-Situations](Building-Situations)) or Unlockables instead |
 
 ### UI & placeholders
 

@@ -139,8 +139,6 @@ init -6 python:
             delta = round(self.value - old_value, 2)
             self.set_changed_value(delta)
 
-            quest_manager.check_task_type("stats")
-
             situation_manager.apply_progress_change_via_stats(self.type, delta)
 
         def set_changed_value(self, value: num):
@@ -207,8 +205,6 @@ init -6 python:
             change_val = round(self.value - old_value, 2)
 
             self.add_changed_value(change_val)
-
-            quest_manager.check_task_type("stats")
 
             situation_manager.apply_progress_change_via_stats(self.type, change_val)
 

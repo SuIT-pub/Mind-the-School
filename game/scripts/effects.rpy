@@ -707,6 +707,7 @@ init -1 python:
                 set_headmaster_proficiency_xp(self.name, self.xp)
             return kwargs
 
+    @deprecated(version='0.2.3', reason="Quest system archived; no-op kept for save compatibility.")
     class QuestCompleteEffect(Effect):
         def __init__(self, quest_type: str, key: str):
             super().__init__(f"complete_quest_{quest_type}_{key}")
@@ -721,23 +722,9 @@ init -1 python:
             return f"complete_quest_{self.quest_type}_{self.key}"
 
         def apply(self, **kwargs):
-            global quest_manager
-
-            if self.quest_type == "quest":
-                quest = quest_manager.get_quest(self.key)
-                if quest != None:
-                    quest.set_complete()
-            if self.quest_type == "goal":
-                goal = quest_manager.get_goal(self.key)
-                if goal != None:
-                    goal.set_complete()
-            if self.quest_type == "task":
-                task = quest_manager.get_task(self.key)
-                if task != None:
-                    task.set_complete()
-
             return kwargs
 
+    @deprecated(version='0.2.3', reason="Quest system archived; no-op kept for save compatibility.")
     class QuestVisibleEffect(Effect):
         def __init__(self, quest_type: str, key: str):
             super().__init__(f"visible_quest_{quest_type}_{key}")
@@ -752,22 +739,9 @@ init -1 python:
             return f"visible_quest_{self.quest_type}_{self.key}"
 
         def apply(self, **kwargs):
-            global quest_manager
-
-            if self.quest_type == "quest":
-                quest = quest_manager.get_quest(self.key)
-                if quest != None:
-                    quest.set_visible(True)
-            if self.quest_type == "goal":
-                goal = quest_manager.get_goal(self.key)
-                if goal != None:
-                    goal.set_visible(True)
-            if self.quest_type == "task":
-                task = quest_manager.get_task(self.key)
-                if task != None:
-                    task.set_visible(True)
             return kwargs
 
+    @deprecated(version='0.2.3', reason="Quest system archived; no-op kept for save compatibility.")
     class QuestInvisibleEffect(Effect):
         def __init__(self, quest_type: str, key: str):
             super().__init__(f"invisible_quest_{quest_type}_{key}")
@@ -782,22 +756,9 @@ init -1 python:
             return f"invisible_quest_{self.quest_type}_{self.key}"
 
         def apply(self, **kwargs):
-            global quest_manager
-
-            if self.quest_type == "quest":
-                quest = quest_manager.get_quest(self.key)
-                if quest != None:
-                    quest.set_visible(False)
-            if self.quest_type == "goal":
-                goal = quest_manager.get_goal(self.key)
-                if goal != None:
-                    goal.set_visible(False)
-            if self.quest_type == "task":
-                task = quest_manager.get_task(self.key)
-                if task != None:
-                    task.set_visible(False)
             return kwargs
 
+    @deprecated(version='0.2.3', reason="Quest system archived; no-op kept for save compatibility.")
     class QuestActivateEffect(Effect):
         def __init__(self, key: str):
             super().__init__(f"activate_quest_task_{key}")
@@ -811,10 +772,6 @@ init -1 python:
             return f"activate_quest_task_{self.key}"
 
         def apply(self, **kwargs):
-            global quest_manager
-            task = quest_manager.get_task(self.key)
-            if task != None:
-                task.activate()
             return kwargs
 
     class NotificationEffect(Effect):

@@ -19,7 +19,6 @@ label start ():
     call load_collectibles from start_13
 
     $ fix_modifier()
-    $ fix_quests()
 
     $ check_event_selectors()
 
@@ -86,13 +85,6 @@ init python:
                 teacher.set_level(1)
             if secretary.get_level() == 0:
                 secretary.set_level(5)
-
-    def fix_quests():
-        global quest_manager
-        if quest_manager is None:
-            quest_manager = QuestManager()
-        quest_manager.run_effect_init()
-        quest_manager.check_task_type("event")
 
     def fix_modifier():
         """
@@ -237,7 +229,6 @@ label after_load:
     $ check_stats_compatibility()
 
     $ fix_modifier()
-    $ fix_quests()
     ####################################
 
     $ i = 0
