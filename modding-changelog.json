@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "auto-bound-speakers",
+      "date": "2026-10-28",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "begin_event binds every Person as a speaker; new Person(speaker=...)",
+      "details": "`begin_event` (via `bind_event_speakers()`) now binds every registered `Person` — mod persons included — to a store variable named by `Person.get_speaker_name()`: the key up to the first `_` (`aona_komuro` → `aona`), or `Person(..., speaker=\"name\")`; `speaker=\"\"` leaves a person unbound. The variable holds the `Person`, so `aona \"...\"`, `aona.think \"...\"` and `aona.get_first_name()` all work without `$ aona = Person[\"aona_komuro\"]`. Existing binding lines keep working. A name that is not a valid identifier, is shared by two persons, or already holds a non-speaker store value is not bound and logged once (category `dialogue`); set `speaker=` to fix it.",
+      "wiki": "Dialogue#speaker-names"
+    },
+    {
       "id": "save-compat-0-1-removed",
       "date": "2026-10-28",
       "version": "0.2.2",
