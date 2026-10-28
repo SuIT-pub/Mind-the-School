@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "check-registered-events",
+      "date": "2026-10-28",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Every registered event is validated on start and load; after_load_event_check removed",
+      "details": "The new `check_registered_events()` walks `event_register` on new game and on load and runs `check_event()` on every event, mod events included. An event whose label (`get_event_label()`) doesn't exist is logged (`Label … is missing`) and hidden. Before, only the base buildings listed by hand in `after_load_event_check` were checked, and only on load. `after_load_event_check(location, events, general_event)` is gone; drop any call to it, nothing replaces it.",
+      "wiki": "Events"
+    },
+    {
       "id": "auto-bound-speakers",
       "date": "2026-10-28",
       "version": "0.2.2",
