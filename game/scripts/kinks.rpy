@@ -349,11 +349,15 @@ init python:
         ask_kinks(*keys)
         return all(get_kink_state(key) is True for key in keys)
 
-    def settle_event_kinks(event_obj, **kwargs) -> bool:
+    def settle_event_kinks(event_obj, /, **kwargs) -> bool:
         """
         Right before an event runs: asks about its open kinks (a composite's
         include those of every fragment it could roll), then tells whether the
         answers let it run. Events without kinks pass straight through.
+
+        event_obj is positional-only: inside an EventSelect submenu the kwargs
+        still carry the parent's "event_obj" (set by Event.call), which would
+        otherwise collide with it.
         """
 
         keys = event_obj.get_kinks(**kwargs)
