@@ -212,7 +212,9 @@ init python:
     build.classify("game/mods/TestModA/**", None)
     build.classify("game/mods/TestModB/**", None)
 
-    # '*.txt' further down only matches the project root; these sit in game/scripts.
+    # Archived legacy sources (and their READMEs) are repo history, not game data.
+    build.classify("game/scripts/**/legacy_archive/**", None)
+    build.classify("game/scripts/**/legacy_definitions_archive/**", None)
     build.classify("game/**.archive.txt", None)
 
     build.classify('**~', None)
