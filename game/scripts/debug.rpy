@@ -817,7 +817,7 @@ init -1 python:
 
 init 1 python:
     test_events.add_event(
-        Event(3, "test_event",
+        Event(EVENT_RANDOM, "test_event",
             Pattern("main", "images/background/school building/9 0 1.webp"),
             thumbnail = "images/background/school building/9 0 1.webp"),
     )
@@ -845,7 +845,7 @@ label test_event (**kwargs):
     $ paperdoll_manager.set_background("images/background/school building/9 0 1.webp", blur = False)
     $ renpy.pause()
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label show_paperdoll_test():
 

@@ -35,7 +35,7 @@ init 1 python:
             set_game_data(campaign.key + "_vote_won", True)
             campaign.check_resolutions()
 
-    office_building_events["call_secretary"].add_event(Event(1, "office_call_secretary_1",
+    office_building_events["call_secretary"].add_event(Event(EVENT_BLOCKING, "office_call_secretary_1",
         NOT(ProgressCondition('start_sex_ed')),
         ProgressCondition('aona_sports_bra', '2+'),
         LevelCondition(6, char_obj = 'secretary'),
@@ -46,7 +46,7 @@ init 1 python:
     ))
 
     office_building_events["work"].add_event(
-        Event(1, "office_teacher_sex_ed_introduction_1",
+        Event(EVENT_BLOCKING, "office_teacher_sex_ed_introduction_1",
             ProgressCondition('start_sex_ed', 1),
             TimeCondition(daytime = "d", weekday = "d"),
             TimerCondition("office_call_secretary_1", day = 2),
@@ -54,7 +54,7 @@ init 1 python:
             Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 <step>.webp"),
             thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 4.webp",
         ),
-        Event(1, "office_teacher_sex_ed_introduction_3",
+        Event(EVENT_BLOCKING, "office_teacher_sex_ed_introduction_3",
             ProgressCondition('start_sex_ed', 3),
             TimeCondition(daytime = "d"),
         ReplayCategoryOption("start_sex_ed"),
@@ -63,7 +63,7 @@ init 1 python:
         )
     )
 
-    time_check_events.add_event(Event(1, "office_teacher_sex_ed_introduction_2",
+    time_check_events.add_event(Event(EVENT_BLOCKING, "office_teacher_sex_ed_introduction_2",
         ProgressCondition('start_sex_ed', 2),
         EventSeenCondition(),
         TimeCondition(daytime = "1", weekday = "1-4"),
@@ -73,7 +73,7 @@ init 1 python:
 
     ))
 
-    office_building_events["schedule_meeting"].add_event(Event(1, "office_teacher_sex_ed_introduction_4",
+    office_building_events["schedule_meeting"].add_event(Event(EVENT_BLOCKING, "office_teacher_sex_ed_introduction_4",
         ProgressCondition('start_sex_ed', 4),
         TimeCondition(daytime = "f", weekday = "d"),
         ReplayCategoryOption("start_sex_ed"),
@@ -82,21 +82,21 @@ init 1 python:
     ))
 
     # PTA discussions
-    pta_discussion_storage.add_event(EventFragment(1, "pta_discussion_sex_ed_intro_1",
+    pta_discussion_storage.add_event(EventFragment(EVENT_BLOCKING, "pta_discussion_sex_ed_intro_1",
         ProgressCondition('start_sex_ed', 5),
         ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 10.webp",
     ))
 
-    pta_vote_storage.add_event(EventFragment(2, "pta_vote_theoretical_sex_ed_1",
+    pta_vote_storage.add_event(EventFragment(EVENT_ALWAYS, "pta_vote_theoretical_sex_ed_1",
         JournalVoteCondition("sex_ed", group_index = 1),
         ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 10.webp",
     ))
 
-    time_check_events.add_event(Event(1, "theoretical_sex_ed_assembly_1",
+    time_check_events.add_event(Event(EVENT_BLOCKING, "theoretical_sex_ed_assembly_1",
         ProgressCondition('start_sex_ed', 7),
         TimeCondition(daytime = "6", weekday = "5"),
         ReplayCategoryOption("start_sex_ed"),
@@ -104,7 +104,7 @@ init 1 python:
     )
 
     courtyard_general_event.add_event(
-        Event(3, "sex_ed_intro_mini_courtyard_1",
+        Event(EVENT_RANDOM, "sex_ed_intro_mini_courtyard_1",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
@@ -114,7 +114,7 @@ init 1 python:
             Pattern("main", "images/events/sex_ed_intro/mini_courtyard_1/mini_courtyard_1 <step>.webp")),
     )
     sd_general_event.add_event(
-        Event(3, "sex_ed_intro_mini_sd_1",
+        Event(EVENT_RANDOM, "sex_ed_intro_mini_sd_1",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
@@ -122,7 +122,7 @@ init 1 python:
             ForceHighlightOption(),
             ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/mini_sd_1/mini_sd_1 <step>.webp")),
-        Event(3, "sex_ed_intro_mini_sd_2",
+        Event(EVENT_RANDOM, "sex_ed_intro_mini_sd_2",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
@@ -132,13 +132,13 @@ init 1 python:
             Pattern("main", "images/events/sex_ed_intro/mini_sd_2/mini_sd_2 <step>.webp")),
     )
     time_check_events.add_event(
-        Event(1, "first_sex_ed_day",
+        Event(EVENT_BLOCKING, "first_sex_ed_day",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = 1, weekday = 1),
             ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/first_sex_ed_day/first_sex_ed_day <step>.webp"),
         ),
-        Event(1, "first_sex_ed_class_1",
+        Event(EVENT_BLOCKING, "first_sex_ed_class_1",
             ProgressCondition('start_sex_ed', 9),
             TimeCondition(daytime = 2, weekday = 1),
             ReplayCategoryOption("start_sex_ed"),
@@ -204,7 +204,7 @@ label office_call_secretary_1 (**kwargs):
 
     $ set_timer("office_call_secretary_1", "today")
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label office_teacher_sex_ed_introduction_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -242,7 +242,7 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
     $ set_progress('start_sex_ed', 2) # 1 -> 2
     $ change_stat("situation:sex_ed_preparations:main", 8)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -381,7 +381,7 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ set_progress('start_sex_ed', 3) # 2 -> 3
     $ change_stat("situation:sex_ed_preparations:main", 8)
 
-    $ end_event('new_daytime')
+    $ end_event(END_NEW_DAYTIME)
 
 label office_teacher_sex_ed_introduction_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -426,7 +426,7 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
     $ set_progress('start_sex_ed', 4) # 3 -> 4
     $ change_stat("situation:sex_ed_preparations:main", 8)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ begin_event(**kwargs)
@@ -541,7 +541,7 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ set_progress('start_sex_ed', 5) # 4 -> 5
     $ change_stat("situation:sex_ed_preparations:main", 8)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
@@ -619,14 +619,14 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
     # The campaign picks up straight from the meeting instead of waiting for "Start Introducing".
     $ sync_theoretical_sex_ed_campaign()
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label pta_vote_theoretical_sex_ed_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
     $ unlockable = get_value("vote_proposal", **kwargs)
     if not isinstance(unlockable, Unlockable):
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
 
     # One vote per campaign bar, rolled from its fill like every other PTA vote.
     $ votes = dict(zip([bar.key for bar in unlockable.get_bars()], unlockable.roll_votes()))
@@ -697,7 +697,7 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
         """
         $ set_progress('start_sex_ed', 7) # 6 -> 7
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label theoretical_sex_ed_assembly_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -751,7 +751,7 @@ label theoretical_sex_ed_assembly_1 (**kwargs):
 
     $ set_progress('start_sex_ed', 8) # 7 -> 8
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 
@@ -767,7 +767,7 @@ label sex_ed_intro_mini_sd_1 (**kwargs):
     $ image.show(1)
     headmaster.think "Looks like the students are really reading through the material."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sex_ed_intro_mini_sd_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -796,7 +796,7 @@ label sex_ed_intro_mini_sd_2 (**kwargs):
     $ image.show(9)
     headmaster "Great! I'll leave you to it then. Have a good day."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # students sitting in courtyard and discussing the material
 label sex_ed_intro_mini_courtyard_1 (**kwargs):
@@ -808,7 +808,7 @@ label sex_ed_intro_mini_courtyard_1 (**kwargs):
     subtitles "You see the students sitting in the courtyard."
     subtitles "They seem to be discussing the material."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 
@@ -833,7 +833,7 @@ label first_sex_ed_day(**kwargs):
 
     $ set_progress('start_sex_ed', 9)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label first_sex_ed_class_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -954,7 +954,7 @@ label first_sex_ed_class_1 (**kwargs):
 
     $ set_progress('start_sex_ed', 10)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # endregion

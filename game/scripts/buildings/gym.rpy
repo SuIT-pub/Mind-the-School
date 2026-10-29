@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    gym_general_event = EventStorage("gym_general", "gym", fallback = Event(2, "gym.after_general_check"))
+    gym_general_event = EventStorage("gym_general", "gym", fallback = Event(EVENT_ALWAYS, "gym.after_general_check"))
     register_highlighting(gym_general_event)
     
     #### Default gym events
@@ -31,7 +31,7 @@ init 1 python:
         Ambience(audio.gym_active, 1, TimeCondition(daytime = "c")),
     ))
 
-    gym_event1 = Event(3, "gym_event_1",
+    gym_event1 = Event(EVENT_RANDOM, "gym_event_1",
         LevelSelector("school_level", "school"),
         RandomListSelector("topic", "shoes", "hair", "ready"),
         DictSelector("topic_text", "topic", {
@@ -43,7 +43,7 @@ init 1 python:
         Pattern("main", "/images/events/gym/gym_event_1/gym_event_1 <school_level> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_1/gym_event_1 1 0.webp")
     
-    gym_event2 = Event(3, "gym_event_2",
+    gym_event2 = Event(EVENT_RANDOM, "gym_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelCondition("5-", char_obj = "school"),
         LevelSelector("school_level", "school"),
@@ -51,26 +51,26 @@ init 1 python:
         Pattern("main", "/images/events/gym/gym_event_2/gym_event_2 <school_level> <topic> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_2/gym_event_2 1 clothe 0.webp")
 
-    gym_event3 = Event(3, "gym_event_3",
+    gym_event3 = Event(EVENT_RANDOM, "gym_event_3",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelCondition("3-", char_obj = "school"),
         LevelSelector("school_level", "school"),
         Pattern("main", "/images/events/gym/gym_event_3/gym_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_3/gym_event_3 1 0.webp")    
 
-    gym_event4 = Event(3, "gym_event_4",
+    gym_event4 = Event(EVENT_RANDOM, "gym_event_4",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelCondition("2-4", char_obj = "school"),
         Pattern("main", "/images/events/gym/gym_event_4/gym_event_4 <step>.webp"),
         thumbnail = "images/events/gym/gym_event_4/gym_event_4 0.webp")
 
-    gym_event5 = Event(3, "gym_event_5",
+    gym_event5 = Event(EVENT_RANDOM, "gym_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelCondition("2-4", char_obj = "school"),
         Pattern("main", "/images/events/gym/gym_event_5/gym_event_5 <school_level> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_5/gym_event_5 5 0.webp")
 
-    gym_event6 = Event(3, "gym_event_6",
+    gym_event6 = Event(EVENT_RANDOM, "gym_event_6",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelCondition("2+", char_obj = "school"),
         ProgressCondition("yoga_classes", "10"),
@@ -227,7 +227,7 @@ label gym_event_1 (**kwargs):
 
         call change_stats_with_modifier(
             inhibition = DEC_TINY, corruption = TINY, charm = TINY) from _call_change_stats_with_modifier_27
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_event_2 (**kwargs):
     $ begin_event("2", **kwargs)
@@ -255,7 +255,7 @@ label gym_event_2 (**kwargs):
     call change_stats_with_modifier(
         inhibition = DEC_SMALL, happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_28
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_event_3 (**kwargs):
     $ begin_event("2", **kwargs)
@@ -308,7 +308,7 @@ label gym_event_3 (**kwargs):
 
     call change_stats_with_modifier(
         inhibition = DEC_MEDIUM, happiness = DEC_SMALL, charm = TINY, education = TINY, reputation = DEC_SMALL) from _call_change_stats_with_modifier_31
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_event_4 (**kwargs):
     $ begin_event(**kwargs)
@@ -333,7 +333,7 @@ label gym_event_4 (**kwargs):
     call change_stats_with_modifier(
         inhibition = DEC_SMALL, corruption = TINY) from _stats_gym_event_4_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_event_5 (**kwargs):
     $ begin_event("2", **kwargs)
@@ -350,7 +350,7 @@ label gym_event_5 (**kwargs):
     call change_stats_with_modifier(
         inhibition = DEC_TINY, happiness = DEC_TINY) from _stats_gym_event_5_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
     
 label gym_event_6 (**kwargs):
     $ begin_event("2", **kwargs)
@@ -363,7 +363,7 @@ label gym_event_6 (**kwargs):
     call change_stats_with_modifier(
         inhibition = DEC_TINY, charm = TINY) from _stats_gym_event_6_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
     
 
 # endregion

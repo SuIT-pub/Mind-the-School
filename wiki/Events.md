@@ -23,7 +23,7 @@ the Ren'Py scene that plays.
 ```python
 init 1 python:
     set_current_mod('base')
-    my_event = Event(3, "cafeteria_snack_chat",             # priority 3, label name
+    my_event = Event(EVENT_RANDOM, "cafeteria_snack_chat",  # priority, label name
         TimeCondition(daytime="d"),                         # gate: only at daytime "d"
         RandomListSelector("topic", "coffee", "tea"),       # dynamic value → <topic>
         Pattern("main", "images/events/cafeteria/snack_chat/<topic> <step>.webp"),
@@ -38,7 +38,7 @@ label cafeteria_snack_chat(**kwargs):
     "She sips her [topic]."
     $ image.show(1)
     call change_stats_with_modifier(happiness=SMALL) from _e1
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 ```
 
 Everything below expands each piece.
@@ -192,7 +192,7 @@ add_storage(cafeteria_events, EventStorage("look_around", "cafeteria", fallback_
 add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text="I'm not hungry."))
 
 cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria",
-    fallback=Event(2, "cafeteria.after_general_check"))
+    fallback=Event(EVENT_ALWAYS, "cafeteria.after_general_check"))
 register_highlighting(cafeteria_general_event)
 ```
 
@@ -234,7 +234,7 @@ sorts them):
 - **Patterns** — named, mod-redirected image patterns (§9).
 
 ```python
-truth_or_dare_event_1 = Event(3, "truth_or_dare_1",
+truth_or_dare_event_1 = Event(EVENT_RANDOM, "truth_or_dare_1",
     TimeCondition(daytime="n"),
     LevelCondition("2,3", char_obj="school"),
     NOT(ProgressCondition("truth_or_dare")),
@@ -254,13 +254,14 @@ scene while the campus is at those [school levels](School-Levels). Put
 An event is **available** when every condition passes. Among available events in a
 pool, `select_type` / priority decides what runs:
 
-| Priority | Behavior |
-|----------|----------|
-| **1** | highest — the first available `1` runs and **blocks** all others (forced story beats) |
-| **2** | all available `2`s run in sequence |
-| **3** | one is chosen **at random** among available `3`s (the sandbox default) |
+| Constant | Value | Behavior |
+|----------|-------|----------|
+| `EVENT_BLOCKING` | 1 | highest — the first available one runs and **blocks** all others (forced story beats) |
+| `EVENT_ALWAYS` | 2 | all available ones run in sequence |
+| `EVENT_RANDOM` | 3 | one is chosen **at random** among the available ones (the sandbox default) |
 
-Most ambient events are `3`; a story interrupt is `1`. Highlighting: priority-3 events
+Write the constant (`consts.rpy`), not the number; the numbers still work. Most ambient
+events are `EVENT_RANDOM`; a story interrupt is `EVENT_BLOCKING`. Highlighting: priority-3 events
 don't light up the map unless they carry `ForceHighlightOption()`;
 `is_highlighted()` combines availability, priority and the options'
 `check_options(Highlight=True, …)`.
@@ -280,12 +281,12 @@ beach camp, and only events that carry a matching `FlagCondition` stay available
 
 ```python
 # runs only during the camp
-Event(2, "camp_campfire_talk",
+Event(EVENT_ALWAYS, "camp_campfire_talk",
     FlagCondition("camp"),
     TimeCondition(daytime = "6-7"))
 
 # runs normally AND during the camp
-Event(3, "kiosk_snack_run",
+Event(EVENT_RANDOM, "kiosk_snack_run",
     FlagCondition("camp", exclusive = False))
 ```
 
@@ -368,7 +369,7 @@ Every scene is a Ren'Py label named exactly like the event, bracketed by two cal
 label truth_or_dare_2(**kwargs):
     $ begin_event(**kwargs)
     # … the scene …
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 ```
 
 - **`$ begin_event(version="1", **kwargs)`** — call it first (after any pre-scene
@@ -386,9 +387,13 @@ label truth_or_dare_2(**kwargs):
   plus `headmaster` and `emiko`) so the scene can speak without a per-event
   `$ ... = Person[...]` — see [Dialogue](Dialogue#speaker-names). Bump
   `version` when a scene's structure changes so stale replays are invalidated.
-- **`$ end_event(return_type="new_daytime", **kwargs)`** — call it last. `"new_daytime"`
-  advances to the next daytime segment; `"map_entry"` returns to the map; in replay it
-  returns to the journal. It also ticks the situation manager (teasers, thresholds,
+- **`$ end_event(return_type=END_NEW_DAYTIME, **kwargs)`** — call it last.
+  `END_NEW_DAYTIME` advances to the next daytime segment, `END_NEW_DAY` skips to the
+  next morning, `END_MAP` returns to the map in the same daytime, `END_NONE` returns to
+  the caller (situation scenes, chains), `END_CUSTOM` calls `kwargs["return_label"]`. The
+  constants live in `consts.rpy` and stand for the strings `"new_daytime"`, `"new_day"`,
+  `"map_entry"`, `"none"`, `"custom"`; anything else is logged as an error and goes to the
+  map. In replay it returns to the journal. It also ticks the situation manager (teasers, thresholds,
   passives, resolutions), clears progress blocks, and
   `unload_paperdoll_manager()` (so paperdolls never leak past the event).
 
@@ -540,7 +545,7 @@ label gym_teach_pe_warm_up_1(**kwargs):
     $ image.show_video(2, True)
     headmaster "Alright, that's enough."
     call change_stats_with_modifier('pe', charm=SMALL, education=TINY) from _e_pe
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 ```
 
 `image.show_video(step, pause=False, variant=-1)`:
@@ -665,7 +670,7 @@ label truth_or_dare_4_choice(**kwargs):
 
 label .truth_branch(**kwargs):
     # … each branch ends the event itself …
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 ```
 
 - **`call_custom_menu_with_text(text, person, with_leave, *MenuElement, **kwargs)`** —
@@ -766,7 +771,7 @@ ends — attach a `ModifierSelector` ([Selectors](Selectors)) and activate it in
 
 ```python
 # in the definition:
-Event(3, "cafeteria_regulars",
+Event(EVENT_RANDOM, "cafeteria_regulars",
     ModifierSelector("regulars_bonus", Modifier_Obj("regulars_bonus", "+", 2),
                      HAPPINESS, collection="daily"),
     ...)
@@ -816,7 +821,7 @@ filled with `EventFragment`s:
 truth_or_dare_storage     = FragmentStorage("truth_or_dare", FragmentRepeatOption(RandomValueSelector("", 2, 6, True), False))
 truth_or_dare_end_storage = FragmentStorage("truth_or_dare_end")
 
-truth_or_dare_4 = EventComposite(3, "truth_or_dare_4",
+truth_or_dare_4 = EventComposite(EVENT_RANDOM, "truth_or_dare_4",
     [truth_or_dare_storage, truth_or_dare_end_storage],
     TimeCondition(weekday="d", daytime="n"),
     ProgressCondition("truth_or_dare", 3),
@@ -825,12 +830,12 @@ truth_or_dare_4 = EventComposite(3, "truth_or_dare_4",
     Pattern("card", base_path + "…/card <girls> <school_level> <step>.webp"))
 
 truth_or_dare_storage.add_event(
-    EventFragment(2, "truth_or_dare_truth_1", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"),
+    EventFragment(EVENT_ALWAYS, "truth_or_dare_truth_1", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"),
         Pattern("main", base_path + "…/truth_1 <school_level> <step>.webp")),
     # … more truth/dare fragments …
 )
 truth_or_dare_end_storage.add_event(
-    EventFragment(2, "truth_or_dare_end", ReplayCategoryOption("truth_or_dare"), Pattern("main", …)))
+    EventFragment(EVENT_ALWAYS, "truth_or_dare_end", ReplayCategoryOption("truth_or_dare"), Pattern("main", …)))
 ```
 
 **Flow** — the composite's own label plays an intro, then hands off:
@@ -864,7 +869,7 @@ Notes:
 should offer a sub-choice of storages:
 
 ```python
-peek_select = EventSelect(3, "dorm_peek_select", "Which room do you peek into?",
+peek_select = EventSelect(EVENT_RANDOM, "dorm_peek_select", "Which room do you peek into?",
     { "left": dorm_left_events, "right": dorm_right_events },
     TimeCondition(daytime="n"),
     override_menu_exit="map_entry", person=character.subtitles)
@@ -904,7 +909,7 @@ Events are fully moddable:
 ```python
 init 1 python:
     set_current_mod('my_mod')            # redirect Pattern/thumbnail paths into the mod
-    my_event = Event(3, "mymod_scene", TimeCondition(daytime="d"),
+    my_event = Event(EVENT_RANDOM, "mymod_scene", TimeCondition(daytime="d"),
         Pattern("main", "images/events/mymod_scene/<step>.webp"),
         thumbnail="images/events/mymod_scene/1.webp")
     cafeteria_events["look_around"].add_event(my_event)     # extend a base pool …
@@ -935,7 +940,7 @@ init 1 python:
   restructure steps/decisions.
 - **Set the mod context** before building `Pattern`s so images redirect.
 - **Ship a `start_image`** next to every `Movie`.
-- **Priority intent:** `3` ambient, `2` always-run, `1` blocking interrupt.
+- **Priority intent:** `EVENT_RANDOM` ambient, `EVENT_ALWAYS` always-run, `EVENT_BLOCKING` interrupt.
 - **Match the school level.** Dialogue, stills (`<school_level>`), and
   paperdoll `level=` must agree with the climate in [School Levels](School-Levels).
   Gate with `LevelCondition`; if the event spans a wide range, branch the text.
@@ -954,7 +959,7 @@ init 1 python:
 | Choice missing in replay | A raw `menu:` was used, or the decision `key` changed | Use `call_custom_menu_with_text` + stable `MenuElement` keys; bump `version`. |
 | Mod images not found | `set_current_mod` not set before the `Pattern` was built | Set the mod context at the top of the `init` block. |
 | Composite plays nothing | Empty `FragmentStorage`, or no fragment's conditions pass | Add fragments; loosen their gates; check the `event` log. |
-| Story event won't interrupt | It's priority 3 (random) not 1 (blocking) | Use `select_type=1`. |
+| Story event won't interrupt | It's `EVENT_RANDOM` (3), not `EVENT_BLOCKING` (1) | Use `EVENT_BLOCKING`. |
 | Situation event never appears | Missing/incorrect pool condition or bar out of range | Match the `SituationPoolCondition` and the `SituationPool` range ([Building Situations](Building-Situations)). |
 | Paperdoll-only event still shows the campus map | the map is an image (`show … as map_image`), not a screen | `begin_event` now `scene()`s it away; `set_background` also hides `map_image`. Don't skip `begin_event`. |
 
@@ -971,7 +976,7 @@ init 1 python:
 `FragmentStorage(name, *options)`.
 
 ### Scene skeleton
-`label <event>(**kwargs):` → `$ begin_event(**kwargs)` … `$ end_event("new_daytime", **kwargs)`.
+`label <event>(**kwargs):` → `$ begin_event(**kwargs)` … `$ end_event(END_NEW_DAYTIME, **kwargs)`.
 
 ### Value getters
 `get_value(key, alt, **kwargs)` · `get_value_ng(...)` · `get_stat_value(key, ranges=None, alt, **kwargs)` ·

@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    staff_lodges_general_event = EventStorage("staff_lodges_general", "staff_lodges", fallback = Event(2, "staff_lodges.after_general_check"))
+    staff_lodges_general_event = EventStorage("staff_lodges_general", "staff_lodges", fallback = Event(EVENT_ALWAYS, "staff_lodges.after_general_check"))
     register_highlighting(staff_lodges_general_event)
 
     #### Default staff lodges events

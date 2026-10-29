@@ -66,7 +66,7 @@ Complete the [requirements](#requirements) above, then:
    ```python
    init 1 python:
        set_current_mod('mymod_key')                 # redirects assets + gates registration
-       my_event = Event(3, "mymod_scene", TimeCondition(daytime="d"),
+       my_event = Event(EVENT_RANDOM, "mymod_scene", TimeCondition(daytime="d"),
            Pattern("main", "images/mymod_scene <step>.webp"))
        cafeteria_events["order_food"].add_event(my_event)
    ```
@@ -216,7 +216,7 @@ then add to a pool:
 ```python
 init 1 python:
     set_current_mod('mymod_key')
-    my_event = Event(3, "mymod_scene",
+    my_event = Event(EVENT_RANDOM, "mymod_scene",
         TimeCondition(daytime="d"),
         Pattern("main", "images/mymod_scene <step>.webp"))
     cafeteria_events["order_food"].add_event(my_event)     # no-op if the mod is off
@@ -306,7 +306,7 @@ init 2 python:
     set_event_label("truth_or_dare_1", "mymod_truth_or_dare_1", title = "Truth or Dare (My Mod)")
 
     # replace the whole definition; the new event must carry the same key
-    replace_event("truth_or_dare_2", Event(3, "truth_or_dare_2",
+    replace_event("truth_or_dare_2", Event(EVENT_RANDOM, "truth_or_dare_2",
         TimeCondition(daytime = "n"), KinkCondition("mymod_kink"),
         Pattern("main", "images/mymod_truth_or_dare_2 <step>.webp"),
         label = "mymod_truth_or_dare_2"))
@@ -428,7 +428,7 @@ init -97 python:
 init 1 python:
     set_current_mod('snackmod_suit')
 
-    snackmod_chat = Event(3, "snackmod_snack_chat",
+    snackmod_chat = Event(EVENT_RANDOM, "snackmod_snack_chat",
         TimeCondition(daytime="d"),
         RandomListSelector("snack", "muffin", "apple", "bento"),
         Pattern("main", "images/snack_chat <snack> <step>.webp"),
@@ -446,7 +446,7 @@ label snackmod_snack_chat(**kwargs):
     $ image.show(1)
     miwa.think "...maybe I'll grab two."
     call change_stats_with_modifier(happiness=SMALL) from _snackmod_1
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 ```
 
 Assets (referenced as `images/…`, resolved to `mods/SnackMod/images/…`):

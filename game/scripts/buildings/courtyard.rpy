@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    courtyard_general_event = EventStorage("courtyard_general", "courtyard", fallback = Event(2, "courtyard.after_general_check"))
+    courtyard_general_event = EventStorage("courtyard_general", "courtyard", fallback = Event(EVENT_ALWAYS, "courtyard.after_general_check"))
     register_highlighting(courtyard_general_event)
     
     #### Default courtyard events
@@ -28,7 +28,7 @@ init 1 python:
         Ambience(audio.night_ambience, 1, TimeCondition(daytime = 7), volume = 0.8),
     ))
 
-    courtyard_event1 = Event(3, "courtyard_event_1",
+    courtyard_event1 = Event(EVENT_RANDOM, "courtyard_event_1",
         LevelCondition('1-3', char_obj = 'school'),
         LevelSelector('school_level', 'school'),
         RandomListSelector('girl_name', 'easkey_tanaka'),
@@ -37,19 +37,19 @@ init 1 python:
         Pattern("main", "images/events/courtyard/courtyard_event_1/courtyard_event_1 <girl_name> <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_1/courtyard_event_1 easkey_tanaka 1 0.webp")
 
-    courtyard_event2 = Event(3, "courtyard_event_2",
+    courtyard_event2 = Event(EVENT_RANDOM, "courtyard_event_2",
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
         LevelSelector('school_level', 'school'),
         Pattern("main", "images/events/courtyard/courtyard_event_2/courtyard_event_2 <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_2/courtyard_event_2 1 0.webp")
 
-    courtyard_event3 = Event(3, "courtyard_event_3",
+    courtyard_event3 = Event(EVENT_RANDOM, "courtyard_event_3",
         TimeCondition(daytime = "f", weekday = "d"),
         LevelSelector('school_level', 'school'),
         Pattern("main", "images/events/courtyard/courtyard_event_3/courtyard_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_3/courtyard_event_3 1 0.webp")
 
-    courtyard_event4 = Event(3, "courtyard_event_4",
+    courtyard_event4 = Event(EVENT_RANDOM, "courtyard_event_4",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
         LevelCondition("3-", char_obj = "school"),
@@ -57,21 +57,21 @@ init 1 python:
         Pattern("main", "images/events/courtyard/courtyard_event_4/courtyard_event_4 <school_level> <girl_name> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_4/courtyard_event_4 1 gloria_goto 1.webp")
 
-    courtyard_event5 = Event(3, "courtyard_event_5",
+    courtyard_event5 = Event(EVENT_RANDOM, "courtyard_event_5",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
         LevelSelector('school_level', 'school'),
         Pattern("main", "images/events/courtyard/courtyard_event_5/courtyard_event_5 <school_level>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_5/courtyard_event_5 1.webp")
 
-    courtyard_event6 = Event(3, "courtyard_event_6",
+    courtyard_event6 = Event(EVENT_RANDOM, "courtyard_event_6",
         TimeCondition(weekday = "d", daytime = "2,4"),
         LevelSelector('school_level', 'school'),
         RandomListSelector('girl_name', 'seraphina_clark'),
         Pattern("main", "images/events/courtyard/courtyard_event_6/courtyard_event_6 <girl_name> <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_6/courtyard_event_6 seraphina_clark 1 0.webp")
 
-    courtyard_event7 = Event(3, "courtyard_event_7",
+    courtyard_event7 = Event(EVENT_RANDOM, "courtyard_event_7",
         OR(
             TimeCondition(daytime = "f", weekday = "d"),
             TimeCondition(daytime = "d", weekday = "w"),
@@ -82,7 +82,7 @@ init 1 python:
         thumbnail = "images/events/courtyard/courtyard_event_7/courtyard_event_7 easkey_tanaka 1 0.webp"
     )
 
-    courtyard_event8 = Event(3, "courtyard_event_8",
+    courtyard_event8 = Event(EVENT_RANDOM, "courtyard_event_8",
         TimeCondition(daytime = "f", weekday = "d"),)
 
     courtyard_events["patrol"].add_event(
@@ -153,7 +153,7 @@ label .look (**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_9
     
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .look_away (**kwargs):
     
     $ begin_event(**kwargs)
@@ -166,7 +166,7 @@ label .look_away (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_10
     
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label courtyard_event_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -204,7 +204,7 @@ label .talk (**kwargs):
     
     call change_stats_with_modifier(
         happiness = DEC_TINY, reputation = TINY) from _call_change_stats_with_modifier_11
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .leave (**kwargs):
     
     $ begin_event(**kwargs)
@@ -214,7 +214,7 @@ label .leave (**kwargs):
     
     call change_stats_with_modifier(
         happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_12
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label courtyard_event_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -228,7 +228,7 @@ label courtyard_event_3 (**kwargs):
     call change_stats_with_modifier(
         charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL) from _call_change_stats_with_modifier_13
     
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label courtyard_event_4(**kwargs):
     $ begin_event("2", **kwargs)
@@ -241,7 +241,7 @@ label courtyard_event_4(**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_TINY, charm = TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_14
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label courtyard_event_5(**kwargs):
     $ begin_event(**kwargs)
@@ -256,7 +256,7 @@ label courtyard_event_5(**kwargs):
     call change_stats_with_modifier(
         happiness = SMALL, charm = SMALL) from _call_change_stats_with_modifier_15
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label courtyard_event_6(**kwargs):
     $ begin_event("2", **kwargs)
@@ -292,7 +292,7 @@ label courtyard_event_6(**kwargs):
     call change_stats_with_modifier(
         charm = DEC_TINY, education = SMALL) from _call_change_stats_with_modifier_16
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label courtyard_event_7(**kwargs):
     $ begin_event(**kwargs)
@@ -308,7 +308,7 @@ label courtyard_event_7(**kwargs):
         charm = TINY, inhibition = DEC_SMALL
     ) from _call_courtyard_event_7_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label courtyard_event_8(**kwargs):
     $ begin_event(**kwargs)
@@ -331,7 +331,7 @@ label courtyard_event_8(**kwargs):
         charm = SMALL, happiness = MEDIUM
     ) from _call_courtyard_event_8_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
     
 

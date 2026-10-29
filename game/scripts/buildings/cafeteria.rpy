@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", fallback = Event(2, "cafeteria.after_general_check"))
+    cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", fallback = Event(EVENT_ALWAYS, "cafeteria.after_general_check"))
     register_highlighting(cafeteria_general_event)
 
     #### Default cafeteria events
@@ -37,17 +37,17 @@ init 1 python:
         Ambience(audio.cafeteria_chatter, 1, TimeCondition(daytime = "3,6")),
     ))
 
-    cafeteria_construction_event = Event(1, "cafeteria_construction",
+    cafeteria_construction_event = Event(EVENT_BLOCKING, "cafeteria_construction",
         ProgressCondition("unlock_cafeteria", "2"),
         Pattern("main", "images/events/cafeteria/cafeteria_construction/cafeteria_construction <step>.webp"))
 
-    cafeteria_event_1_event = Event(3, "cafeteria_event_1",
+    cafeteria_event_1_event = Event(EVENT_RANDOM, "cafeteria_event_1",
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
         Pattern("main", "images/events/cafeteria/cafeteria_event_1/cafeteria_event_1 <parent_level> <step>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_1/cafeteria_event_1 1 4.webp")
     
-    cafeteria_event_2_event = Event(3, "cafeteria_event_2",
+    cafeteria_event_2_event = Event(EVENT_RANDOM, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
         TimeSelector("time", "daytime"),
         RandomListSelector("char_class", "parent", ("school", UnlockableCondition('school_jobs')), realtime = True),
@@ -69,7 +69,7 @@ init 1 python:
         Pattern("main", "images/events/cafeteria/cafeteria_event_2/cafeteria_event_2 <girl_name> <topic> <level> <step>.webp", "level"),
         thumbnail = "images/events/cafeteria/cafeteria_event_2/cafeteria_event_2 adelaide_hall apron 1 0.webp")
 
-    cafeteria_event_3_event = Event(3, "cafeteria_event_3",
+    cafeteria_event_3_event = Event(EVENT_RANDOM, "cafeteria_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
         NOT(UnlockableCondition('school_jobs')),
         LevelSelector("parent_level", "parent"),
@@ -82,7 +82,7 @@ init 1 python:
         Pattern("main", "images/events/cafeteria/cafeteria_event_3/cafeteria_event_3 <parent_level> <topic> <step>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_3/cafeteria_event_3 1 overwhelmed 19.webp")
 
-    cafeteria_event_4_event = Event(3, "cafeteria_event_4",
+    cafeteria_event_4_event = Event(EVENT_RANDOM, "cafeteria_event_4",
         OR(
             TimeCondition(weekday = "d", daytime = "1,6"),
             TimeCondition(weekday = "w", daytime = "d")
@@ -109,18 +109,18 @@ init 1 python:
         Pattern("main", "images/events/cafeteria/cafeteria_event_4/cafeteria_event_4 <school_level> <girl_1> <girl_2> <girl_3>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_4/cafeteria_event_4 1 miwa_igarashi luna_clark None.webp")
 
-    cafeteria_event_5_event = Event(3, "cafeteria_event_5",
+    cafeteria_event_5_event = Event(EVENT_RANDOM, "cafeteria_event_5",
         TimeCondition(weekday = "d", daytime = "f"),
         LevelSelector("school_level", "school"),
         Pattern("main", "images/events/cafeteria/cafeteria_event_5/cafeteria_event_5 <school_level> <step>.webp", 'classes'),
         thumbnail = "images/events/cafeteria/cafeteria_event_5/cafeteria_event_5 1 1.webp")
 
-    cafeteria_event_6_event = Event(3, "cafeteria_event_6",
+    cafeteria_event_6_event = Event(EVENT_RANDOM, "cafeteria_event_6",
         TimeCondition(weekday = "d", daytime = "3,6"),
         Pattern("main", "images/events/cafeteria/cafeteria_event_6/cafeteria_event_6 <school_level> <step>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_6/cafeteria_event_6 2.webp")
 
-    cafeteria_event_7_event = Event(3, "cafeteria_event_7",
+    cafeteria_event_7_event = Event(EVENT_RANDOM, "cafeteria_event_7",
         TimeCondition(weekday = "d", daytime = "6,7"),
         LevelCondition("1-3", char_obj = "school"),
         Pattern("main", "images/events/cafeteria/cafeteria_event_7/cafeteria_event_7 <step>.webp"),
@@ -194,7 +194,7 @@ label cafeteria_construction(**kwargs):
         $ image.show(0)
         headmaster "The cafeteria is under construction. It will be finished in [day_difference] days."
 
-        $ end_event('map_entry', **kwargs)
+        $ end_event(END_MAP, **kwargs)
     else:
         $ begin_event()
 
@@ -202,7 +202,7 @@ label cafeteria_construction(**kwargs):
         $ image.show(1)
         headmaster "The cafeteria is finally finished. I can eat here now."
 
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
 
 #########################
 # region Regular Events #
@@ -232,7 +232,7 @@ label cafeteria_event_1(**kwargs):
     call change_stats_with_modifier(
         happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label cafeteria_event_2(**kwargs):
     $ begin_event("2", **kwargs)
@@ -262,7 +262,7 @@ label cafeteria_event_2(**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label cafeteria_event_3(**kwargs):
     $ begin_event(**kwargs)
@@ -325,7 +325,7 @@ label cafeteria_event_3(**kwargs):
             call change_stats_with_modifier(
                 happiness = DEC_SMALL, charm = TINY) from _call_change_stats_with_modifier_2
 
-            $ end_event('new_daytime', **kwargs)
+            $ end_event(END_NEW_DAYTIME, **kwargs)
 
         elif unlock_school_jobs == 2:
             # headmaster looks to be in thought
@@ -393,7 +393,7 @@ label cafeteria_event_3(**kwargs):
             call change_stats_with_modifier(
                 happiness = MEDIUM, charm = SMALL, reputation = MEDIUM) from _call_change_stats_with_modifier_3
 
-            $ end_event('new_daytime', **kwargs)
+            $ end_event(END_NEW_DAYTIME, **kwargs)
 
     elif topic == "tripped":
         # headmaster approaches counter
@@ -438,7 +438,7 @@ label cafeteria_event_3(**kwargs):
         call change_stats_with_modifier(
             happiness = SMALL, charm = DEC_TINY, reputation = SMALL) from _call_change_stats_with_modifier_4
 
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
 
     else:
         # headmaster approaches counter
@@ -455,7 +455,7 @@ label cafeteria_event_3(**kwargs):
         call change_stats_with_modifier(
             happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_5
 
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label cafeteria_event_4(**kwargs):
     $ begin_event(**kwargs)
@@ -480,7 +480,7 @@ label cafeteria_event_4(**kwargs):
     call change_stats_with_modifier(
         happiness = MEDIUM, charm = TINY) from _call_change_stats_with_modifier_7
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label cafeteria_event_5(**kwargs):
     $ begin_event("2", **kwargs)
@@ -499,7 +499,7 @@ label cafeteria_event_5(**kwargs):
     call change_stats_with_modifier(
         happiness = SMALL, charm = MEDIUM) from _call_cafeteria_event_5_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label cafeteria_event_6(**kwargs):
     $ begin_event(**kwargs)
@@ -514,7 +514,7 @@ label cafeteria_event_6(**kwargs):
         happiness = SMALL
     ) from _call_cafeteria_event_6_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label cafeteria_event_7(**kwargs):
     $ begin_event(**kwargs)
@@ -562,7 +562,7 @@ label cafeteria_event_7(**kwargs):
         happiness = DEC_TINY, inhibition = DEC_SMALL
     ) from _call_cafeteria_event_7_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # In a momentary lapse, one student accidentally knocks over her water bottle near another girl, causing both of them to slip in the spreading puddle on the floor. As they help each other up and brush off their clothes (which were momentarily revealed), there's an awkward but harmless exchange about how close they came to flashing everyone.

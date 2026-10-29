@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    sb_general_event =     EventStorage("school_building", "school_building", fallback = Event(2, "school_building.after_general_check"))
+    sb_general_event =     EventStorage("school_building", "school_building", fallback = Event(EVENT_ALWAYS, "school_building.after_general_check"))
     register_highlighting(sb_general_event)
 
     #### Default school building events
@@ -59,43 +59,43 @@ init 1 python:
 
     ####################
     # Default Events
-    first_class_sb_event_event = Event(1, "first_class_sb_event",
+    first_class_sb_event_event = Event(EVENT_BLOCKING, "first_class_sb_event",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition('first_class', '2-'),
         RandomListSelector('class', '3A'),
         Pattern("main", "/images/events/school building/first_class_sb_event/first_class_sb_event <class> <nude> <step>.webp"),
         thumbnail = "images/events/school building/first_class_sb_event/first_class_sb_event 3A 0 2.webp")
 
-    sb_event1 = Event(3, "sb_event_1",
+    sb_event1 = Event(EVENT_RANDOM, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelSelector('school_level', 'school'),
         Pattern("main", "/images/events/school building/sb_event_1/sb_event_1 <school_level> <step>.webp"),
         thumbnail = "images/events/school building/sb_event_1/sb_event_1 1 1.webp")
 
-    sb_event3 = Event(3, "sb_event_3",
+    sb_event3 = Event(EVENT_RANDOM, "sb_event_3",
         TimeCondition(daytime = "d", weekday = "d"),
         Pattern("main", "/images/events/school building/sb_event_3/sb_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/school building/sb_event_3/sb_event_3 1 1.webp")
 
-    sb_event4 = Event(3, "sb_event_4",
+    sb_event4 = Event(EVENT_RANDOM, "sb_event_4",
         TimeCondition(daytime = "f", weekday = "d"),
         Pattern("main", "/images/events/school building/sb_event_4/sb_event_4 <school_level> <step>.webp"),
         thumbnail = "images/events/school building/sb_event_4/sb_event_4 1 0.webp")
 
-    sb_event5 = Event(3, "sb_event_5",
+    sb_event5 = Event(EVENT_RANDOM, "sb_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelCondition("5-", char_obj = "school"),
         RandomListSelector('girls', 'ikushi_ito', 'soyoon_yamamoto', 'yuriko_oshima'),
         Pattern('main', "/images/events/school building/sb_event_5/sb_event_5 <school_level> <girls> <step>.webp", 'school_level', 'girls'),
         thumbnail = "images/events/school building/sb_event_5/sb_event_5 1 soyoon_yamamoto 11.webp")
 
-    sb_event6 = Event(3, "sb_event_6",
+    sb_event6 = Event(EVENT_RANDOM, "sb_event_6",
         TimeCondition(daytime = "f", weekday = "d"),
         LevelCondition("2", char_obj = "school"),
         Pattern('main', "/images/events/school building/sb_event_6/sb_event_6 <step>.webp"),
         thumbnail = "images/events/school building/sb_event_6/sb_event_6 3.webp")
 
-    sb_event7 = Event(3, "sb_event_7",
+    sb_event7 = Event(EVENT_RANDOM, "sb_event_7",
         TimeCondition(daytime = "f", weekday = "d"),
         LevelCondition("3", char_obj = "school"),
         Pattern('main', "/images/events/school building/sb_event_7/sb_event_7 <step>.webp"),
@@ -176,7 +176,7 @@ label .leave (**kwargs):
     call change_stats_with_modifier(
         charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_63
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .stop (**kwargs):
     
     $ begin_event(**kwargs)
@@ -189,7 +189,7 @@ label .stop (**kwargs):
     call change_stats_with_modifier(
         charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_64
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_event_3 (**kwargs): # patrol
     $ begin_event("2", **kwargs)
@@ -252,7 +252,7 @@ label .leave (**kwargs):
     call change_stats_with_modifier(
         charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY) from _call_change_stats_with_modifier_65
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .get_to_bottom (**kwargs):
     
     $ begin_event(**kwargs)
@@ -287,7 +287,7 @@ label .get_to_bottom (**kwargs):
     call change_stats_with_modifier(
         happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_66
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .send_class (**kwargs):
     
     $ begin_event(**kwargs)
@@ -323,7 +323,7 @@ label .poor_thing (**kwargs):
     call change_stats_with_modifier(
         happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_67
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .chin_up (**kwargs):
     
     $ begin_event(**kwargs)
@@ -343,7 +343,7 @@ label .chin_up (**kwargs):
     call change_stats_with_modifier(
         happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_68
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_event_4(**kwargs):
     $ begin_event("2", **kwargs)
@@ -369,7 +369,7 @@ label .leave (**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_69
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .help (**kwargs):
 
 
@@ -396,7 +396,7 @@ label .help (**kwargs):
     call empty_label() from _call_Image_Series_show_image_10
     call empty_label() from _call_change_stats_with_modifier_71
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_event_5 (**kwargs):
     $ begin_event("2", **kwargs)
@@ -435,7 +435,7 @@ label sb_event_5 (**kwargs):
     call change_stats_with_modifier(
         inhibition = DEC_TINY) from _call_change_stats_with_modifier_72
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_event_6 (**kwargs):
     $ begin_event(**kwargs)
@@ -459,7 +459,7 @@ label sb_event_6 (**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_SMALL, charm = DEC_TINY) from _stats_sb_event_6_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_event_7 (**kwargs):
     $ begin_event(**kwargs)
@@ -489,7 +489,7 @@ label sb_event_7 (**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_SMALL, charm = DEC_TINY) from _stats_sb_event_7_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # endregion

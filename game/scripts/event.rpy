@@ -1,5 +1,5 @@
 init -2 python:
-    default_fallback = Event(2, "default_fallback_event")
+    default_fallback = Event(EVENT_ALWAYS, "default_fallback_event")
 
 init -3 python:
     import re
@@ -2328,17 +2328,17 @@ init -3 python:
         1. return_type: str (Default "new_daytime")
             - "new_daytime", "new_day", "none", "custom" or anything else (map_entry).
         """
-        if return_type == "new_daytime":
+        if return_type == END_NEW_DAYTIME:
             renpy.jump("new_daytime")
-        elif return_type == "new_day":
+        elif return_type == END_NEW_DAY:
             renpy.jump("new_day")
-        elif return_type == "none":
+        elif return_type == END_NONE:
             return
-        elif return_type == "custom":
+        elif return_type == END_CUSTOM:
             renpy.call(get_value_ng('return_label', 'map_entry', **kwargs))
         else:
             # a typo here used to fall through silently and skip the daytime advance
-            if return_type != "map_entry":
+            if return_type != END_MAP:
                 log("end_event: unknown return_type '" + str(return_type) + "', falling back to map_entry", log_type="error", category="event")
             renpy.jump("map_entry")
 
@@ -2680,19 +2680,19 @@ label composite_event_runner(**kwargs):
     $ event_obj = get_kwargs('event_obj', None, **kwargs)
     if event_obj == None:
         $ log("Composite Event: No event object available!", log_type="error", category="event")
-        $ end_event("map_entry", **kwargs)
+        $ end_event(END_MAP, **kwargs)
 
     $ events = get_frag_list(**kwargs)
 
     if len(events) == 0:
         $ log("Composite Event " + event_obj.event_id + ": No events available in fragments!", log_type="error", category="event")
-        $ end_event("map_entry", **kwargs)
+        $ end_event(END_MAP, **kwargs)
 
     $ kwargs["frag_order"] = events
 
     $ event_obj.call_fragment(events[0], **kwargs)
         
-    $ end_event("map_entry", **kwargs)
+    $ end_event(END_MAP, **kwargs)
 
 # endregion
 ################################
@@ -2702,7 +2702,7 @@ label composite_event_runner(**kwargs):
 ########################
 
 init -1 python:
-    sandbox_after_event_check      = Event(2, "start_sandbox.after_check")
+    sandbox_after_event_check      = Event(EVENT_ALWAYS, "start_sandbox.after_check")
     sandbox_check_events = EventStorage("sandbox_check_events", "misc", fallback = sandbox_after_event_check)
 
 label start_sandbox (**kwargs):
@@ -2830,7 +2830,7 @@ label .start (**kwargs):
     elif _return == "return":
         call .return_cum (**kwargs) from _call_start_sandbox_return_cum
     elif _return == "stop":
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .change_location (**kwargs):
     $ elements = []

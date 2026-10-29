@@ -31,8 +31,8 @@ $ inventory_manager.add_item("lab_glassware")            # +1, shows a notify to
 $ inventory_manager.add_item(Item("lab_glassware", 3))   # +3
 
 # 3. gate on it
-Event(2, "lab_intro_6", ItemCondition("lab_glassware"))
-Event(2, "lab_intro_x", NOT(ItemCondition("lab_glassware")))
+Event(EVENT_ALWAYS, "lab_intro_6", ItemCondition("lab_glassware"))
+Event(EVENT_ALWAYS, "lab_intro_x", NOT(ItemCondition("lab_glassware")))
 
 # 4. take it away
 $ inventory_manager.remove_item("lab_chemicals", 1)      # -1
@@ -186,7 +186,7 @@ Pair it with conditions so the event only fires when the ingredients are there a
 the result isn't already owned:
 
 ```python
-Event(2, "lab_intro_brew_test",
+Event(EVENT_ALWAYS, "lab_intro_brew_test",
     ItemCondition("lab_chemicals"),
     NOT(ItemCondition("lab_test_potion")),
 )
@@ -236,7 +236,7 @@ shop screen ──add to cart──▶ shopping_cart {key: n}
 
 | Piece | Where |
 |-------|-------|
-| entry event (`Event(3, "office_building_computer_shopping_event")` in `office_building_computer_event["shopping"]`) | `inventory.rpy` (registration), `office_building.rpy` (label; resets `shopping_cart = {}`) |
+| entry event (`Event(EVENT_RANDOM, "office_building_computer_shopping_event")` in `office_building_computer_event["shopping"]`) | `inventory.rpy` (registration), `office_building.rpy` (label; resets `shopping_cart = {}`) |
 | `office_building_computer_shopping_screen` | product grid, 4 per row; Add to Cart / `− n +` / *Out of Stock* |
 | `office_building_computer_shopping_cart_screen` | line items, subtotal, shipping, total, Checkout (disabled if budget < total) |
 | `get_shopping_cart_totals()` / `SHOP_SHIPPING_COST` | `(products, shipping)` for the cart; shipping is $5, only when something costs money. Used by screen **and** checkout |

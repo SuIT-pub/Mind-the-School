@@ -134,7 +134,7 @@ label .stay (**kwargs):
             inhibition = DEC_SMALL, corruption = SMALL, charm = TINY, happiness = SMALL
         ) from _call_incest_sd_event_5_stay_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #####################################

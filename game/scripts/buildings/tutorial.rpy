@@ -66,7 +66,7 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
 
 init 1 python:
     set_current_mod('base')
-    bath_general_event.add_event(Event(2, "action_tutorial",
+    bath_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'bath'),
         NoHighlightOption(),
@@ -75,7 +75,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    beach_general_event.add_event(Event(2, "action_tutorial",
+    beach_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'beach'),
         NoHighlightOption(),
@@ -84,7 +84,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    cafeteria_general_event.add_event(Event(2, "action_tutorial",
+    cafeteria_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'cafeteria'),
         NoHighlightOption(),
@@ -93,7 +93,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    courtyard_general_event.add_event(Event(2, "action_tutorial",
+    courtyard_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'courtyard'),
         NoHighlightOption(),
@@ -102,7 +102,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    gym_general_event.add_event(Event(2, "action_tutorial",
+    gym_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'gym'),
         NoHighlightOption(),
@@ -111,7 +111,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    kiosk_general_event.add_event(Event(2, "action_tutorial",
+    kiosk_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'kiosk'),
         NoHighlightOption(),
@@ -120,7 +120,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    labs_general_event.add_event(Event(2, "action_tutorial",
+    labs_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'labs'),
         NoHighlightOption(),
@@ -129,7 +129,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    office_building_general_event.add_event(Event(2, "action_tutorial",
+    office_building_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'office_building'),
         NoHighlightOption(),
@@ -138,7 +138,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    sb_general_event.add_event(Event(2, "action_tutorial",
+    sb_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'school_building'),
         NoHighlightOption(),
@@ -147,7 +147,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    sd_general_event.add_event(Event(2, "action_tutorial",
+    sd_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'school_dormitory'),
         NoHighlightOption(),
@@ -156,7 +156,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    sports_field_general_event.add_event(Event(2, "action_tutorial",
+    sports_field_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'sports_field'),
         NoHighlightOption(),
@@ -165,7 +165,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    staff_lodges_general_event.add_event(Event(2, "action_tutorial",
+    staff_lodges_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'staff_lodges'),
         NoHighlightOption(),
@@ -174,7 +174,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    swimming_pool_general_event.add_event(Event(2, "action_tutorial",
+    swimming_pool_general_event.add_event(Event(EVENT_ALWAYS, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'swimming_pool'),
         NoHighlightOption(),
@@ -183,7 +183,7 @@ init 1 python:
         Pattern("main", "/images/events/misc/action_tutorial/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial/action_tutorial 0.webp"))
 
-    journal_events.add_event(Event(1, "journal_tutorial",
+    journal_events.add_event(Event(EVENT_BLOCKING, "journal_tutorial",
         NOT(ProgressCondition('journal_tutorial')),
         ValueSelector('return_label', 'start_journal.after_check'),
         TutorialCondition(),
@@ -191,14 +191,14 @@ init 1 python:
         Pattern("main", "/images/events/misc/journal_tutorial/journal_tutorial <step>.webp"),
         thumbnail = "images/events/misc/journal_tutorial/journal_tutorial 0.webp"))
 
-    sandbox_check_events.add_event(Event(1, 'sandbox_tutorial',
+    sandbox_check_events.add_event(Event(EVENT_BLOCKING, 'sandbox_tutorial',
         ValueSelector('return_label', 'start_sandbox.after_check'),
         TutorialCondition(),
         EventSeenCondition(),
         Pattern("main", "/images/events/misc/sandbox_tutorial/sandbox_tutorial <step>.webp"),
         thumbnail = "images/events/misc/sandbox_tutorial/sandbox_tutorial 0.webp"))    
 
-    time_check_events.add_event(Event(2, "map_tutorial", 
+    time_check_events.add_event(Event(EVENT_ALWAYS, "map_tutorial", 
         NOT(ProgressCondition("map_tutorial")), 
         FlagCondition("intro", exclusive = False),
         TutorialCondition(),
@@ -359,7 +359,7 @@ label map_tutorial (**kwargs):
 
     $ start_progress('map_tutorial')
 
-    $ end_event("map_entry", **kwargs)
+    $ end_event(END_MAP, **kwargs)
 
 label journal_tutorial (**kwargs):
     $ begin_event(**kwargs)
@@ -372,7 +372,7 @@ label journal_tutorial (**kwargs):
         MenuElement("no_skip_tutorial", "Don't skip tutorial", EventEffect("journal_tutorial.cont")),
         MenuElement("skip_tutorial", "Let me in already!", EventEffect("journal_tutorial.skip")), 
     **kwargs)
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
 
 label .cont (**kwargs):
     dev "This is the journal. Here you get all the necessary information you need to play the game."
@@ -510,7 +510,7 @@ label .cont (**kwargs):
 
     $ start_progress('journal_tutorial')
 
-    $ end_event('custom', **kwargs)
+    $ end_event(END_CUSTOM, **kwargs)
 
     call start_journal.after_check() from _call_start_journal_after_check
 
@@ -519,7 +519,7 @@ label .skip (**kwargs):
     
     $ start_progress('journal_tutorial')
 
-    $ end_event('custom', **kwargs)
+    $ end_event(END_CUSTOM, **kwargs)
 
     call start_journal.after_check() from _call_start_journal_after_check_skip
 
@@ -554,7 +554,7 @@ label action_tutorial (**kwargs):
 
     $ start_progress('action_tutorial')
 
-    $ end_event('custom', **kwargs)
+    $ end_event(END_CUSTOM, **kwargs)
 
 label sandbox_tutorial (**kwargs):
     $ begin_event(**kwargs)
@@ -596,7 +596,7 @@ label sandbox_tutorial (**kwargs):
 
     $ start_progress('sandbox_tutorial')
 
-    $ end_event('custom', **kwargs)
+    $ end_event(END_CUSTOM, **kwargs)
 
 # endregion
 ######################

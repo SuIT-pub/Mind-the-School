@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    kiosk_general_event = EventStorage("kiosk_general", "kiosk", fallback = Event(2, "kiosk.after_general_check"))
+    kiosk_general_event = EventStorage("kiosk_general", "kiosk", fallback = Event(EVENT_ALWAYS, "kiosk.after_general_check"))
     register_highlighting(kiosk_general_event)
 
     #### Default kiosk events
@@ -27,7 +27,7 @@ init 1 python:
         Ambience(audio.muffled_chatter, 1, TimeCondition(daytime = "f")),
     ))
 
-    kiosk_event1 = Event(3, "kiosk_event_1",
+    kiosk_event1 = Event(EVENT_RANDOM, "kiosk_event_1",
         LevelSelector('school_level', 'school'),
         RandomValueSelector("variant", 1, 2),
         RandomListSelector("girl_name", "aona_komuro", "ikushi_ito", "gloria_goto", "lin_kato"),
@@ -35,14 +35,14 @@ init 1 python:
         Pattern("main", "images/events/kiosk/kiosk_event_1/kiosk_event_1 <girl_name> <school_level> <variant>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_1/kiosk_event_1 aona_komuro 1 1.webp")
 
-    kiosk_event2 = Event(3, "kiosk_event_2",
+    kiosk_event2 = Event(EVENT_RANDOM, "kiosk_event_2",
         LevelSelector('school_level', 'school'),
         RandomListSelector("girl_name", "hatano_miwa", "kokoro_nakamura", "soyoon_yamamoto"),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         Pattern("main", "images/events/kiosk/kiosk_event_2/kiosk_event_2 <girl_name> <school_level> <step>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_2/kiosk_event_2 hatano_miwa 1 0.webp")
 
-    kiosk_event3 = Event(3, "kiosk_event_3",
+    kiosk_event3 = Event(EVENT_RANDOM, "kiosk_event_3",
         LevelSelector('school_level', 'school'),
         RandomListSelector("topic", "normal", (0.25, "kind"), (0.05, "slimy")),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
@@ -103,7 +103,7 @@ label kiosk_event_1 (**kwargs):
     call change_stats_with_modifier(
         happiness = SMALL) from _call_change_stats_with_modifier_32
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label kiosk_event_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -125,7 +125,7 @@ label kiosk_event_2 (**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY) from _call_change_stats_with_modifier_33
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label kiosk_event_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -170,7 +170,7 @@ label .leave (**kwargs):
 
         call change_stats_with_modifier(
             happiness = DEC_MEDIUM, charm = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_34
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
         
     elif topic == "kind":
         $ image.show(10)
@@ -188,7 +188,7 @@ label .leave (**kwargs):
             $ start_progress("unlock_cafeteria")
             $ show_notify_message("Added new building to journal!")
 
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
     else:
         $ image.show(10)
         vendor "I'm sorry but there is nothing I can do."
@@ -199,7 +199,7 @@ label .leave (**kwargs):
 
         call change_stats_with_modifier(
             happiness = DEC_TINY, charm = DEC_SMALL) from _call_change_stats_with_modifier_36
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
 label .help (**kwargs):
     
     $ begin_event(**kwargs)

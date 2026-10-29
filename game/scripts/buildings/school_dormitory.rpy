@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    sd_general_event = EventStorage("school_dormitory",   "school_dormitory", fallback = Event(2, "school_dormitory.after_general_check"))
+    sd_general_event = EventStorage("school_dormitory",   "school_dormitory", fallback = Event(EVENT_ALWAYS, "school_dormitory.after_general_check"))
     register_highlighting(sd_general_event)
 
     #### Default school dormitory events
@@ -28,7 +28,7 @@ init 1 python:
         Ambience(audio.muffled_chatter, 1, TimeCondition(daytime = "f")),
     ))
 
-    sd_event1 = Event(3, "sd_event_1",
+    sd_event1 = Event(EVENT_RANDOM, "sd_event_1",
         LevelSelector('school_level', 'school'),
         StatSelector('education', EDUCATION, "school", [50, 100]),
         StatSelector('inhibition', INHIBITION, "school", [89, 100]),
@@ -40,7 +40,7 @@ init 1 python:
         Pattern("main", "images/events/school dormitory/sd_event_1/sd_event_1 <school_level> <step>.webp"),
         thumbnail = "images/events/school dormitory/sd_event_1/sd_event_1 1 0.webp")
 
-    sd_event2 = Event(3, "sd_event_2",
+    sd_event2 = Event(EVENT_RANDOM, "sd_event_2",
         LevelSelector('school_level', 'school'),
         RandomValueSelector('inhibition_limit', 30, 50),
         StatSelector('inhibition', INHIBITION, "school", []),
@@ -76,7 +76,7 @@ init 1 python:
         Pattern("end", "images/events/school dormitory/sd_event_2/sd_event_2 <location> <step>.webp"),
         thumbnail = "images/events/school dormitory/sd_event_2/sd_event_2 ah dorm_room aona_komuro 1 0.webp")
 
-    sd_event3 = Event(3, "sd_event_3",
+    sd_event3 = Event(EVENT_RANDOM, "sd_event_3",
         LevelSelector('school_level', 'school'),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
@@ -84,14 +84,14 @@ init 1 python:
         Pattern("main", "images/events/school dormitory/sd_event_3/sd_event_3 <topic> <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/school dormitory/sd_event_3/sd_event_3 normal # 0.webp")
 
-    sd_event4 = Event(3, "sd_event_4",
+    sd_event4 = Event(EVENT_RANDOM, "sd_event_4",
         TimeCondition(daytime = "f"),
         LevelCondition("5-", char_obj = "school"),
         Pattern("main", "images/events/school dormitory/sd_event_4/sd_event_4 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/school dormitory/sd_event_4/sd_event_4 1 0.webp"
     )
 
-    sd_event5 = Event(3, "sd_event_5",
+    sd_event5 = Event(EVENT_RANDOM, "sd_event_5",
         TimeCondition(daytime = "1,6,7"),
         Pattern("main", "images/events/school dormitory/sd_event_5/sd_event_5 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/school dormitory/sd_event_5/sd_event_5 1 1.webp"
@@ -352,7 +352,7 @@ label .leave (**kwargs):
         inhibition = DEC_TINY
     ) from _call_sd_event_5_leave_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .stay (**kwargs):
     $ begin_event(**kwargs)
@@ -392,7 +392,7 @@ label .stay (**kwargs):
             inhibition = DEC_TINY, reputation = DEC_SMALL, happiness = DEC_SMALL
         ) from _call_sd_event_5_stay_2
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
     
 
 # endregion

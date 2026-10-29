@@ -32,6 +32,18 @@ init -9:
 
     $ CHAR = "char_obj"
 
+    # Event priority, the first argument of Event / EventComposite / EventFragment / EventSelect
+    $ EVENT_BLOCKING = 1    # the first available one runs and blocks all others (story beats)
+    $ EVENT_ALWAYS = 2      # every available one runs, one after another
+    $ EVENT_RANDOM = 3      # one of the available ones is picked at random (ambient)
+
+    # Where end_event goes after the scene
+    $ END_NEW_DAYTIME = "new_daytime"   # advance to the next daytime
+    $ END_NEW_DAY = "new_day"           # skip to the next morning
+    $ END_MAP = "map_entry"             # back to the map, same daytime
+    $ END_NONE = "none"                 # return to the caller (situation scenes, chains)
+    $ END_CUSTOM = "custom"             # call the label in kwargs["return_label"]
+
     $ DEFAULT_NUDE = 0
 
     $ ICON_XSMALL = "20"

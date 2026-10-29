@@ -142,7 +142,7 @@ $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
 
 label .fix (**kwargs):
     ...
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 ```
 
 - Python function, so it's `$ call_custom_menu_with_text(text, speaker, with_leave, *elements, menu_anchor=..., **kwargs)`, or `$ call_custom_menu(with_leave, *elements, **kwargs)` without a prompt.
@@ -220,13 +220,13 @@ PositiveResolution("ALL", ValueEffect("my_sit_resolved", "positive"), EventEffec
 NegativeResolution("ANY", ValueEffect("my_sit_resolved", "negative"), EventEffect("my_sit_negative_resolve"), grace_count=1),
 
 # the pool event (building pool)
-Event(3, "my_band_scene", SituationPoolCondition("my_sit", "my_band"), ...)
+Event(EVENT_RANDOM, "my_band_scene", SituationPoolCondition("my_sit", "my_band"), ...)
 
 # the threshold / resolution scenes (misc storage, only fired by EventEffect)
 my_sit_scene_events = EventStorage("my_sit_scenes", "misc")
 my_sit_scene_events.add_event(
-    Event(2, "my_thresh_scene", override_location="misc"),
-    Event(2, "my_sit_positive_resolve", Pattern("main", "..."), override_location="misc"))
+    Event(EVENT_ALWAYS, "my_thresh_scene", override_location="misc"),
+    Event(EVENT_ALWAYS, "my_sit_positive_resolve", Pattern("main", "..."), override_location="misc"))
 ```
 
-Situation scenes end with `$ end_event('none', **kwargs)` followed by `return`. Every resolution needs at least one effect (`DummyEffect()` as a placeholder). Hint text and teasers are written as the headmaster's case notes. Full model: `wiki/Building-Situations.md`.
+Situation scenes end with `$ end_event(END_NONE, **kwargs)` followed by `return`. Every resolution needs at least one effect (`DummyEffect()` as a placeholder). Hint text and teasers are written as the headmaster's case notes. Full model: `wiki/Building-Situations.md`.

@@ -4,13 +4,13 @@ init 1 python:
     ####################
     # Courtyard
     courtyard_general_event.add_event(
-        Event(1, "first_week_courtyard_event",
+        Event(EVENT_BLOCKING, "first_week_courtyard_event",
             FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week courtyard <step>.webp"),
             thumbnail = "images/events/first week/first week courtyard 1.webp"),
-        Event(1, "first_potion_courtyard_event",
+        Event(EVENT_BLOCKING, "first_potion_courtyard_event",
             FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
@@ -21,13 +21,13 @@ init 1 python:
     ####################
     # Gym
     gym_general_event.add_event(
-        Event(1, "first_week_gym_event",
+        Event(EVENT_BLOCKING, "first_week_gym_event",
             FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week gym <step>.webp"),
             thumbnail = "images/events/first week/first week gym 1.webp"),
-        Event(1, "first_potion_gym_event",
+        Event(EVENT_BLOCKING, "first_potion_gym_event",
             FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
@@ -38,7 +38,7 @@ init 1 python:
     ####################
     # Kiosk
     kiosk_general_event.add_event(
-        Event(1, "first_week_kiosk_event",
+        Event(EVENT_BLOCKING, "first_week_kiosk_event",
             FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
@@ -49,13 +49,13 @@ init 1 python:
     ####################
     # Office Building    
     office_building_general_event.add_event( 
-        Event(1, "first_week_office_building_event",
+        Event(EVENT_BLOCKING, "first_week_office_building_event",
             FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week office building.webp"),
             thumbnail = "images/events/first week/first week office building.webp"),
-        Event(1, "first_potion_office_building_event",
+        Event(EVENT_BLOCKING, "first_potion_office_building_event",
             FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
@@ -66,13 +66,13 @@ init 1 python:
     ####################
     # School Building
     sb_general_event.add_event(
-        Event(1, "first_week_sb_event",
+        Event(EVENT_BLOCKING, "first_week_sb_event",
             FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week school building <step>.webp"),
             thumbnail = "images/events/first week/first week school building 2.webp"),
-        Event(1, "first_potion_sb_event",
+        Event(EVENT_BLOCKING, "first_potion_sb_event",
             FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
@@ -83,13 +83,13 @@ init 1 python:
     ####################
     # School Dormitory
     sd_general_event.add_event(
-        Event(1, "first_week_school_dormitory_event",
+        Event(EVENT_BLOCKING, "first_week_school_dormitory_event",
             FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week school dormitory <step>.webp"),
             thumbnail = "images/events/first week/first week school dormitory 1.webp"),
-        Event(1, "first_potion_school_dormitory_event",
+        Event(EVENT_BLOCKING, "first_potion_school_dormitory_event",
             FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
@@ -120,7 +120,7 @@ label first_potion_courtyard_event (**kwargs):
 
     $ add_building_collection_key("courtyard", "closed", "first_week")
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label first_week_courtyard_event (**kwargs):
     $ begin_event(**kwargs)
@@ -149,7 +149,7 @@ label first_week_courtyard_event (**kwargs):
 
     $ add_building_collection_key("courtyard", "closed", "first_week")
 
-    $ end_event("new_day", **kwargs)
+    $ end_event(END_NEW_DAY, **kwargs)
 
 
 #endregion
@@ -177,7 +177,7 @@ label first_potion_gym_event (**kwargs):
 
     $ add_building_collection_key("gym", "closed", "first_week")
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # first week event
 label first_week_gym_event (**kwargs):
@@ -201,7 +201,7 @@ label first_week_gym_event (**kwargs):
 
     $ add_building_collection_key("gym", "closed", "first_week")
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #####################
@@ -237,7 +237,7 @@ label first_week_kiosk_event (**kwargs):
 
     $ add_building_collection_key("kiosk", "closed", "first_week")
 
-    $ end_event('new_day', **kwargs)
+    $ end_event(END_NEW_DAY, **kwargs)
 
 # endregion
 #######################
@@ -258,7 +258,7 @@ label first_potion_office_building_event (**kwargs):
 
     $ add_building_collection_key("office_building", "closed", "first_week")
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # first week event
 label first_week_office_building_event (**kwargs):
@@ -276,7 +276,7 @@ label first_week_office_building_event (**kwargs):
 
     $ add_building_collection_key("office_building", "closed", "first_week")
 
-    $ end_event('new_day', **kwargs)
+    $ end_event(END_NEW_DAY, **kwargs)
 
 # endregion
 ########################
@@ -318,7 +318,7 @@ label first_week_sb_event (**kwargs):
 
     $ add_building_collection_key("school_building", "closed", "first_week")
 
-    $ end_event('new_day', **kwargs)
+    $ end_event(END_NEW_DAY, **kwargs)
 
 label first_potion_sb_event (**kwargs):
     $ begin_event(**kwargs)
@@ -335,7 +335,7 @@ label first_potion_sb_event (**kwargs):
 
     $ add_building_collection_key("school_building", "closed", "first_week")
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #################################
@@ -374,7 +374,7 @@ label first_week_school_dormitory_event (**kwargs):
 
     $ add_building_collection_key("school_dormitory", "closed", "first_week")
 
-    $ end_event('new_day', **kwargs)
+    $ end_event(END_NEW_DAY, **kwargs)
 
 label first_potion_school_dormitory_event (**kwargs):
     $ begin_event(**kwargs)
@@ -399,7 +399,7 @@ label first_potion_school_dormitory_event (**kwargs):
 
     $ add_building_collection_key("school_dormitory", "closed", "first_week")
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##################################

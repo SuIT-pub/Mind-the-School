@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    sports_field_general_event = EventStorage("sports_field",   "sports_field", fallback = Event(1, "sports_field.after_general_check"))
+    sports_field_general_event = EventStorage("sports_field",   "sports_field", fallback = Event(EVENT_BLOCKING, "sports_field.after_general_check"))
     register_highlighting(sports_field_general_event)
 
     #### Default sports field events

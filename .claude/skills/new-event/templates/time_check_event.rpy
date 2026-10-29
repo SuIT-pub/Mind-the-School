@@ -5,7 +5,7 @@
 init 1 python:
     set_current_mod('base')
 
-    my_story_beat_event = Event(1, "my_story_beat",
+    my_story_beat_event = Event(EVENT_BLOCKING, "my_story_beat",
         TimeCondition(day = 12, month = 1, year = 2023, daytime = 1),
         NOT(EventSeenCondition(True, "my_story_beat")),          # one-shot safety
         Pattern("main", "images/events/story/my_story_beat/my_story_beat <step>.webp"),
@@ -19,4 +19,4 @@ label my_story_beat (**kwargs):
     $ image = convert_pattern("main", **kwargs)
     $ image.show(0)
     subtitles "The morning it happens."
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)

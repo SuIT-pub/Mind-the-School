@@ -6,7 +6,7 @@ init 1 python:
     set_current_mod('base')
 
     sb_events["patrol"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "my_band_scene",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", char_obj="school"),
@@ -32,4 +32,4 @@ label my_band_scene (**kwargs):
     $ situation_manager.apply_progress_change("situation:my_sit:main", 2)
     # … and/or move stats, which drift the bar through its stat_weights.
     call change_stats_with_modifier(reputation=TINY) from _my_band_scene_1
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)

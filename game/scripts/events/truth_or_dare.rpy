@@ -22,7 +22,7 @@ init 1 python:
 
     base_path = "images/events/truth_or_dare/"
 
-    truth_or_dare_event_1 = Event(3, "truth_or_dare_1",
+    truth_or_dare_event_1 = Event(EVENT_RANDOM, "truth_or_dare_1",
         TimeCondition(daytime = "n"),
         LevelCondition("2,3", char_obj = "school"),
         NOT(ProgressCondition("truth_or_dare")),
@@ -32,14 +32,14 @@ init 1 python:
 
     courtyard_events["patrol"].add_event(truth_or_dare_event_1)
 
-    truth_or_dare_event_2 = Event(3, "truth_or_dare_2",
+    truth_or_dare_event_2 = Event(EVENT_RANDOM, "truth_or_dare_2",
         TimeCondition(daytime = "c", weekday = "d"),
         ProgressCondition("truth_or_dare", 1),
         ReplayCategoryOption("truth_or_dare"), 
         Pattern("main", base_path + "truth_or_dare_2/truth_or_dare_2 <school_level> <step>.webp"),
         thumbnail = base_path + "truth_or_dare_2/truth_or_dare_2 6 8.webp")
 
-    truth_or_dare_event_3 = Event(3, "truth_or_dare_3",
+    truth_or_dare_event_3 = Event(EVENT_RANDOM, "truth_or_dare_3",
         TimeCondition(daytime = "c", weekday = "d"),
         ProgressCondition("truth_or_dare", 2),
         ReplayCategoryOption("truth_or_dare"), 
@@ -48,7 +48,7 @@ init 1 python:
 
     sb_events["patrol"].add_event(truth_or_dare_event_2, truth_or_dare_event_3)
 
-    truth_or_dare_event_4 = EventComposite(3, "truth_or_dare_4", [truth_or_dare_storage, truth_or_dare_end_storage], 
+    truth_or_dare_event_4 = EventComposite(EVENT_RANDOM, "truth_or_dare_4", [truth_or_dare_storage, truth_or_dare_end_storage], 
         TimeCondition(weekday = "d", daytime = "n"),
         ProgressCondition("truth_or_dare", 3),
         IterativeListSelector("girls", "ikushi_ito", "lin_kato", "miwa_igarashi", "ishimaru_maki", options = [FragmentRerollOption()]),
@@ -61,22 +61,22 @@ init 1 python:
     sd_events["peek_students"].add_event(truth_or_dare_event_4)
 
     truth_or_dare_storage.add_event(
-        EventFragment(2, "truth_or_dare_truth_1", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_1/truth_or_dare_truth_1 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_2", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_2/truth_or_dare_truth_2 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_3", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_3/truth_or_dare_truth_3 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_4", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_4/truth_or_dare_truth_4 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_5", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_5/truth_or_dare_truth_5 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_6", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_6/truth_or_dare_truth_6 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_1",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_1/truth_or_dare_dare_1 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_2",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_2/truth_or_dare_dare_2 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_3",  LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_3/truth_or_dare_dare_3 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_4",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_4/truth_or_dare_dare_4 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_5",  LevelCondition("2-4"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_5/truth_or_dare_dare_5 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_6",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_6/truth_or_dare_dare_6 <school_level> <step>.webp"))
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_truth_1", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_1/truth_or_dare_truth_1 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_truth_2", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_2/truth_or_dare_truth_2 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_truth_3", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_3/truth_or_dare_truth_3 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_truth_4", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_4/truth_or_dare_truth_4 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_truth_5", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_5/truth_or_dare_truth_5 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_truth_6", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_6/truth_or_dare_truth_6 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_dare_1",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_1/truth_or_dare_dare_1 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_dare_2",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_2/truth_or_dare_dare_2 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_dare_3",  LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_3/truth_or_dare_dare_3 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_dare_4",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_4/truth_or_dare_dare_4 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_dare_5",  LevelCondition("2-4"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_5/truth_or_dare_dare_5 <school_level> <step>.webp")),
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_dare_6",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_6/truth_or_dare_dare_6 <school_level> <step>.webp"))
     )
 
     truth_or_dare_end_storage.add_event(
-        EventFragment(2, "truth_or_dare_end", ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/end/truth_or_dare_4_end <school_level>.webp"))
+        EventFragment(EVENT_ALWAYS, "truth_or_dare_end", ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/end/truth_or_dare_4_end <school_level>.webp"))
     )
 
 # Planned Content from @Planned Content
@@ -102,7 +102,7 @@ label truth_or_dare_1 (**kwargs):
 
     $ start_progress("truth_or_dare")
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # School Building: Patrol - Class Time
 label truth_or_dare_2 (**kwargs):
@@ -136,7 +136,7 @@ label truth_or_dare_2 (**kwargs):
 
     $ set_progress("truth_or_dare", 2) # 1 -> 2
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # School Building: Patrol - Class Time
 label truth_or_dare_3 (**kwargs):
@@ -165,7 +165,7 @@ label truth_or_dare_3 (**kwargs):
     $ set_progress("truth_or_dare", 3) # 2 -> 3
     $ sync_truth_or_dare_situation()
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # School Dorm: Peek - Night
 label truth_or_dare_4 (**kwargs):
@@ -189,7 +189,7 @@ label truth_or_dare_end (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster.think "Very interesting..."
     headmaster.think "I should leave now, before they notice me."
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 #####################
 # region Truths --- #
@@ -228,7 +228,7 @@ label truth_or_dare_truth_1 (**kwargs):
     call change_stats_with_modifier(
         inhibition = DEC_TINY) from _stats_truth_or_dare_truth_1_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # lin1 miwa2 ishimaru3 ikushi4
 label truth_or_dare_truth_2 (**kwargs):
@@ -252,7 +252,7 @@ label truth_or_dare_truth_2 (**kwargs):
     call change_stats_with_modifier(
         corruption = DEC_TINY) from _stats_truth_or_dare_truth_2_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # miwa1 ishimaru2 ikushi3 lin4
 label truth_or_dare_truth_3 (**kwargs):
@@ -283,7 +283,7 @@ label truth_or_dare_truth_3 (**kwargs):
     call change_stats_with_modifier(
         charm = TINY, inhibition = DEC_TINY, corruption = TINY) from _stats_truth_or_dare_truth_3_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # ishimaru1 ikushi2 lin3 miwa4
 label truth_or_dare_truth_4 (**kwargs):
@@ -309,7 +309,7 @@ label truth_or_dare_truth_4 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY, charm = TINY) from _stats_truth_or_dare_truth_4_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # ikushi1 lin2 miwa3 ishimaru4
 label truth_or_dare_truth_5 (**kwargs):
@@ -349,7 +349,7 @@ label truth_or_dare_truth_5 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY, corruption = TINY, inhibition = DEC_TINY, reputation = SMALL) from _stats_truth_or_dare_truth_5_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # lin1 miwa2 ishimaru3 ikushi4
 label truth_or_dare_truth_6 (**kwargs):
@@ -380,7 +380,7 @@ label truth_or_dare_truth_6 (**kwargs):
     call change_stats_with_modifier(
         happiness = MEDIUM) from _stats_truth_or_dare_truth_6_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 #endregion
 #####################
@@ -419,7 +419,7 @@ label truth_or_dare_dare_1 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY, corruption = TINY) from _stats_truth_or_dare_dare_1_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # lin1 miwa2 ishimaru3 ikushi4
 label truth_or_dare_dare_2 (**kwargs):
@@ -450,7 +450,7 @@ label truth_or_dare_dare_2 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY, inhibition = DEC_TINY, corruption = TINY) from _stats_truth_or_dare_dare_2_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
     
 # miwa1 ishimaru2 ikushi3 lin4
 label truth_or_dare_dare_3 (**kwargs):
@@ -483,7 +483,7 @@ label truth_or_dare_dare_3 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY, charm = TINY) from _stats_truth_or_dare_dare_3_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # ishimaru1 ikushi2 lin3 miwa4
 label truth_or_dare_dare_4 (**kwargs):
@@ -517,7 +517,7 @@ label truth_or_dare_dare_4 (**kwargs):
     call change_stats_with_modifier(
         corruption = SMALL) from _stats_truth_or_dare_dare_4_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # ikushi1 lin2 miwa3 ishimaru4    
 label truth_or_dare_dare_5 (**kwargs):
@@ -568,7 +568,7 @@ label truth_or_dare_dare_5 (**kwargs):
     call change_stats_with_modifier(
         happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY) from _stats_truth_or_dare_dare_5_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # lin1 miwa2 ishimaru3 ikushi4
 label truth_or_dare_dare_6 (**kwargs):
@@ -595,7 +595,7 @@ label truth_or_dare_dare_6 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, inhibition = DEC_TINY, corruption = TINY) from _stats_truth_or_dare_dare_6_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 #endregion

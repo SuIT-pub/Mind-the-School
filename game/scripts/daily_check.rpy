@@ -1,64 +1,64 @@
 init -1 python:
     set_current_mod('base')
-    after_event_check = Event(2, "time_event_check.after_event_check")
+    after_event_check = Event(EVENT_ALWAYS, "time_event_check.after_event_check")
 
     time_check_events = EventStorage("time_check_events", "misc", fallback = after_event_check)
 
 init 1 python:
     set_current_mod('base')
-    first_week_epilogue_event = Event(1, "first_week_epilogue", 
+    first_week_epilogue_event = Event(EVENT_BLOCKING, "first_week_epilogue", 
         FlagCondition("intro"),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
         Pattern("main", "images/events/first week/first week epilogue <step>.webp"),
         thumbnail = "images/events/first week/first week epilogue 8.webp")
 
-    first_week_epilogue_final_event = Event(1, "first_week_epilogue_final", 
+    first_week_epilogue_final_event = Event(EVENT_BLOCKING, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
         Pattern("main", "/images/events/first week/first week epilogue final <step>.webp"),
         thumbnail = "images/events/first week/first week epilogue final 3.webp")
 
-    first_pta_meeting_event = Event(1, "first_pta_meeting", 
+    first_pta_meeting_event = Event(EVENT_BLOCKING, "first_pta_meeting", 
         FlagCondition("intro"),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
 
-    new_daytime_event = Event(2, "check_new_daytime",
+    new_daytime_event = Event(EVENT_ALWAYS, "check_new_daytime",
         DaytimeChangedCondition("daytime"))
 
-    new_day_event = Event(2, "check_new_day",
+    new_day_event = Event(EVENT_ALWAYS, "check_new_day",
         TimeCondition(daytime = 1),
         DaytimeChangedCondition("day"))
 
-    new_week_event = Event(2, "check_new_week",
+    new_week_event = Event(EVENT_ALWAYS, "check_new_week",
         TimeCondition(weekday = 1, daytime = 1),
         DaytimeChangedCondition("week"))
 
-    new_month_event = Event(2, "check_new_month",
+    new_month_event = Event(EVENT_ALWAYS, "check_new_month",
         TimeCondition(day = 1, daytime = 1),
         DaytimeChangedCondition("month"))
 
-    new_year_event = Event(2, "check_new_year",
+    new_year_event = Event(EVENT_ALWAYS, "check_new_year",
         TimeCondition(day = 1, month = 1, daytime = 1),
         DaytimeChangedCondition("year"))
 
-    intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
+    intro_check_all_facilities_event = Event(EVENT_ALWAYS, "intro_check_all_facilities", 
         FlagCondition("intro"),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
 
-    intro_check_all_first_potions_event = Event(2, "intro_check_all_first_potions", 
+    intro_check_all_first_potions_event = Event(EVENT_ALWAYS, "intro_check_all_first_potions", 
         FlagCondition("intro"),
         TimeCondition(day = 9, month = 1, year = 2023, daytime = 4))
 
-    game_over_happiness_event = Event(1, "game_over_happiness", 
+    game_over_happiness_event = Event(EVENT_BLOCKING, "game_over_happiness", 
         StatCondition(happiness = "0-"))
 
-    game_over_education_event = Event(1, "game_over_education", 
+    game_over_education_event = Event(EVENT_BLOCKING, "game_over_education", 
         StatCondition(education = "0-"))
 
-    game_over_reputation_event = Event(1, "game_over_reputation", 
+    game_over_reputation_event = Event(EVENT_BLOCKING, "game_over_reputation", 
         StatCondition(reputation = "0-"))
 
-    check_prof_event = Event(2, "check_missing_proficiencies",
+    check_prof_event = Event(EVENT_ALWAYS, "check_missing_proficiencies",
         NOT(OR(
             ProficiencyCondition('math'), 
             ProficiencyCondition('history')
@@ -181,7 +181,7 @@ label .tutorial_3:
     if 'kwargs' not in locals() and 'kwargs' not in globals():
         $ kwargs = {}
 
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
 
     # jump first_week_epilogue_final.skip
 
@@ -472,7 +472,7 @@ label first_week_epilogue (**kwargs):
 
         $ time.set_time(day = 9, daytime = 3)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label first_week_epilogue_final (**kwargs): 
     $ begin_event(**kwargs)
@@ -554,7 +554,7 @@ label first_week_epilogue_final (**kwargs):
     $ image.show(18)
     emiko "Good luck."
 
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
 label .skip:
 
     hide screen black_error_screen_text

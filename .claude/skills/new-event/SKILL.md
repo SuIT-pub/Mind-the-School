@@ -24,11 +24,11 @@ Do not start writing until each of these has an answer. Ask in one batch, not on
 | **Where** — building + action pool (e.g. `cafeteria_events["order_food"]`), or situation/threshold/resolution, or time check | wiring |
 | **When** — daytime/weekday, school level range, progress step, seen-prerequisites, flag phase (intro/camp) | conditions |
 | **Who** — fixed Person(s) or a selector-picked girl | dialogue + `get_person_value` |
-| **Priority** — 1 blocking story beat · 2 always-run · 3 random ambient | `select_type` |
+| **Priority** — `EVENT_BLOCKING` story beat · `EVENT_ALWAYS` always-run · `EVENT_RANDOM` ambient | `select_type` |
 | **Visuals** — existing render(s) / new render planned / paperdoll over a blurred background | patterns, thumbnail |
 | **Branches** — player choices, gated choices | decision menu |
 | **Consequences** — stats, situation bar, progress, GameData flags, modifier, unlock | effects in the label |
-| **Ending** — next daytime, back to map, `none` (chained/threshold), new day | `end_event` type |
+| **Ending** — `END_NEW_DAYTIME`, `END_MAP`, `END_NONE` (chained/threshold), `END_NEW_DAY` | `end_event` type |
 | **Title** — name shown in menus/gallery/cheat page | `title=` |
 
 Project rule: rework/creation goes **one event at a time** — present the plan (summary +
@@ -66,7 +66,7 @@ for the exact pool keys before wiring — never guess them.
 Inside `init 1 python:` with `set_current_mod('base')` first (or the mod key for mods):
 
 ```python
-Event(3, "cafeteria_snack_chat",                      # priority, label name
+Event(EVENT_RANDOM, "cafeteria_snack_chat",                      # priority, label name
     TimeCondition(weekday="d", daytime="f"),          # gates (all must pass)
     LevelCondition("2-4", char_obj="school"),
     RandomListSelector("topic", "coffee", "tea"),     # values → kwargs + <topic>
@@ -90,7 +90,7 @@ label cafeteria_snack_chat(**kwargs):
     $ image.show(0)                          # an image before the first line of text
     subtitles "..."
     call change_stats_with_modifier(happiness=SMALL) from _cafeteria_snack_chat_1
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 ```
 
 Scene building blocks (details in `reference.md`):
@@ -105,7 +105,7 @@ progress · GameData flags · lasting modifiers (`load_modifier`) · situation a
 - Pool event: `<pool>.add_event(event)` in the same init block.
 - Situation pool: `SituationPoolCondition("<situation>", "<pool_key>")` on the event **and**
   `SituationPool("<pool_key>", min, max)` on the situation (create it if new).
-- Threshold/resolution/measure: add the `Event(2, ..., override_location="misc")` to the
+- Threshold/resolution/measure: add the `Event(EVENT_ALWAYS, ..., override_location="misc")` to the
   situation's misc storage and put `EventEffect("<label>")` into the `AutoThreshold` /
   resolution / measure on the situation.
 - Time beat: `time_check_events.add_event(event)` in `daily_check.rpy` (or the content file).
@@ -134,7 +134,7 @@ progress · GameData flags · lasting modifiers (`load_modifier`) · situation a
 ## Checklist (the mistakes that actually happen)
 
 **Definition**
-- [ ] Label name == event string, character for character. Priority is 1, 2 or 3.
+- [ ] Label name == event string, character for character. Priority is `EVENT_BLOCKING`, `EVENT_ALWAYS` or `EVENT_RANDOM`.
 - [ ] `set_current_mod(...)` runs before any `Pattern`/thumbnail is built.
 - [ ] Time gates use the right codes: daytime `c` class (2,4,5) · `f` free (1,3,6) · `d` day (1–6) · `n` night (7); weekday `d` workday · `w` weekend. Use `OR(...)` for "free time on workdays OR daytime on weekends".
 - [ ] Level gate matches the scene's tone (`LevelCondition("1-", char_obj="school")`, `"3+"`, `"2-4"`; the character goes in `char_obj=` — a second positional argument is treated as an *option*, not the character).
@@ -153,7 +153,7 @@ progress · GameData flags · lasting modifiers (`load_modifier`) · situation a
 - [ ] Something is on screen before the first line of text (`image.show`, `show_pattern`, or `paperdoll_manager.set_background`).
 - [ ] Choices use `$ call_custom_menu_with_text(...)` (a Python function — `$`, not `call`) with stable `MenuElement` keys, full branch targets `EventEffect("<event>.<branch>")`, and **at least one ungated element** (an all-gated menu dumps the player to the map with a dev error). Never a raw `menu:`.
 - [ ] Every branch ends with its own `end_event(...)`.
-- [ ] `end_event("none", ...)` is followed by `return` (otherwise Ren'Py falls through into the next label).
+- [ ] `end_event(END_NONE, ...)` is followed by `return` (otherwise Ren'Py falls through into the next label).
 - [ ] Every `call ... from _id` has a project-unique id (convention: `_<event>_<n>` or a short prefix like `_nm_go_np_fix`).
 - [ ] Stat amounts use the constants (`TINY`/`SMALL`/`MEDIUM`/`LARGE`, `DEC_*`), never raw numbers in `change_stats_with_modifier`.
 - [ ] Paperdolls: `register_paperdoll()` before `display()`; `level=` matches the scene's level; no manual teardown needed (`image.show` and `end_event` clear it).

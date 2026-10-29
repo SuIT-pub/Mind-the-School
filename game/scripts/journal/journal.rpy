@@ -67,7 +67,7 @@ init python:
 # region Journal Events #
 
 init -1 python:
-    journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
+    journal_events = EventStorage("journal_events", "misc", fallback = Event(EVENT_ALWAYS, "start_journal.after_check"))
 
 # endregion
 #########################

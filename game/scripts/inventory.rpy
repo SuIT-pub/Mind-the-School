@@ -216,10 +216,10 @@ init -98 python:
 # region Computer Shop #
 
 init 1 python:    
-    office_building_computer_event["shopping"].add_event(Event(3, "office_building_computer_shopping_event"))
+    office_building_computer_event["shopping"].add_event(Event(EVENT_RANDOM, "office_building_computer_shopping_event"))
 
     time_check_events.add_event(
-        Event(2, "office_building_computer_shopping_delivery_event",
+        Event(EVENT_ALWAYS, "office_building_computer_shopping_delivery_event",
             TimeCondition(weekday = "1-4", daytime = 1),
             DeliveryCondition(),
         )   
@@ -681,7 +681,7 @@ label office_building_computer_shopping_delivery_event(**kwargs):
     
         remove_old_deliveries()
 
-    $ end_event("map_overview", **kwargs)
+    $ end_event(END_MAP, **kwargs)
 
 # endregion
 ########################

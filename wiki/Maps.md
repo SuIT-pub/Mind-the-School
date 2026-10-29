@@ -237,7 +237,7 @@ of the same name**. The usual shape (see `buildings/beach.rpy`):
 init -1 python:
     set_current_mod('base')
     beach_general_event = EventStorage("beach_general", "beach",
-        fallback = Event(2, "beach.after_general_check"))
+        fallback = Event(EVENT_ALWAYS, "beach.after_general_check"))
     register_highlighting(beach_general_event)
     beach_events = {}
 

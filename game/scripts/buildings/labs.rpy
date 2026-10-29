@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    labs_general_event = EventStorage("labs_general", "labs", fallback = Event(2, "labs.after_general_check"))
+    labs_general_event = EventStorage("labs_general", "labs", fallback = Event(EVENT_ALWAYS, "labs.after_general_check"))
     register_highlighting(labs_general_event)
 
     #### Default labs events

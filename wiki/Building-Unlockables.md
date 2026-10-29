@@ -639,7 +639,7 @@ generic scene steps aside for it. For one member of a group, pass `group_index`;
 without it the scene claims every level of the key.
 
 ```python
-pta_vote_storage.add_event(EventFragment(2, "pta_vote_theoretical_sex_ed_1",
+pta_vote_storage.add_event(EventFragment(EVENT_ALWAYS, "pta_vote_theoretical_sex_ed_1",
     JournalVoteCondition("sex_ed", group_index = 1),
     Pattern("main", "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 <step>.webp"),
 ))

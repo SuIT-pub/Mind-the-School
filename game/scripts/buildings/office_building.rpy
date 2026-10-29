@@ -6,7 +6,7 @@ init -1 python:
     set_current_mod('base')
     
     # general event for the office building
-    office_building_general_event = EventStorage("office_building", "office_building", fallback = Event(2, "office_building.after_general_check"))
+    office_building_general_event = EventStorage("office_building", "office_building", fallback = Event(EVENT_ALWAYS, "office_building.after_general_check"))
     register_highlighting(office_building_general_event)
 
     #### Office Building Work Events
@@ -73,32 +73,32 @@ init 1 python:
 
     
     office_building_events["look_around"].add_event(
-        Event(3, "office_event_1",
+        Event(EVENT_RANDOM, "office_event_1",
             TimeCondition(weekday = "d", daytime = "f"),
             Pattern("main", "images/events/office/office_event_1/office_event_1 <school_level> <step>.webp"),
             thumbnail = "images/events/office/office_event_1/office_event_1 1 0.webp"),
-        Event(3, "office_event_2",
+        Event(EVENT_RANDOM, "office_event_2",
             RandomListSelector("teacher", "finola_ryan", "yulan_chen"),
             TimeCondition(weekday = "d", daytime = "f"),
             Pattern("main", "images/events/office/office_event_2/office_event_2 <teacher_level> <teacher>.webp"),
             thumbnail = "images/events/office/office_event_2/office_event_2 1 finola_ryan.webp"),
-        Event(3, "office_event_3",
+        Event(EVENT_RANDOM, "office_event_3",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelCondition("1-5", char_obj = "school"),
             NOT(UnlockableCondition("student_student_relation")),
             Pattern("main", "images/events/office/office_event_3/office_event_3 <school_level> <step>.webp"),
             thumbnail = "images/events/office/office_event_3/office_event_3 1 0.webp"),
-        Event(3, "office_event_4",
+        Event(EVENT_RANDOM, "office_event_4",
             TimeCondition(weekday = "d", daytime = "d"),
             Pattern("main", "images/events/office/office_event_4/office_event_4 <secretary_level> <step>.webp", "secretary_level"),
             thumbnail = "images/events/office/office_event_4/office_event_4 5 0.webp"),
     )
 
-    office_call_secretary_event_event = EventSelect(3, "call_secretary_event", "What do you want to do?", office_building_call_secretary_events,
+    office_call_secretary_event_event = EventSelect(EVENT_RANDOM, "call_secretary_event", "What do you want to do?", office_building_call_secretary_events,
         override_menu_exit = 'office_building',)
 
     office_building_call_secretary_events["naughty_sandbox"].add_event(
-        Event(3, "office_call_secretary_naughty_sandbox",
+        Event(EVENT_RANDOM, "office_call_secretary_naughty_sandbox",
             ProgressCondition("work_office_session_naughty"),
             Pattern("main", "images/events/office/office_call_secretary_naughty_sandbox/office_call_secretary_naughty_sandbox <secretary_level> <step>.webp", 'secretary_level'),
             thumbnail = "images/events/office/office_call_secretary_naughty_sandbox/office_call_secretary_naughty_sandbox 6 3.webp"))
@@ -107,56 +107,56 @@ init 1 python:
         office_call_secretary_event_event,)
 
     office_building_events["computer"].add_event(
-        EventSelect(3, "computer_event", "What do you want to do?", office_building_computer_event,
+        EventSelect(EVENT_RANDOM, "computer_event", "What do you want to do?", office_building_computer_event,
             TimeCondition(weekday = "d", daytime = "d"))
     )
 
     office_building_events["work"].add_event(
-        EventSelect(3, "work_office_event", "What do you want to work on?", office_building_work_event,
+        EventSelect(EVENT_RANDOM, "work_office_event", "What do you want to work on?", office_building_work_event,
             TimeCondition(weekday = "d", daytime = "d"),
             override_menu_exit = 'office_building')
     )
 
     office_building_subject_learn_events['math'].add_event(
-        Event(3, "learn_office_event_1", ProficiencyCondition("math", level = "10-"), ValueSelector('subject', 'math')))
+        Event(EVENT_RANDOM, "learn_office_event_1", ProficiencyCondition("math", level = "10-"), ValueSelector('subject', 'math')))
     office_building_subject_learn_events['history'].add_event(
-        Event(3, "learn_office_event_1", ProficiencyCondition("history", level = "10-"), ValueSelector('subject', 'history')))
+        Event(EVENT_RANDOM, "learn_office_event_1", ProficiencyCondition("history", level = "10-"), ValueSelector('subject', 'history')))
     office_building_subject_learn_events['pe'].add_event(
-        Event(3, "learn_office_event_1", ProficiencyCondition("pe", level = "10-"), ValueSelector('subject', 'pe')))
+        Event(EVENT_RANDOM, "learn_office_event_1", ProficiencyCondition("pe", level = "10-"), ValueSelector('subject', 'pe')))
     office_building_subject_learn_events['sex_ed'].add_event(
-        Event(3, "learn_office_event_1", ProficiencyCondition("sex_ed", level = "10-"), ValueSelector('subject', 'sex_ed')))
+        Event(EVENT_RANDOM, "learn_office_event_1", ProficiencyCondition("sex_ed", level = "10-"), ValueSelector('subject', 'sex_ed')))
 
     office_building_events["learn"].add_event(
-        EventSelect(3, "learn_subject_event", "What subject do you wanna learn?", office_building_subject_learn_events,
+        EventSelect(EVENT_RANDOM, "learn_subject_event", "What subject do you wanna learn?", office_building_subject_learn_events,
             TimeCondition(daytime = 1),
             MoneyCondition(500),
             override_menu_exit = 'office_building'))
 
     office_building_work_event["money"].add_event(
-        Event(3, "work_office_money_event_1",
+        Event(EVENT_RANDOM, "work_office_money_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
             Pattern("main", 'images/events/office/office_money_event_1/office_money_event_1 <step>.webp'),
             thumbnail = "images/events/office/office_money_event_1/office_money_event_1 1.webp"),)
 
     office_building_work_event["education"].add_event(
-        Event(3, "work_office_education_event_1",
+        Event(EVENT_RANDOM, "work_office_education_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
             Pattern("main", "images/events/office/office_education_event_1/office_education_event_1 <step>.webp"),
             thumbnail = "images/events/office/office_education_event_1/office_education_event_1 0.webp"),)
 
     office_building_work_event["reputation"].add_event(
-        Event(3, "work_office_reputation_event_1",
+        Event(EVENT_RANDOM, "work_office_reputation_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
             Pattern("main", "images/events/office/office_reputation_event_1/office_reputation_event_1 <step>.webp"),
             thumbnail = "images/events/office/office_reputation_event_1/office_reputation_event_1 1.webp"),)
 
     office_building_work_event["counselling"].add_event(
-        Event(3, "work_office_session_event_1",
+        Event(EVENT_RANDOM, "work_office_session_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
             RandomListSelector("girl_name", "yuriko_oshima", "elsie_johnson", "easkey_tanaka"),
             Pattern("main", "images/events/office/office_session_event_1/office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", 'girl_name', 'school_level', 'secretary_level'),
             thumbnail = "images/events/office/office_session_event_1/office_session_event_1 easkey_tanaka 1 # 4.webp"),
-        Event(3, "work_office_session_event_first_naughty",
+        Event(EVENT_RANDOM, "work_office_session_event_first_naughty",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelSelector('school_level', 'school'),
             LevelSelector('secretary_level', 'secretary'),
@@ -202,7 +202,7 @@ label office_building_computer_shopping_event(**kwargs):
 
 label .after_computer_shopping_screen(**kwargs):
 
-    $ end_event("map_overview", **kwargs)
+    $ end_event(END_MAP, **kwargs)
 
 
 # endregion
@@ -226,7 +226,7 @@ label work_office_reputation_event_1 (**kwargs):
 
     call change_stats_with_modifier(reputation = SMALL) from _call_change_stats_with_modifier_38
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label work_office_money_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -246,7 +246,7 @@ label work_office_money_event_1 (**kwargs):
 
     call change_money_with_modifier(get_random_int(100, 500)) from _call_change_money_with_modifier
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label work_office_education_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -264,7 +264,7 @@ label work_office_education_event_1 (**kwargs):
     call change_stats_with_modifier(
         happiness = SMALL, education = SMALL) from _call_change_stats_with_modifier_40
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label learn_office_event_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
@@ -294,7 +294,7 @@ label learn_office_event_1 (**kwargs):
     $ change_headmaster_proficiency_xp(subject, delta)
     call change_money(-500) from _call_change_money
 
-    $ end_event('new_day', **kwargs)
+    $ end_event(END_NEW_DAY, **kwargs)
 
 label work_office_session_event_1(**kwargs):
     $ begin_event(**kwargs)
@@ -344,7 +344,7 @@ label work_office_session_event_1(**kwargs):
     call change_stats_with_modifier(
         happiness = MEDIUM, education = SMALL) from _call_change_stats_with_modifier_43
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ######################
@@ -584,7 +584,7 @@ label work_office_session_event_first_naughty (**kwargs):
     call change_stats_with_modifier('secretary',
         happiness = LARGE, corruption = LARGE, inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_42
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ########################
@@ -780,7 +780,7 @@ label office_event_1 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY) from _call_change_stats_with_modifier_45
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label office_event_2 (**kwargs):
     $ begin_event("2", **kwargs);
@@ -795,7 +795,7 @@ label office_event_2 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY) from _call_change_stats_with_modifier_47
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label office_event_3 (**kwargs):
     $ begin_event("2", **kwargs);
@@ -819,7 +819,7 @@ label .ignore (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY) from _call_change_stats_with_modifier_48
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .talk (**kwargs):
     
     $ begin_event(**kwargs)
@@ -857,7 +857,7 @@ label .policy (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY) from _call_change_stats_with_modifier_50
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .care (**kwargs):
     
     $ begin_event(**kwargs)
@@ -882,7 +882,7 @@ label .care (**kwargs):
         $ start_progress("unlock_student_relationship")
         $ show_notify_message("Added new rule to journal!")
         
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label office_event_4 (**kwargs):
     $ begin_event(**kwargs);
@@ -911,7 +911,7 @@ label office_event_4 (**kwargs):
     call change_stats_with_modifier(
         happiness = SMALL, education = TINY) from _stats_office_event_4_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
     
 
 # endregion

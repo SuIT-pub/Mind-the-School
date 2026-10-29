@@ -9,7 +9,7 @@ init 1 python:
     my_left_events = EventStorage("my_left", "school_dormitory", fallback_text = "Nobody's there.")
     my_right_events = EventStorage("my_right", "school_dormitory", fallback_text = "Nobody's there.")
 
-    sd_events["peek_students"].add_event(EventSelect(3, "my_room_select", "Which room do you check?",
+    sd_events["peek_students"].add_event(EventSelect(EVENT_RANDOM, "my_room_select", "Which room do you check?",
         {"left": my_left_events, "right": my_right_events},
         TimeCondition(daytime="n"),
         override_menu_exit = "map_entry",
@@ -17,4 +17,4 @@ init 1 python:
         title = "Pick a Room"))
 
     # Fill the storages with ordinary events (see pool_event.rpy for the scene side):
-    # my_left_events.add_event(Event(3, "my_left_scene", ...))
+    # my_left_events.add_event(Event(EVENT_RANDOM, "my_left_scene", ...))

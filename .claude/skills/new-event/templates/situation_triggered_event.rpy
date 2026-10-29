@@ -9,8 +9,8 @@ init 1 python:
 
     my_sit_scene_events = EventStorage("my_sit_scenes", "misc")
     my_sit_scene_events.add_event(
-        Event(2, "my_thresh_scene", override_location="misc", title="My Threshold"),
-        Event(2, "my_sit_positive_resolve",
+        Event(EVENT_ALWAYS, "my_thresh_scene", override_location="misc", title="My Threshold"),
+        Event(EVENT_ALWAYS, "my_sit_positive_resolve",
             Pattern("main", "images/events/my_sit/my_sit_positive_resolve/my_sit_positive_resolve 1.webp"),
             override_location="misc",
             title="My Situation — Resolved"),
@@ -27,7 +27,7 @@ label my_thresh_scene (**kwargs):
     emiko.say "The campus reacts."
     headmaster.think "And so do I."
 
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label my_sit_positive_resolve (**kwargs):
@@ -35,5 +35,5 @@ label my_sit_positive_resolve (**kwargs):
     $ paperdoll_manager.set_background("images/background/office building/secretary 5 1 0.webp", blur = True)
     $ show_pattern("main", **kwargs)
     subtitles "The payoff."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return

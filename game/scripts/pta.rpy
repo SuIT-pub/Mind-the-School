@@ -178,24 +178,24 @@ init -1 python:
 
 init 1 python:
 
-    pta_meeting_event = EventComposite(2, "pta_meeting", [pta_discussion_storage, pta_vote_storage, pta_end_storage], 
+    pta_meeting_event = EventComposite(EVENT_ALWAYS, "pta_meeting", [pta_discussion_storage, pta_vote_storage, pta_end_storage], 
         TimeCondition(weekday = 5, daytime = 1),
         PTAObjectSelector("vote_proposal"),
         Pattern("base", "images/events/pta/regular meeting/pta <secretary_level> <school_level> <step>.webp"))
 
     # PTA discussions
-    pta_discussion_1_event = EventFragment(3, "pta_discussion_1")
+    pta_discussion_1_event = EventFragment(EVENT_RANDOM, "pta_discussion_1")
     
     pta_discussion_storage.add_event(
         pta_discussion_1_event
     )
 
-    pta_vote_unregistered_1_event = EventFragment(2, "pta_vote_unregistered_1",
+    pta_vote_unregistered_1_event = EventFragment(EVENT_ALWAYS, "pta_vote_unregistered_1",
         JournalNRVoteCondition(),
         # one render per speaker; <level> is her faction's level (get_pta_vote_turn)
         Pattern("vote", "images/events/pta/regular meeting/pta_vote <level> <name>.webp"))
 
-    pta_vote_nothing_1_event = EventFragment(2, "pta_vote_nothing_1",
+    pta_vote_nothing_1_event = EventFragment(EVENT_ALWAYS, "pta_vote_nothing_1",
         CompareCondition("vote_proposal", None))
 
     pta_vote_storage.add_event(
@@ -204,7 +204,7 @@ init 1 python:
     )
 
     # PTA end meeting
-    pta_end_meeting_1_event = EventFragment(2, "pta_end_meeting_1")
+    pta_end_meeting_1_event = EventFragment(EVENT_ALWAYS, "pta_end_meeting_1")
     
     pta_end_storage.add_event(
         pta_end_meeting_1_event
@@ -380,7 +380,7 @@ label first_pta_meeting (**kwargs):
     $ add_all_buildings_collection_key("closed", "pta_lock")
     $ remove_building_collection_key("office_building", "closed", "pta_lock")
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #############################
@@ -415,7 +415,7 @@ label pta_discussion_1 (**kwargs):
     $ image.show(3)
     headmaster "No? Alright then lets jump straight to the next point."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #####################
@@ -426,14 +426,14 @@ label pta_discussion_1 (**kwargs):
 label pta_vote_nothing_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label pta_vote_unregistered_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
     $ unlockable = get_value("vote_proposal", **kwargs)
     if not isinstance(unlockable, Unlockable):
-        $ end_event('new_daytime', **kwargs)
+        $ end_event(END_NEW_DAYTIME, **kwargs)
 
     $ votes = unlockable.roll_votes()
     $ end_choice = get_end_choice(*votes)
@@ -488,7 +488,7 @@ label pta_vote_unregistered_1 (**kwargs):
 
     call pta_vote_result(unlockable, end_choice, True) from _call_pta_vote_result_unregistered_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ###############
@@ -505,7 +505,7 @@ label pta_end_meeting_1 (**kwargs):
     headmaster "It seems like that's all we have for today."
     headmaster "I thank you all for coming."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##############

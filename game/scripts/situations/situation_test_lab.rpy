@@ -23,27 +23,27 @@ init 1 python:
     # Threshold / resolution / measure scenes: only fired by EventEffects.
     sit_test_events = EventStorage("sit_test_events", "misc")
     sit_test_events.add_event(
-        Event(2, "sit_test_thresh_auto", override_location="misc"),
-        Event(2, "sit_test_thresh_repeat", override_location="misc"),
-        Event(2, "sit_test_thresh_warning", override_location="misc"),
-        Event(2, "sit_test_thresh_timed", override_location="misc"),
-        Event(2, "sit_test_measure_event", override_location="misc"),
-        Event(2, "sit_test_resolve_positive", override_location="misc"),
-        Event(2, "sit_test_resolve_negative", override_location="misc"),
-        Event(2, "sit_test_resolve_deadline", override_location="misc"),
-        Event(2, "sit_test_resolve_condition", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_thresh_auto", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_thresh_repeat", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_thresh_warning", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_thresh_timed", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_measure_event", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_resolve_positive", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_resolve_negative", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_resolve_deadline", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_resolve_condition", override_location="misc"),
         # Stand-in for a regular game event (queue regression, test N1).
-        Event(2, "sit_test_normal_event", override_location="misc"),
+        Event(EVENT_ALWAYS, "sit_test_normal_event", override_location="misc"),
     )
 
     # Pool events: Office building -> Look around, only while the lab is active
     # and the combined bar sits inside the pool window.
     office_building_events["look_around"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "sit_test_pool_low",
         SituationPoolCondition(SIT_TEST_KEY, "sit_test_pool_low")))
     office_building_events["look_around"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "sit_test_pool_high",
         SituationPoolCondition(SIT_TEST_KEY, "sit_test_pool_high")))
 
@@ -679,55 +679,55 @@ label situation_test_lab:
 label sit_test_thresh_auto (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — one-shot AutoThreshold (main 10) fired. Must play exactly once per run."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_thresh_repeat (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — repeatable AutoThreshold (main 5, hold 3) fired. Re-arms after main drops below 2."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_thresh_warning (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — downward AutoThreshold (main -15) fired."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_thresh_timed (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — timed BlockingThreshold (main 30) released by its timer."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_measure_event (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — instant measure event played."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_resolve_positive (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — PositiveResolution fired (after the 1-daytime grace). The situation must now be completed."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_resolve_negative (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — NegativeResolution fired (latch exhausted or grace expired)."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_resolve_deadline (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — DeadlineResolution fired."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_resolve_condition (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — ConditionResolution fired."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_normal_event (**kwargs):
@@ -737,19 +737,19 @@ label sit_test_normal_event (**kwargs):
     subtitles "TEST — normal event: Happiness +2 (main +1 via stat weight)."
     call change_stats_with_modifier(happiness = 2) from _call_sit_test_normal_event_stats
     subtitles "TEST — normal event ends now. A crossed threshold event must follow directly."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label sit_test_pool_low (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — pool event (combined bar -26 .. 0)."
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
     return
 
 label sit_test_pool_high (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
     subtitles "TEST — pool event (combined bar 1 .. 33)."
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
     return
 
 # endregion

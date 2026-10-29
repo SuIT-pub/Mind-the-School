@@ -21,7 +21,7 @@ object, different meaning per host:
 ```python
 StatCondition(OptionalOption(), corruption=20)               # a soft, always-passing gate
 MoneyEffect("cost", -500, "ADD", EffectNoRevertOption())     # spend that is never refunded
-Event(3, "secret_scene", TimeCondition(daytime="d"), NoHighlightOption())  # runs, but no map hint
+Event(EVENT_RANDOM, "secret_scene", TimeCondition(daytime="d"), NoHighlightOption())  # runs, but no map hint
 ```
 
 - Options are always **positional, after** the host's declared args.

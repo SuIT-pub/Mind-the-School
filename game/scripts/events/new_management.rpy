@@ -5,19 +5,19 @@ init 1 python:
     # are only fired by AutoThreshold EventEffects — not from a map location pool.
     nm_threshold_events = EventStorage("nm_thresholds", "misc")
     nm_threshold_events.add_event(
-        Event(2, "nm_thresh_emiko_nudge", override_location="misc"),
-        Event(2, "nm_thresh_district_letter", override_location="misc"),
-        Event(2, "nm_thresh_first_warmth", override_location="misc"),
-        Event(2, "nm_thresh_yulan_thaw", override_location="misc"),
-        Event(2, "nm_thresh_adelaide_note", override_location="misc"),
-        Event(2, "nm_thresh_near_end", override_location="misc"),
+        Event(EVENT_ALWAYS, "nm_thresh_emiko_nudge", override_location="misc"),
+        Event(EVENT_ALWAYS, "nm_thresh_district_letter", override_location="misc"),
+        Event(EVENT_ALWAYS, "nm_thresh_first_warmth", override_location="misc"),
+        Event(EVENT_ALWAYS, "nm_thresh_yulan_thaw", override_location="misc"),
+        Event(EVENT_ALWAYS, "nm_thresh_adelaide_note", override_location="misc"),
+        Event(EVENT_ALWAYS, "nm_thresh_near_end", override_location="misc"),
     )
 
     # Resolution scenes are events too (begin_event/end_event, gallery, patterns); they
     # are only fired by the Situation's resolution EventEffect, never from a pool.
     nm_resolution_events = EventStorage("nm_resolutions", "misc")
     nm_resolution_events.add_event(
-        Event(2, "new_management_positive_resolve",
+        Event(EVENT_ALWAYS, "new_management_positive_resolve",
             Pattern("main", "images/events/new_management/new_management_positive_resolve/new_management_positive_resolve 1.webp"),
             override_location="misc"),
     )
@@ -28,7 +28,7 @@ init 1 python:
     # paperdoll portraits + reused backgrounds (visuals with zero new art), and
     # GameData flags (cross-event memory) so the four scenes read as one arc.
     office_building_events["look_around"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_ghost_office_nameplate",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", char_obj = "school"),
@@ -44,7 +44,7 @@ init 1 python:
         Pattern("bg", "images/background/office building/f.webp"),
         Pattern("main", "images/events/new_management/nm_ghost_office_nameplate/nm_ghost_office_nameplate <wrong_name> <step>.webp", "wrong_name")))
     office_building_events["call_secretary"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_ghost_office_private_line",
         TimeCondition(weekday="d", daytime="d"),
         LevelCondition("1-", char_obj = "school"),
@@ -57,7 +57,7 @@ init 1 python:
         GameDataSelector("door_claimed", "nm_door_claimed", 0),
         GameDataSelector("guided", "new_management_guided", 0)))
     courtyard_events["patrol"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_ghost_office_janitor",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
         LevelCondition("1-", char_obj = "school"),
@@ -71,7 +71,7 @@ init 1 python:
         # Scene image for the establishing beat (the group sizing him up).
         Pattern("main", "images/events/new_management/nm_ghost_office_janitor/nm_ghost_office_janitor <step>.webp")))
     sb_events["patrol"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_ghost_office_empty_corridor",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", char_obj = "school"),
@@ -87,7 +87,7 @@ init 1 python:
 
     # --- nm_potion_hangover (-20 ... +5) ---
     sb_events["check_class"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_potion_hangover_miwa",
         TimeCondition(weekday="d", daytime="c"),
         LevelCondition("1-", char_obj = "school"),
@@ -99,7 +99,7 @@ init 1 python:
         # Establishing object beat (the one shut notebook in a room of open ones).
         Pattern("main", "images/events/new_management/nm_potion_hangover_miwa/nm_potion_hangover_miwa 1.webp")))
     office_building_work_event["counselling"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_potion_hangover_lily",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", char_obj = "school"),
@@ -113,7 +113,7 @@ init 1 python:
         # Object beat: the trembling mug against the saucer.
         Pattern("main", "images/events/new_management/nm_potion_hangover_lily/nm_potion_hangover_lily 1.webp")))
     courtyard_events["search"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_potion_hangover_vial",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
         LevelCondition("1-", char_obj = "school"),
@@ -127,7 +127,7 @@ init 1 python:
 
     # --- nm_testing_the_waters (-5 ... +20) ---
     courtyard_events["patrol"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_testing_the_waters_clipboard",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
         LevelCondition("1-", char_obj = "school"),
@@ -137,7 +137,7 @@ init 1 python:
         StatSelector("charm", CHARM, "school", [20, 100]),
         Pattern("main", "images/events/new_management/nm_testing_the_waters_clipboard/nm_testing_the_waters_clipboard 1.webp")))
     office_building_work_event["reputation"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_testing_the_waters_memo",
         TimeCondition(weekday="d", daytime="d"),
         LevelCondition("1-", char_obj = "school"),
@@ -148,7 +148,7 @@ init 1 python:
 
     # --- nm_rumors_in_bloom (0 ... +25) ---
     kiosk_events["get_snack"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_rumors_in_bloom_kiosk",
         OR(TimeCondition(weekday="d", daytime="1,3"), TimeCondition(weekday="w", daytime="4-")),
         LevelCondition("1-", char_obj = "school"),
@@ -160,7 +160,7 @@ init 1 python:
         GameDataSelector("face_known", "nm_face_introduced", 0),
         Pattern("main", "images/events/new_management/nm_rumors_in_bloom_kiosk/nm_rumors_in_bloom_kiosk 1.webp")))
     courtyard_events["search"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_rumors_in_bloom_chalk",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
         LevelCondition("1-", char_obj = "school"),
@@ -171,7 +171,7 @@ init 1 python:
 
     # --- nm_quiet_endorsements (+10 ... +30) ---
     sb_events["check_class"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_quiet_endorsements_after_bell",
         TimeCondition(weekday="d", daytime="c"),
         LevelCondition("1-", char_obj = "school"),
@@ -180,7 +180,7 @@ init 1 python:
         GameDataSelector("miwa_helped", "nm_miwa_helped", 0),
         GameDataSelector("guided", "new_management_guided", 0)))
     office_building_work_event["counselling"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_quiet_endorsements_second_coffee",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", char_obj = "school"),
@@ -189,7 +189,7 @@ init 1 python:
         GameDataSelector("lily_witnessed", "nm_lily_witnessed", 0),
         Pattern("main", "images/events/new_management/nm_quiet_endorsements_second_coffee/nm_quiet_endorsements_second_coffee 1.webp")))
     office_building_work_event["education"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_quiet_endorsements_curriculum",
         TimeCondition(weekday="d", daytime="d"),
         LevelCondition("1-", char_obj = "school"),
@@ -199,7 +199,7 @@ init 1 python:
 
     # --- nm_welcome_committee (+22 ... +40) ---
     sb_events["teach_class"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_welcome_committee_mug",
         TimeCondition(weekday="d", daytime="c"),
         LevelCondition("1-", char_obj = "school"),
@@ -208,7 +208,7 @@ init 1 python:
         GameDataSelector("yulan_thawed", "nm_yulan_thawed", 0),
         Pattern("main", "images/events/new_management/nm_welcome_committee_mug/nm_welcome_committee_mug 1.webp")))
     office_building_events["look_around"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_welcome_committee_plaque",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", char_obj = "school"),
@@ -218,7 +218,7 @@ init 1 python:
         GameDataSelector("guided", "new_management_guided", 0),
         Pattern("main", "images/events/new_management/nm_welcome_committee_plaque/nm_welcome_committee_plaque 1.webp")))
     courtyard_events["patrol"].add_event(Event(
-        3,
+        EVENT_RANDOM,
         "nm_welcome_committee_assembly",
         TimeCondition(weekday="d", daytime="1"),
         LevelCondition("1-", char_obj = "school"),
@@ -303,7 +303,7 @@ label .fix (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(reputation=TINY, charm=TINY) from _nm_go_np_fix
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .charm_fix (**kwargs):
 
@@ -320,7 +320,7 @@ label .charm_fix (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=TINY, charm=SMALL, happiness=TINY) from _nm_go_np_charm
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .leave_it (**kwargs):
 
@@ -333,7 +333,7 @@ label .leave_it (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 0)
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .walk_away (**kwargs):
 
@@ -346,7 +346,7 @@ label .walk_away (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     call change_stats_with_modifier(reputation=DEC_TINY) from _nm_go_np_walk
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion ═════════════════════════════════════════════════════════════════════
 
@@ -428,7 +428,7 @@ label .introduce (**kwargs):
     $ set_game_data("nm_face_introduced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY, happiness=TINY) from _nm_go_jan_intro
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .door (**kwargs):
     $ paperdoll_manager.set_background(image[1], blur = True)
@@ -464,7 +464,7 @@ label .door (**kwargs):
     $ set_game_data("nm_face_introduced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_go_jan_door
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .slip_past (**kwargs):
     # No paperdoll — he keeps walking; they're behind him, not facing him.
@@ -474,7 +474,7 @@ label .slip_past (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_go_jan_slip
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .snap (**kwargs):
     $ image.show(3)
@@ -491,7 +491,7 @@ label .snap (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", -2)
     call change_stats_with_modifier(happiness=DEC_SMALL, reputation=DEC_TINY) from _nm_go_jan_snap
     $ aona.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion ═════════════════════════════════════════════════════════════════════
 
@@ -556,7 +556,7 @@ label .triage (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, education=TINY) from _nm_go_pl_triage
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .honest (**kwargs):
     headmaster "Emiko. No routing, no softening it. How bad is it, really?"
@@ -571,7 +571,7 @@ label .honest (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL, happiness=TINY) from _nm_go_pl_honest
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .short (**kwargs):
     headmaster "Anything urgent this morning?"
@@ -589,7 +589,7 @@ label .short (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_go_pl_short
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .distant (**kwargs):
     headmaster "Just making sure the line's working. That's all."
@@ -600,7 +600,7 @@ label .distant (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 0)
     $ emiko.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion ═════════════════════════════════════════════════════════════════════
 
@@ -673,7 +673,7 @@ label .acknowledge (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(education=TINY, reputation=TINY) from _nm_go_cor_ack
     $ yulan.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .shop (**kwargs):
     $ folder_topic = get_value("folder_topic", **kwargs)
@@ -690,7 +690,7 @@ label .shop (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=SMALL, reputation=TINY) from _nm_go_cor_shop
     $ yulan.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .greet (**kwargs):
 
@@ -703,7 +703,7 @@ label .greet (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     $ yulan.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .force (**kwargs):
 
@@ -715,7 +715,7 @@ label .force (**kwargs):
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     call change_stats_with_modifier(reputation=DEC_TINY, happiness=DEC_TINY) from _nm_go_cor_force
     $ yulan.clear_display()
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # region ════════════════════════════════════════════════════════════════════════
 
@@ -817,7 +817,7 @@ label .counsel (**kwargs):
     $ set_game_data("nm_miwa_helped", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(happiness=SMALL, reputation=TINY) from _nm_ph_miwa_counsel
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .structure (**kwargs):
 
@@ -833,7 +833,7 @@ label .structure (**kwargs):
     $ set_game_data("nm_miwa_helped", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(happiness=TINY, education=TINY) from _nm_ph_miwa_structure
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .press (**kwargs):
 
@@ -849,7 +849,7 @@ label .press (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -2)
     call change_stats_with_modifier(happiness=DEC_MEDIUM, reputation=DEC_TINY) from _nm_ph_miwa_press
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_potion_hangover_lily ══════════════════════════════════════════
@@ -934,7 +934,7 @@ label .sit (**kwargs):
     $ set_game_data("nm_lily_witnessed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
     call change_stats_with_modifier(happiness=MEDIUM, reputation=SMALL) from _nm_ph_lily_sit
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .loop_in (**kwargs):
 
@@ -955,7 +955,7 @@ label .loop_in (**kwargs):
     $ set_game_data("nm_lily_witnessed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
     call change_stats_with_modifier(happiness=MEDIUM, reputation=SMALL, education=TINY) from _nm_ph_lily_loop
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .maybe (**kwargs):
 
@@ -972,7 +972,7 @@ label .maybe (**kwargs):
     $ set_game_data("nm_lily_witnessed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(happiness=SMALL) from _nm_ph_lily_maybe
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .deflect (**kwargs):
 
@@ -989,7 +989,7 @@ label .deflect (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 0)
     call change_stats_with_modifier(happiness=DEC_SMALL) from _nm_ph_lily_deflect
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_potion_hangover_vial ══════════════════════════════════════════
@@ -1079,7 +1079,7 @@ label .bag (**kwargs):
     $ set_game_data("nm_vial_traced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=TINY, reputation=TINY) from _nm_ph_vial_bag
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .note (**kwargs):
     subtitles "You sketch the spot in your pocket notebook — distance from the rack, the angle of the light — and nudge a fallen leaf over the smear with your shoe."
@@ -1088,7 +1088,7 @@ label .note (**kwargs):
     $ set_game_data("nm_vial_traced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(education=TINY) from _nm_ph_vial_note
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .ignore (**kwargs):
     subtitles "You straighten up and walk on. The sweet smell trails you for three steps, then the wind takes it and the courtyard is only a courtyard again."
@@ -1096,7 +1096,7 @@ label .ignore (**kwargs):
     headmaster.think "If this ever turns into something, I'll be the man who saw it behind the bike rack and kept walking."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #######################################
@@ -1167,7 +1167,7 @@ label .precise (**kwargs):
     $ set_game_data("nm_yuriko_ally", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, education=TINY) from _nm_tw_clip_precise
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .turnaround (**kwargs):
 
@@ -1191,7 +1191,7 @@ label .turnaround (**kwargs):
     $ set_game_data("nm_yuriko_ally", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL, charm=SMALL) from _nm_tw_clip_turn
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .hedge (**kwargs):
 
@@ -1209,7 +1209,7 @@ label .hedge (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -3)
     call change_stats_with_modifier(reputation=DEC_SMALL) from _nm_tw_clip_hedge
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_testing_the_waters_memo ═══════════════════════════════════════
@@ -1275,7 +1275,7 @@ label .own (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=MEDIUM, education=TINY) from _nm_tw_memo_own
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .vague (**kwargs):
 
@@ -1298,7 +1298,7 @@ label .vague (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_tw_memo_vague
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #######################################
@@ -1383,7 +1383,7 @@ label .intervene (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_rb_kiosk_intervene
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .listen (**kwargs):
     # No paperdoll — he hangs back and overhears; nobody's talking to him.
@@ -1393,7 +1393,7 @@ label .listen (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_rb_kiosk_listen
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .break (**kwargs):
     $ bystander = get_person_value("bystander", **kwargs)
@@ -1419,7 +1419,7 @@ label .break (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     call change_stats_with_modifier(happiness=DEC_TINY) from _nm_rb_kiosk_break
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_rumors_in_bloom_chalk ═════════════════════════════════════════
@@ -1455,7 +1455,7 @@ label .leave (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(happiness=TINY, charm=TINY) from _nm_rb_chalk_leave
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .correct (**kwargs):
 
@@ -1480,7 +1480,7 @@ label .correct (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(charm=SMALL, happiness=TINY) from _nm_rb_chalk_correct
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .erase (**kwargs):
     subtitles "You scrub it off with your sleeve until there's nothing but a grey smear and chalk dust on your cuff. The shed goes very quiet."
@@ -1488,7 +1488,7 @@ label .erase (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -2)
     call change_stats_with_modifier(happiness=DEC_SMALL, reputation=DEC_TINY) from _nm_rb_chalk_erase
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #######################################
@@ -1586,7 +1586,7 @@ label .pace (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
     call change_stats_with_modifier(happiness=MEDIUM, charm=TINY) from _nm_qe_bell_pace
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .followup (**kwargs):
 
@@ -1605,7 +1605,7 @@ label .followup (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(happiness=SMALL) from _nm_qe_bell_follow
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .assign (**kwargs):
 
@@ -1621,7 +1621,7 @@ label .assign (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(education=TINY) from _nm_qe_bell_assign
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_quiet_endorsements_second_coffee ══════════════════════════════
@@ -1685,7 +1685,7 @@ label .attend (**kwargs):
     $ set_game_data("nm_care_channel", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
     call change_stats_with_modifier(happiness=MEDIUM, reputation=TINY) from _nm_qe_coffee_attend
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .summarize (**kwargs):
 
@@ -1697,7 +1697,7 @@ label .summarize (**kwargs):
     $ set_game_data("nm_care_channel", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(happiness=SMALL, education=TINY) from _nm_qe_coffee_sum
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .advice (**kwargs):
 
@@ -1714,7 +1714,7 @@ label .advice (**kwargs):
     headmaster.think "...She wanted somebody to listen, and I started fixing her before she'd finished a sentence."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_quiet_endorsements_curriculum ═════════════════════════════════
@@ -1779,7 +1779,7 @@ label .adjust (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(education=MEDIUM, reputation=TINY) from _nm_qe_curr_adjust
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .credit (**kwargs):
 
@@ -1799,7 +1799,7 @@ label .credit (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=SMALL, happiness=TINY, reputation=TINY) from _nm_qe_curr_credit
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .shrug (**kwargs):
 
@@ -1814,7 +1814,7 @@ label .shrug (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(education=TINY) from _nm_qe_curr_shrug
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #######################################
@@ -1896,7 +1896,7 @@ label .warm (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 6)
     call change_stats_with_modifier(happiness=MEDIUM, reputation=SMALL, charm=SMALL) from _nm_wc_mug_warm
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .brief (**kwargs):
 
@@ -1915,7 +1915,7 @@ label .brief (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL, happiness=TINY) from _nm_wc_mug_brief
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .miss (**kwargs):
 
@@ -1930,7 +1930,7 @@ label .miss (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(happiness=DEC_TINY) from _nm_wc_mug_miss
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_welcome_committee_plaque ══════════════════════════════════════
@@ -2006,7 +2006,7 @@ label .real (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_wc_plaque_real
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .joke (**kwargs):
 
@@ -2022,7 +2022,7 @@ label .joke (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(reputation=TINY, happiness=TINY) from _nm_wc_plaque_joke
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # ═══ SCENE · nm_welcome_committee_assembly ════════════════════════════════════
@@ -2097,7 +2097,7 @@ label .gentle (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
     call change_stats_with_modifier(reputation=MEDIUM, education=TINY, happiness=SMALL) from _nm_wc_assy_gentle
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .routine (**kwargs):
 
@@ -2109,7 +2109,7 @@ label .routine (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL) from _nm_wc_assy_routine
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .strict (**kwargs):
 
@@ -2124,7 +2124,7 @@ label .strict (**kwargs):
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=SMALL, happiness=DEC_TINY, reputation=TINY) from _nm_wc_assy_strict
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #######################################
@@ -2157,7 +2157,7 @@ label nm_thresh_emiko_nudge (**kwargs):
     headmaster.think "She didn't even raise her voice."
     $ emiko.display(PDAImage(pose = "2", mood = "suspicious", look = "follow"))
     headmaster.think "...She's waiting to see if I'll bother."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label nm_thresh_district_letter (**kwargs):
@@ -2182,7 +2182,7 @@ label nm_thresh_district_letter (**kwargs):
     $ emiko.display(PDAPause(0.3))
     $ emiko.display(PDAMove(alignX = -1.5, duration = 1.2))
     headmaster.think "Then the professional face was back, before I'd thought of a single thing to say."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label nm_thresh_first_warmth (**kwargs):
@@ -2201,7 +2201,7 @@ label nm_thresh_first_warmth (**kwargs):
     subtitles "Footsteps in the outer office. She straightens, half a pace back, secretary again in the space of a single breath."
     $ emiko.display(PDAImage(mouth = "open", look = "follow"))
     emiko.say "Your nine-thirty's early, headmaster."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label nm_thresh_yulan_thaw (**kwargs):
@@ -2232,7 +2232,7 @@ label nm_thresh_yulan_thaw (**kwargs):
     headmaster.think "She's been carrying that around for a week. Waiting for the right corridor."
     headmaster.think "...Folder closed, and everything."
     $ set_game_data("nm_yulan_thawed", 1)
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label nm_thresh_adelaide_note (**kwargs):
@@ -2255,7 +2255,7 @@ label nm_thresh_adelaide_note (**kwargs):
     headmaster.think "'Supportively, this time.' The PTA. Supportively."
     $ emiko.display(PDAImage(pose = "1", mood = "shining", look = "avert"))
     headmaster.think "...She didn't call me the new headmaster. When did they stop doing that?"
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label nm_thresh_near_end (**kwargs):
@@ -2281,7 +2281,7 @@ label nm_thresh_near_end (**kwargs):
     $ finola.display(PDAPause(0.3))
     $ finola.display(PDAMove(alignX = -1.5, duration = 1.4))
     headmaster.think "...The paperwork worked it out before I did."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 # endregion
@@ -2329,7 +2329,7 @@ label new_management_positive_resolve (**kwargs):
     $ emiko.display(PDAMove(zoom = "-0.2", duration = 1.5))
     $ yulan.display(PDAMove(zoom = "-0.2", duration = 1.5))
     headmaster.think "...Their headmaster. Huh."
-    $ end_event('none', **kwargs)
+    $ end_event(END_NONE, **kwargs)
     return
 
 label game_over_new_management (**kwargs):

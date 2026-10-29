@@ -2,7 +2,7 @@ init 2 python:
     set_current_mod('base')
 
     gym_teach_pe_intro_storage.add_event(
-        EventFragment(1, "gym_teach_pe_intro_aona_bra",
+        EventFragment(EVENT_BLOCKING, "gym_teach_pe_intro_aona_bra",
             ProgressCondition("aona_sports_bra", 2),
             GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra", "False"),
             ReplayCategoryOption("aona_sports_bra"),
@@ -10,13 +10,13 @@ init 2 python:
     )
 
     gym_teach_pe_main_storage.add_event(
-        EventFragment(3, "gym_teach_pe_main_aona_bra",
+        EventFragment(EVENT_RANDOM, "gym_teach_pe_main_aona_bra",
             NOT(ProgressCondition("aona_sports_bra")),
             MoneyCondition(200),
             ProgressCondition("first_class", 3),
             ReplayCategoryOption("aona_sports_bra"),
             Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra/gym_teach_pe_main_aona_bra <step>.webp")),
-        EventFragment(1, "gym_teach_pe_main_aona_bra_2",
+        EventFragment(EVENT_BLOCKING, "gym_teach_pe_main_aona_bra_2",
             ProgressCondition("aona_sports_bra", 2),
             GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra"),
             ReplayCategoryOption("aona_sports_bra"),
@@ -24,7 +24,7 @@ init 2 python:
     )
 
     time_check_events.add_event(
-        Event(1, "aona_sports_bra_event_1", 
+        Event(EVENT_BLOCKING, "aona_sports_bra_event_1", 
             ProgressCondition("aona_sports_bra", 1),
             TimeCondition(daytime = 6),
             StatSelector('inhibition', INHIBITION, "school", [91, 96]),
@@ -110,7 +110,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
         call change_stats_with_modifier('pe',
             happiness = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_19
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
@@ -183,7 +183,7 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
     call change_stats_with_modifier('pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_23
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -240,7 +240,7 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
     
     $ set_progress("aona_sports_bra", 3)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label aona_sports_bra_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -503,5 +503,5 @@ label .buy_bra (**kwargs):
     call change_stats_with_modifier(
         happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_84
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 

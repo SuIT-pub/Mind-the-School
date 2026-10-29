@@ -4020,7 +4020,7 @@ init -6 python:
             - The kink keys; Options may be mixed in like on other conditions.
 
         ```python
-        Event(3, "my_scene", KinkCondition("incest_sisters"), ...)
+        Event(EVENT_RANDOM, "my_scene", KinkCondition("incest_sisters"), ...)
         ```
         """
 

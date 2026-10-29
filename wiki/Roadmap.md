@@ -409,7 +409,7 @@ That allows a **camp situation** that only runs during the camp:
 | **Thresholds** | unlock hotter events on the beach map |
 | **Measures** | player actions that stoke it (game night, a dare, the inhale preparation) |
 | **Pools** | inject the camp events into the beach map's storages |
-| **Resolution** | the last night → **level 4** (registered as an event, `begin_event` / `end_event('none')`, see [Building Situations](Building-Situations)) |
+| **Resolution** | the last night → **level 4** (registered as an event, `begin_event` / `end_event(END_NONE)`, see [Building Situations](Building-Situations)) |
 
 ---
 

@@ -15,7 +15,7 @@ init 1 python:
 init 1 python: 
     set_current_mod('base')
 
-    new_yoga_outfit_1_event = EventFragment(2, "new_yoga_outfit_1",
+    new_yoga_outfit_1_event = EventFragment(EVENT_ALWAYS, "new_yoga_outfit_1",
         RandomCondition(50, 100),
         LevelCondition("2,3", char_obj = "school"),
         NOT(ProgressCondition("yoga_classes")),
@@ -25,7 +25,7 @@ init 1 python:
 
     pta_discussion_storage.add_event(new_yoga_outfit_1_event)
 
-    new_yoga_outfit_2_event = Event(3, "new_yoga_outfit_2",
+    new_yoga_outfit_2_event = Event(EVENT_RANDOM, "new_yoga_outfit_2",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 1),
         LevelCondition("2,3", char_obj = "school"),
@@ -34,7 +34,7 @@ init 1 python:
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 2 0.webp")
 
-    new_yoga_outfit_3_event = Event(3, "new_yoga_outfit_3",
+    new_yoga_outfit_3_event = Event(EVENT_RANDOM, "new_yoga_outfit_3",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 2),
         LevelCondition("2,3", char_obj = "school"),
@@ -45,7 +45,7 @@ init 1 python:
 
     gym_events["check_pe"].add_event(new_yoga_outfit_2_event, new_yoga_outfit_3_event)
 
-    new_yoga_outfit_4_event = Event(3, "new_yoga_outfit_4",
+    new_yoga_outfit_4_event = Event(EVENT_RANDOM, "new_yoga_outfit_4",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 3),
         LevelCondition("2,3", char_obj = "school"),
@@ -57,7 +57,7 @@ init 1 python:
 
     sb_events["check_class"].add_event(new_yoga_outfit_4_event)
 
-    new_yoga_outfit_5_event = Event(1, "new_yoga_outfit_5",
+    new_yoga_outfit_5_event = Event(EVENT_BLOCKING, "new_yoga_outfit_5",
         TimeCondition(weekday = "d", daytime = "6"),
         ProgressCondition("yoga_classes", 4),
         LevelCondition("2,3", char_obj = "school"),
@@ -65,7 +65,7 @@ init 1 python:
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 3 2.webp")
 
-    new_yoga_outfit_6_event = Event(2, "new_yoga_outfit_6",
+    new_yoga_outfit_6_event = Event(EVENT_ALWAYS, "new_yoga_outfit_6",
         TimeCondition(weekday = "d", daytime = "f"),
         ProgressCondition("yoga_classes", 5),
         LevelCondition("2,3", char_obj = "school"),
@@ -75,7 +75,7 @@ init 1 python:
 
     office_building_general_event.add_event(new_yoga_outfit_5_event, new_yoga_outfit_6_event)
 
-    new_yoga_outfit_7_event = Event(2, "new_yoga_outfit_7",
+    new_yoga_outfit_7_event = Event(EVENT_ALWAYS, "new_yoga_outfit_7",
         TimeCondition(weekday = "d", daytime = "f"),
         ProgressCondition("yoga_classes", 6),
         LevelCondition("2,3", char_obj = "school"),
@@ -86,7 +86,7 @@ init 1 python:
 
     sb_general_event.add_event(new_yoga_outfit_7_event)
 
-    new_yoga_outfit_8_event = Event(2, "new_yoga_outfit_8",
+    new_yoga_outfit_8_event = Event(EVENT_ALWAYS, "new_yoga_outfit_8",
         TimeCondition(weekday = "1", daytime = "2"),
         ProgressCondition("yoga_classes", 7),
         LevelCondition("2,3", char_obj = "school"),
@@ -94,7 +94,7 @@ init 1 python:
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 1.webp")
 
-    new_yoga_outfit_9_event = Event(1, "new_yoga_outfit_9",
+    new_yoga_outfit_9_event = Event(EVENT_BLOCKING, "new_yoga_outfit_9",
         TimeCondition(weekday = "2", daytime = "3"),
         ProgressCondition("yoga_classes", 8),
         LevelCondition("2,3", char_obj = "school"),
@@ -104,7 +104,7 @@ init 1 python:
 
     time_check_events.add_event(new_yoga_outfit_8_event, new_yoga_outfit_9_event)
 
-    new_yoga_outfit_10_event = Event(3, "new_yoga_outfit_10",
+    new_yoga_outfit_10_event = Event(EVENT_RANDOM, "new_yoga_outfit_10",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 9),
         LevelCondition("2,3", char_obj = "school"),
@@ -132,7 +132,7 @@ label new_yoga_outfit_1 (**kwargs):
     $ start_progress("yoga_classes") # 0 -> 1
     $ sync_yoga_outfits()
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Gym: Check P.E.
 label new_yoga_outfit_2 (**kwargs):
@@ -162,7 +162,7 @@ label new_yoga_outfit_2 (**kwargs):
         charm = TINY, education = TINY
     ) from _call_new_yoga_outfit_2_event_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Gym: Check P.E.
 label new_yoga_outfit_3 (**kwargs):
@@ -235,7 +235,7 @@ label new_yoga_outfit_3 (**kwargs):
         education = TINY
     ) from _call_new_yoga_outfit_3_event_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # School Building: Check Classes
 label new_yoga_outfit_4 (**kwargs):
@@ -271,7 +271,7 @@ label new_yoga_outfit_4 (**kwargs):
         education = TINY, charm = TINY, inhibition = DEC_TINY
     ) from _call_new_yoga_outfit_4_event_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Office Building: Evening
 label new_yoga_outfit_5 (**kwargs):
@@ -459,7 +459,7 @@ label .after_decision (**kwargs):
         inhibition = DEC_SMALL, corruption = TINY, charm = TINY
     ) from _call_new_yoga_outfit_5_event_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Office Building: Free-Time
 label new_yoga_outfit_6 (**kwargs):
@@ -512,7 +512,7 @@ label new_yoga_outfit_6 (**kwargs):
         charm = TINY, inhibition = DEC_SMALL, corruption = TINY
     ) from _call_new_yoga_outfit_6_event_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # School Building: Anytime
 label new_yoga_outfit_7 (**kwargs):
@@ -542,7 +542,7 @@ label new_yoga_outfit_7 (**kwargs):
     $ set_progress("yoga_classes", 7) # 6 -> 7
     $ change_stat("situation:yoga_outfits:main", 5)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Day Check: Monday - Morning
 label new_yoga_outfit_8 (**kwargs):
@@ -562,7 +562,7 @@ label new_yoga_outfit_8 (**kwargs):
     $ set_progress("yoga_classes", 8) # 7 -> 8
     $ change_stat("situation:yoga_outfits:main", 5)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Day Check: Tuesday - Early Noon
 label new_yoga_outfit_9 (**kwargs):
@@ -665,7 +665,7 @@ label new_yoga_outfit_9 (**kwargs):
         education = TINY, inhibition = DEC_SMALL
     ) from _call_new_yoga_outfit_9_event_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Gym: Check P.E.
 label new_yoga_outfit_10 (**kwargs):
@@ -713,4 +713,4 @@ label new_yoga_outfit_10 (**kwargs):
         education = TINY, charm = TINY, inhibition = DEC_SMALL
     ) from _call_new_yoga_outfit_10_event_1
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)

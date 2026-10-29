@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
 
-    bath_general_event = EventStorage("bath_general", "bath", fallback = Event(2, "bath.after_general_check"))
+    bath_general_event = EventStorage("bath_general", "bath", fallback = Event(EVENT_ALWAYS, "bath.after_general_check"))
     register_highlighting(bath_general_event)
 
     #### Default bath events

@@ -12,7 +12,7 @@ init 1 python:
 
     ########################
     # region Teaching events
-    sb_event_teach_class_event = EventSelect(3, "teach_class_event", "What subject do you wanna teach?", sb_teach_events,
+    sb_event_teach_class_event = EventSelect(EVENT_RANDOM, "teach_class_event", "What subject do you wanna teach?", sb_teach_events,
         TimeCondition(weekday = "d", daytime = "c"),
         ReplayCategoryOption("teaching_lessons"),
         KwargsSelector(show_proficiency_modifier = True),
@@ -22,37 +22,37 @@ init 1 python:
     # region Theoretical Sex Ed
 
     sb_teach_sex_ed_intro_storage.add_event(
-        EventFragment(3, 'sb_teach_sex_ed_intro_anatomy',
+        EventFragment(EVENT_RANDOM, 'sb_teach_sex_ed_intro_anatomy',
             CheckReplay(ValueCondition('topic', 'anatomy')),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/intro/intro_1/teaching_theoretical_sex_ed_intro_1 <school_level>.webp")),
-        EventFragment(3, 'sb_teach_sex_ed_intro_sex_curiosity',
+        EventFragment(EVENT_RANDOM, 'sb_teach_sex_ed_intro_sex_curiosity',
             CheckReplay(ValueCondition('topic', 'sex_curiosity')),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/intro/intro_2/teaching_theoretical_sex_ed_intro_2 <school_level>.webp"))
     )
 
     sb_teach_sex_ed_main_storage.add_event(
-        EventFragment(3, 'sb_teach_sex_ed_main_anatomy_1',
+        EventFragment(EVENT_RANDOM, 'sb_teach_sex_ed_main_anatomy_1',
             CheckReplay(ValueCondition('topic', 'anatomy')),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/main/anatomy_1/teaching_theoretical_sex_ed_main_anatomy_1 <school_level> <step>.webp", "school_level")),
-        EventFragment(3, 'sb_teach_sex_ed_main_sex_curiosity_1',
+        EventFragment(EVENT_RANDOM, 'sb_teach_sex_ed_main_sex_curiosity_1',
             CheckReplay(ValueCondition('topic', 'sex_curiosity')),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/main/curiosity_1/teaching_theoretical_sex_ed_main_curiosity_1 <school_level> <step>.webp", "school_level"))
     )
 
     sb_teach_sex_ed_qa_storage.add_event(
-        EventFragment(3, 'sb_teach_sex_ed_qa_1',
+        EventFragment(EVENT_RANDOM, 'sb_teach_sex_ed_qa_1',
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/qa/qa_1/teaching_theoretical_sex_ed_qa_qa_1 <school_level> <step>.webp", "school_level")),
-        EventFragment(3, 'sb_teach_sex_ed_qa_2',
+        EventFragment(EVENT_RANDOM, 'sb_teach_sex_ed_qa_2',
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/qa/qa_2/teaching_theoretical_sex_ed_qa_qa_2 <school_level> <step>.webp", "school_level"))
     )
 
-    sb_teach_sex_ed_event = EventComposite(3, 'sb_teach_sex_ed', [sb_teach_sex_ed_intro_storage, sb_teach_sex_ed_main_storage, sb_teach_sex_ed_qa_storage],
+    sb_teach_sex_ed_event = EventComposite(EVENT_RANDOM, 'sb_teach_sex_ed', [sb_teach_sex_ed_intro_storage, sb_teach_sex_ed_main_storage, sb_teach_sex_ed_qa_storage],
         TimeCondition(weekday = "d", daytime = "c"),
         LevelCondition("2-4", char_obj = "school"),
         LevelSelector('school_level', 'school'),
@@ -72,29 +72,29 @@ init 1 python:
     # region Math Teaching
     
     sb_teach_math_ld_storage.add_event(
-        EventFragment(3, 'sb_teach_math_ld_1', 
+        EventFragment(EVENT_RANDOM, 'sb_teach_math_ld_1', 
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/ld_1/teaching_math_ld_1 <step>.webp"),
             thumbnail = "/images/events/teaching/math/ld_1/teaching_math_ld_1 1.webp"),
-        EventFragment(3, 'sb_teach_math_ld_2', 
+        EventFragment(EVENT_RANDOM, 'sb_teach_math_ld_2', 
             RandomListSelector('ld_girl_name', 'seraphina_clark', 'hatano_miwa', 'soyoon_yamamoto'),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/ld_2/teaching_math_ld_2 <ld_girl_name> <school_level> <step>.webp", 'ld_girl_name', 'school_level'),
             thumbnail = "/images/events/teaching/math/ld_2/teaching_math_ld_2 seraphina_clark 1 6.webp"),
-        EventFragment(3, 'sb_teach_math_ld_3',
+        EventFragment(EVENT_RANDOM, 'sb_teach_math_ld_3',
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/ld_3/teaching_math_ld_3 <school_level> <step>.webp"),
             thumbnail = "/images/events/teaching/math/ld_3/teaching_math_ld_3 1 0.webp"),
     )
 
     sb_teach_math_main_storage.add_event(
-        EventFragment(3, 'sb_teach_math_main_1',
+        EventFragment(EVENT_RANDOM, 'sb_teach_math_main_1',
             RandomListSelector('main_girl_name', 'seraphina_clark', 'hatano_miwa'),
             RandomListSelector('main_topic', 'normal', 'sleeping'),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/main_1/teaching_math_main_1 <main_girl_name> <school_level> <step>.webp", 'main_girl_name', 'school_level'),
             thumbnail = "images/events/teaching/math/main_1/teaching_math_main_1 seraphina_clark 1 0.webp"),
-        EventFragment(3, 'sb_teach_math_main_2',
+        EventFragment(EVENT_RANDOM, 'sb_teach_math_main_2',
             LevelCondition("3-", char_obj = "school"),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/main_2/teaching_math_main_2 <school_level> <step>.webp", "school_level"),
@@ -102,7 +102,7 @@ init 1 python:
     )
 
     sb_teach_events["math"].add_event(
-        EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
+        EventComposite(EVENT_RANDOM, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
             TimeCondition(weekday = "d", daytime = "c"),
             LevelSelector('school_level', 'school'),
             ProficiencyCondition('math'),
@@ -115,25 +115,25 @@ init 1 python:
     #########################
     # region History Teaching
     sb_teach_history_intro_storage.add_event(
-        EventFragment(3, 'sb_teach_history_intro_f_revolution_1',
+        EventFragment(EVENT_RANDOM, 'sb_teach_history_intro_f_revolution_1',
             CheckReplay(ValueCondition('topic', 'french revolution')),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/history/french_revolution/intro_1/teaching_history_fr_intro_1 <step>.webp"))
     )
 
     sb_teach_history_main_storage.add_event(
-        EventFragment(3, 'sb_teach_history_main_f_revolution_1',
+        EventFragment(EVENT_RANDOM, 'sb_teach_history_main_f_revolution_1',
             CheckReplay(ValueCondition('topic', 'french revolution')),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/history/french_revolution/main_1/teaching_history_fr_main_1 <school_level> <step>.webp", 'school_level')),
-        EventFragment(3, 'sb_teach_history_main_f_revolution_2',
+        EventFragment(EVENT_RANDOM, 'sb_teach_history_main_f_revolution_2',
             CheckReplay(ValueCondition('topic', 'french revolution')),
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/history/french_revolution/main_2/teaching_history_fr_main_2 <school_level> <step>.webp", 'school_level')),
     )
     
     sb_teach_events["history"].add_event(
-        EventComposite(3, 'sb_teach_history', [sb_teach_history_intro_storage, sb_teach_history_main_storage],
+        EventComposite(EVENT_RANDOM, 'sb_teach_history', [sb_teach_history_intro_storage, sb_teach_history_main_storage],
             TimeCondition(weekday = "d", daytime = "c"),
             LevelSelector('school_level', 'school'),
             RandomListSelector('topic', 'french revolution'),
@@ -149,40 +149,40 @@ init 1 python:
     # region P.E. Teaching
 
     gym_teach_pe_intro_storage.add_event(
-        EventFragment(3, "gym_teach_pe_intro_2",
+        EventFragment(EVENT_RANDOM, "gym_teach_pe_intro_2",
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/intro/intro_2/teaching_pe_intro_2 <step>.webp"),
             thumbnail = "images/events/teaching/pe/intro/intro_2/teaching_pe_intro_2 5.webp"),
     )
 
     gym_teach_pe_entrance_storage.add_event(
-        EventFragment(3, "gym_teach_pe_entrance_1",
+        EventFragment(EVENT_RANDOM, "gym_teach_pe_entrance_1",
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/entrance/entrance_1/teaching_pe_entrance_1 <school_level> <step>.webp", "school_level"),
             thumbnail = "images/events/teaching/pe/entrance/entrance_1/teaching_pe_entrance_1 1 7.webp"),
     )
 
     gym_teach_pe_warm_up_storage.add_event(
-        EventFragment(3, "gym_teach_pe_warm_up_1",
+        EventFragment(EVENT_RANDOM, "gym_teach_pe_warm_up_1",
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/warm_up/warm_up_1/teaching_pe_warm_up_1 <school_level> <step>.webp"),
             thumbnail = "images/events/teaching/pe/warm_up/warm_up_1/teaching_pe_warm_up_1 1 2.webp"),
     )
 
     gym_teach_pe_main_storage.add_event(
-        EventFragment(3, "gym_teach_pe_main_1",
+        EventFragment(EVENT_RANDOM, "gym_teach_pe_main_1",
             ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/main/main_1/teaching_pe_main_1 <school_level> <step>.webp"),
             thumbnail = "images/events/teaching/pe/main/main_1/teaching_pe_main_1 1 9.webp"),
     )
 
     gym_teach_pe_end_storage.add_event(
-        EventFragment(3, "gym_teach_pe_end_1",
+        EventFragment(EVENT_RANDOM, "gym_teach_pe_end_1",
             ReplayCategoryOption("teaching_lessons"),
             thumbnail = "images/events/teaching/pe/end/end_1/teaching_pe_end_1 1 14.webp"),
     )
 
-    gym_teach_pe_event = EventComposite(3, 'gym_teach_pe', 
+    gym_teach_pe_event = EventComposite(EVENT_RANDOM, 'gym_teach_pe', 
         [
             gym_teach_pe_intro_storage,
             gym_teach_pe_entrance_storage,
@@ -284,7 +284,7 @@ label first_class_sb_event (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_54
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 ###############################
 # region Teach Subject Events #
@@ -313,7 +313,7 @@ label sb_teach_sex_ed_intro_anatomy (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster "Today we'll be discussing human anatomy in the context of sexual health and development."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
     $ begin_event(**kwargs)
@@ -321,7 +321,7 @@ label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster "I know many of you may have questions about sex and relationships. Today we'll explore some common curiosities in an open, respectful environment."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ################
@@ -362,7 +362,7 @@ label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, inhibition = DEC_TINY) from _call_change_stats_sb_teach_sex_ed_main_anatomy_1_event_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -388,7 +388,7 @@ label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, corruption = TINY) from _call_change_stats_sb_teach_sex_ed_main_sex_curiosity_1_event_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ################
@@ -415,7 +415,7 @@ label sb_teach_sex_ed_qa_1 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, inhibition = DEC_TINY) from _call_change_stats_sb_teach_sex_ed_qa_1_event_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_teach_sex_ed_qa_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -432,7 +432,7 @@ label sb_teach_sex_ed_qa_2 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, corruption = TINY) from _call_change_stats_sb_teach_sex_ed_qa_2_event_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ################
@@ -478,7 +478,7 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
     call change_stats_with_modifier('history',
         education = TINY) from _call_change_stats_with_modifier_55
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ################
@@ -561,7 +561,7 @@ label sb_teach_history_main_f_revolution_1 (**kwargs):
     call change_stats_with_modifier('history',
         education = SMALL) from _call_change_stats_with_modifier_56
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_teach_history_main_f_revolution_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -587,7 +587,7 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
     call change_stats_with_modifier('history',
         education = TINY, happiness = DEC_TINY) from _call_change_stats_with_modifier_57
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ###############
@@ -621,7 +621,7 @@ label sb_teach_math_ld_1 (**kwargs):
     $ image.show(1)
     headmaster "Okay, then let's continue with the new topic."
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_teach_math_ld_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -664,7 +664,7 @@ label sb_teach_math_ld_2 (**kwargs):
     call change_stats_with_modifier('math',
         education = TINY) from _call_change_stats_with_modifier_58
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_teach_math_ld_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -687,7 +687,7 @@ label .leave (**kwargs):
     
     call change_stats_with_modifier('math',
         charm = DEC_TINY, happiness = DEC_TINY) from _call_change_stats_with_modifier_59
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 label .help (**kwargs):
     $ begin_event(**kwargs)
     
@@ -696,7 +696,7 @@ label .help (**kwargs):
     
     call change_stats_with_modifier('math',
         charm = DEC_TINY, happiness = TINY) from _call_change_stats_with_modifier_60
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ################
@@ -814,7 +814,7 @@ label sb_teach_math_main_1 (**kwargs):
     call change_stats_with_modifier('math',
         education = SMALL, reputation = TINY, happiness = TINY) from _call_change_stats_with_modifier_61
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label sb_teach_math_main_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -872,7 +872,7 @@ label sb_teach_math_main_2 (**kwargs):
     call change_stats_with_modifier('math',
         education = SMALL, happiness = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_62
     
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ###############
@@ -900,7 +900,7 @@ label gym_teach_pe_intro_1 (**kwargs):
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, pause = True) from image_gym_teach_pe_intro_1_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_teach_pe_intro_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -909,7 +909,7 @@ label gym_teach_pe_intro_2 (**kwargs):
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, pause = True) from image_gym_teach_pe_intro_2_1
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ################
@@ -929,7 +929,7 @@ label gym_teach_pe_entrance_1 (**kwargs):
     headmaster "Okay now all follow my lead."
 
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # endregion
@@ -983,7 +983,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
     call change_stats_with_modifier('pe',
         charm = SMALL, education = TINY) from _call_change_stats_with_modifier_20
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##################
@@ -1024,7 +1024,7 @@ label gym_teach_pe_main_1 (**kwargs): # Football
     call change_stats_with_modifier('pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_21
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label gym_teach_pe_main_2 (**kwargs): # Yoga
     $ begin_event("2", **kwargs)
@@ -1062,7 +1062,7 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
     call change_stats_with_modifier('pe',
         happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_22
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ###############
@@ -1073,7 +1073,7 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
 label gym_teach_pe_end_1 (**kwargs):
     $ begin_event("2", **kwargs)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##############

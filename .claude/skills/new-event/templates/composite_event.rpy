@@ -8,7 +8,7 @@ init 1 python:
         FragmentRepeatOption(RandomValueSelector("", 2, 4, True), False))   # 2–4 rounds, no repeats
     my_end_storage = FragmentStorage("my_rounds_end")
 
-    sd_events["look_around"].add_event(EventComposite(3, "my_composite",
+    sd_events["look_around"].add_event(EventComposite(EVENT_RANDOM, "my_composite",
         [my_round_storage, my_end_storage],
         TimeCondition(daytime="n"),
         LevelCondition("2+", char_obj="school"),
@@ -19,13 +19,13 @@ init 1 python:
         title = "My Composite"))
 
     my_round_storage.add_event(
-        EventFragment(2, "my_composite_round_1", ReplayCategoryOption("my_composite"),
+        EventFragment(EVENT_ALWAYS, "my_composite_round_1", ReplayCategoryOption("my_composite"),
             Pattern("main", "images/events/dorm/my_composite/round_1 <girls> <school_level> <step>.webp")),
-        EventFragment(2, "my_composite_round_2", LevelCondition("3+", char_obj="school"), ReplayCategoryOption("my_composite"),
+        EventFragment(EVENT_ALWAYS, "my_composite_round_2", LevelCondition("3+", char_obj="school"), ReplayCategoryOption("my_composite"),
             Pattern("main", "images/events/dorm/my_composite/round_2 <girls> <school_level> <step>.webp")),
     )
     my_end_storage.add_event(
-        EventFragment(2, "my_composite_end", ReplayCategoryOption("my_composite"),
+        EventFragment(EVENT_ALWAYS, "my_composite_end", ReplayCategoryOption("my_composite"),
             Pattern("main", "images/events/dorm/my_composite/end <school_level> <step>.webp")))
 
 label my_composite (**kwargs):
@@ -41,7 +41,7 @@ label my_composite_round_1 (**kwargs):
     $ image = convert_pattern("main", **kwargs)     # resolves against the fragment's patterns
     $ image.show(0)
     girl.say "Round one."
-    $ end_event("map_entry", **kwargs)              # hands over to the next fragment
+    $ end_event(END_MAP, **kwargs)              # hands over to the next fragment
 
 label my_composite_round_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -49,7 +49,7 @@ label my_composite_round_2 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
     $ image.show(0)
     girl.say "Round two."
-    $ end_event("map_entry", **kwargs)
+    $ end_event(END_MAP, **kwargs)
 
 label my_composite_end (**kwargs):
     $ begin_event(**kwargs)
@@ -57,4 +57,4 @@ label my_composite_end (**kwargs):
     $ image.show(0)
     subtitles "Wrap-up."
     call change_stats_with_modifier(inhibition=DEC_TINY) from _my_composite_end_1
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)

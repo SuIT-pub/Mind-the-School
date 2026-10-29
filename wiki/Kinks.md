@@ -21,7 +21,7 @@ init -97 python:
 # 2) Gate the event on it.
 init 1 python:
     set_current_mod('mymod_key')
-    mymod_sisters = Event(3, "mymod_sisters", KinkCondition("incest_sisters"),
+    mymod_sisters = Event(EVENT_RANDOM, "mymod_sisters", KinkCondition("incest_sisters"),
         Pattern("main", "images/mymod_sisters <step>.webp"))
     cafeteria_events["order_food"].add_event(mymod_sisters)
 ```
@@ -112,7 +112,7 @@ is active. Content gated on a kink nobody active knows is **not allowed**.
 ### `KinkCondition(*keys)`
 
 ```python
-Event(3, "mymod_scene", KinkCondition("incest_sisters", "incest_mother_daughter"), ...)
+Event(EVENT_RANDOM, "mymod_scene", KinkCondition("incest_sisters", "incest_mother_daughter"), ...)
 ```
 
 - Fulfilled while **none** of the keys is disallowed: `yes`, `neutral` and a "yes, for

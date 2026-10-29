@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    beach_general_event = EventStorage("beach_general", "beach", fallback = Event(2, "beach.after_general_check"))
+    beach_general_event = EventStorage("beach_general", "beach", fallback = Event(EVENT_ALWAYS, "beach.after_general_check"))
     register_highlighting(beach_general_event)
 
     #### Default beach events

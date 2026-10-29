@@ -5,7 +5,7 @@ init 1 python:
     set_current_mod('base')
 
     cafeteria_events["look_around"].add_event(Event(
-        3,                                              # 1 blocking · 2 always · 3 random ambient
+        EVENT_RANDOM,                                   # or EVENT_BLOCKING (story beat) · EVENT_ALWAYS
         "my_event",                                     # == label name below
         TimeCondition(weekday="d", daytime="f"),        # free time on workdays
         LevelCondition("2-4", char_obj="school"),       # climate gate (char goes in char_obj=)
@@ -59,18 +59,18 @@ label .ask (**kwargs):
     miwa.say "Branch dialogue."
     $ set_game_data("my_event_met", 1)
     call change_stats_with_modifier(happiness=TINY) from _my_event_ask
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .charm (**kwargs):
     $ miwa.display(PDAMove(alignX = 0.5, duration = 1.0), PDAImage(mood = "shining", mouth = "open"))
     miwa.say "Branch dialogue."
     $ set_game_data("my_event_met", 1)
     call change_stats_with_modifier(happiness=SMALL, charm=TINY) from _my_event_charm
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label .leave (**kwargs):
     $ image.show(1)
     subtitles "You leave her to it."
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion ═════════════════════════════════════════════════════════════════════
