@@ -987,7 +987,9 @@ init -99 python:
             - The key to remove
         """
 
-        del gameData[key]
+        # a reverted SituationEffectSetGameData can find its key already gone
+        # (reload while the effect still counts as applied); nothing left to undo
+        gameData.pop(key, None)
 
     def set_setting(key: str, value: Any):
         """
