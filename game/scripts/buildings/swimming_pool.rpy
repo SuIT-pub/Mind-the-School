@@ -5,7 +5,7 @@
 init -1 python:
     set_current_mod('base')
     
-    swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", fallback = Event(EVENT_ALWAYS, "swimming_pool.after_general_check"))
+    swimming_pool_general_event = EventStorage("swimming_pool_general", "swimming_pool", fallback = Event(EVENT_ALWAYS, "swimming_pool.after_general_check"))
     register_highlighting(swimming_pool_general_event)
 
     #### Default swimming pool events
