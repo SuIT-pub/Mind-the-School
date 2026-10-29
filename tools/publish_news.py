@@ -9,7 +9,9 @@ What gets picked (see `select_posts`):
 - "news":   the newest post with the word "News" in its title. If that one is
             patron-only, the newest public news post comes second, so the game
             can stack it behind the first.
-- "latest": the newest post of all, but only when it is not a news post.
+- "latest": the posts since the newest news post (none if a news post is the
+            newest of all): the newest public one in front, the newest
+            patron-only one behind it.
 
 Thumbnails follow the website (mts-game.com, PatreonPosts.php):
 1. the post's cover as patreon.com shows it. The official API v2 has no field for
@@ -184,17 +186,32 @@ def is_news(post):
 
 
 def select_posts(posts):
-    """{"news": [front, behind?], "latest": post | None} from posts sorted newest first."""
+    """{"news": [front, behind?], "latest": [front, behind?]} from posts sorted newest first.
+
+    news:   the newest news post; a patron-only one gets the newest public news behind it.
+    latest: the posts since the newest news post: the newest public one in front, the
+            newest patron-only one behind it; either alone if the other is missing.
+    """
     news = [post for post in posts if is_news(post)]
-    stack = []
+    news_stack = []
     if news:
-        stack.append(news[0])
+        news_stack.append(news[0])
         if not news[0]["isPublic"]:
             public = next((post for post in news if post["isPublic"]), None)
             if public is not None:
-                stack.append(public)
-    latest = posts[0] if posts and not is_news(posts[0]) else None
-    return {"news": stack, "latest": latest}
+                news_stack.append(public)
+
+    since_news = []
+    for post in posts:
+        if is_news(post):
+            break
+        since_news.append(post)
+    # public in front where possible: everyone can open it, the patron-only one waits behind
+    public = next((post for post in since_news if post["isPublic"]), None)
+    private = next((post for post in since_news if not post["isPublic"]), None)
+    latest_stack = [post for post in (public, private) if post is not None]
+
+    return {"news": news_stack, "latest": latest_stack}
 
 
 def image_sources(post, covers):
@@ -288,7 +305,7 @@ def build_news(posts, covers, get=_http_get):
     document = {
         "schemaVersion": 1,
         "news": [entry(post) for post in selection["news"]],
-        "latest": entry(selection["latest"]) if selection["latest"] else None,
+        "latest": [entry(post) for post in selection["latest"]],
     }
     return document, files
 
