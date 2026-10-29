@@ -28,7 +28,7 @@ class SelectPostsTest(unittest.TestCase):
     def test_public_news_on_top_stands_alone(self):
         posts = [post("3", "Public News 01.12", "2025-12-03"), post("2", "Devlog", "2025-12-02")]
         self.assertEqual([p["id"] for p in news.select_posts(posts)["news"]], ["3"])
-        self.assertIsNone(news.select_posts(posts)["latest"])
+        self.assertEqual(news.select_posts(posts)["latest"], [])
 
     def test_private_news_gets_the_newest_public_news_behind_it(self):
         posts = [post("4", "Private News", "2025-12-04", public=False),
@@ -44,8 +44,37 @@ class SelectPostsTest(unittest.TestCase):
     def test_newest_post_that_is_no_news_becomes_latest(self):
         posts = [post("5", "Sneak peek", "2025-12-05", public=False), post("4", "Public News", "2025-12-04")]
         selection = news.select_posts(posts)
-        self.assertEqual(selection["latest"]["id"], "5")
+        self.assertEqual([p["id"] for p in selection["latest"]], ["5"])
         self.assertEqual([p["id"] for p in selection["news"]], ["4"])
+
+    def test_latest_stacks_public_and_private_posts_since_the_last_news(self):
+        posts = [post("7", "Spooktober", "2025-12-07", public=False),
+                 post("6", "Poll", "2025-12-06", public=False),
+                 post("5", "Devlog", "2025-12-05"),
+                 post("4", "Public News", "2025-12-04"),
+                 post("3", "Old devlog", "2025-12-03")]
+        self.assertEqual([p["id"] for p in news.select_posts(posts)["latest"]], ["5", "7"])
+
+    def test_public_post_in_front_when_it_is_also_the_newest(self):
+        posts = [post("7", "Devlog", "2025-12-07"), post("6", "Poll", "2025-12-06", public=False),
+                 post("4", "Public News", "2025-12-04")]
+        self.assertEqual([p["id"] for p in news.select_posts(posts)["latest"]], ["7", "6"])
+
+    def test_posts_before_the_last_news_never_join_the_latest_stack(self):
+        posts = [post("7", "Spooktober", "2025-12-07", public=False),
+                 post("4", "Public News", "2025-12-04"),
+                 post("3", "Old devlog", "2025-12-03")]
+        self.assertEqual([p["id"] for p in news.select_posts(posts)["latest"]], ["7"])
+
+    def test_without_any_news_all_posts_count_as_latest(self):
+        posts = [post("2", "Devlog", "2025-12-02", public=False), post("1", "Poll", "2025-12-01")]
+        self.assertEqual([p["id"] for p in news.select_posts(posts)["latest"]], ["1", "2"])
+
+    def test_private_post_alone_when_no_public_one_came_since_the_news(self):
+        posts = [post("7", "Spooktober", "2025-12-07", public=False),
+                 post("6", "Poll", "2025-12-06", public=False),
+                 post("4", "Public News", "2025-12-04")]
+        self.assertEqual([p["id"] for p in news.select_posts(posts)["latest"]], ["7"])
 
     def test_news_must_be_a_word_of_its_own(self):
         self.assertTrue(news.is_news(post("1", "Public NEWS 01.12", "")))
@@ -53,7 +82,7 @@ class SelectPostsTest(unittest.TestCase):
         self.assertFalse(news.is_news(post("1", "Newsletter archive", "")))
 
     def test_no_posts(self):
-        self.assertEqual(news.select_posts([]), {"news": [], "latest": None})
+        self.assertEqual(news.select_posts([]), {"news": [], "latest": []})
 
 
 class ImageSourcesTest(unittest.TestCase):
@@ -141,14 +170,14 @@ class PublishTest(unittest.TestCase):
         self.tmp.cleanup()
 
     def test_publishes_next_to_other_files_and_skips_unchanged(self):
-        document = {"schemaVersion": 1, "news": [], "latest": None}
+        document = {"schemaVersion": 1, "news": [], "latest": []}
         self.assertEqual(news.publish(document, {"1-abc.webp": b"img"}, self.repo), "published")
         files = self.git(self.remote, "ls-tree", "-r", "--name-only", "devstatus").splitlines()
         self.assertEqual(sorted(files), ["devstatus.json", "news/1-abc.webp", "news/news.json"])
         self.assertEqual(news.publish(document, {"1-abc.webp": b"img"}, self.repo), "unchanged")
 
     def test_old_images_disappear_with_the_next_publish(self):
-        document = {"schemaVersion": 1, "news": [], "latest": None}
+        document = {"schemaVersion": 1, "news": [], "latest": []}
         news.publish(document, {"1-abc.webp": b"img"}, self.repo)
         news.publish(document, {"2-def.webp": b"img2"}, self.repo)
         files = self.git(self.remote, "ls-tree", "-r", "--name-only", "devstatus").splitlines()
