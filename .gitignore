@@ -38,6 +38,10 @@ __pycache__/
 
 # Personal / scratch data
 openwebui-*.json
+lint_out.txt
+diff_with_oval.png
+VisualStudioCodeInsider.edit.py
+StudioNeo Save.ahk
 
 assets.zip
 assets.zip.part

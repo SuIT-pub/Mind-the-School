@@ -201,8 +201,6 @@ init python:
 
     ## Classify files as None to exclude them from the built distributions.
 
-    ## Classify files as None to exclude them from the built distributions.
-
     # The Incest Content mod is kept in the repo but never ships with the base
     # game. First, because the first matching rule wins: the image rules below
     # would otherwise pack its webp/webm into the images archive.
