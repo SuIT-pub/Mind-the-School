@@ -721,23 +721,22 @@ label lab_intro_6 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ secretary_person = Person["emiko_langley"]
-    $ secretary_person.register_paperdoll()
+    $ emiko.register_paperdoll()
     $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
-    $ secretary_person.display(PDAImage(pose = "12", outfit = "uniform", level = 6, mood = "surprised", mouth = "open"),
+    $ emiko.display(PDAImage(pose = "12", outfit = "uniform", level = 6, mood = "surprised", mouth = "open"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0)
     )
 
     headmaster "Emiko! There you are — I did it. I recreated it. The prototype's stable."
-    $ secretary_person.display(PDAPreset("close_body_center", duration = 1.0))
+    $ emiko.display(PDAPreset("close_body_center", duration = 1.0))
     emiko "Hello to you too. That's the good kind of manic face, I hope."
-    $ secretary_person.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed"))
+    $ emiko.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed"))
     headmaster "A prototype. I've already taken a dose myself — no ill effects. But before it goes anywhere near anyone else, I want a second reading. Would you?"
-    $ secretary_person.display(PDAImage(pose = "19", mood = "happy", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "19", mood = "happy", mouth = "open"))
     emiko "If you made it, I'll drink it. Hand it over."
 
-    $ secretary_person.clear_display()
+    $ emiko.clear_display()
 
     $ image.show(0)
     headmaster "Great! Here you go."
@@ -748,15 +747,15 @@ label lab_intro_6 (**kwargs):
 
     $ image.hide()
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
-    $ secretary_person.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
     emiko "Hmm... a little warmer, maybe? Honestly — barely anything at all."
-    $ secretary_person.display(PDAImage(pose = "10", mood = "neutral", mouth = "closed"))
+    $ emiko.display(PDAImage(pose = "10", mood = "neutral", mouth = "closed"))
     subtitles "Silence. Just the faint hum of the ventilation and the sound of his own breathing."
-    $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"))
+    $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"))
     headmaster "Figures. After what the original did to you, there's not much left in you for a diluted batch to stir — so your reading tells me almost nothing about a fresh subject. I'll need a cleaner test."
-    $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "open"))
     emiko "Then be careful — with the dose, and with whoever you give it to. This is supposed to help them, remember."
-    $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
+    $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
         PDAPreset("outside", duration = 1.0), PDAPause(duration = 1.0))
     $ image.show(6)
     headmaster.think "She's right. Carefully, then. First — I need to produce more."
