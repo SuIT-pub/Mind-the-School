@@ -1,0 +1,54 @@
+name: Publish Patreon news
+
+# Picks the Patreon posts the title screen shows (newest "News" post, the newest
+# public news behind a patron-only one, and the newest other post), turns their
+# covers into small 16:9 WebP thumbnails and writes everything to news/ on the
+# `devstatus` branch. The game reads it from there; it never talks to Patreon.
+# A run that finds nothing new pushes nothing.
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  push:
+    branches-ignore:
+      - devstatus
+    paths:
+      - tools/publish_news.py
+      - tools/test_publish_news.py
+      - .github/workflows/publish-news.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Shared with the dev status and modding changelog jobs: all of them push to
+# the devstatus branch, and running them one after the other keeps those pushes from racing.
+concurrency:
+  group: publish-devstatus
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Pillow
+        run: python -m pip install --quiet pillow
+
+      - name: Test the publisher
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python -m unittest tools/test_publish_news.py
+
+      - name: Publish news
+        env:
+          PATREON_TOKEN: ${{ secrets.PATREON_TOKEN }}
+        run: python tools/publish_news.py
