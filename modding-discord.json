@@ -47,6 +47,7 @@
     "auto-bound-speakers",
     "check-registered-events",
     "stat-range-blocks",
-    "get-stat-value-replay-read"
+    "get-stat-value-replay-read",
+    "event-priority-end-constants"
   ]
 }
