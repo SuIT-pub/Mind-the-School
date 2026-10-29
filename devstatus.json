@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-26T19:12:37Z",
+  "updatedAt": "2026-10-29T20:34:01Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
@@ -15,6 +15,12 @@
       "id": "story-groundwork",
       "title": "Groundwork for bigger story events",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
+      "version": "0.2.2"
+    },
+    {
+      "id": "title-news-board",
+      "title": "Patreon news on the title screen",
+      "summary": "The latest posts show up as polaroids on the title screen, and the occasional note from me sticks to the nameplate.",
       "version": "0.2.2"
     }
   ],
