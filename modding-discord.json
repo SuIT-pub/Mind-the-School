@@ -44,6 +44,9 @@
     "quest-system-unhooked",
     "legacy-store-vars-removed",
     "save-compat-0-1-removed",
-    "auto-bound-speakers"
+    "auto-bound-speakers",
+    "check-registered-events",
+    "stat-range-blocks",
+    "get-stat-value-replay-read"
   ]
 }
