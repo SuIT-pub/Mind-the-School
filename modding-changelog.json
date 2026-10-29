@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "mod-asset-path-leading-slash",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "fixed",
+      "title": "Leading slashes in mod asset paths no longer break the path (get_mod_asset_path)",
+      "details": "Inside a mod, `Pattern(\"main\", \"/images/foo.webp\")` used to become `mods/MyMod//images/foo.webp`, which Ren'Py never finds. `Pattern`, `BGImage`, `Building`, `Map`, `Situation` thumbnails/teaser images, `Pictogram` icons, `ItemData`, collectibles, Emiko gifts and ambience/UI sounds now strip the leading slash when a mod prefix is added, so both `images/foo.webp` and `/images/foo.webp` work. Base game paths are unchanged.\n\nNew helper for your own classes: `get_mod_asset_path(path, key=None)` joins the mod folder and the path with the same guard. Use it instead of `get_mod_path(active_mod_key) + path` in constructors.",
+      "wiki": "Images#4-mod-paths"
+    },
+    {
       "id": "event-priority-end-constants-2",
       "date": "2026-10-29",
       "version": "0.2.2",
