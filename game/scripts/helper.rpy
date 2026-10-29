@@ -630,7 +630,8 @@ init -99 python:
         for key in keys:
             if key in translation_texts:
                 return translation_texts[key]
-        log_missing_name(" → ".join(keys))
+        # gallery value titles end the chain with the raw value, e.g. the int 50
+        log_missing_name(" → ".join(str(key) for key in keys))
         return keys[-1]
 
     missing_names_logged = set()
