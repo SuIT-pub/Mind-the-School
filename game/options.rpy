@@ -315,6 +315,6 @@ init python:
 
     
 
-define discord = 'https://discord.suit-ji.com'
-define patreon = 'https://patreon.suit-ji.com'
-define wiki    = 'https://wiki.suit-ji.com'
+define discord = 'https://mts-game.com/discord'
+define patreon = 'https://mts-game.com/patreon'
+define wiki    = 'https://mts-game.com/wiki'
