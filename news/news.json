@@ -7,6 +7,7 @@
       "url": "https://www.patreon.com/suitji/posts/private-news-15-172419485",
       "publishedAt": "2026-10-15T11:07:50.000+00:00",
       "isPublic": false,
+      "freeOnly": false,
       "image": "172419485-77b11c94.webp"
     },
     {
@@ -15,16 +16,27 @@
       "url": "https://www.patreon.com/suitji/posts/public-news-01-171027078",
       "publishedAt": "2026-10-01T07:00:11.000+00:00",
       "isPublic": true,
+      "freeOnly": false,
       "image": "171027078-eb9bc703.webp"
     }
   ],
   "latest": [
+    {
+      "id": "173442762",
+      "title": "Happy Spooktober",
+      "url": "https://www.patreon.com/suitji/posts/happy-spooktober-173442762",
+      "publishedAt": "2026-10-26T11:42:09.000+00:00",
+      "isPublic": true,
+      "freeOnly": true,
+      "image": "173442762-f8a6b117.webp"
+    },
     {
       "id": "173442851",
       "title": "Happy Spooktober",
       "url": "https://www.patreon.com/suitji/posts/happy-spooktober-173442851",
       "publishedAt": "2026-10-26T11:42:55.000+00:00",
       "isPublic": false,
+      "freeOnly": false,
       "image": "173442851-f8a6b117.webp"
     }
   ]
