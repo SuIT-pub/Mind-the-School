@@ -18,12 +18,14 @@
       "image": "171027078-eb9bc703.webp"
     }
   ],
-  "latest": {
-    "id": "173442851",
-    "title": "Happy Spooktober",
-    "url": "https://www.patreon.com/suitji/posts/happy-spooktober-173442851",
-    "publishedAt": "2026-10-26T11:42:55.000+00:00",
-    "isPublic": false,
-    "image": "173442851-f8a6b117.webp"
-  }
+  "latest": [
+    {
+      "id": "173442851",
+      "title": "Happy Spooktober",
+      "url": "https://www.patreon.com/suitji/posts/happy-spooktober-173442851",
+      "publishedAt": "2026-10-26T11:42:55.000+00:00",
+      "isPublic": false,
+      "image": "173442851-f8a6b117.webp"
+    }
+  ]
 }
