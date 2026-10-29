@@ -1940,6 +1940,8 @@ label lab_intro_14 (**kwargs):
     ########################################
     # Overheard: the teachers talking among themselves (no paperdolls).
 
+    $ image.show(5)
+
     subtitles "For a while it's just a normal staff-room morning. Mugs clinking, the radiator knocking, somebody's phone buzzing on the table."
     zoe "Did anybody actually read the agenda for Friday? Because I got as far as 'item one' and then I had to go and set up the gym for 2B."
     lily "It's the budget again. It's always the budget. And behaviour, apparently, because the council has decided we need a new form for it."
@@ -1960,7 +1962,7 @@ label lab_intro_14 (**kwargs):
     # the jacket; the pants come off in render 2), legs crossed; Chloe with sleeves rolled past the elbow, tattoo sleeves
     # showing; Yulan and Finola at the long table, shoulder to shoulder. The
     # Headmaster's budget draft in the foreground. Held until Zoe stands up.
-    $ image.show(5)
+    $ image.show(6)
 
     # Lily stretches in the armchair; her blouse rides up over her stomach.
     subtitles "Lily stretches in the armchair, arms right up over her head, and her blouse comes untucked and rides up over a pale strip of stomach. She doesn't pull it down."
@@ -1976,7 +1978,7 @@ label lab_intro_14 (**kwargs):
     # over her hips. Yellow hex-pattern leotard, high-cut legs, bare thighs.
     # Jacket over the backrest. Easy grin, no hurry. Chloe blurred behind her
     # with a mug halfway to her mouth.
-    $ image.show(6)
+    $ image.show(7)
     subtitles "Then she gets up, hooks her thumbs into the waistband of her track pants, and starts pushing them down over her hips."
     zoe "I've got yoga first period anyway, and I always teach it without these, so they'd be coming off in half an hour regardless, and these are so {i}hot{/i}, honestly, I don't know why I bother with them in the mornings. This is just efficient. It's basically sports kit."
     subtitles "She steps out of them, kicks them under her chair, and sits back down in nothing but the leotard, bare legs crossed, and picks her coffee back up."
@@ -1994,7 +1996,7 @@ label lab_intro_14 (**kwargs):
     # both hands, eyes down. Stays up through Finola standing (hand on chest).
 
     # Yulan and Finola, shoulder to shoulder.
-    $ image.show(7)
+    $ image.show(8)
     subtitles "At the table, Yulan has ended up with her shoulder pressed against Finola's, and her hand resting on the table a few centimetres from Finola's own. Neither of them has moved away."
     yulan "Your hair's very red. In this light, I mean. I don't think I'd ever really noticed."
     finola "Oh— um. Thank you? It's just... hair."
@@ -2020,7 +2022,7 @@ label lab_intro_14 (**kwargs):
     # IMAGE (lab_intro_14 8): empty corridor, morning light; the staff changing
     # room door at the far end standing open about a hand's width. Doubles as
     # the scene's background (no corridor background exists yet).
-    $ image.show(8)
+    $ image.show(9)
     subtitles "The corridor's empty. At the far end, the staff changing room door is standing open about a hand's width."
     headmaster.think "Not the bathroom. The changing room. She went for her locker."
     headmaster.think "Last time she ran for it in a panic. This time she walked straight here like she knew exactly what she was doing..."
@@ -2032,7 +2034,7 @@ label lab_intro_14 (**kwargs):
     # him, completely naked. Blouse, skirt, tights and underwear in a heap on the
     # bench and floor. Freckles from her shoulders all the way down her back.
     subtitles "He pushes the door with two fingers, and it swings further than he means it to."
-    $ image.show(9)
+    $ image.show(10)
     subtitles "Finola is standing at her open locker with her back to him, and she isn't wearing anything at all. Her blouse, her skirt, her tights and her underwear are all in a heap on the bench, as though they'd been peeled off in one go. The freckles on her shoulders carry on down her back, all the way down."
     headmaster.think "Oh— oh God."
 
@@ -2040,9 +2042,9 @@ label lab_intro_14 (**kwargs):
     # arms still at her sides. Flushed, dazed, not horrified: the one long second.
     # IMAGE (lab_intro_14 11): same framing, the second over. One arm across her
     # chest, the other hand dropped low to cover herself, eyes now wide.
-    $ image.show(10)
-    subtitles "She turns around at the sound of his voice. For one long second she just looks at him, flushed and a bit dazed, completely bare."
     $ image.show(11)
+    subtitles "She turns around at the sound of his voice. For one long second she just looks at him, flushed and a bit dazed, completely bare."
+    $ image.show(12)
     subtitles "It's only after that second that an arm comes up across her chest and her other hand drops to cover herself."
     $ set_game_data("seen_breasts_finola_ryan", True)
     $ set_game_data("seen_ass_finola_ryan", True)
@@ -2052,7 +2054,7 @@ label lab_intro_14 (**kwargs):
     finola "It was all too tight. Everything. The shirt, and then the— and then it was all of it, it was all just too {i}much{/i}, I couldn't—"
     finola "Sorry. I'm sorry. Give me a minute. Please."
 
-    $ image.show(8)
+    $ image.show(9)
     subtitles "He pulls the door shut and stands in the corridor with his hand still on the handle."
     finola.think "*He saw. He— did he see? He saw. I didn't even lock the door. I {i}always{/i} lock the door.*"
 
@@ -2065,7 +2067,7 @@ label lab_intro_14 (**kwargs):
     # ripped dark jeans, black lace-up boots). Speaks to him.
     subtitles "A few minutes later the door opens. Finola comes out dressed again, but not in what she arrived in. It's the spare clothes from her locker: a cropped yellow tank top that stops well above her navel, the lace edge of her bra showing at the neckline, ripped dark jeans and her black boots. The blouse is balled up in her hand."
     subtitles "She can't quite look at him."
-    $ paperdoll_manager.set_background(image[8], blur = True)
+    $ paperdoll_manager.set_background(image[9], blur = True)
     $ finola.display(PDAImage(pose = "1", outfit = "uniform", level = 3, mood = "sad", mouth = "closed", look = "avert"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
