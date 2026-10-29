@@ -8,6 +8,7 @@
 
 - [Player Guide](Player-Guide)
 - [School Levels](School-Levels)
+- [Changelog](Changelog)
 
 <details>
 <summary>Walkthroughs</summary>

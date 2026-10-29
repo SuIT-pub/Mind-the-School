@@ -97,4 +97,4 @@ define CHANGELOG = [
     ]),
 ]
 
-define CHANGELOG_FOOTER = "Changelog for older versions can be found in the {a=https://wiki.suit-ji.com/books/changelog}wiki{/a}."
+define CHANGELOG_FOOTER = "Changelog for older versions can be found in the {a=https://mts-game.com/wiki/Changelog}wiki{/a}."
