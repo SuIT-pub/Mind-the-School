@@ -2,8 +2,8 @@
 # Main menu (title screen) in the journal's look.
 #
 # The journal peeks in from the left edge: its outer page lists the menu,
-# two ribbons on its edge switch the background animation / image. News and
-# link stickers sit top right, the changelog is a folded sheet that opens
+# two ribbons on its edge switch the background animation / image. Patreon
+# polaroids (journal_news.rpy) and link stickers sit top right, the changelog is a folded sheet that opens
 # like the patron list, the logo is a brass plaque on leather bottom right.
 # Load / Settings / Mods / Credits slide the journal open (journal_title):
 # the same pages as the in-game game menu, with only the ribbons that make
@@ -162,19 +162,6 @@ screen main_menu():
                     text_color JR_ACCENT
                     action Quit(confirm = False)
 
-    # ---- news slip, top right
-    if message != "":
-        frame:
-            pos (1150, 22)
-            xmaximum 480
-            background Frame("gui/journal/ui/foldout_panel.webp", 12, 12)
-            padding (26, 16, 26, 18)
-            at Transform(rotate = -1.2, rotate_pad = False)
-            vbox:
-                spacing 6
-                text "NEWS" style "jr_rubric"
-                text message style "jr_typed" size 17
-
     # ---- link stickers
     hbox:
         pos (1652, 18)
@@ -219,6 +206,9 @@ screen main_menu():
         # engraving: a light lip under dark letters, like the title on the plaque
         text "v[config.version]" font JR_FONT_MEDIUM size 22 color "#ffffff70" pos (314, 148) anchor (0.5, 0.5)
         text "v[config.version]" font JR_FONT_MEDIUM size 22 color "#462c0eeb" pos (314, 146) anchor (0.5, 0.5)
+
+    # ---- Patreon polaroids top right, the developer's note on the plaque
+    use news_board
 
     use journal_tooltip
 

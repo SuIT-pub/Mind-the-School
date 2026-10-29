@@ -1299,22 +1299,6 @@ init -99 python:
     ######################################
 
     
-    def download_message():
-        global message
-
-        if persistent.load_supporter == 1:
-            log("Load message from web.")
-            try:
-                response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/message.txt')
-                message = response.text
-            except requests.exceptions.RequestException as e:  # This is the correct syntax
-                message = "Wasn't able to load notifications. Please check your internet connection."
-                log('Failed Message Download')
-        else:
-            message = "Can't load notifications. Please turn on internet connection in settings.\nGame will not upload any data, only download."
-
-        message = refine_downloaded_message(message)
-
     def refine_downloaded_message(text):
         try:
             time_pattern = re.compile(r'\[TIME\|(.+?)\|(.+?)\]')

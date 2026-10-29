@@ -21,9 +21,6 @@ init -98 python:
     members = ""
     download_members()
 
-    message = ""
-    download_message()
-
     repair_mod_list()
     available_keys = ['base']
     active_mod_key = ''

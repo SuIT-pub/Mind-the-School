@@ -387,7 +387,10 @@ screen journal_menu_settings():
             null height 4
             if not renpy.android and not renpy.ios:
                 use jr_setting_choices("Shortcuts", [("shown", SetField(persistent, "shortcuts", 0)), ("hidden", SetField(persistent, "shortcuts", 1)), ("off", SetField(persistent, "shortcuts", 2))])
-            use jr_setting_choices("Supporter list", [("from web", SetField(persistent, "load_supporter", 1)), ("local", SetField(persistent, "load_supporter", 0))])
+            use jr_setting_choices("Online content", [("on", [SetField(persistent, "load_supporter", 1), Function(refresh_news_board)]), ("off", [SetField(persistent, "load_supporter", 0), Function(refresh_news_board)])])
+            text "News, notes and the supporter list are downloaded from GitHub. Nothing is uploaded.":
+                style "jr_typed_small"
+                xsize JR_LEFT_W
             use jr_setting_choices("Tutorial", [("on", SetField(persistent, "tutorial", True)), ("off", SetField(persistent, "tutorial", False))])
 
             use journal_menu_leave_links
