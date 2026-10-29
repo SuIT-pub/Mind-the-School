@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "select-type-filter-param",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "call_available_event and EventStorage filter by select_type= instead of priority=",
+      "details": "The parameter that picks one select type (0 = all, then `EVENT_BLOCKING` / `EVENT_ALWAYS` / `EVENT_RANDOM`) is now called `select_type` everywhere: `call call_available_event(storage, select_type = 0, no_fallback = False, **kwargs)`, `call_event(obj, select_type = 0, …)` and the `EventStorage` methods `get_events`, `get_event_count`, `get_event_by_index`, `has_available_events`, `count_available_events*`, `get_available_events*`, `get_one_possible_event*`.\n\nPositional calls keep working. A keyword call with the old name is not translated: `call call_available_event(storage, priority = 2)` now passes `priority` on to the events as a kwarg and picks from all select types. Change it to `select_type = 2` or pass the value positionally.\n\n`call_event` now also forwards its select type to `call_available_event` when it is given a storage; before, the value was ignored. `PriorityOption` / `get_priority()` (the order inside a select type) are unchanged.",
+      "wiki": "Events"
+    },
+    {
       "id": "mod-asset-path-leading-slash",
       "date": "2026-10-29",
       "version": "0.2.2",
