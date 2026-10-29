@@ -2,6 +2,41 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "gallery-version-docs",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "docs",
+      "title": "When to bump an event's gallery version",
+      "details": "New section in Events: bump `begin_event(version=...)` when a value the label reads is dropped, a value's options or `StatSelector` range change, or a `MenuElement` key is renamed/removed. Don't bump for added or reordered values (the next live run resets the event's replay data by itself), dialogue, images, stat changes, conditions or new menu options.",
+      "wiki": "Events#when-to-bump-the-version"
+    },
+    {
+      "id": "temp-event-storage-unhooked",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "removed",
+      "title": "call_available_event no longer handles TempEventStorage",
+      "details": "`TempEventStorage` (deprecated since 0.2.2) is no longer special-cased: `call_available_event` doesn't remove events from it or track `temp_event_blocker` anymore. Use a normal `EventStorage` with `EventSeenCondition()` for one-off events. The class itself stays only so old saves load."
+    },
+    {
+      "id": "select-type-param-name",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "EventComposite / EventSelect: first parameter renamed priority → select_type",
+      "details": "Matches `Event` and `EventFragment`. Positional calls (`EventComposite(EVENT_RANDOM, ...)`) are unaffected; a call that passed `priority=` as a keyword must use `select_type=`. The select type (1/2/3) is not the priority: `PriorityOption` orders events.",
+      "wiki": "Events#5-select-types--availability"
+    },
+    {
+      "id": "gallery-version-reset-scope",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "fixed",
+      "title": "Bumping an event's gallery version resets only that event",
+      "details": "A version change used to wipe more than the event: in the \"Locations\" view every other event of its location, in the category view the whole category (or raise a KeyError). `reset_gallery(location, event)` now resets just the event whenever `event` is given (new `reset_gallery_event(event)`); the group reset is only used by the journal buttons.",
+      "wiki": "Events#when-to-bump-the-version"
+    },
+    {
       "id": "event-priority-end-constants",
       "date": "2026-10-29",
       "version": "0.2.2",
