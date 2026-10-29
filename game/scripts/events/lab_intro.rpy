@@ -4,7 +4,7 @@
 init 2 python: 
     set_current_mod('base')
     office_building_work_event["lab"].add_event(
-        Event(2, "lab_intro_1",
+        Event(EVENT_ALWAYS, "lab_intro_1",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelCondition("2"),
             ReplayCategoryOption("lab_intro"),
@@ -38,7 +38,7 @@ label lab_intro_1 (**kwargs):
 
     $ start_progress("lab_intro")
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #############################
@@ -48,7 +48,7 @@ label lab_intro_1 (**kwargs):
 init 2 python: 
     set_current_mod('base')
     labs_events["look_around"].add_event(
-        Event(2, "lab_intro_2",
+        Event(EVENT_ALWAYS, "lab_intro_2",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelCondition("2"),
             ProgressCondition("lab_intro", 1),
@@ -58,18 +58,18 @@ init 2 python:
     
     lab_intro_2_search_gym_storage = FragmentStorage("lab_intro_2_search_gym")
     lab_intro_2_search_gym_storage.add_event(
-        EventFragment(3, "lab_intro_2_search_gym_1",
+        EventFragment(EVENT_RANDOM, "lab_intro_2_search_gym_1",
             NOT(ItemCondition("lab_mortar_and_pestle")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 1.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 1.webp"),
-        EventFragment(3, "lab_intro_2_search_gym_2",
+        EventFragment(EVENT_RANDOM, "lab_intro_2_search_gym_2",
             ItemCondition("lab_distilled_water"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 2.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 2.webp"))
     gym_events["search"].add_event(
-        EventComposite(3, "lab_intro_2_search_gym", [lab_intro_2_search_gym_storage],
+        EventComposite(EVENT_RANDOM, "lab_intro_2_search_gym", [lab_intro_2_search_gym_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
@@ -79,24 +79,24 @@ init 2 python:
 
     lab_intro_2_search_cafeteria_storage = FragmentStorage("lab_intro_2_search_cafeteria")
     lab_intro_2_search_cafeteria_storage.add_event(
-        Event(3, "lab_intro_2_search_cafeteria_1",
+        Event(EVENT_RANDOM, "lab_intro_2_search_cafeteria_1",
             NOT(ItemCondition("lab_mortar_and_pestle")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 1.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 1.webp"),
-        Event(3, "lab_intro_2_search_cafeteria_2",
+        Event(EVENT_RANDOM, "lab_intro_2_search_cafeteria_2",
             NOT(ItemCondition("lab_distilled_water")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 2.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 2.webp"),
-        Event(3, "lab_intro_2_search_cafeteria_3",
+        Event(EVENT_RANDOM, "lab_intro_2_search_cafeteria_3",
             ItemCondition("lab_mortar_and_pestle"),
             ItemCondition("lab_distilled_water"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 3.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 3.webp"))
     cafeteria_events["search"].add_event(
-        EventComposite(3, "lab_intro_2_search_cafeteria", [lab_intro_2_search_cafeteria_storage],
+        EventComposite(EVENT_RANDOM, "lab_intro_2_search_cafeteria", [lab_intro_2_search_cafeteria_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
@@ -105,24 +105,24 @@ init 2 python:
 
     lab_intro_2_search_dorm_storage = FragmentStorage("lab_intro_2_search_dorm")
     lab_intro_2_search_dorm_storage.add_event(
-        Event(3, "lab_intro_2_search_dorm_1",
+        Event(EVENT_RANDOM, "lab_intro_2_search_dorm_1",
             NOT(ItemCondition("lab_mortar_and_pestle")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 1.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 1.webp"),
-        Event(3, "lab_intro_2_search_dorm_2",
+        Event(EVENT_RANDOM, "lab_intro_2_search_dorm_2",
             NOT(ItemCondition("lab_distilled_water")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 2.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 2.webp"),
-        Event(3, "lab_intro_2_search_dorm_3",
+        Event(EVENT_RANDOM, "lab_intro_2_search_dorm_3",
             ItemCondition("lab_mortar_and_pestle"),
             ItemCondition("lab_distilled_water"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 3.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 3.webp"))
     sd_events["search"].add_event(
-        EventComposite(3, "lab_intro_2_search_dorm", [lab_intro_2_search_dorm_storage],
+        EventComposite(EVENT_RANDOM, "lab_intro_2_search_dorm", [lab_intro_2_search_dorm_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
@@ -131,18 +131,18 @@ init 2 python:
 
     lab_intro_2_search_kiosk_storage = FragmentStorage("lab_intro_2_search_kiosk")
     lab_intro_2_search_kiosk_storage.add_event(
-        Event(3, "lab_intro_2_search_kiosk_1",
+        Event(EVENT_RANDOM, "lab_intro_2_search_kiosk_1",
             NOT(ItemCondition("lab_glassware")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_1 <step>.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_1 4.webp"),
-        Event(3, "lab_intro_2_search_kiosk_2",
+        Event(EVENT_RANDOM, "lab_intro_2_search_kiosk_2",
             ItemCondition("lab_glassware"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_2.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_2.webp"))
     kiosk_events["search"].add_event(
-        EventComposite(3, "lab_intro_2_search_kiosk", [lab_intro_2_search_kiosk_storage],
+        EventComposite(EVENT_RANDOM, "lab_intro_2_search_kiosk", [lab_intro_2_search_kiosk_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
@@ -150,7 +150,7 @@ init 2 python:
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk.webp"))
 
     courtyard_events["patrol"].add_event(
-        Event(3, "lab_intro_2_patrol_courtyard",
+        Event(EVENT_RANDOM, "lab_intro_2_patrol_courtyard",
             TimeCondition(weekday = "d", daytime = "d"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_patrol_courtyard <step>.webp"),
             ProgressCondition("lab_intro", 2),
@@ -158,7 +158,7 @@ init 2 python:
             ReplayCategoryOption("lab_intro"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_patrol_courtyard 0.webp"))
     courtyard_events["search"].add_event(
-        Event(3, "lab_intro_2_search_courtyard",
+        Event(EVENT_RANDOM, "lab_intro_2_search_courtyard",
             TimeCondition(weekday = "d", daytime = "d"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_search_courtyard <step>.webp"),
             ProgressCondition("lab_intro", 2),
@@ -167,18 +167,18 @@ init 2 python:
 
     lab_intro_2_search_school_storage = FragmentStorage("lab_intro_2_search_school")
     lab_intro_2_search_school_storage.add_event(
-        Event(3, "lab_intro_2_search_school_1",
+        Event(EVENT_RANDOM, "lab_intro_2_search_school_1",
             NOT(ItemCondition("lab_office_supplies")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_school 2.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_school 2.webp"),
-        Event(3, "lab_intro_2_search_school_2",
+        Event(EVENT_RANDOM, "lab_intro_2_search_school_2",
             ItemCondition("lab_office_supplies"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_school 1.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_school 1.webp"))
     sb_events["search"].add_event(
-        EventComposite(3, "lab_intro_2_search_school", [lab_intro_2_search_school_storage],
+        EventComposite(EVENT_RANDOM, "lab_intro_2_search_school", [lab_intro_2_search_school_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
@@ -187,18 +187,18 @@ init 2 python:
 
     lab_intro_2_search_office_storage = FragmentStorage("lab_intro_2_search_office")
     lab_intro_2_search_office_storage.add_event(
-        Event(3, "lab_intro_2_search_office_1",
+        Event(EVENT_RANDOM, "lab_intro_2_search_office_1",
             NOT(ItemCondition("lab_office_supplies")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_office 1.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_office 1.webp"),
-        Event(3, "lab_intro_2_search_office_2",
+        Event(EVENT_RANDOM, "lab_intro_2_search_office_2",
             ItemCondition("lab_office_supplies"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_office 2.webp"),
             thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_office 2.webp"))
     office_building_events["search"].add_event(
-        EventComposite(3, "lab_intro_2_search_office", [lab_intro_2_search_office_storage],
+        EventComposite(EVENT_RANDOM, "lab_intro_2_search_office", [lab_intro_2_search_office_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
@@ -248,7 +248,7 @@ label lab_intro_2 (**kwargs):
     $ inventory_manager.add_item("lab_furniture")
 
     $ set_progress("lab_intro", 2)
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_gym (**kwargs):
     $ begin_event(**kwargs)
@@ -273,7 +273,7 @@ label lab_intro_2_search_gym_1 (**kwargs):
 
     $ inventory_manager.add_item("generic_bra")
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_gym_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -282,7 +282,7 @@ label lab_intro_2_search_gym_2 (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster.think "Nothing useful here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 label lab_intro_2_search_cafeteria (**kwargs):
@@ -306,7 +306,7 @@ label lab_intro_2_search_cafeteria_1 (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_mortar_and_pestle"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_cafeteria_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -320,7 +320,7 @@ label lab_intro_2_search_cafeteria_2 (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_distilled_water"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_cafeteria_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -333,7 +333,7 @@ label lab_intro_2_search_cafeteria_3 (**kwargs):
 
     headmaster.think "Nothing useful here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 label lab_intro_2_search_dorm (**kwargs):
@@ -357,7 +357,7 @@ label lab_intro_2_search_dorm_1 (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_mortar_and_pestle"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_dorm_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -371,7 +371,7 @@ label lab_intro_2_search_dorm_2 (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_distilled_water"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_dorm_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -383,7 +383,7 @@ label lab_intro_2_search_dorm_3 (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster.think "Nothing useful here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 label lab_intro_2_search_kiosk (**kwargs):
@@ -418,7 +418,7 @@ label lab_intro_2_search_kiosk_1 (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_glassware"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_kiosk_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -430,15 +430,11 @@ label lab_intro_2_search_kiosk_2 (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster.think "Nothing useful here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 label lab_intro_2_patrol_courtyard (**kwargs):
     $ begin_event(**kwargs)
-
-    $ hatano = Person["hatano_miwa"].get_renpy_char()
-    $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
-    $ gloria = Person["gloria_goto"].get_renpy_char()
 
 
     # headmaster find students sitting in the courtyard playing with a gas burner acting like they are camping
@@ -471,7 +467,7 @@ label lab_intro_2_patrol_courtyard (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_gas_burner"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_courtyard (**kwargs):
     $ begin_event(**kwargs)
@@ -485,7 +481,7 @@ label lab_intro_2_search_courtyard (**kwargs):
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_lab_intro_2_search_courtyard_1
     headmaster.think "Nothing useful here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 label lab_intro_2_search_school (**kwargs):
@@ -509,7 +505,7 @@ label lab_intro_2_search_school_1 (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_office_supplies"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_school_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -519,7 +515,7 @@ label lab_intro_2_search_school_2 (**kwargs):
 
     headmaster.think "Nothing useful here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 label lab_intro_2_search_office (**kwargs):
@@ -538,7 +534,7 @@ label lab_intro_2_search_office_1 (**kwargs):
 
     $ inventory_manager.add_item(Item("lab_office_supplies"))
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_2_search_office_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -548,7 +544,7 @@ label lab_intro_2_search_office_2 (**kwargs):
     
     headmaster.think "Nothing useful here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #############################
@@ -560,7 +556,7 @@ init 2 python:
     set_current_mod('base')
 
     office_building_work_event["lab"].add_event(
-        Event(2, "lab_intro_3",
+        Event(EVENT_ALWAYS, "lab_intro_3",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             LevelCondition("2"),
@@ -597,7 +593,7 @@ label lab_intro_3 (**kwargs):
 
     $ set_progress("lab_intro", 3)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #############################
@@ -609,7 +605,7 @@ init 2 python:
     set_current_mod('base')
 
     office_building_lab_events["research"].add_event(
-        Event(3, "lab_intro_4",
+        Event(EVENT_RANDOM, "lab_intro_4",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelCondition("2"),
             ProgressCondition("lab_intro", 3),
@@ -661,7 +657,7 @@ label lab_intro_4 (**kwargs):
 
     $ set_progress("lab_intro", 4)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #############################
@@ -673,7 +669,7 @@ init 2 python:
     set_current_mod('base')
 
     time_check_events.add_event(
-        Event(2, "lab_intro_5",
+        Event(EVENT_ALWAYS, "lab_intro_5",
             TimeCondition(weekday = "d", daytime = 1),
             ProgressCondition("lab_intro", 4),
             ReplayCategoryOption("lab_intro"),
@@ -701,7 +697,7 @@ label lab_intro_5 (**kwargs):
 
     $ set_progress("lab_intro", 5)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #############################
@@ -714,7 +710,7 @@ init 2 python:
 
             # TimeCondition(weekday = "d", daytime = "d"),
             # ProgressCondition("lab_intro", 5),
-    lab_intro_6_event = Event(3, "lab_intro_6",
+    lab_intro_6_event = Event(EVENT_RANDOM, "lab_intro_6",
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_6/lab_intro_6 <step>.png"),
             thumbnail = "images/events/lab/lab_intro_6/lab_intro_6 0.webp")
@@ -767,7 +763,7 @@ label lab_intro_6 (**kwargs):
 
     $ set_progress("lab_intro", 6)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 #############################
@@ -779,14 +775,14 @@ init 3 python:
     set_current_mod('base')
 
     office_building_work_event["lab"].add_event(
-        EventSelect(3, "lab_event_selection", "What do you want to do in the lab?", office_building_lab_events,
+        EventSelect(EVENT_RANDOM, "lab_event_selection", "What do you want to do in the lab?", office_building_lab_events,
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", "3+"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_3/lab_intro_3 <step>.webp")))
 
     office_building_lab_events["produce"].add_event(
-        Event(3, "lab_intro_produce_test_potion",
+        Event(EVENT_RANDOM, "lab_intro_produce_test_potion",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", "6,7"),
             ItemCondition("lab_chemicals"),
@@ -794,7 +790,7 @@ init 3 python:
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_produce_test_potion/lab_intro_produce_test_potion <step>.webp"),
             thumbnail = "images/events/lab/lab_intro_produce_test_potion/lab_intro_produce_test_potion 0.webp"),
-        Event(3, "lab_intro_produce_test_potion_no_chemicals",
+        Event(EVENT_RANDOM, "lab_intro_produce_test_potion_no_chemicals",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", "6,7"),
             NOT(ItemCondition("lab_chemicals")),
@@ -815,7 +811,7 @@ label lab_intro_produce_test_potion (**kwargs):
     $ inventory_manager.remove_item("lab_chemicals", 1)
     $ inventory_manager.add_item("lab_test_potion")
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     $ begin_event(**kwargs)
@@ -823,7 +819,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     # shots of headmaster producing more potions
     headmaster.think "I don't have any chemicals left. I first have to buy some more."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ######################################
@@ -835,7 +831,7 @@ init 2 python:
     set_current_mod('base')
 
     sb_events["patrol"].add_event(
-        Event(3, "lab_intro_7",
+        Event(EVENT_RANDOM, "lab_intro_7",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 6),
             ItemCondition("lab_test_potion"),
@@ -846,9 +842,6 @@ init 2 python:
 
 label lab_intro_7 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ sakura = Person["sakura_mori"]
-    $ easkey = Person["easkey_tanaka"]
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -916,7 +909,7 @@ label lab_intro_7 (**kwargs):
 
     $ set_progress("lab_intro", 7)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 # ###########################
@@ -928,7 +921,7 @@ init 2 python:
     set_current_mod('base')
 
     office_building_events["look_around"].add_event(
-        Event(3, "lab_intro_8",
+        Event(EVENT_RANDOM, "lab_intro_8",
             TimeCondition(weekday = "d", daytime = "f"),
             ProgressCondition("lab_intro", 7),
             ItemCondition("lab_test_potion"),
@@ -939,9 +932,6 @@ init 2 python:
 
 label lab_intro_8 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ zoe = Person["zoe_parker"]
-    $ finola = Person["finola_ryan"]
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -1016,7 +1006,7 @@ label lab_intro_8 (**kwargs):
 
     $ set_progress("lab_intro", 8)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 # ###########################
@@ -1028,7 +1018,7 @@ init 2 python:
     set_current_mod('base')
 
     office_building_events["look_around"].add_event(
-        Event(3, "lab_intro_9",
+        Event(EVENT_RANDOM, "lab_intro_9",
             TimeCondition(weekday = "d", daytime = "f"),
             ProgressCondition("lab_intro", 8),
             ItemCondition("lab_test_potion"),
@@ -1040,8 +1030,6 @@ init 2 python:
 # Chemical Mishap
 label lab_intro_9 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ ishimaru = Person["ishimaru_maki"]
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -1081,7 +1069,7 @@ label lab_intro_9 (**kwargs):
     
     $ set_progress("lab_intro", 9)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 # ###########################
@@ -1093,7 +1081,7 @@ init 2 python:
     set_current_mod('base')
 
     office_building_events["look_around"].add_event(
-        Event(3, "lab_intro_10",
+        Event(EVENT_RANDOM, "lab_intro_10",
             TimeCondition(weekday = "d", daytime = "f"),
             ProgressCondition("lab_intro", 8),
             ItemCondition("lab_test_potion"),
@@ -1105,11 +1093,6 @@ init 2 python:
 # Investigation unlocks after Chemical Mishap
 label lab_intro_10 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ gloria = Person["gloria_goto"]
-    $ lin = Person["lin_kato"]
-    $ luna = Person["luna_clark"]
-    $ ishimaru = Person["ishimaru_maki"]
 
     $ image = convert_pattern("main", **kwargs) 
 
@@ -1242,7 +1225,7 @@ label lab_intro_10 (**kwargs):
     
     $ set_progress("lab_intro", 10)
     
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 # ############################
@@ -1259,7 +1242,7 @@ init 2 python:
     # no baked-in Emiko, so the overlaid paperdoll can't double her). No bespoke
     # CGs, hence no Pattern. Gated behind the Investigation (lab_intro 10).
     # Registered on the "call secretary → talk" action, same as lab_intro_6.
-    lab_intro_11_event = Event(3, "lab_intro_11",
+    lab_intro_11_event = Event(EVENT_RANDOM, "lab_intro_11",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 10),
             ReplayCategoryOption("lab_intro"),
@@ -1373,7 +1356,7 @@ label lab_intro_11 (**kwargs):
 
     $ set_progress("lab_intro", 11)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##############################
@@ -1388,7 +1371,7 @@ init 2 python:
     # isolate the catalyst. Its CGs come from the "main" Pattern, which reaches
     # the label only through kwargs. Gated behind the Analysis (lab_intro 11).
     # Registered on the "call secretary → talk" action, same as lab_intro_6.
-    lab_intro_12_event = Event(3, "lab_intro_12",
+    lab_intro_12_event = Event(EVENT_RANDOM, "lab_intro_12",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 11),
             ReplayCategoryOption("lab_intro"),
@@ -1551,7 +1534,7 @@ label lab_intro_12 (**kwargs):
 
     $ set_progress("lab_intro", 12)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##############################
@@ -1567,7 +1550,7 @@ init 2 python:
     # comes from the "main" Pattern, which reaches the label only through kwargs.
     # Gated behind the Frustration (lab_intro 12). Registered on the "call
     # secretary → talk" action, same as lab_intro_6.
-    lab_intro_13_event = Event(3, "lab_intro_13",
+    lab_intro_13_event = Event(EVENT_RANDOM, "lab_intro_13",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 12),
             ReplayCategoryOption("lab_intro"),
@@ -1722,7 +1705,7 @@ label lab_intro_13 (**kwargs):
 
     $ set_progress("lab_intro", 13)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##############################
@@ -1745,7 +1728,7 @@ init 2 python:
     # head off to class and he pours the rest of the coffee away.
     # Wired: blurred lab bg (lab_intro_3 6), dark staff room (c teacher),
     # daytime staff room (teacher 1 1 0), paperdolls for teachers who speak TO him.
-    lab_intro_14_event = Event(3, "lab_intro_14",
+    lab_intro_14_event = Event(EVENT_RANDOM, "lab_intro_14",
             TimeCondition(weekday = "r", daytime = "d"),
             ProgressCondition("lab_intro", 13),
             ReplayCategoryOption("lab_intro"),
@@ -1757,12 +1740,6 @@ init 2 python:
 # Morning Brew, unlocks after Strategic Planning and Brewing Session on Thursday
 label lab_intro_14 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ zoe = Person["zoe_parker"]
-    $ yulan = Person["yulan_chen"]
-    $ lily = Person["lily_anderson"]
-    $ chloe = Person["chloe_garcia"]
-    $ finola = Person["finola_ryan"]
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -2121,7 +2098,7 @@ label lab_intro_14 (**kwargs):
 
     $ set_progress("lab_intro_faculty", 1)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # endregion
 ##############################
@@ -2129,17 +2106,6 @@ label lab_intro_14 (**kwargs):
 # PTA Refreshments - Friday morning after Morning Brew
 label lab_intro_15 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ adelaide = Person["adelaide_hall"]
-    $ nubia = Person["nubia_davis"]
-    $ yuki = Person["yuki_yamamoto"]
-    $ yuriko = Person["yuriko_oshima"]
-
-    $ zoe = Person["zoe_parker"]
-    $ yulan = Person["yulan_chen"]
-    $ lily = Person["lily_anderson"]
-    $ chloe = Person["chloe_garcia"]
-    $ finola = Person["finola_ryan"]
 
     # SCENE · lab_intro_15
     # Friday, the PTA meeting room. Emiko sets out two jugs of lemonade: the one
@@ -2313,15 +2279,11 @@ label lab_intro_15 (**kwargs):
 
     $ set_progress("lab_intro_parents", 1)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # The Discovery unlocks after Chemical Mishap
 label lab_intro_16 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ lin = Person["lin_kato"]
 
     # SCENE · lab_intro_16
     # Late afternoon. Lin talks Gloria and Ishimaru into sneaking into the old,
@@ -2431,16 +2393,12 @@ label lab_intro_16 (**kwargs):
 
     $ set_progress("lab_intro_discovery", 1)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # Secretary's Spin unlocks after The Discovery
 label lab_intro_17 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ lin = Person["lin_kato"]
 
     # SCENE · lab_intro_17
     # The next afternoon in the old chemistry room. The three girls sit at a
@@ -2555,16 +2513,12 @@ label lab_intro_17 (**kwargs):
 
     $ set_progress("lab_intro_discovery", 2)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # Gathering Ingredients unlocks after Secretary's Spin
 label lab_intro_18 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ lin = Person["lin_kato"]
 
     # SCENE · lab_intro_18
     # A few days later, late afternoon in the old chemistry room. The three
@@ -2689,16 +2643,12 @@ label lab_intro_18 (**kwargs):
 
     $ set_progress("lab_intro_discovery", 3)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # Brewing Session unlocks after Gathering Ingredients between Monday and Wednesday
 label lab_intro_19 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ lin = Person["lin_kato"]
 
     # SCENE · lab_intro_19
     # Early evening in the old chemistry room. The online order has arrived.
@@ -2829,16 +2779,12 @@ label lab_intro_19 (**kwargs):
 
     $ set_progress("lab_intro_discovery", 4)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # Secretary Enhancement - Friday afternoon, after the PTA Refreshments and Brewing Session
 label lab_intro_20 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ lin = Person["lin_kato"]
 
     # SCENE · lab_intro_20
     # Friday afternoon, a few hours after the PTA meeting and a few hours before
@@ -2948,28 +2894,12 @@ label lab_intro_20 (**kwargs):
 
     $ set_progress("lab_intro_discovery", 5)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # The Party - Friday night on the same day as the PTA Refreshments
 label lab_intro_21 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ lin = Person["lin_kato"]
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ aona = Person["aona_komuro"]
-    $ miwa = Person["miwa_igarashi"]
-    $ kokoro = Person["kokoro_nakamura"]
-    $ sakura = Person["sakura_mori"]
-    $ easkey = Person["easkey_tanaka"]
-    $ soyoon = Person["soyoon_yamamoto"]
-    $ hatano = Person["hatano_miwa"]
-    $ seraphina = Person["seraphina_clark"]
-    $ luna = Person["luna_clark"]
-    $ ikushi = Person["ikushi_ito"]
-    $ elsie = Person["elsie_johnson"]
-    $ yuriko = Person["yuriko_oshima"]
 
     # SCENE · lab_intro_21
     # Friday night in the old chemistry room, turned into a party: fairy lights
@@ -3223,23 +3153,12 @@ label lab_intro_21 (**kwargs):
     $ set_progress("lab_intro_discovery", 6)
     $ set_progress("school_level", 3)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # Saturday Morning after the PTA Refreshments and Party
 label lab_intro_22 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ lin = Person["lin_kato"]
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ miwa = Person["miwa_igarashi"]
-    $ kokoro = Person["kokoro_nakamura"]
-    $ sakura = Person["sakura_mori"]
-    $ easkey = Person["easkey_tanaka"]
-    $ aona = Person["aona_komuro"]
-    $ seraphina = Person["seraphina_clark"]
-    $ luna = Person["luna_clark"]
 
     # SCENE · lab_intro_22
     # Saturday morning in the dorms, the morning after the party. Nobody
@@ -3363,24 +3282,12 @@ label lab_intro_22 (**kwargs):
     gloria "Why?"
     lin "Because if we find out what happened last night, you're going to want to write it down."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # Saturday Evening after the PTA Refreshments and Party
 label lab_intro_23 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ lin = Person["lin_kato"]
-    $ gloria = Person["gloria_goto"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ soyoon = Person["soyoon_yamamoto"]
-    $ hatano = Person["hatano_miwa"]
-    $ ikushi = Person["ikushi_ito"]
-    $ seraphina = Person["seraphina_clark"]
-    $ elsie = Person["elsie_johnson"]
-    $ aona = Person["aona_komuro"]
-    $ sakura = Person["sakura_mori"]
-    $ easkey = Person["easkey_tanaka"]
 
     # SCENE · lab_intro_23
     # Saturday evening in the dorm common room. A dozen girls in pyjamas and
@@ -3523,7 +3430,7 @@ label lab_intro_23 (**kwargs):
     lin "Come on. Let's go back in. Before they wonder where we went."
     subtitles "She goes in first. Gloria stays in the dark corridor a moment longer, looking at the closed door, and then follows her."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # Sunday Mini events after the PTA Refreshments and Party
@@ -3534,9 +3441,6 @@ label lab_intro_23 (**kwargs):
 # Gym: Sunday training, shirts off, spotting
 label lab_intro_24a (**kwargs):
     $ begin_event(**kwargs)
-
-    $ aona = Person["aona_komuro"]
-    $ ikushi = Person["ikushi_ito"]
 
     # SCENE · lab_intro_24a
     # Sunday late morning, the gym. A handful of students training on their
@@ -3557,14 +3461,11 @@ label lab_intro_24a (**kwargs):
     headmaster.think "...On a Sunday. In sports bras. And nobody's rushing for a towel the second the door opens."
     headmaster.think "Last month they'd have been in baggy T-shirts down to their knees."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # School building: a Sunday study group in an empty classroom
 label lab_intro_24b (**kwargs):
     $ begin_event(**kwargs)
-
-    $ sakura = Person["sakura_mori"]
-    $ easkey = Person["easkey_tanaka"]
 
     # SCENE · lab_intro_24b
     # Sunday afternoon, an empty classroom in the school building. Sakura is
@@ -3588,15 +3489,11 @@ label lab_intro_24b (**kwargs):
 
     headmaster.think "That's Easkey Tanaka. She can't usually look me in the eye for three seconds together."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Courtyard: closeness on the grass, and Yuriko on her own
 label lab_intro_24c (**kwargs):
     $ begin_event(**kwargs)
-
-    $ lin = Person["lin_kato"]
-    $ ishimaru = Person["ishimaru_maki"]
-    $ yuriko = Person["yuriko_oshima"]
 
     # SCENE · lab_intro_24c
     # Sunday afternoon, the courtyard. Students lying around on the grass in
@@ -3625,14 +3522,11 @@ label lab_intro_24c (**kwargs):
     headmaster.think "Soft in the head. This weekend."
     headmaster.think "I dosed five teachers and three mothers. I didn't go anywhere near the students."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Dormitory: evening, pyjamas in the corridor, no hurry
 label lab_intro_24d (**kwargs):
     $ begin_event(**kwargs)
-
-    $ soyoon = Person["soyoon_yamamoto"]
-    $ hatano = Person["hatano_miwa"]
 
     # SCENE · lab_intro_24d
     # Sunday evening, the dorm corridor during the headmaster's walk-round.
@@ -3656,15 +3550,11 @@ label lab_intro_24d (**kwargs):
     headmaster.think "Soyoon Yamamoto. Who has, as far as I know, never once let anyone see her without her hair done."
     headmaster.think "...They're not doing it {i}at{/i} me. That's the strange part. They just don't seem to mind that I'm here."
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 # Cafeteria: Sunday dinner, and a word overheard
 label lab_intro_24e (**kwargs):
     $ begin_event(**kwargs)
-
-    $ adelaide = Person["adelaide_hall"]
-    $ miwa = Person["miwa_igarashi"]
-    $ kokoro = Person["kokoro_nakamura"]
 
     # SCENE · lab_intro_24e
     # Sunday dinner in the cafeteria. Adelaide Hall serving, humming, piling
@@ -3692,16 +3582,12 @@ label lab_intro_24e (**kwargs):
     headmaster.think "The party."
     headmaster.think "...What party?"
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
 
 # First Monday after the PTA Refreshments and Party
 label lab_intro_25 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ finola = Person["finola_ryan"]
-    $ lily = Person["lily_anderson"]
-    $ yuriko = Person["yuriko_oshima"]
 
     # SCENE · lab_intro_25
     # Monday morning. The headmaster walks through the school building before
@@ -3889,5 +3775,5 @@ label lab_intro_25 (**kwargs):
 
     $ set_progress("lab_intro", 14)
 
-    $ end_event("new_daytime", **kwargs)
+    $ end_event(END_NEW_DAYTIME, **kwargs)
 
