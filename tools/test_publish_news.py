@@ -85,6 +85,30 @@ class SelectPostsTest(unittest.TestCase):
         self.assertEqual(news.select_posts([]), {"news": [], "latest": []})
 
 
+class MapPostTest(unittest.TestCase):
+    def item(self, public, tiers):
+        return {"id": "1", "attributes": {"title": "Happy Spooktober", "url": "/posts/1", "published_at": "2026-10-26",
+                                          "is_public": public, "tiers": tiers}}
+
+    def test_free_only_post_counts_as_public(self):
+        mapped = news.map_post(self.item(False, [10486039]), frozenset({"10486039"}))
+        self.assertTrue(mapped["isPublic"])
+        self.assertTrue(mapped["freeOnly"])
+
+    def test_post_for_all_patrons_stays_private(self):
+        # no tiers at all means every paying patron, not the free tier
+        self.assertFalse(news.map_post(self.item(False, []), frozenset({"10486039"}))["isPublic"])
+
+    def test_post_for_free_and_paid_tiers_counts_as_public_only_if_all_are_free(self):
+        self.assertFalse(news.map_post(self.item(False, [10486039, 10070157]), frozenset({"10486039"}))["isPublic"])
+
+    def test_free_tiers_come_from_the_campaign(self):
+        body = {"included": [{"type": "tier", "id": "10486039", "attributes": {"amount_cents": 0}},
+                             {"type": "tier", "id": "10070150", "attributes": {"amount_cents": 100}}]}
+        self.assertEqual(news.fetch_free_tiers("t", lambda url, headers=None: json.dumps(body).encode()),
+                         frozenset({"10486039"}))
+
+
 class ImageSourcesTest(unittest.TestCase):
     covers = {"1": {"sharp": "https://c/sharp.jpg", "blurred": "https://c/blur.jpg"}}
 
@@ -95,6 +119,10 @@ class ImageSourcesTest(unittest.TestCase):
     def test_private_post_never_uses_the_sharp_cover_and_blurs_its_text_image(self):
         sources = news.image_sources(post("1", "x", "", public=False, text_image="https://t/a.jpg"), self.covers)
         self.assertEqual(sources, [("https://c/blur.jpg", False), ("https://t/a.jpg", True)])
+
+    def test_free_only_post_prefers_its_sharp_text_image_over_the_anonymous_cover(self):
+        target = dict(post("1", "x", "", text_image="https://t/a.jpg"), freeOnly=True)
+        self.assertEqual(news.image_sources(target, self.covers), [("https://t/a.jpg", False), ("https://c/blur.jpg", False)])
 
     def test_fallback_chain_ends_without_an_image(self):
         def failing(url, headers=None):

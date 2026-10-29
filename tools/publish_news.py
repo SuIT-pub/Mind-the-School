@@ -47,7 +47,10 @@ NEWS_DIR = "news"
 CAMPAIGN_ID = os.getenv("PATREON_CAMPAIGN_ID", "10492412")
 API_URL = "https://www.patreon.com/api/oauth2/v2/campaigns/{}/posts"
 COVER_URL = "https://www.patreon.com/api/posts"
-MAX_PAGES = 4
+# The API ignores sort= and pages oldest first, so every page is read to reach the
+# newest posts; this only guards against a pagination loop.
+MAX_PAGES = 40
+CAMPAIGN_URL = "https://www.patreon.com/api/oauth2/v2/campaigns/{}"
 COVER_COUNT = 60
 
 THUMB_SIZE = (480, 270)
@@ -113,9 +116,15 @@ def first_image_url(content, embed_data):
     return None
 
 
-def map_post(item):
-    """One API v2 post resource -> the fields the title screen needs, or None for odd URLs."""
+def map_post(item, free_tiers=frozenset()):
+    """One API v2 post resource -> the fields the title screen needs, or None for odd URLs.
+
+    A post only for free tiers counts as public: anyone can open it after following
+    for free, so it gets no "patrons only" mark and its sharp cover.
+    """
     attributes = item.get("attributes") or {}
+    tiers = {str(tier) for tier in attributes.get("tiers") or []}
+    free_only = bool(tiers) and tiers <= free_tiers
     url = _absolute_post_url(str(attributes.get("url") or ""))
     if url is None:
         return None
@@ -124,23 +133,43 @@ def map_post(item):
         "title": str(attributes.get("title") or "").strip() or "Untitled post",
         "url": url,
         "publishedAt": str(attributes.get("published_at") or ""),
-        "isPublic": attributes.get("is_public") is True,
+        "isPublic": attributes.get("is_public") is True or free_only,
+        # free-only posts are public to the game but locked for anonymous visitors
+        "freeOnly": free_only and attributes.get("is_public") is not True,
         "textImage": first_image_url(str(attributes.get("content") or ""), attributes.get("embed_data")),
     }
 
 
+def _auth(token):
+    return {"Authorization": "Bearer " + token, "User-Agent": "Mind the School news board"}
+
+
+def fetch_free_tiers(token, get=_http_get):
+    """Ids of the campaign's tiers that cost nothing."""
+    url = CAMPAIGN_URL.format(urllib.parse.quote(CAMPAIGN_ID)) + "?" + urllib.parse.urlencode({
+        "include": "tiers",
+        "fields[tier]": "title,amount_cents",
+    })
+    body = json.loads(get(url, _auth(token)))
+    return frozenset(
+        str(item.get("id")) for item in body.get("included") or []
+        if item.get("type") == "tier" and (item.get("attributes") or {}).get("amount_cents") == 0
+    )
+
+
 def fetch_posts(token, get=_http_get):
-    """All posts of the campaign (up to MAX_PAGES pages), newest first."""
+    """All posts of the campaign, newest first."""
+    free_tiers = fetch_free_tiers(token, get)
     url = API_URL.format(urllib.parse.quote(CAMPAIGN_ID)) + "?" + urllib.parse.urlencode({
-        "fields[post]": "title,content,url,published_at,is_public,embed_data,embed_url",
+        "fields[post]": "title,content,url,published_at,is_public,tiers,embed_data,embed_url",
         "page[count]": 50,
     })
-    headers = {"Authorization": "Bearer " + token, "User-Agent": "Mind the School news board"}
+    headers = _auth(token)
     posts = []
     for _ in range(MAX_PAGES):
         body = json.loads(get(url, headers))
         for item in body.get("data") or []:
-            post = map_post(item) if isinstance(item, dict) else None
+            post = map_post(item, free_tiers) if isinstance(item, dict) else None
             if post is not None:
                 posts.append(post)
         next_url = (body.get("links") or {}).get("next")
@@ -215,8 +244,20 @@ def select_posts(posts):
 
 
 def image_sources(post, covers):
-    """[(url, needs_blur)] in the order they are tried: cover first, then the text image."""
+    """[(url, needs_blur)] in the order they are tried: cover first, then the text image.
+
+    The cover endpoint is read anonymously, and for every post an anonymous visitor
+    can't open Patreon hands out a blurred cover only (its URL carries {"b":70}).
+    Free-only posts therefore try their text image first, which the creator token
+    returns sharp, and keep Patreon's blurred cover as the last resort.
+    """
     cover = covers.get(post["id"]) or {}
+    if post.get("freeOnly"):
+        sources = [(post["textImage"], False)] if post["textImage"] else []
+        if cover.get("blurred"):
+            sources.append((cover["blurred"], False))
+        return sources
+
     sources = []
     if post["isPublic"]:
         if cover.get("sharp"):
@@ -299,6 +340,8 @@ def build_news(posts, covers, get=_http_get):
             "url": post["url"],
             "publishedAt": post["publishedAt"],
             "isPublic": post["isPublic"],
+            # public to the game, but Patreon only shows it to (free) members: its cover comes blurred
+            "freeOnly": bool(post.get("freeOnly")),
             "image": image,
         }
 
