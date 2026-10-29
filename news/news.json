@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "news": [
+    {
+      "id": "172419485",
+      "title": "Private News 15.10.2026",
+      "url": "https://www.patreon.com/suitji/posts/private-news-15-172419485",
+      "publishedAt": "2026-10-15T11:07:50.000+00:00",
+      "isPublic": false,
+      "image": null
+    },
+    {
+      "id": "171027078",
+      "title": "Public News 01.10.2026",
+      "url": "https://www.patreon.com/suitji/posts/public-news-01-171027078",
+      "publishedAt": "2026-10-01T07:00:11.000+00:00",
+      "isPublic": true,
+      "image": null
+    }
+  ],
+  "latest": {
+    "id": "173442851",
+    "title": "Happy Spooktober",
+    "url": "https://www.patreon.com/suitji/posts/happy-spooktober-173442851",
+    "publishedAt": "2026-10-26T11:42:55.000+00:00",
+    "isPublic": false,
+    "image": null
+  }
+}
