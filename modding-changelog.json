@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "event-priority-end-constants-2",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Constants for event select_type (EVENT_BLOCKING/ALWAYS/RANDOM) and end_event types (END_*)",
+      "details": "`consts.rpy` now defines `EVENT_BLOCKING` (1), `EVENT_ALWAYS` (2), `EVENT_RANDOM` (3) for the first argument of `Event`, `EventComposite`, `EventFragment` and `EventSelect`, and `END_NEW_DAYTIME`, `END_NEW_DAY`, `END_MAP`, `END_NONE`, `END_CUSTOM` for `end_event(...)` (same values as the strings `\"new_daytime\"`, `\"new_day\"`, `\"map_entry\"`, `\"none\"`, `\"custom\"`). Numbers and strings keep working; the base game, the wiki and the examples use the constants now. `end_event(\"map_overview\")` was never a known type (it fell back to the map): use `END_MAP`.",
+      "wiki": "Events"
+    },
+    {
       "id": "gallery-version-docs",
       "date": "2026-10-29",
       "version": "0.2.2",
@@ -35,15 +44,6 @@
       "title": "Bumping an event's gallery version resets only that event",
       "details": "A version change used to wipe more than the event: in the \"Locations\" view every other event of its location, in the category view the whole category (or raise a KeyError). `reset_gallery(location, event)` now resets just the event whenever `event` is given (new `reset_gallery_event(event)`); the group reset is only used by the journal buttons.",
       "wiki": "Events#when-to-bump-the-version"
-    },
-    {
-      "id": "event-priority-end-constants",
-      "date": "2026-10-29",
-      "version": "0.2.2",
-      "type": "added",
-      "title": "Constants for event priority (EVENT_BLOCKING/ALWAYS/RANDOM) and end_event types (END_*)",
-      "details": "`consts.rpy` now defines `EVENT_BLOCKING` (1), `EVENT_ALWAYS` (2), `EVENT_RANDOM` (3) for the first argument of `Event`, `EventComposite`, `EventFragment` and `EventSelect`, and `END_NEW_DAYTIME`, `END_NEW_DAY`, `END_MAP`, `END_NONE`, `END_CUSTOM` for `end_event(...)` (same values as the strings `\"new_daytime\"`, `\"new_day\"`, `\"map_entry\"`, `\"none\"`, `\"custom\"`). Numbers and strings keep working; the base game, the wiki and the examples use the constants now. `end_event(\"map_overview\")` was never a known type (it fell back to the map): use `END_MAP`.",
-      "wiki": "Events"
     },
     {
       "id": "get-stat-value-replay-read",
