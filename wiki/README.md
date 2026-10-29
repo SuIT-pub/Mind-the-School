@@ -41,7 +41,14 @@ documents.
 
 ## Publishing
 
-`sync-wiki.ps1` (PowerShell, the repo's primary shell) publishes the folder. A
+Pushing a change under `wiki/` publishes it: the **Publish wiki** action
+(`.github/workflows/publish-wiki.yml`) runs `sync-wiki.ps1` on GitHub. It only
+publishes when the pushed commit contains the last published one (the `@ <sha>` at
+the end of every sync commit in the wiki), so pushing an older or side branch never
+rolls the wiki back. To publish such a branch anyway, start the action by hand
+(*Actions → Publish wiki → Run workflow*, pick the branch).
+
+By hand, `sync-wiki.ps1` (PowerShell, the repo's primary shell) publishes the folder. A
 `sync-wiki.bat` wrapper sits next to it so you can **double-click it in the IDE /
 Explorer**; it runs the `.ps1` and pauses so you can read the output.
 

@@ -1,0 +1,70 @@
+name: Publish wiki
+
+# Mirrors wiki/ into the GitHub Wiki with wiki/scripts/sync-wiki.ps1, the same
+# script used by hand. Every sync commit in the wiki ends in "@ <sha>" of the
+# source commit; a push only publishes when it contains that commit, so an
+# older or side branch never rolls the wiki back. Started by hand, it always
+# publishes the chosen branch.
+
+on:
+  push:
+    branches-ignore:
+      - devstatus
+    paths:
+      - wiki/**
+      - .github/workflows/publish-wiki.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-wiki
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # the whole history, to tell whether the last published commit is part of this one
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check that this push is newer than the published wiki
+        id: guard
+        env:
+          WIKI_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          subject=$(git clone -q --depth 1 "$WIKI_URL" /tmp/wiki-head 2>/dev/null && git -C /tmp/wiki-head log -1 --format=%s || true)
+          published=$(printf '%s' "$subject" | sed -n 's/.*@ \([0-9a-f]\{7,40\}\)$/\1/p')
+          echo "Last wiki sync: ${subject:-none}"
+          if [ -z "$published" ] || ! git cat-file -e "${published}^{commit}" 2>/dev/null; then
+            echo "No known source commit in the wiki, publishing."
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          elif git merge-base --is-ancestor "$published" HEAD; then
+            echo "This push contains the published $published, publishing."
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Skipped: ${GITHUB_REF_NAME} does not contain the published wiki state ($published). Run the workflow by hand to publish it anyway."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sync wiki
+        if: steps.guard.outputs.publish == 'true'
+        shell: pwsh
+        env:
+          WIKI_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ./wiki/scripts/sync-wiki.ps1 -WikiUrl $env:WIKI_URL

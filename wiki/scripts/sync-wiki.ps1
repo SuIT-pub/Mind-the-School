@@ -22,11 +22,18 @@
 
 .PARAMETER Message
     Commit message. Defaults to "Sync wiki from main repo @ <short-sha>".
+    The publish-wiki action reads that sha back, so keep it in custom messages
+    when you want the action's "newer state only" check to see this sync.
+
+.PARAMETER WikiUrl
+    Wiki remote to push to. Defaults to the one derived from origin; the
+    publish-wiki action passes a URL with its token here.
 #>
 
 [CmdletBinding()]
 param(
-    [string]$Message
+    [string]$Message,
+    [string]$WikiUrl
 )
 
 $ErrorActionPreference = 'Stop'
@@ -35,15 +42,18 @@ $wikiDir  = Split-Path -Parent $PSScriptRoot
 $repoRoot = Split-Path -Parent $wikiDir
 $cloneDir = Join-Path $wikiDir '.wiki-repo'
 
-# 1. Derive the wiki remote URL from origin.
-$origin = (git -C $repoRoot remote get-url origin).Trim()
-if ([string]::IsNullOrWhiteSpace($origin)) { throw "Could not read 'origin' remote URL." }
-if ($origin -match '\.git$') {
-    $wikiUrl = $origin -replace '\.git$', '.wiki.git'
-} else {
-    $wikiUrl = "$origin.wiki.git"
+# 1. Derive the wiki remote URL from origin (unless one was passed in).
+if ([string]::IsNullOrWhiteSpace($WikiUrl)) {
+    $origin = (git -C $repoRoot remote get-url origin).Trim()
+    if ([string]::IsNullOrWhiteSpace($origin)) { throw "Could not read 'origin' remote URL." }
+    if ($origin -match '\.git$') {
+        $WikiUrl = $origin -replace '\.git$', '.wiki.git'
+    } else {
+        $WikiUrl = "$origin.wiki.git"
+    }
+    Write-Host "Wiki remote: $WikiUrl"
 }
-Write-Host "Wiki remote: $wikiUrl"
+$wikiUrl = $WikiUrl
 
 # 2. Clone or update the wiki repo.
 if (Test-Path -LiteralPath (Join-Path $cloneDir '.git')) {
