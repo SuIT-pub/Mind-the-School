@@ -13,7 +13,8 @@ It also draws the runtime lettering kit (doodles/glyphs/: every character in a f
 variants + metrics.json) and pointing arrows (doodles/arrows/), both in white so
 Ren'Py can tint them; journal_doodles.rpy composes pencil notes from them.
 
-Run:  python tools/journal_assets/build_doodles.py
+Run:  python tools/journal_assets/build_doodles.py          (everything)
+      python tools/journal_assets/build_doodles.py hints    (only the title-screen hints)
 """
 import json
 import math
@@ -400,6 +401,57 @@ def arrows():
             save_webp(img.crop(img.getbbox()), OUT / "arrows" / f"{name}_{v}.webp", lossless=True)
 
 
+def hint_scroll(font, seed):
+    """Title-screen hint: a mouse with its wheel and up/down arrows, "scroll" below."""
+    s = Sheet(110, 104, seed)
+    # body: a rounded capsule, the button seam and the wheel
+    cx, top, bottom, half = 40, 8, 66, 17
+    outline = [(cx + math.sin(t) * half, top + half - math.cos(t) * half) for t in np.linspace(-math.pi / 2, math.pi / 2, 14)]
+    outline += [(cx + half, bottom - half + math.sin(t) * half * 0.2) for t in np.linspace(0, 0.1, 2)]
+    outline += [(cx + math.cos(t) * half, bottom - half + math.sin(t) * half) for t in np.linspace(0, math.pi, 16)]
+    outline += [(cx - half, top + half)]
+    outline += [(cx + math.sin(t) * half, top + half - math.cos(t) * half) for t in np.linspace(-math.pi / 2, -math.pi / 2 + 0.2, 2)]
+    s.stroke(outline, 1.6)
+    s.stroke([(cx, top + 1), (cx, top + 21)], 1.2, alpha=170)
+    s.stroke([(cx - half + 2, top + 22), (cx + half - 2, top + 22)], 1.2, alpha=170)
+    s.stroke([(cx, top + 9), (cx, top + 15)], 3.2, RED_PENCIL)
+    # up and down arrows right of the mouse
+    ax = 74
+    for y0, y1, tip in ((30, 12, -1), (44, 62, 1)):
+        s.stroke([(ax, y0), (ax, y1)], 1.5, RED_PENCIL)
+        s.stroke([(ax - 6, y1 - tip * 7), (ax, y1), (ax + 6, y1 - tip * 7)], 1.5, RED_PENCIL)
+    s.write(font, "scroll", 10, 78, 17, loose=0.8)
+    s.save("hint_scroll", -3)
+
+
+def hint_swipe(font, seed):
+    """Title-screen hint: a raised index finger (a long upturned U with a nail),
+    a double arrow at the fingertip, "swipe" below."""
+    s = Sheet(116, 116, seed)
+    left, right, tip, base = 51, 65, 30, 84
+    s.stroke([(left, base), (left, tip + 7)]
+             + [(58 + math.cos(t) * 7, tip + 7 - math.sin(t) * 7) for t in np.linspace(math.pi, 0, 12)]
+             + [(right, tip + 7), (right, base)], 1.6)
+    # nail: a rounded shield just below the tip
+    s.stroke([(54, tip + 15)] + [(58 + math.cos(t) * 4, tip + 9 - math.sin(t) * 4) for t in np.linspace(math.pi, 0, 8)]
+             + [(62, tip + 15), (54, tip + 15)], 1.1, alpha=170)
+    # one knuckle crease
+    s.stroke([(left + 3, tip + 32), (right - 3, tip + 31)], 1.0, alpha=130)
+    # double arrow across the fingertip
+    y = 18
+    s.stroke([(14, y), (102, y)], 1.5, RED_PENCIL)
+    for xa, sign in ((14, -1), (102, 1)):
+        s.stroke([(xa - sign * 7, y - 6), (xa, y), (xa - sign * 7, y + 6)], 1.5, RED_PENCIL)
+    s.write(font, "swipe", 22, 96, 17, loose=0.8)
+    s.save("hint_swipe", 3)
+
+
+def build_hints():
+    font = load_jhf(HERSHEY_SIMPLEX)
+    hint_scroll(font, 40)
+    hint_swipe(font, 41)
+
+
 def build():
     font = load_jhf(HERSHEY_SIMPLEX)
     glyphs(font)
@@ -431,4 +483,9 @@ def build():
 
 if __name__ == "__main__":
     ensure_sources()
-    build()
+    # "hints" redraws only the title-screen hints, the other doodles stay as they are
+    if sys.argv[1:] == ["hints"]:
+        build_hints()
+    else:
+        build()
+        build_hints()

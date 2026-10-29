@@ -40,11 +40,42 @@ init -10 python:
             # the stacks are used screens, and SetScreenVariable would only reach main_menu.
             self.front = {"news": 0, "latest": 0}
             self.swaps = {"news": 0, "latest": 0}
+            # how far the card going back swings out; None = the stack's own direction
+            self.back_swing = {"news": None, "latest": None}
+            # the stack under the mouse, for the scroll wheel
+            self.hover = None
             self.note_state = "still"
+            # kept across screen updates: a new one would forget a swipe in progress
+            self.swipe_areas = {key: NewsSwipeArea(key) for key in self.stacks}
 
-        def swap(self, key: str, index: int):
+        def swap(self, key: str, index: int, back_swing: int = None):
             self.front[key] = index
             self.swaps[key] += 1
+            self.back_swing[key] = back_swing
+
+        def flip(self, key: str, back_swing: int = None):
+            """
+            Brings the next card of a stack to the front.
+            """
+
+            posts = self.stacks.get(key) or []
+            if len(posts) > 1:
+                self.swap(key, (min(self.front[key], len(posts) - 1) + 1) % len(posts), back_swing)
+
+        def set_hover(self, key: str):
+            self.hover = key
+
+        def clear_hover(self, key: str):
+            if self.hover == key:
+                self.hover = None
+
+        def scroll(self):
+            if self.hover:
+                self.flip(self.hover)
+
+        def swipe(self, key: str, distance: float):
+            # the front card leaves the way the finger went
+            self.flip(key, 150 if distance > 0 else -150)
 
         def pull_note_off(self):
             self.note_state = "falling"
@@ -56,6 +87,46 @@ init -10 python:
         def stick_note_back(self):
             persistent.news_note_dismissed = None
             self.note_state = "restuck"
+
+    class NewsSwipeArea(renpy.Displayable):
+        """
+        An invisible area over a polaroid stack that turns a sideways drag (a
+        swipe on touch screens, a drag with the mouse) into a flip. A tap stays
+        a tap: only a real swipe swallows the release, so the card under it
+        doesn't open its post as well.
+        """
+
+        THRESHOLD = 60
+
+        def __init__(self, key: str, **kwargs):
+            super(NewsSwipeArea, self).__init__(**kwargs)
+            self.key = key
+            self.size = (0, 0)
+            self.start = None
+            self.swiping = False
+
+        def render(self, width, height, st, at):
+            return renpy.Render(*self.size)
+
+        def event(self, ev, x, y, st):
+            import pygame_sdl2 as pygame
+
+            if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+                inside = 0 <= x < self.size[0] and 0 <= y < self.size[1]
+                self.start = (x, y) if inside else None
+                self.swiping = False
+            elif ev.type == pygame.MOUSEMOTION and self.start is not None:
+                dx, dy = x - self.start[0], y - self.start[1]
+                if abs(dx) > self.THRESHOLD and abs(dx) > abs(dy) * 1.5:
+                    self.swiping = True
+            elif ev.type == pygame.MOUSEBUTTONUP and ev.button == 1 and self.start is not None:
+                distance, swiping = x - self.start[0], self.swiping
+                self.start, self.swiping = None, False
+                if swiping:
+                    news_board.swipe(self.key, distance)
+                    renpy.restart_interaction()
+                    raise renpy.IgnoreEvent()
+            return None
 
     news_board = NewsBoard()
 
@@ -207,6 +278,7 @@ screen news_polaroid_stack(key, front_pos, back_pos, swing):
     # a refreshed board may hold fewer posts than the one the player swapped through
     $ front = min(news_board.front[key], len(posts) - 1)
     $ swaps = news_board.swaps[key]
+    $ going_back = -swing if news_board.back_swing[key] is None else news_board.back_swing[key]
 
     $ order = [i for i in range(len(posts)) if i != front] + [front]
     for index in order:
@@ -225,11 +297,19 @@ screen news_polaroid_stack(key, front_pos, back_pos, swing):
             else:
                 tooltip ("Show the public post" if post.get("isPublic") else "Show the patrons' post")
                 action Function(news_board.swap, key, index)
+            hovered Function(news_board.set_hover, key)
+            unhovered Function(news_board.clear_hover, key)
             if swaps == 0:
                 at news_card_at(x, y, angle)
             else:
-                at news_card_swap(x, y, angle, fx, fy, fangle, swing if is_front else -swing, swaps)
+                at news_card_swap(x, y, angle, fx, fy, fangle, -going_back if is_front else going_back, swaps)
             add news_polaroid(post)
+
+    # on top of the cards, so a swipe is seen before the card's button takes the release
+    if len(posts) > 1:
+        $ area = news_board.swipe_areas[key]
+        $ area.size = (abs(front_pos[0] - back_pos[0]) + 340, abs(front_pos[1] - back_pos[1]) + 280)
+        add area pos (min(front_pos[0], back_pos[0]) - 170, max(0, min(front_pos[1], back_pos[1]) - 140))
 
 screen news_board():
     # """
@@ -243,6 +323,25 @@ screen news_board():
         use news_polaroid_stack("latest", (1050, 150, 2.5), (1030, 140, -5.0), -150)
     if news_board.stacks["news"]:
         use news_polaroid_stack("news", (1370, 140, -2.0), (1390, 152, 4.5), 150)
+
+    # the wheel flips the stack under the mouse
+    key "mousedown_4" action Function(news_board.scroll)
+    key "mousedown_5" action Function(news_board.scroll)
+
+    # ---- how to flip, pencilled on a scrap left of the leftmost stack
+    if any(len(posts) > 1 for posts in news_board.stacks.values()):
+        $ hint_right = 865 if news_board.stacks["latest"] else 1185
+        frame:
+            pos (hint_right, 34)
+            xanchor 1.0
+            background Frame("gui/journal/ui/foldout_panel.webp", 12, 12)
+            padding (12, 14, 12, 10)
+            at Transform(rotate = -3, rotate_pad = False)
+            vbox:
+                spacing 8
+                if not renpy.variant("touch"):
+                    add Transform("gui/journal/doodles/hint_scroll.webp", zoom = 0.8) xalign 0.5
+                add Transform("gui/journal/doodles/hint_swipe.webp", zoom = 0.8) xalign 0.5
 
     # ---- the developer's note, taped to the plaque
     $ note_up = news_board.message and persistent.news_note_dismissed != news_board.message_hash
