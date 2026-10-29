@@ -409,14 +409,29 @@ getters** so they are recorded for replay:
 |--------|---------|
 | `get_value(key, alt=None, **kwargs)` | the rolled selector value (and registers it for replay) |
 | `get_value_ng(key, alt=None, **kwargs)` | same, **without** registering (transient) |
-| `get_stat_value(key, ranges, alt=100, **kwargs)` | a stat-selector value normalized into `ranges` |
+| `get_stat_value(key, ranges=None, alt=100, **kwargs)` | the raw stat-selector value; the gallery files it under the highest boundary of `ranges` it reaches (0 below the lowest), so the replay offers one option per block. Leave `ranges` out to use the `StatSelector`'s own range |
 | `get_level(key, **kwargs)` | a character's level (replay-safe) |
 | `get_kwargs(key, alt, **kwargs)` | a raw kwarg (not a selector value) |
 
 ```python
 $ topic  = get_value("topic", **kwargs)
-$ level  = get_stat_value("corr", [0, 40, 70, 100], **kwargs)
+$ corr   = get_stat_value("corr", **kwargs)     # range from StatSelector("corr", ..., [40, 70])
+if corr >= 70:
+    ...
+elif corr >= 40:
+    ...
 ```
+
+The range lists **the thresholds your branches use**, and the branches compare with
+`>=` against exactly those values. The scene keeps the raw value (stat changes and
+modifiers need it), the replay gets the block value: a live 75 and 70 both replay as
+70, a live 39 replays as 0, and `corr >= 70` / `corr >= 40` pick the same path either
+way. A branch on a value that isn't a boundary (`corr > 70`, `corr >= 65`) can take a
+different path in the replay.
+
+Write a stat's range **once**, on its `StatSelector`. Pass `ranges` to `get_stat_value`
+only for a value that has no `StatSelector` (e.g. a progress value); an explicit
+`ranges` wins over the selector's.
 
 Prefer `get_value` over reaching into `kwargs["values"]` directly — the registration is
 what makes the scene replayable. `<key>` placeholders in image paths are filled from
@@ -959,7 +974,7 @@ init 1 python:
 `label <event>(**kwargs):` → `$ begin_event(**kwargs)` … `$ end_event("new_daytime", **kwargs)`.
 
 ### Value getters
-`get_value(key, alt, **kwargs)` · `get_value_ng(...)` · `get_stat_value(key, ranges, alt, **kwargs)` ·
+`get_value(key, alt, **kwargs)` · `get_value_ng(...)` · `get_stat_value(key, ranges=None, alt, **kwargs)` ·
 `get_level(key, **kwargs)` · `get_kwargs(key, alt, **kwargs)`.
 
 ### Images / video

@@ -20,7 +20,7 @@ the event can read:
 SelectorSet(
     CharacterSelector("char"),                      # pick the acting character → kwargs["char"]
     RandomValueSelector("variant", 1, 4),           # random 1..4 → kwargs["variant"]
-    StatSelector("corr", CORRUPTION, "char", [0, 100]),  # a stat reading (+ "corr_range")
+    StatSelector("corr", CORRUPTION, "char", [0, 100]),  # a stat reading; the range buckets it for the gallery
 )
 ```
 
@@ -92,8 +92,10 @@ selectors into kwargs:
 Two selectors are merged specially:
 
 - **`KwargsSelector`** contributes **multiple** keys at once (not one `key: value`).
-- **`StatSelector`** contributes both `key` and `key + "_range"` (so downstream can
-  scale against the stat's range).
+- **`StatSelector`** contributes only `key`. Its `stat_range` is **not** in
+  `kwargs["values"]` (every value there is registered for the gallery and has to be
+  hashable); `get_stat_value(key, **kwargs)` reads the range straight from the running
+  event's selector, so the scene label doesn't repeat it.
 
 ---
 
@@ -144,7 +146,7 @@ hard-coding the link.
 
 | Constructor | Produces |
 |-------------|----------|
-| `StatSelector(key, stat, char, stat_range, realtime=True, *options)` | a character's stat value (+ `key_range`); `stat`/`char` may be selectors |
+| `StatSelector(key, stat, char, stat_range, realtime=True, *options)` | a character's stat value; `stat_range` buckets it for the gallery (read by `get_stat_value`); `stat`/`char` may be selectors |
 | `LevelSelector(key, char, *options)` | a character's level (`"school"` → campus climate; see [School Levels](School-Levels)) |
 | `CharacterSelector(key, char='school', *options)` | resolve a character reference |
 | `TimeSelector(key, time_type, *options)` | a time component (`day`/`daytime`/…) |
@@ -204,7 +206,7 @@ Once a selector has put `key: value` into the kwargs:
 
 - **Image paths** substitute `<key>` — `refine_image` / `get_image` replace every
   `<key>` with its kwarg value (this is how variants, characters and levels select
-  the right art). `StatSelector`'s `key_range` is available for range-based art.
+  the right art).
 - **Dialogue** uses Ren'Py interpolation — `"[key]"`.
 - **Conditions/effects** that accept `Union[..., Selector]` (e.g. `NumValueCondition`,
   `CompareCondition`, `NumClampSelector`) can be handed a selector directly, or read
@@ -225,8 +227,8 @@ logic consistently within the event.
 - **Nest instead of duplicating.** "Read the selected character's stat" = pass the
   character selector into the stat selector, don't roll the character twice.
 - **Prefer `UnlockableCondition`/GameData** over the legacy rule/club selectors.
-- **`StatSelector` gives you a range too** (`key_range`) — use it for range-scaled
-  art rather than hard-coding bounds.
+- **Write a stat's range once, on its `StatSelector`** — `get_stat_value(key, **kwargs)`
+  picks it up; don't repeat it in the label.
 
 ---
 
@@ -237,7 +239,7 @@ logic consistently within the event.
 | Image/text shows a literal `<key>` / `[key]` | The selector isn't in the event's `SelectorSet`, or the key differs | Add the selector; match the key exactly. |
 | Value changes mid-scene unexpectedly | The selector is `realtime` (re-rolls each access) | Set `realtime=False` to freeze it for the scene. |
 | Same value every time you wanted variety | Cached and never re-rolled across the boundary | Use realtime, or rely on the reroll between parenting/fragments. |
-| `StatSelector` "_range" missing | Reading the wrong key | It's `key + "_range"`; the `SelectorSet` adds it automatically. |
+| `get_stat_value` ignores the range | the event has no `StatSelector` with that key | add one, or pass `ranges` explicitly (e.g. for a progress value) |
 | Nested selector returns a `Selector` object | It wasn't rolled | Use the built-in nesting (list/target accepts `Selector`) so it rolls recursively; don't stuff a raw selector where a value is expected. |
 
 ---
@@ -250,7 +252,7 @@ if realtime/uncached) · `update` (force re-roll) · `get_name` = key.
 
 ### SelectorSet
 `SelectorSet(*selectors)` · `get_values(**kwargs)` → kwargs dict · `roll_values` ·
-`add_selector`. Special: `KwargsSelector` (many keys), `StatSelector` (+`_range`).
+`add_selector`. Special: `KwargsSelector` (many keys), `StatSelector` (range read by `get_stat_value`).
 
 ### Downstream substitution
 Image paths: `<key>` (via `refine_image`/`get_image`) · Text: `[key]` (Ren'Py) ·

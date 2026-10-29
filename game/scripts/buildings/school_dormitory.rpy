@@ -135,12 +135,12 @@ label sd_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
-    $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
-    $ education = get_stat_value('education', [50, 100], **kwargs)
+    $ inhibition = get_stat_value('inhibition', **kwargs)
+    $ education = get_stat_value('education', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
-    if education > 50:
+    if education >= 50:
         $ image.show(0)
         easkey "Umm, hello!"
         $ image.show(1)

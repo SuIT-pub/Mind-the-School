@@ -288,12 +288,17 @@ init python:
 
         gallery_manager.already_registered_values.append(key)
 
+        # The replay offers one option per block of the range: a value is filed under
+        # the highest boundary it reaches (0 below the lowest). The scene itself keeps
+        # the raw value, so a branch like `if x >= 90` with 90 in the range takes the
+        # same path live and in the replay. Filing under the next-higher boundary, as
+        # before, put a live 19 under 20 and flipped a `>= 20` branch in the replay.
         if key in gallery_manager.current_ranges.keys() and is_float(value):
-            closest_value = 100
-            for val in gallery_manager.current_ranges[key]:
-                if val > value and val < closest_value:
-                    closest_value = val
-            value = closest_value
+            block = 0
+            for boundary in gallery_manager.current_ranges[key]:
+                if value >= boundary and boundary > block:
+                    block = boundary
+            value = block
 
         if value not in gallery_manager.data.keys():
             gallery_manager.data[value] = {}
@@ -379,18 +384,36 @@ init python:
     # region Stat Value Gallery Handler #
     #####################################
 
-    def set_stat_value(key: str, value: float, ranges: List[float], **kwargs) -> float:
+    def _register_stat_ranges(key: str, ranges: List[float], **kwargs):
+        # An explicit ranges argument wins; without one the running event's
+        # StatSelector for `key` supplies its range, so it isn't written twice.
+        # Read from the selector itself: a list in kwargs["values"] would be
+        # registered as an (unhashable) gallery value by the image refiner.
+        if ranges is None:
+            event_obj = kwargs.get("event_obj")
+            selectors = getattr(event_obj, "values", None)
+            if selectors is not None:
+                for selector in selectors.find_by_type("stat"):
+                    if selector.get_name() == key:
+                        ranges = selector._range
+                        break
+        if ranges:
+            gallery_manager.current_ranges[key] = ranges
+
+    def set_stat_value(key: str, value: float, ranges: List[float] = None, **kwargs) -> float:
         """
         Sets a value normalized to set values in the gallery database.
-        Values get changed to the next higher value in the ranges.
+        The gallery files the value under the highest range boundary it reaches
+        (0 below the lowest); the returned value stays raw.
 
         ### Parameters:
         1. key: str
             - The key to set the value under.
         2. value: float
             - The value to set.
-        3. ranges: List[float]
+        3. ranges: List[float] (default None)
             - The ranges to normalize the value.
+            - None takes the range of the event's StatSelector for `key`.
 
         ### Returns:
         1. float:
@@ -402,11 +425,11 @@ init python:
         if gallery_manager == None:
 
             if "values" not in kwargs.keys():
-                return alt
+                return value
 
-            return get_kwargs(key, alt, **kwargs["values"])
+            return get_kwargs(key, value, **kwargs["values"])
 
-        gallery_manager.current_ranges[key] = get_value_ng(key + "_range", ranges, **kwargs)
+        _register_stat_ranges(key, ranges, **kwargs)
 
         return set_value(key, value, **kwargs)
 
@@ -416,16 +439,18 @@ init python:
         return get_value(key, alt, **kwargs)
 
 
-    def get_stat_value(key: str, ranges: List[float], alt: float = 100, **kwargs) -> float:
+    def get_stat_value(key: str, ranges: List[float] = None, alt: float = 100, **kwargs) -> float:
         """
         Gets a value normalized to set values in the gallery database.
-        Values get changed to the next higher value in the ranges.
+        The gallery files the value under the highest range boundary it reaches
+        (0 below the lowest); the returned value stays raw.
 
         ### Parameters:
         1. key: str
             - The key to get the value from.
-        2. ranges: List[float]
+        2. ranges: List[float] (default None)
             - The ranges to normalize the value.
+            - None takes the range of the event's StatSelector for `key`.
         3. alt: float (default: 100)
             - The value to return if the key is not found.
 
@@ -436,25 +461,11 @@ init python:
         
         global gallery_manager
 
-        if gallery_manager == None:
-
-            if is_replay(**kwargs):
-                event_name = get_gallery_name_from_kwargs(**kwargs)
-                if event_name == None:
-                    return alt
-                event_obj = get_gallery_event(event_name)
-                if event_obj == None:
-                    return alt
-                if event_obj.get_form() == 'fragment':
-                    new_key = event_obj.get_gallery_name() + '.' + key
-                                
-                    if "values" not in kwargs.keys():
-                        return alt
-                    return get_kwargs(new_key, get_kwargs(key, alt, **kwargs["values"]), **kwargs["values"])
-        
-            return get_kwargs(key, alt, **kwargs)
-
-        gallery_manager.current_ranges[key] = get_value_ng(key + "_range", ranges, **kwargs)
+        # Only a live run files the value; the replay and no_gallery events just read
+        # it. get_value reads kwargs["values"] (where the replay puts the chosen
+        # block), where this used to read the top-level kwargs and got `alt` every time.
+        if gallery_manager is not None:
+            _register_stat_ranges(key, ranges, **kwargs)
 
         return get_value(key, alt, **kwargs)
 

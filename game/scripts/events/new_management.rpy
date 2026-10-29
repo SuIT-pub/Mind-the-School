@@ -276,7 +276,7 @@ label nm_ghost_office_nameplate (**kwargs):
 
     # Stat-gated choice: a warmer, better option only unlocks once you've got some charm.
     # Read through the gallery getter so the value replays correctly (Events guide §8/§16).
-    $ high_charm = get_stat_value("charm", [20, 100], **kwargs) >= 20
+    $ high_charm = get_stat_value("charm", **kwargs) >= 20
 
     $ emiko.display(PDAImage(mouth = "closed"), PDAMove(alignX = -0.2, duration = 1.0))
     $ call_custom_menu_with_text("What do you do with the nameplate?", character.subtitles, False,
@@ -646,7 +646,7 @@ label nm_ghost_office_empty_corridor (**kwargs):
 
     # Gated choice: a genuinely informed note lands harder — but only if you can give one.
     # Read through the gallery getter so the value replays correctly (Events guide §8/§16).
-    $ can_talk_shop = get_stat_value("education", [20, 100], **kwargs) >= 20
+    $ can_talk_shop = get_stat_value("education", **kwargs) >= 20
     $ shop_title = "Weigh in on " + folder_topic
 
     $ call_custom_menu_with_text("Yulan kept walking.", character.subtitles, False,
@@ -1139,7 +1139,7 @@ label nm_testing_the_waters_clipboard (**kwargs):
     $ yuriko.display(PDAImage(pose = "34", mouth = "closed"))
     headmaster.think "Whatever I say here, every year group's going to be quoting back at me by lunch."
 
-    $ high_charm = get_stat_value("charm", [20, 100], **kwargs) >= 20
+    $ high_charm = get_stat_value("charm", **kwargs) >= 20
 
     # Pen poised — the frame presses in while he decides.
     $ yuriko.display(PDAImage(pose = "12"), PDAPreset("upper_body_center", duration = 1.5))
