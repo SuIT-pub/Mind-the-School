@@ -165,11 +165,11 @@ init -3 python:
         2. fallback: :class:`Event`
             - The fallback event that is called when no other events are available.
         3. events: Dict[int, Dict[str, :class:`Event`]]
-            - The events that are stored in the EventStorage. The events are stored in a dictionary with the priority as the key and the dictionary as a value.
+            - The events that are stored in the EventStorage. The events are stored in a dictionary with the select type as the key and the dictionary as a value.
             - The event Dictionary is a dictionary with the event id as the key and the event as the value.
-            - Priority 1 represents an event that is called first and blocks all other events.
-            - Priority 2 represents an Event that is called together with all other events with priority 2 and then moves on to priority 3.
-            - Priority 3 represents a set of events from which one is called randomly.
+            - Select type 1 represents an event that is called first and blocks all other events.
+            - Select type 2 represents an Event that is called together with all other events of select type 2 and then moves on to select type 3.
+            - Select type 3 represents a set of events from which one is called randomly.
         4. fallback_text: str
             - The text that is displayed when the fallback event is called.
 
@@ -182,28 +182,28 @@ init -3 python:
             - Adds an event to the EventStorage.
         4. :func:`remove_event(event_id: str)`
             - Removes an event from the EventStorage.
-        5. :func:`count_available_events(priority: int = 0, **kwargs) -> int`
+        5. :func:`count_available_events(select_type: int = 0, **kwargs) -> int`
             - Counts the number of events that are available.
-            - If priority is 0, all events are counted.
-            - Otherwise only the events with the given priority are counted.
-        6. :func:`count_available_events_with_fallback(priority: int = 0, **kwargs) -> int`
+            - If select_type is 0, all events are counted.
+            - Otherwise only the events with the given select type are counted.
+        6. :func:`count_available_events_with_fallback(select_type: int = 0, **kwargs) -> int`
             - Counts the number of events that are available.
-            - If priority is 0, all events are counted.
-            - Otherwise only the events with the given priority are counted.
+            - If select_type is 0, all events are counted.
+            - Otherwise only the events with the given select type are counted.
             - If no events are available, 1 is returned.
-        7. :func:`get_available_events(priority: int = 0, **kwargs) -> List[:class:`Event`]`
+        7. :func:`get_available_events(select_type: int = 0, **kwargs) -> List[:class:`Event`]`
             - Returns a list of all available events.
-            - If priority is 0, all events are returned.
-            - Otherwise only the events with the given priority are returned.
-        8. :func:`get_available_events_with_fallback(priority: int = 0, **kwargs) -> List[:class:`Event`]`
+            - If select_type is 0, all events are returned.
+            - Otherwise only the events with the given select type are returned.
+        8. :func:`get_available_events_with_fallback(select_type: int = 0, **kwargs) -> List[:class:`Event`]`
             - Returns a list of all available events.
-            - If priority is 0, all events are returned.
-            - Otherwise only the events with the given priority are returned.
+            - If select_type is 0, all events are returned.
+            - Otherwise only the events with the given select type are returned.
             - If no events are available, the fallback event is returned.
-        9. :func:`call_available_event(priority: int = 0, **kwargs)`
-            - Calls all available events depending on the priority.
-            - If priority is 0, all events are called.
-            - Otherwise only the events with the given priority are called.
+        9. :func:`call_available_event(select_type: int = 0, **kwargs)`
+            - Calls all available events depending on the select type.
+            - If select_type is 0, all events are called.
+            - Otherwise only the events with the given select type are called.
         10. :func:`check_all_events()`
             - Checks if all events are created correctly.
         """
@@ -339,7 +339,7 @@ init -3 python:
         def add_event(self, *events: Event):
             """
             Adds an event to the :class:`EventStorage`.
-            The event gets sorted automatically into the correct priority.
+            The event gets sorted automatically under its select type.
 
             ### Parameters:
             1. *events: :class:`Event`
@@ -363,7 +363,7 @@ init -3 python:
             """
             Adds an event to the :class:`EventStorage`.
             Overwrites the event if it already exists.
-            The event gets sorted automatically into the correct priority.
+            The event gets sorted automatically under its select type.
 
             ### Parameters:
             1. *events: :class:`Event`
@@ -392,7 +392,7 @@ init -3 python:
             Removes an event from the :class:`EventStorage`.
             """
 
-            # an event sits under one priority only; a plain del on all three
+            # an event sits under one select type only; a plain del on all three
             # raised a KeyError for the other two
             for events in self.events.values():
                 events.pop(event_id, None)
@@ -402,61 +402,61 @@ init -3 python:
         ##############
         # Event getter
 
-        def get_events(self, priority: int = 0) -> List[Event]:
+        def get_events(self, select_type: int = 0) -> List[Event]:
             """
             Returns a list of all events.
-            If priority is 0, all events are returned.
-            Otherwise only the events with the given priority are returned.
+            If select_type is 0, all events are returned.
+            Otherwise only the events with the given select type are returned.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are returned.
-                - If priority is 0, all events are returned.
+            1. select_type: int (Default 0)
+                - The select type of the events that are returned.
+                - If select_type is 0, all events are returned.
 
             ### Returns:
             1. List[:class:`Event`]
                 - A list of all events.
-                - If priority is 1 all events with priority 1 are returned.
-                - If priority is 2 all events with priority 2 are returned.
-                - If priority is 3 all events with priority 3 are returned.
+                - If select_type is 1 all events of select type 1 are returned.
+                - If select_type is 2 all events of select type 2 are returned.
+                - If select_type is 3 all events of select type 3 are returned.
             """
 
-            if priority == 1:
+            if select_type == 1:
                 return list(self.events[1].values())
-            if priority == 2:
+            if select_type == 2:
                 return list(self.events[2].values())
-            if priority == 3:
+            if select_type == 3:
                 return list(self.events[3].values())
             return list(self.events[1].values()) + list(self.events[2].values()) + list(self.events[3].values())
 
-        def get_event_count(self, priority: int = 0) -> int:
-            if priority == 1:
+        def get_event_count(self, select_type: int = 0) -> int:
+            if select_type == 1:
                 return len(self.events[1])
-            if priority == 2:
+            if select_type == 2:
                 return len(self.events[2])
-            if priority == 3:
+            if select_type == 3:
                 return len(self.events[3])
             return len(self.events[1]) + len(self.events[2]) + len(self.events[3])
 
-        def get_event_by_index(self, index: int, priority: int = 0) -> Event:
+        def get_event_by_index(self, index: int, select_type: int = 0) -> Event:
             """
             Returns an event by its index.
-            If priority is 0, all events are considered.
-            Otherwise only the events with the given priority are considered.
+            If select_type is 0, all events are considered.
+            Otherwise only the events with the given select type are considered.
 
             ### Parameters:
             1. index: int
                 - The index of the event.
-            2. priority: int (Default 0)
-                - The priority of the events that are considered.
-                - If priority is 0, all events are considered.
+            2. select_type: int (Default 0)
+                - The select type of the events that are considered.
+                - If select_type is 0, all events are considered.
 
             ### Returns:
             1. :class:`Event`
                 - The event with the given index.
             """
 
-            event_list = self.get_events(priority)
+            event_list = self.get_events(select_type)
 
             if index < 0 or index >= len(event_list):
                 return None
@@ -465,24 +465,24 @@ init -3 python:
 
         def has_available_highlight_events(self, **kwargs) -> bool:
             """
-            Returns True if there are any events with priority 1 or 2 that are available.
+            Returns True if there are any events of select type 1 or 2 that are available.
 
             ### Returns:
             1. bool
-                - True if there are any events with priority 1 or 2 that are available.
-                - False if there are no events with priority 1 or 2 that are available.
+                - True if there are any events of select type 1 or 2 that are available.
+                - False if there are no events of select type 1 or 2 that are available.
             """
 
-            return any(event.is_highlighted(**kwargs) for priority in self.events.values() for event in priority.values())
+            return any(event.is_highlighted(**kwargs) for events_by_id in self.events.values() for event in events_by_id.values())
 
         def has_available_high_prio_events(self, **kwargs) -> bool:
             """
-            Returns True if there are any events with priority 1 or 2 that are available.
+            Returns True if there are any events of select type 1 or 2 that are available.
 
             ### Returns:
             1. bool
-                - True if there are any events with priority 1 or 2 that are available.
-                - False if there are no events with priority 1 or 2 that are available.
+                - True if there are any events of select type 1 or 2 that are available.
+                - False if there are no events of select type 1 or 2 that are available.
             """
 
             for event in self.events[1].values():
@@ -493,60 +493,60 @@ init -3 python:
                     return True
             return False
 
-        def has_available_events(self, priority: int = 0, **kwargs) -> bool:
-            return self.count_available_events(priority, **kwargs) > 0
+        def has_available_events(self, select_type: int = 0, **kwargs) -> bool:
+            return self.count_available_events(select_type, **kwargs) > 0
 
-        def count_available_events(self, priority: int = 0, **kwargs) -> int:
+        def count_available_events(self, select_type: int = 0, **kwargs) -> int:
             """
             Counts the number of events that are available.
-            If priority is 0, all events are counted.
+            If select_type is 0, all events are counted.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are counted.
-                - If priority is 0, all events are counted.
+            1. select_type: int (Default 0)
+                - The select type of the events that are counted.
+                - If select_type is 0, all events are counted.
 
             ### Returns:
             1. int
                 - The number of events that are available.
-                - If priority is 1 a maximum of 1 is returned.
-                - If priority is 2 or 3 all available events of that priority are counted.
+                - If select_type is 1 a maximum of 1 is returned.
+                - If select_type is 2 or 3 all available events of that select type are counted.
             """
 
-            return self.count_available_events_and_prio(priority, **kwargs)[0]
+            return self.count_available_events_and_prio(select_type, **kwargs)[0]
 
-        def count_available_events_and_prio(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
+        def count_available_events_and_prio(self, select_type: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
-            If priority is 0, all events are counted.
+            If select_type is 0, all events are counted.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are counted.
-                - If priority is 0, all events are counted.
+            1. select_type: int (Default 0)
+                - The select type of the events that are counted.
+                - If select_type is 0, all events are counted.
 
             ### Returns:
             1. int
                 - The number of events that are available.
-                - If priority is 1 a maximum of 1 is returned.
-                - If priority is 2 or 3 all available events of that priority are counted.
+                - If select_type is 1 a maximum of 1 is returned.
+                - If select_type is 2 or 3 all available events of that select type are counted.
             """
 
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
-            if priority == 0 or priority == 1:
+            if select_type == 0 or select_type == 1:
                 for event in self.events[1].values():
                     if event.is_available(**kwargs):
                         return 1, True
-            if priority == 0 or priority == 2:
+            if select_type == 0 or select_type == 2:
                 output = 0
                 for event in self.events[2].values():
                     if event.is_available(**kwargs):
                         output += 1
                 if output != 0:
                     return output, True
-            if priority == 0 or priority == 3:
+            if select_type == 0 or select_type == 3:
                 output = 0
                 for event in self.events[3].values():
                     if event.is_available(**kwargs):
@@ -554,38 +554,38 @@ init -3 python:
                 return output, False
             return 0, False
 
-        def count_available_events_and_highlight(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
+        def count_available_events_and_highlight(self, select_type: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
-            If priority is 0, all events are counted.
+            If select_type is 0, all events are counted.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are counted.
-                - If priority is 0, all events are counted.
+            1. select_type: int (Default 0)
+                - The select type of the events that are counted.
+                - If select_type is 0, all events are counted.
 
             ### Returns:
             1. int
                 - The number of events that are available.
-                - If priority is 1 a maximum of 1 is returned.
-                - If priority is 2 or 3 all available events of that priority are counted.
+                - If select_type is 1 a maximum of 1 is returned.
+                - If select_type is 2 or 3 all available events of that select type are counted.
             """
 
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
-            if priority == 0 or priority == 1:
+            if select_type == 0 or select_type == 1:
                 for event in self.events[1].values():
                     if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
                         return 1, True
-            if priority == 0 or priority == 2:
+            if select_type == 0 or select_type == 2:
                 output = 0
                 for event in self.events[2].values():
                     if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
                         output += 1
                 if output != 0:
                     return output, True
-            if priority == 0 or priority == 3:
+            if select_type == 0 or select_type == 3:
                 output = 0
                 with_highlight = False
                 for event in self.events[3].values():
@@ -601,86 +601,86 @@ init -3 python:
                 return output, with_highlight
             return 0, False
 
-        def count_available_events_with_fallback(self, priority: int = 0, **kwargs) -> int:
+        def count_available_events_with_fallback(self, select_type: int = 0, **kwargs) -> int:
             """
             Counts the number of events that are available.
             This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are counted.
-                - If priority is 0, all events are counted.
+            1. select_type: int (Default 0)
+                - The select type of the events that are counted.
+                - If select_type is 0, all events are counted.
 
             ### Returns:
             1. int
                 - The number of events that are available.
-                - If priority is 1 a maximum of 1 is returned.
-                - If priority is 2 or 3 all available events of that priority are counted.
+                - If select_type is 1 a maximum of 1 is returned.
+                - If select_type is 2 or 3 all available events of that select type are counted.
                 - If no events are available, 1 is returned.
             """
 
-            return self.count_available_events_with_fallback_and_prio(priority, **kwargs)[0]
+            return self.count_available_events_with_fallback_and_prio(select_type, **kwargs)[0]
 
-        def count_available_events_with_fallback_and_prio(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
+        def count_available_events_with_fallback_and_prio(self, select_type: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
             This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are counted.
-                - If priority is 0, all events are counted.
+            1. select_type: int (Default 0)
+                - The select type of the events that are counted.
+                - If select_type is 0, all events are counted.
 
             ### Returns:
             1. int
                 - The number of events that are available.
-                - If priority is 1 a maximum of 1 is returned.
-                - If priority is 2 or 3 all available events of that priority are counted.
+                - If select_type is 1 a maximum of 1 is returned.
+                - If select_type is 2 or 3 all available events of that select type are counted.
                 - If no events are available, 1 is returned.
             """
 
-            output, prio = self.count_available_events_and_prio(priority, **kwargs)
+            output, prio = self.count_available_events_and_prio(select_type, **kwargs)
 
             if output == 0:
                 return 1, False
             return output, prio
 
-        def count_available_events_with_fallback_and_highlight(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
+        def count_available_events_with_fallback_and_highlight(self, select_type: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
             This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are counted.
-                - If priority is 0, all events are counted.
+            1. select_type: int (Default 0)
+                - The select type of the events that are counted.
+                - If select_type is 0, all events are counted.
 
             ### Returns:
             1. int
                 - The number of events that are available.
-                - If priority is 1 a maximum of 1 is returned.
-                - If priority is 2 or 3 all available events of that priority are counted.
+                - If select_type is 1 a maximum of 1 is returned.
+                - If select_type is 2 or 3 all available events of that select type are counted.
                 - If no events are available, 1 is returned.
             """
 
-            output, prio = self.count_available_events_and_highlight(priority, **kwargs)
+            output, prio = self.count_available_events_and_highlight(select_type, **kwargs)
 
             if output == 0:
                 return 1, False
             return output, prio
 
-        def get_available_events(self, priority: int = 0, debuff = False, exclude = (), **kwargs) -> List[Event]:
+        def get_available_events(self, select_type: int = 0, debuff = False, exclude = (), **kwargs) -> List[Event]:
             """
             Returns a list of all available events.
-            If priority is 0, all available events are returned.
-            Otherwise only the events with the given priority are returned.
+            If select_type is 0, all available events are returned.
+            Otherwise only the events with the given select type are returned.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are returned.
-                - If priority is 0, all events are returned.
+            1. select_type: int (Default 0)
+                - The select type of the events that are returned.
+                - If select_type is 0, all events are returned.
             2. debuff: bool (Default False)
-                - Weighs the priority-3 pick by how often each event was seen.
+                - Weighs the select type 3 pick by how often each event was seen.
             3. exclude: Iterable[str] (Default ())
                 - Event ids to leave out, e.g. events the player just declined
                     in the kink prompt, so the storage picks another one.
@@ -688,9 +688,9 @@ init -3 python:
             ### Returns:
             1. List[:class:`Event`]
                 - A list of all available events.
-                - If priority is 1 the first available event is returned.
-                - If priority is 2 a list of all available events with priority 2 are returned
-                - If priority is 3 a random event from all available priority 3 events is returned
+                - If select_type is 1 the first available event is returned.
+                - If select_type is 2 a list of all available events of select type 2 are returned
+                - If select_type is 3 a random event from all available select type 3 events is returned
             """
 
             if "event_type" not in kwargs.keys():
@@ -699,17 +699,17 @@ init -3 python:
             def candidates(select_type: int) -> List[Event]:
                 return [event for event in self.events[select_type].values() if event.get_id() not in exclude]
 
-            if priority == 0 or priority == 1:
+            if select_type == 0 or select_type == 1:
                 events = get_highest_priority_available_events(*candidates(1), **kwargs)
                 if len(events) != 0:
                     return [events[0]]
 
-            if priority == 0 or priority == 2:
+            if select_type == 0 or select_type == 2:
                 output = get_highest_priority_available_events(*candidates(2), **kwargs)
                 if len(output) != 0:
                     return output
 
-            if priority == 0 or priority == 3:
+            if select_type == 0 or select_type == 3:
                 output = get_highest_priority_available_events(*candidates(3), **kwargs)
                 if len(output) != 0:
                     if debuff:
@@ -736,7 +736,7 @@ init -3 python:
 
             ### Parameters:
             1. *events: :class:`Event`
-                - Candidate events (typically all available priority-3 events).
+                - Candidate events (typically all available select type 3 events).
 
             ### Returns:
             1. Optional[:class:`Event`]
@@ -773,40 +773,40 @@ init -3 python:
             selection_list = [(w / total_w, ev) for w, ev in zip(rel_weights, event_list)]
             return get_random_choice(*selection_list)
 
-        def get_available_events_with_fallback(self, priority: int = 0, debuff = False, **kwargs) -> List[Event]:
+        def get_available_events_with_fallback(self, select_type: int = 0, debuff = False, **kwargs) -> List[Event]:
             """
             Returns a list of all available events.
             This method is the same as :func:`get_available_events` except that if no events are available, the fallback event is returned.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are returned.
-                - If priority is 0, all events are returned.
+            1. select_type: int (Default 0)
+                - The select type of the events that are returned.
+                - If select_type is 0, all events are returned.
 
             ### Returns:
             1. List[:class:`Event`]
                 - A list of all available events.
-                - If priority is 1 the first available event is returned.
-                - If priority is 2 a list of all available events with priority 2 are returned
-                - If priority is 3 a random event from all available priority 3 events is returned
+                - If select_type is 1 the first available event is returned.
+                - If select_type is 2 a list of all available events of select type 2 are returned
+                - If select_type is 3 a random event from all available select type 3 events is returned
                 - If no events are available, the fallback event is returned.
             """
 
-            output = self.get_available_events(priority, debuff, **kwargs)
+            output = self.get_available_events(select_type, debuff, **kwargs)
 
             if len(output) == 0:
                 return [self.fallback]
             return output
 
-        def get_one_possible_event(self, priority: int = 0, debuff = False, **kwargs) -> Event:
+        def get_one_possible_event(self, select_type: int = 0, debuff = False, **kwargs) -> Event:
             """
             Returns a random event from the available events.
             If no events are available, the fallback event is returned.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are returned.
-                - If priority is 0, all events are returned.
+            1. select_type: int (Default 0)
+                - The select type of the events that are returned.
+                - If select_type is 0, all events are returned.
 
             ### Returns:
             1. :class:`Event`
@@ -817,22 +817,22 @@ init -3 python:
             repeatable = get_kwargs("repeatable", False, **kwargs)
             used_events = get_kwargs("used_events_repeatable", [], **kwargs)
 
-            events = self.get_available_events(priority, debuff, **kwargs)
+            events = self.get_available_events(select_type, debuff, **kwargs)
             if not repeatable:
                 events = [event for event in events if event not in used_events]
             if len(events) == 0:
                 return None
             return random.choice(events)
 
-        def get_one_possible_event_with_fallback(self, priority: int = 0, debuff = False, **kwargs) -> Event:
+        def get_one_possible_event_with_fallback(self, select_type: int = 0, debuff = False, **kwargs) -> Event:
             """
             Returns a random event from the available events.
             If no events are available, the fallback event is returned.
 
             ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are returned.
-                - If priority is 0, all events are returned.
+            1. select_type: int (Default 0)
+                - The select type of the events that are returned.
+                - If select_type is 0, all events are returned.
 
             ### Returns:
             1. :class:`Event`
@@ -840,7 +840,7 @@ init -3 python:
                 - If no events are available, the fallback event is returned.
             """
 
-            events = self.get_available_events_with_fallback(priority, debuff, **kwargs)
+            events = self.get_available_events_with_fallback(select_type, debuff, **kwargs)
             if len(events) == 0 and self.fallback == None:
                 return None
             elif len(events) == 0:
@@ -2516,14 +2516,14 @@ init -3 python:
 # region Event caller #
 #######################
 
-label call_available_event(event_storage, priority = 0, no_fallback = False, **kwargs):
+label call_available_event(event_storage, select_type = 0, no_fallback = False, **kwargs):
     # """
     # Calls the available events of a storage, picked by select type.
 
     # ### Parameters:
     # 1. event_storage: :class:`EventStorage`
     #     - The event storage that is used to call the events.
-    # 2. priority: int (Default 0)
+    # 2. select_type: int (Default 0)
     #     - The select type to pick from (EVENT_BLOCKING / EVENT_ALWAYS / EVENT_RANDOM).
     #     - 0 goes through all select types, blocking first.
     # 3. **kwargs
@@ -2535,9 +2535,9 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     $ declined_events = []
 
     if no_fallback:
-        $ events_list = event_storage.get_available_events(priority, True, **kwargs)
+        $ events_list = event_storage.get_available_events(select_type, True, **kwargs)
     else:
-        $ events_list = event_storage.get_available_events_with_fallback(priority, True, **kwargs)
+        $ events_list = event_storage.get_available_events_with_fallback(select_type, True, **kwargs)
 
     $ i = 0
     while(len(events_list) > i):
@@ -2557,14 +2557,14 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
         # EVENT_RANDOM pick, or a whole EVENT_ALWAYS group): pick again without
         # them. With select type 0 that falls through 1 → 2 → 3 like the first pick did.
         if i >= len(events_list) and all(event.get_id() in declined_events for event in events_list):
-            $ events_list = event_storage.get_available_events(priority, True, exclude = declined_events, **kwargs)
+            $ events_list = event_storage.get_available_events(select_type, True, exclude = declined_events, **kwargs)
             $ i = 0
             if len(events_list) == 0:
                 $ route_kink_declined(event_storage, no_fallback, **kwargs)
 
     return
 
-label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
+label call_event(event_obj_var, select_type = 0, event_obj_name = "", **kwargs):
     # """
     # Calls an event, a label, a list of labels or the available events of a storage.
 
@@ -2578,7 +2578,7 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
     # """
 
     if isinstance(event_obj_var, EventStorage):
-        call call_available_event(event_obj_var, **kwargs) from _call_call_available_event_1
+        call call_available_event(event_obj_var, select_type, **kwargs) from _call_call_available_event_1
     if isinstance(event_obj_var, Event):
         $ event_obj_var.call(**kwargs)
     if isinstance(event_obj_var, str):

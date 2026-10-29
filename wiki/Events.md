@@ -354,8 +354,8 @@ label .after_general_check(**kwargs):
 The label name is the **building key**: clicking the building on the map runs it.
 Registering the building and putting it on a map is covered in [Maps](Maps).
 
-`call_available_event(storage, priority=0, no_fallback=False, **kwargs)` runs the
-available events of a storage (`priority` here is the select type to pick from, 0 = all); `call_event_menu(text, events, fallback, person,
+`call_available_event(storage, select_type=0, no_fallback=False, **kwargs)` runs the
+available events of a storage (`select_type` picks one select type, 0 = all); `call_event_menu(text, events, fallback, person,
 **kwargs)` renders the per-action choice menu. `set_current_mod` before building
 `Pattern`s redirects their paths into the active mod's folder (§17).
 
