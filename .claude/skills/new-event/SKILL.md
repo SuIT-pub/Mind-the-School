@@ -24,7 +24,7 @@ Do not start writing until each of these has an answer. Ask in one batch, not on
 | **Where** — building + action pool (e.g. `cafeteria_events["order_food"]`), or situation/threshold/resolution, or time check | wiring |
 | **When** — daytime/weekday, school level range, progress step, seen-prerequisites, flag phase (intro/camp) | conditions |
 | **Who** — fixed Person(s) or a selector-picked girl | dialogue + `get_person_value` |
-| **Priority** — `EVENT_BLOCKING` story beat · `EVENT_ALWAYS` always-run · `EVENT_RANDOM` ambient | `select_type` |
+| **Select type** — `EVENT_BLOCKING` story beat · `EVENT_ALWAYS` always-run · `EVENT_RANDOM` ambient | `select_type` |
 | **Visuals** — existing render(s) / new render planned / paperdoll over a blurred background | patterns, thumbnail |
 | **Branches** — player choices, gated choices | decision menu |
 | **Consequences** — stats, situation bar, progress, GameData flags, modifier, unlock | effects in the label |
@@ -66,7 +66,7 @@ for the exact pool keys before wiring — never guess them.
 Inside `init 1 python:` with `set_current_mod('base')` first (or the mod key for mods):
 
 ```python
-Event(EVENT_RANDOM, "cafeteria_snack_chat",                      # priority, label name
+Event(EVENT_RANDOM, "cafeteria_snack_chat",                      # select type, label name
     TimeCondition(weekday="d", daytime="f"),          # gates (all must pass)
     LevelCondition("2-4", char_obj="school"),
     RandomListSelector("topic", "coffee", "tea"),     # values → kwargs + <topic>
@@ -134,7 +134,7 @@ progress · GameData flags · lasting modifiers (`load_modifier`) · situation a
 ## Checklist (the mistakes that actually happen)
 
 **Definition**
-- [ ] Label name == event string, character for character. Priority is `EVENT_BLOCKING`, `EVENT_ALWAYS` or `EVENT_RANDOM`.
+- [ ] Label name == event string, character for character. Select type is `EVENT_BLOCKING`, `EVENT_ALWAYS` or `EVENT_RANDOM`.
 - [ ] `set_current_mod(...)` runs before any `Pattern`/thumbnail is built.
 - [ ] Time gates use the right codes: daytime `c` class (2,4,5) · `f` free (1,3,6) · `d` day (1–6) · `n` night (7); weekday `d` workday · `w` weekend. Use `OR(...)` for "free time on workdays OR daytime on weekends".
 - [ ] Level gate matches the scene's tone (`LevelCondition("1-", char_obj="school")`, `"3+"`, `"2-4"`; the character goes in `char_obj=` — a second positional argument is treated as an *option*, not the character).
@@ -146,7 +146,7 @@ progress · GameData flags · lasting modifiers (`load_modifier`) · situation a
 
 **Label**
 - [ ] `label name(**kwargs):` — and `label .branch(**kwargs):` for every branch.
-- [ ] `$ begin_event(**kwargs)` is the first statement; bump `version="2"` etc. when steps/decisions change in an existing event.
+- [ ] `$ begin_event(**kwargs)` is the first statement. In an existing event bump `version="2"` etc. only when a read value was dropped, a value's options/range or a `MenuElement` key changed (wiki Events, "When to bump the version"); added or reordered values reset the replay data by themselves.
 - [ ] No `$ headmaster = Person[...]` / `$ emiko = Person[...]` — `begin_event` binds both. Other people: `$ yulan = Person["yulan_chen"]` and speak via `.say/.think/.whisper/.shout`.
 - [ ] No legacy speaker names (`miwa_shout`, `secretary`, `headmaster_thought`, `girl_char`, …) in new code.
 - [ ] Selector values read via `get_value` / `get_stat_value` / `get_bar_value` / `get_level` — never `kwargs["values"]`.

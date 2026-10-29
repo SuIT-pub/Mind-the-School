@@ -25,13 +25,13 @@ and the wiki disagree, the code wins. Look it up in `game/scripts/`.
 | Constructor | Use |
 |---|---|
 | `Event(select_type, event, *conds_selectors_options_patterns, thumbnail="", register_self=True, override_location=None, title=None)` | the plain event |
-| `EventComposite(priority, event, [FragmentStorage, ...], *conditions, thumbnail="", title=None)` | intro + shuffled fragments (`call composite_event_runner(**kwargs)`) |
+| `EventComposite(select_type, event, [FragmentStorage, ...], *conditions, thumbnail="", title=None)` | intro + shuffled fragments (`call composite_event_runner(**kwargs)`) |
 | `EventFragment(select_type, event, *conditions, thumbnail="", title=None)` | a fragment; lives in a `FragmentStorage`, never in a location pool, no auto flag condition |
-| `EventSelect(priority, event, text, {"key": EventStorage, ...}, *conditions, thumbnail="", override_menu_exit="map_entry", fallback=None, person=None, title=None)` | a routing menu into other pools; label is `select_event_runner`, so you write no scene label |
+| `EventSelect(select_type, event, text, {"key": EventStorage, ...}, *conditions, thumbnail="", override_menu_exit="map_entry", fallback=None, person=None, title=None)` | a routing menu into other pools; label is `select_event_runner`, so you write no scene label |
 | `EventStorage(name, location, *options, fallback=None, fallback_text="There is nothing to do here.")` | a pool |
 | `FragmentStorage(name, *options)` | fragment pool, with `FragmentRepeatOption(number_or_selector, repeatable)` |
 
-Priority: **1** is a blocking story beat (the first available one runs, nothing else). **2** means every available one runs, one after another. **3** means one is picked at random (ambient default; no map highlight unless `ForceHighlightOption()`).
+Select type: **`EVENT_BLOCKING`** (1) is a story beat (the first available one runs, nothing else). **`EVENT_ALWAYS`** (2) means every available one runs, one after another. **`EVENT_RANDOM`** (3) means one is picked at random (ambient default; no map highlight unless `ForceHighlightOption()`).
 
 ## 2. Conditions
 
@@ -92,7 +92,7 @@ Getters (they register the value for replay, so always go through them): `get_va
 
 ## 4. Options
 
-`ReplayCategoryOption("cat")` groups the event in the gallery · `ForceHighlightOption()` / `NoHighlightOption()` control the map highlight · `PriorityOption(n)` · `ShowBlockedOption()` · `EventSeenDebuffOption(0.25)` (on an `EventStorage`) lowers the chance of seen events · `FragmentRepeatOption(n, repeatable)` · `FragmentRerollOption()` (on selectors) · `OptionalOption()` (on a condition: it never blocks).
+`ReplayCategoryOption("cat")` groups the event in the gallery · `ForceHighlightOption()` / `NoHighlightOption()` control the map highlight · `PriorityOption(n)` (selection order, not the select type) · `ShowBlockedOption()` · `EventSeenDebuffOption(0.25)` (on an `EventStorage`) lowers the chance of seen events · `FragmentRepeatOption(n, repeatable)` · `FragmentRerollOption()` (on selectors) · `OptionalOption()` (on a condition: it never blocks).
 
 ## 5. Patterns, images, video
 
@@ -174,7 +174,7 @@ Teasers, Emiko gifts and collectibles are pull-based. They watch `EventSeenCondi
 
 ## 10. begin_event / end_event
 
-- `$ begin_event(version="1", **kwargs)`. Call it first. It hides screens, clears the layer (including the map image), stops sound, blocks rollback, marks the event seen, starts the gallery, initialises the paperdoll manager, and binds `headmaster` and `emiko`. Bump `version` when steps or decisions change.
+- `$ begin_event(version="1", **kwargs)`. Call it first. It hides screens, clears the layer (including the map image), stops sound, blocks rollback, marks the event seen, starts the gallery, initialises the paperdoll manager, and binds every registered person under its speaker name (`aona_komuro` → `aona`). Bump `version` when a read value is dropped, a value's options/range change, or a `MenuElement` key changes; added or reordered values reset the replay data by themselves.
 - `$ end_event(type, **kwargs)`:
   - `"new_daytime"`: advances time (default for actions that cost time)
   - `"map_entry"` (or anything unknown): back to the map, no time passes

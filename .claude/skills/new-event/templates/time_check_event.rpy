@@ -1,6 +1,6 @@
 # TEMPLATE: time-triggered story beat — runs from time_event_check when the date/daytime
-# arrives, before the player gets the map. Priority 1 blocks everything else that check;
-# priority 2 runs in sequence with the other checks (then end with 'none' + return).
+# arrives, before the player gets the map. EVENT_BLOCKING blocks everything else that check;
+# EVENT_ALWAYS runs in sequence with the other checks (then end with 'none' + return).
 
 init 1 python:
     set_current_mod('base')

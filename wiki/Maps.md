@@ -251,7 +251,7 @@ label .after_general_check(**kwargs):
     jump beach
 ```
 
-Pools, priorities and the action menu: [Events](Events) §3 and §6.
+Pools, select types and the action menu: [Events](Events) §3 and §6.
 
 ---
 

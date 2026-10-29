@@ -302,7 +302,7 @@ key, so selection, menus, highlights and the kink prompt treat it like any other
 init 2 python:
     set_current_mod('mymod_key')
 
-    # play your own scene, keep the definition (conditions, images, priority)
+    # play your own scene, keep the definition (conditions, images, select type)
     set_event_label("truth_or_dare_1", "mymod_truth_or_dare_1", title = "Truth or Dare (My Mod)")
 
     # replace the whole definition; the new event must carry the same key

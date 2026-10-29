@@ -23,7 +23,7 @@ the Ren'Py scene that plays.
 ```python
 init 1 python:
     set_current_mod('base')
-    my_event = Event(EVENT_RANDOM, "cafeteria_snack_chat",  # priority, label name
+    my_event = Event(EVENT_RANDOM, "cafeteria_snack_chat",  # select type, label name
         TimeCondition(daytime="d"),                         # gate: only at daytime "d"
         RandomListSelector("topic", "coffee", "tea"),       # dynamic value → <topic>
         Pattern("main", "images/events/cafeteria/snack_chat/<topic> <step>.webp"),
@@ -51,7 +51,7 @@ Everything below expands each piece.
 2. [The event classes](#2-the-event-classes)
 3. [Storages & pools](#3-storages--pools)
 4. [Defining an event](#4-defining-an-event)
-5. [Priorities & availability](#5-priorities--availability)
+5. [Select types & availability](#5-select-types--availability)
 6. [Registering & wiring into locations](#6-registering--wiring-into-locations)
 7. [The scene label: begin_event / end_event](#7-the-scene-label-begin_event--end_event)
 8. [Reading selector values in the label](#8-reading-selector-values-in-the-label)
@@ -73,11 +73,11 @@ Everything below expands each piece.
 ## 1. The event lifecycle
 
 1. **Definition** — an `Event(...)` object is built in an `init python` block and
-   holds priority, gates (conditions), dynamic values (selectors), image patterns and
+   holds its select type, gates (conditions), dynamic values (selectors), image patterns and
    a thumbnail. It registers itself into the global `event_register` and is added to a
    pool.
 2. **Selection** — the player enters a location and picks an action. The location's
-   `EventStorage` gathers **available** events (all conditions pass) and, by priority,
+   `EventStorage` gathers **available** events (all conditions pass) and, by select type,
    selects what runs (see §5). If nothing is available, the pool's **fallback** runs.
 3. **Call** — the selected event's `call()` merges its rolled selector values into
    `kwargs["values"]`, attaches its patterns as `kwargs["image_patterns"]`, sets
@@ -87,7 +87,7 @@ Everything below expands each piece.
    the surrounding systems (situations, quests).
 
 The definition and the label are joined only by the **event string = label name**.
-`check_event()` validates that the label exists (`renpy.has_label`) and the priority
+`check_event()` validates that the label exists (`renpy.has_label`) and the select type
 is 1–3; failures are logged (category `event`) and the event is marked invalid.
 
 ---
@@ -103,7 +103,7 @@ Event(select_type, event, *conditions_selectors_options_patterns,
       thumbnail="", register_self=True, override_location=None, title=None, label=None)
 ```
 
-- **`select_type`** — priority 1/2/3 (§5).
+- **`select_type`** — `EVENT_BLOCKING` / `EVENT_ALWAYS` / `EVENT_RANDOM` (§5). Not to be confused with `PriorityOption`, which orders events.
 - **`event`** — the event's key, and by default also the name of its scene label.
 - **`label`** — the scene label to play when it differs from the key. Mods use it to
   point a base event at a scene of their own ([Modding §5](Modding#replacing-and-changing-base-events)).
@@ -129,7 +129,7 @@ Event(select_type, event, *conditions_selectors_options_patterns,
 ### `EventComposite` — an event assembled from fragments
 
 ```python
-EventComposite(priority, event, fragments: List[FragmentStorage], *conditions, thumbnail="", title=None)
+EventComposite(select_type, event, fragments: List[FragmentStorage], *conditions, thumbnail="", title=None)
 ```
 
 A wrapper scene that plays a **sequence of fragments** pulled from the given
@@ -159,7 +159,7 @@ fragments handle kinks is described in [Kinks §5](Kinks#5-composites-and-fragme
 ### `EventSelect` — a routing menu
 
 ```python
-EventSelect(priority, event, text, event_list: Dict[str, EventStorage], *conditions,
+EventSelect(select_type, event, text, event_list: Dict[str, EventStorage], *conditions,
             thumbnail="", override_menu_exit="map_entry", fallback=None, person=None,
             title=None)
 ```
@@ -179,7 +179,7 @@ Available only if at least one storage in `event_list` has an available event. S
 EventStorage(name, location, *options, fallback=None, fallback_text="There is nothing to do here.")
 ```
 
-A pool of events for a location. Holds three priority buckets internally. `fallback`
+A pool of events for a location. Holds one bucket per select type internally. `fallback`
 is the `Event` run when nothing is available; `fallback_text` is its "nothing to do"
 line. `register_highlighting(*storages)` opts a pool into the map "available event"
 highlight. `add_storage(dict, storage)` indexes a storage under its name in a dict.
@@ -227,7 +227,7 @@ sorts them):
 - **Selectors** — dynamic values rolled when the event runs, exposed under their key
   ([Selectors](Selectors)). They can be weighted/conditional:
   `RandomListSelector('topic', (0.7, 'apron'), (0.2, 'breasts'), 'nude')`.
-- **Options** — flags parsed specially: `PriorityOption(n)` sets priority,
+- **Options** — flags parsed specially: `PriorityOption(n)` sets the priority (selection order — not the select type),
   `ForceHighlightOption()` forces highlight eligibility, `ReplayCategoryOption(cat)`
   sets the gallery category, `EventSeenDebuffOption(x)` lowers re-selection weight once
   seen. Others are stored on the event ([Options](Options)).
@@ -249,10 +249,10 @@ scene while the campus is at those [school levels](School-Levels). Put
 
 ---
 
-## 5. Priorities & availability
+## 5. Select types & availability
 
 An event is **available** when every condition passes. Among available events in a
-pool, `select_type` / priority decides what runs:
+pool, the `select_type` decides what runs:
 
 | Constant | Value | Behavior |
 |----------|-------|----------|
@@ -261,9 +261,9 @@ pool, `select_type` / priority decides what runs:
 | `EVENT_RANDOM` | 3 | one is chosen **at random** among the available ones (the sandbox default) |
 
 Write the constant (`consts.rpy`), not the number; the numbers still work. Most ambient
-events are `EVENT_RANDOM`; a story interrupt is `EVENT_BLOCKING`. Highlighting: priority-3 events
+events are `EVENT_RANDOM`; a story interrupt is `EVENT_BLOCKING`. Highlighting: `EVENT_RANDOM` events
 don't light up the map unless they carry `ForceHighlightOption()`;
-`is_highlighted()` combines availability, priority and the options'
+`is_highlighted()` combines availability, select type and the options'
 `check_options(Highlight=True, …)`.
 
 ### Event flags
@@ -355,7 +355,7 @@ The label name is the **building key**: clicking the building on the map runs it
 Registering the building and putting it on a map is covered in [Maps](Maps).
 
 `call_available_event(storage, priority=0, no_fallback=False, **kwargs)` runs the
-available events of a storage; `call_event_menu(text, events, fallback, person,
+available events of a storage (`priority` here is the select type to pick from, 0 = all); `call_event_menu(text, events, fallback, person,
 **kwargs)` renders the per-action choice menu. `set_current_mod` before building
 `Pattern`s redirects their paths into the active mod's folder (§17).
 
@@ -385,8 +385,9 @@ label truth_or_dare_2(**kwargs):
   (unless `no_gallery=True` in kwargs), and `init_paperdoll_manager()`. It also
   **binds every registered `Person`** under its speaker name (`aona_komuro` → `aona`,
   plus `headmaster` and `emiko`) so the scene can speak without a per-event
-  `$ ... = Person[...]` — see [Dialogue](Dialogue#speaker-names). Bump
-  `version` when a scene's structure changes so stale replays are invalidated.
+  `$ ... = Person[...]` — see [Dialogue](Dialogue#speaker-names). The
+  `version` (default `"1"`) guards the event's replay data — see
+  [When to bump the version](#when-to-bump-the-version).
 - **`$ end_event(return_type=END_NEW_DAYTIME, **kwargs)`** — call it last.
   `END_NEW_DAYTIME` advances to the next daytime segment, `END_NEW_DAY` skips to the
   next morning, `END_MAP` returns to the map in the same daytime, `END_NONE` returns to
@@ -398,6 +399,23 @@ label truth_or_dare_2(**kwargs):
   `unload_paperdoll_manager()` (so paperdolls never leak past the event).
 
 Never hand-roll the seen/gallery/rollback hooks — always bracket with these.
+
+#### When to bump the version
+
+The gallery stores, per event, the values the label read (in the order it read them)
+and the menu decisions taken. A different `version` on the next run wipes **only this
+event's** replay data; players unlock its variants again. It is the author's call —
+the engine can't tell from the code whether old replay data still fits.
+
+| Change to an existing event | Bump? |
+|---|---|
+| A value read later dropped (`get_value` / `get_stat_value` removed) | **yes** |
+| A value's options renamed or removed (`RandomListSelector` entries, a `StatSelector` range) | **yes** |
+| A `MenuElement` key renamed or removed, or a decision moved | **yes** |
+| A value added, or values read in a different order | no — the next live run notices and starts this event's replay data over by itself |
+| Dialogue, images, stat changes, conditions, new menu options | no |
+
+Count up as a string: `$ begin_event(version="2", **kwargs)`.
 
 Branches are `.`-prefixed sub-labels (`label .peek_1(**kwargs):`) reached from the
 decision menu (§12) or `call`/`jump`. Each branch that is entered independently should
@@ -940,7 +958,7 @@ init 1 python:
   restructure steps/decisions.
 - **Set the mod context** before building `Pattern`s so images redirect.
 - **Ship a `start_image`** next to every `Movie`.
-- **Priority intent:** `EVENT_RANDOM` ambient, `EVENT_ALWAYS` always-run, `EVENT_BLOCKING` interrupt.
+- **Select type intent:** `EVENT_RANDOM` ambient, `EVENT_ALWAYS` always-run, `EVENT_BLOCKING` interrupt.
 - **Match the school level.** Dialogue, stills (`<school_level>`), and
   paperdoll `level=` must agree with the climate in [School Levels](School-Levels).
   Gate with `LevelCondition`; if the event spans a wide range, branch the text.
@@ -969,9 +987,9 @@ init 1 python:
 
 ### Classes
 `Event(select_type, event, *conditions|selectors|options|patterns, thumbnail="", register_self=True, override_location=None, title=None)` ·
-`EventComposite(priority, event, fragments, *conditions, thumbnail="", title=None)` ·
+`EventComposite(select_type, event, fragments, *conditions, thumbnail="", title=None)` ·
 `EventFragment(select_type, event, *conditions, thumbnail="", title=None)` ·
-`EventSelect(priority, event, text, event_list, *conditions, thumbnail="", override_menu_exit="map_entry", fallback=None, person=None, title=None)` ·
+`EventSelect(select_type, event, text, event_list, *conditions, thumbnail="", override_menu_exit="map_entry", fallback=None, person=None, title=None)` ·
 `EventStorage(name, location, *options, fallback=None, fallback_text="…")` ·
 `FragmentStorage(name, *options)`.
 

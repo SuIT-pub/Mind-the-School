@@ -125,7 +125,7 @@ effect.
 | `MoneyEscrowOption(stash_key)` | `MoneyEffect` | on apply, consume the reserved PTA-vote stash instead of charging again (auto-attached by the Unlockable machinery) |
 | `NoOverrideOption()` | Conditions (in situation resolutions) | keep the condition's own latch/timer key — don't rewrite it to the resolution key |
 | `NoHighlightOption()` | Events | exclude the event from the map "available event" highlight (still runnable) |
-| `ForceHighlightOption()` | Events | force highlight eligibility even for a priority-3 event that normally wouldn't highlight |
+| `ForceHighlightOption()` | Events | force highlight eligibility even for an `EVENT_RANDOM` event that normally wouldn't highlight |
 | `ShowBlockedOption()` | Events / hosts | allow the host to be shown while blocked (gated by a `ShowBlocked` kwarg) |
 | `PriorityOption(priority)` | Events | the event matches only when the passed `Priority` kwarg equals `priority` (priority-bucketed selection) |
 | `EventSeenDebuffOption(debuff=0.25)` | `EventStorage` | lower the re-selection weight of already-seen events by `debuff` (favor fresh content) |
@@ -159,7 +159,7 @@ effect.
 | Option seems to do nothing | It's on a host that doesn't read it | Move it to the host that checks it (see §4/§5). |
 | A gate never blocks | An `Optional` option is attached | Remove `Optional` if you meant a hard gate. |
 | An effect won't undo | `EffectNoRevert` is attached (by design) | Remove it if the change should revert. |
-| Event never highlights on the map | `NoHighlight`, or it's priority 3 without `ForceHighlight` | Drop `NoHighlight`, or add `ForceHighlightOption()`. |
+| Event never highlights on the map | `NoHighlight`, or it's `EVENT_RANDOM` without `ForceHighlight` | Drop `NoHighlight`, or add `ForceHighlightOption()`. |
 | Money charged twice on a vote | `MoneyEscrow` missing/mismatched | Match `MoneyCondition` ↔ negative `MoneyEffect` by amount; let the Unlockable code inject escrow. |
 | Two options ignored / one wins | Same `name` — they collide in the `OptionSet` | Don't attach two of the same option to one host. |
 

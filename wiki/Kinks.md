@@ -171,10 +171,10 @@ All three must run in script (a `$` line or an `if` in a label), never in screen
 1. The open kinks of the event (for a composite: of the composite and every fragment
    it could roll) are asked about in **one** prompt.
 2. If the answers allow it, the event runs.
-3. If not, the event is skipped. The rest of a priority-2 group still runs. When the
-   whole pick was turned down — a single priority-1 or -3 event, or every event of a
-   priority-2 group — the storage **picks again without the declined events**, falling
-   through priority 1 → 2 → 3 like the first pick.
+3. If not, the event is skipped. The rest of an `EVENT_ALWAYS` group still runs. When
+   the whole pick was turned down — a single `EVENT_BLOCKING` or `EVENT_RANDOM` event, or
+   every event of an `EVENT_ALWAYS` group — the storage **picks again without the
+   declined events**, falling through the select types 1 → 2 → 3 like the first pick.
 4. If nothing is left: a storage with its own fallback uses it (a building's entry
    storage, whose fallback is the action menu); otherwise the player returns to the
    menu they picked from, **without a daytime change** and without the default
@@ -315,6 +315,6 @@ sister, `"mother_of"` her daughter, `"daughter_of"` her mother.
 
 ### Related pages
 
-- [Events](Events) — storages, priorities, composites and fragments
+- [Events](Events) — storages, select types, composites and fragments
 - [Conditions](Conditions) · [Selectors](Selectors)
 - [Modding](Modding) — `register_mod`

@@ -1175,8 +1175,8 @@ init -3 python:
         This class represents an event that can be called.
 
         ### Parameters:
-        1. priority: int
-            - The priority of the event.
+        1. select_type: int
+            - EVENT_BLOCKING, EVENT_ALWAYS or EVENT_RANDOM.
             - 1 = highest (the first 1 to occur is called blocking all other events)
             - 2 = middle (all 2's are called after each other)
             - 3 = lowest (selected random among 3's)
@@ -1708,8 +1708,8 @@ init -3 python:
         It takes a list of :class:`EventStorage` and calls them in order.
 
         ### Parameters:
-        1. priority: int
-            - The priority of the event.
+        1. select_type: int
+            - EVENT_BLOCKING, EVENT_ALWAYS or EVENT_RANDOM.
             - 1 = highest (the first 1 to occur is called blocking all other events)
             - 2 = middle (all 2's are called after each other)
             - 3 = lowest (selected random among 3's)
@@ -1723,10 +1723,10 @@ init -3 python:
             - The thumbnail of the event.
         """
 
-        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = "", title: str = None, label: str = None):
+        def __init__(self, select_type: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = "", title: str = None, label: str = None):
             self.event_form = "composite"
 
-            super().__init__(priority, event, *conditions, thumbnail = thumbnail, title = title, label = label)
+            super().__init__(select_type, event, *conditions, thumbnail = thumbnail, title = title, label = label)
 
             self.fragments = [fragment for fragment in fragments if isinstance(fragment, FragmentStorage)]
             
@@ -1967,10 +1967,10 @@ init -3 python:
             return output
 
     class EventSelect(Event):
-        def __init__(self, priority: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_entry", fallback: str = None, person: Person = None, title: str = None):
+        def __init__(self, select_type: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_entry", fallback: str = None, person: Person = None, title: str = None):
             self.event_form = "select"
 
-            super().__init__(priority, event, *conditions, thumbnail = thumbnail, title = title)
+            super().__init__(select_type, event, *conditions, thumbnail = thumbnail, title = title)
 
             self.text = text
             self.event_list = event_list

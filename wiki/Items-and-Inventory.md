@@ -241,7 +241,7 @@ shop screen ──add to cart──▶ shopping_cart {key: n}
 | `office_building_computer_shopping_cart_screen` | line items, subtotal, shipping, total, Checkout (disabled if budget < total) |
 | `get_shopping_cart_totals()` / `SHOP_SHIPPING_COST` | `(products, shipping)` for the cart; shipping is $5, only when something costs money. Used by screen **and** checkout |
 | `office_building_computer_shopping_screen_checkout` | charges products + shipping, counts `item_purchases`, queues the delivery for **today + 3 days** |
-| `office_building_computer_shopping_delivery_event` | priority 2 in `time_check_events`, morning of Mon–Thu (`weekday="1-4"`, `daytime=1`) |
+| `office_building_computer_shopping_delivery_event` | `EVENT_ALWAYS` in `time_check_events`, morning of Mon–Thu (`weekday="1-4"`, `daytime=1`) |
 
 **Stock rule (per card):** a product is buyable while
 `owned + in_cart < max_possession` **and** `bought + in_cart < max_purchase`.

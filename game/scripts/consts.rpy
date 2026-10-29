@@ -32,7 +32,7 @@ init -9:
 
     $ CHAR = "char_obj"
 
-    # Event priority, the first argument of Event / EventComposite / EventFragment / EventSelect
+    # Select type, the first argument of Event / EventComposite / EventFragment / EventSelect
     $ EVENT_BLOCKING = 1    # the first available one runs and blocks all others (story beats)
     $ EVENT_ALWAYS = 2      # every available one runs, one after another
     $ EVENT_RANDOM = 3      # one of the available ones is picked at random (ambient)
