@@ -74,39 +74,70 @@ init python:
                     current[k] = {}
                     current = current[k]
                     
+    def reset_gallery_event(event: str):
+        """
+        Removes the gallery data of one event, wherever it is filed, and drops its
+        location once nothing is left there. Used when an event's version changes.
+
+        ### Parameters:
+        1. event: str
+            - The gallery name of the event.
+        """
+
+        if persistent.gallery is None:
+            return
+        for location in list(persistent.gallery.keys()):
+            if event in persistent.gallery[location]:
+                persistent.gallery[location].pop(event, None)
+                if len(persistent.gallery[location]) == 0:
+                    persistent.gallery.pop(location, None)
+
+    def gallery_group_has_entries(group: str) -> bool:
+        """
+        True while a journal gallery group (a location, or a replay category in the
+        category view) still holds gallery data, so the journal can stay on it.
+        """
+
+        if not persistent.gallery:
+            return False
+        if group in persistent.gallery:
+            return True
+        return any(
+            event in events
+            for event in event_replay_categories.get(group, [])
+            for events in persistent.gallery.values()
+        )
+
     def reset_gallery(location: str = "", event: str = ""):
         """
-        Resets the gallery database for a specific location and event.
-        This is only used for debug purposes.
-        If location and event are left blank, the entire database is reset.
+        Resets gallery data: one event, one journal group, or everything.
 
         ### Parameters:
         1. location: str (default: "")
-            - The location of the gallery.
-            - If left blank together with event, the entire database is reset.
+            - The journal group to reset when no event is given: a location in the
+                "Locations" view, a replay category otherwise.
+            - Blank together with event: the entire database is reset.
         2. event: str (default: "")
-            - The event of the gallery.
-            - If left blank together with location, the entire database is reset.
+            - The gallery name of a single event to reset; location is then ignored.
         """
 
-        if location != "":
-            if get_setting("show_gallery_category") == "Locations":
-                if location not in persistent.gallery.keys():
-                    return
-                if event == "" or len(persistent.gallery[location].keys()) == 0:
-                    persistent.gallery.pop(location, None)
-                elif event != "":
-                    persistent.gallery[location].pop(event, None)
-                    if len(persistent.gallery[location].keys()):
-                        persistent.gallery.pop(location, None)
-            else:
-                for event in event_replay_categories[location]:
-                    event_location = get_gallery_event(event).get_location()
-                    persistent.gallery[event_location].pop(event, None)
-                    if len(persistent.gallery[event_location].keys()) == 0:
-                        persistent.gallery.pop(event_location, None)
-        elif event == "":
+        # A single event never depends on the journal view. Before the category view
+        # existed this path wiped every other event of the location (inverted length
+        # check), and in the category view it wiped the whole category.
+        if event != "":
+            reset_gallery_event(event)
+            return
+
+        if location == "":
             persistent.gallery = {}
+            return
+
+        if get_setting("show_gallery_category") == "Locations":
+            if persistent.gallery is not None:
+                persistent.gallery.pop(location, None)
+        else:
+            for event_name in event_replay_categories.get(location, []):
+                reset_gallery_event(event_name)
 
     def get_gallery_values(location: str, event: str, values: Dict[str, Any], key: List[str]) -> List:
         """

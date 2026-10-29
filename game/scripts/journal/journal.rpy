@@ -899,7 +899,7 @@ label reset_event_gallery(location, event):
 
     $ reset_gallery(location, event)
 
-    if location not in persistent.gallery.keys():
+    if not gallery_group_has_entries(location):
         $ location = ""
 
     call open_journal(7, location) from reset_event_gallery_1
