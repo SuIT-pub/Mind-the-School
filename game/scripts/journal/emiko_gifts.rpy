@@ -45,7 +45,7 @@ init -1 python:
 
         def __init__(self, key: str, image: str, *conditions: Condition, note: str = "", title: str = ""):
             self.key = key
-            self.image = get_mod_path(active_mod_key) + image
+            self.image = get_mod_asset_path(image)
             self.conditions = ConditionStorage(*conditions)
             self.note = note
             self.title = title or "From Emiko"

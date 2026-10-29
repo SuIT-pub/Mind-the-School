@@ -121,7 +121,7 @@ init -4 python:
 
         def __init__(self, name: str, pattern: str, *alternative_keys: str):
             self._name = name
-            path = get_mod_path(active_mod_key) + pattern
+            path = get_mod_asset_path(pattern)
 
             self._pattern = path
             self._alternative_keys = list(alternative_keys)
@@ -607,6 +607,9 @@ init -2 python:
             """
 
             self._path_prefix = path_prefix
+            # same double slash guard as get_mod_asset_path
+            if path_prefix:
+                self._image_path = self._image_path.lstrip("/")
 
         def get_image(self, **kwargs) -> Tuple[int, str]:
             """

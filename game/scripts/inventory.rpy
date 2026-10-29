@@ -27,7 +27,7 @@ init -98 python:
             self.key = key
             self.name = name
             self.description = description if isinstance(description, list) else [description]
-            self.image = get_mod_path(active_mod_key) + image
+            self.image = get_mod_asset_path(image)
 
         def _update(self, item: ItemData):
             self.name = item.name

@@ -188,6 +188,7 @@ set_current_mod('mymod_key')
   `thumbnail`s, teaser `image`s, `Picto` icons, item images) are prefixed with your
   mod's path (`mods/MyMod/`). Write **plain paths relative to your mod root** —
   `Pattern("main", "images/foo <step>.webp")` — never `mods/MyMod/...`.
+  A leading slash (`/images/foo.webp`) is stripped, so it does not break the path.
 - **Active-state gating:** registration functions check `is_mod_active('mymod_key')`
   and no-op while your mod is off. That is why disabled mods inject no content.
   Only the registration is gated: your `define`s, screens and `init python` code
@@ -506,7 +507,7 @@ in `register_mod` on updates (players re-enable afterward).
 
 `register_mod(key, name, version, path, description=…, author=…, translations=[…], kinks=[…])` ·
 `set_current_mod(key)` · `is_mod_active(key)` · `get_mod_path(key)` /
-`get_current_mod_path()` · `register_start_method(label)` ·
+`get_current_mod_path()` · `get_mod_asset_path(path, key=None)` · `register_start_method(label)` ·
 `replace_event(key, event)` · `set_event_label(key, label, title=None)` ·
 `add_event_conditions(key, *conditions)` · `add_person_relations(person, **relations)`.
 

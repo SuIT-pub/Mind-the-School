@@ -52,7 +52,7 @@ init -99 python:
             """
             self.key = key
             # Redirect the path into the current mod's folder (base = "" prefix).
-            self.image = get_mod_path(active_mod_key) + image if image else image
+            self.image = get_mod_asset_path(image)
             self.x_pos = x_pos
             self.y_pos = y_pos
             self.open_conditions = open_conditions

@@ -6,7 +6,7 @@ init -99 python:
             self.label = label
             self.tooltip = tooltip
             # Redirect the path into the current mod's folder (base = "" prefix).
-            self.icon = get_mod_path(active_mod_key) + icon if icon else icon
+            self.icon = get_mod_asset_path(icon)
             self.label_keys = get_interpolation_keys(label)
             self.tooltip_keys = get_interpolation_keys(tooltip)
             self.icon_keys = get_interpolation_keys(icon)

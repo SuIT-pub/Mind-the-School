@@ -248,7 +248,7 @@ init -99 python:
             self.interpretation = interpretation
             self.note_type = note_type
             # Redirect the path into the current mod's folder (base = "" prefix).
-            self.image = get_mod_path(active_mod_key) + image if image else image
+            self.image = get_mod_asset_path(image)
             # Optional forced journal layout id; None → random on activate.
             self.layout = layout
             # Optional pencil note scribbled next to the entry (a word or two, see
@@ -483,7 +483,7 @@ init -99 python:
             self.effects = []
             self.reached = False
             # Redirect the path into the current mod's folder (base = "" prefix).
-            self.thumbnail = get_mod_path(active_mod_key) + thumbnail if thumbnail else thumbnail
+            self.thumbnail = get_mod_asset_path(thumbnail)
             self.visible_range = visible_range
             self.situation = None
             self.timed_release = None
@@ -2700,7 +2700,7 @@ init -99 python:
             self.pause_started = None
             self.paused_daytimes = 0
             # Redirect the path into the current mod's folder (base = "" prefix).
-            self.thumbnail = get_mod_path(active_mod_key) + thumbnail if thumbnail else thumbnail
+            self.thumbnail = get_mod_asset_path(thumbnail)
             self.thresholds = {}
             self.active_passive = None
             self.active_measure = None

@@ -1624,6 +1624,31 @@ init -99 python:
     def get_current_mod_path() -> str:
         return get_mod_path(active_mod_key)
 
+    def get_mod_asset_path(path: str, key: str = None) -> str:
+        """
+        Prefixes an asset path with the folder of a mod.
+
+        ### Parameters:
+        1. path: str
+            - The asset path as written in the code, e.g. "images/foo.webp".
+        2. key: str (default None)
+            - The mod key. None uses the mod whose registration is running.
+
+        ### Returns:
+        1. str
+            - The path inside the mod folder; empty paths stay as they are.
+        """
+
+        if not path:
+            return path
+
+        prefix = get_mod_path(active_mod_key if key is None else key)
+        # "mods/X/" + "/images/foo.webp" gives a double slash that Ren'Py never finds;
+        # the base game has no prefix, so its paths stay untouched
+        if prefix:
+            path = path.lstrip("/")
+        return prefix + path
+
     def activate_mod(key: str):
         if key in persistent.modList.keys():
             persistent.modList[key]['active'] = True

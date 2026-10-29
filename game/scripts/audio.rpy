@@ -46,7 +46,7 @@ init -5 python:
         def __init__(self, sound: str, priority: int = 0, *conditions: Condition, volume: float = 1.0):
             # bare file names are looked up in game/audio by Ren'Py and never belong to a mod folder
             if "/" in sound:
-                sound = get_mod_path(active_mod_key) + sound
+                sound = get_mod_asset_path(sound)
             self._sound = sound
             self._priority = priority
             self._conditions = list(conditions)
@@ -718,7 +718,7 @@ init -5 python:
         """
 
         if "/" in sound:
-            sound = get_mod_path(active_mod_key) + sound
+            sound = get_mod_asset_path(sound)
         record_mod_content("ui_sound", key)
         if is_mod_active(active_mod_key):
             ui_sounds[key] = (sound, volume)

@@ -168,6 +168,10 @@ Pattern("main", "images/mymod_scene <step>.webp")
 ```
 
 Never write `mods/MyMod/images/…` yourself — that would double the prefix.
+A leading slash is harmless: `/images/foo.webp` becomes `mods/MyMod/images/foo.webp`,
+not `mods/MyMod//images/…`. Custom classes that take an asset path should join it with
+`get_mod_asset_path(path)` instead of `get_mod_path(active_mod_key) + path`, so they get
+the same guard.
 
 The base game does the same with `set_current_mod('base')`. For the base game the
 prefix is empty, so `images/…` stays `images/…`.
@@ -175,10 +179,8 @@ prefix is empty, so `images/…` stays `images/…`.
 PNG/WebP swapping runs **after** the prefix is in place, so a mod file
 `mods/MyMod/images/foo.webp` is found from a pattern that says `images/foo.png`.
 
-`Pattern.get_path()` prepends `get_mod_path(active_mod_key)` **again** at call time.
-The constructor already stored a prefixed `_pattern`, so this is a no-op when the
-current prefix is empty (typical once inits have finished with `'base'`). Do not "fix"
-missing mod images by baking `mods/…` into the pattern string.
+`Pattern.get_path()` returns the path stored by the constructor and adds no prefix of
+its own. Do not "fix" missing mod images by baking `mods/…` into the pattern string.
 
 ---
 
@@ -427,7 +429,7 @@ When you store an image on a class, capture the mod prefix **in the constructor*
 
 ```python
 def __init__(self, image: str, ...):
-    self.image = get_mod_path(active_mod_key) + image if image else image
+    self.image = get_mod_asset_path(image)
 
 def get_image(self, state="idle"):
     return refine_image(self.image, state=state)
@@ -573,7 +575,7 @@ resolution, using the stem (so `foo 1 0.webp` and `foo 1 0.png` yield the same
 `find_loadable_image(path)` · `find_available_images(paths)` · `check_image(path)` ·
 `get_image(path, **kwargs)` → `(nude, path)` ·
 `call show_image(path, display_type=SCENE, **kwargs)` ·
-`get_mod_path(key)` / `get_current_mod_path()`.
+`get_mod_path(key)` / `get_current_mod_path()` / `get_mod_asset_path(path, key=None)`.
 
 ### Internals (you rarely call these)
 

@@ -2,7 +2,7 @@ init -99 python:
     class Map:
         def __init__(self, key, map_path, *building_keys):
             self.key = key
-            self.map_path = get_current_mod_path() + map_path
+            self.map_path = get_mod_asset_path(map_path)
             self.building_keys = list(building_keys)
 
         def get_map_path(self) -> str:
