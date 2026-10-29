@@ -60,8 +60,12 @@ NEWS_TITLE = re.compile(r"\bnews\b", re.IGNORECASE)
 
 # ---------------------------------------------------------------- Patreon --
 
+USER_AGENT = "Mozilla/5.0 (compatible; Mind the School news board)"
+
+
 def _http_get(url, headers=None):
-    request = urllib.request.Request(url, headers=headers or {})
+    # Patreon's image CDN answers urllib's default "Python-urllib/x.y" with 403
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, **(headers or {})})
     with urllib.request.urlopen(request, timeout=30) as response:
         return response.read()
 
@@ -156,7 +160,7 @@ def fetch_covers(get=_http_get):
         "json-api-version": "1.0",
     })
     try:
-        body = json.loads(get(url, {"User-Agent": "Mozilla/5.0 (compatible; Mind the School news board)"}))
+        body = json.loads(get(url, {"User-Agent": USER_AGENT}))
     except Exception as error:  # undocumented endpoint: any failure just means "no covers"
         print(f"Cover endpoint failed, posts fall back to their text images: {error}")
         return {}
