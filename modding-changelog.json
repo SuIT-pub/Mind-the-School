@@ -2,6 +2,24 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "get-stat-value-replay-read",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "fixed",
+      "title": "get_stat_value returns the chosen block in the replay instead of always 100",
+      "details": "In a replay (and in `no_gallery` events) `get_stat_value` read the top-level kwargs instead of `kwargs[\"values\"]`, so it returned `alt` (100) whatever option the player picked, and the scene always took the high branch. It now reads through `get_value`, like every other getter. If you worked around this by branching on a different value in replays, remove the workaround.",
+      "wiki": "Events"
+    },
+    {
+      "id": "stat-range-blocks",
+      "date": "2026-10-29",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Stat ranges: written once on the StatSelector, values filed under the boundary they reach",
+      "details": "`get_stat_value(key, ranges=None, ...)` / `set_stat_value(...)`: leave `ranges` out and the running event's `StatSelector` range is used, so the label doesn't repeat it (an explicit `ranges` still wins). The gallery now files a value under the **highest range boundary it reaches** (0 below the lowest) instead of the next-higher one: with `[40, 70]`, a live 75 replays as 70 and a live 39 as 0. The scene keeps the raw value. Rule: list the thresholds your branches use and compare with `>=` (`if corr >= 70`), then live and replay take the same path. Check events that branch on `>` or on values that aren't in their range. Replays saved before may still offer an old upper-bound option until the scene is played again. The `key_range` entry `Selectors` promised in `kwargs[\"values\"]` never existed; the wiki is corrected.",
+      "wiki": "Events"
+    },
+    {
       "id": "check-registered-events",
       "date": "2026-10-28",
       "version": "0.2.2",
