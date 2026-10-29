@@ -110,6 +110,8 @@ label after_load:
     $ clean_legacy_quests()
     # an old PTAProposal would hold the vote slot and block every Schedule Vote
     $ clean_legacy_vote_proposal()
+    # bookkeeping of the deprecated TempEventStorage, which call_available_event no longer runs
+    $ remove_game_data("temp_event_blocker")
 
     $ check_event_selectors()
     $ check_registered_events()

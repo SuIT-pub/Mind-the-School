@@ -222,7 +222,7 @@ init -3 python:
             self.options = OptionSet(*options)
 
             # load-time storages only: replacements happen at load time, and a
-            # storage built later (TempEventStorage) mustn't grow the list
+            # storage built at runtime mustn't grow the list
             if renpy.is_init_phase():
                 event_storage_register.append(self)
             
@@ -1760,7 +1760,7 @@ init -3 python:
             if len(self.fragments) == 0:
                 log("Composite Event " + self.event_id + ": No fragments are added!", log_type="error", category="event")
 
-            if any(not isinstance(fragment, EventStorage) or isinstance(fragment, TempEventStorage) for fragment in self.fragments):
+            if any(not isinstance(fragment, EventStorage) for fragment in self.fragments):
                 log("Composite Event " + self.event_id + ": Fragments have to be EventStorages!", log_type="error", category="event")
 
         def _fragment_check_kwargs(self, **kwargs) -> Dict[str, Any]:
@@ -2518,15 +2518,14 @@ init -3 python:
 
 label call_available_event(event_storage, priority = 0, no_fallback = False, **kwargs):
     # """
-    # Calls all available events depending on the priority.
+    # Calls the available events of a storage, picked by select type.
 
     # ### Parameters:
-    # 1. event_storage: :class:`EventStorage` | :class:`TempEventStorage`
+    # 1. event_storage: :class:`EventStorage`
     #     - The event storage that is used to call the events.
-    #     - If the event storage is a TempEventStorage, the events are removed from the storage after they are called.
     # 2. priority: int (Default 0)
-    #     - The priority of the events that are called.
-    #     - If priority is 0, all events are called.
+    #     - The select type to pick from (EVENT_BLOCKING / EVENT_ALWAYS / EVENT_RANDOM).
+    #     - 0 goes through all select types, blocking first.
     # 3. **kwargs
     #     - The arguments that are passed to the events.
     # """
@@ -2540,40 +2539,23 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     else:
         $ events_list = event_storage.get_available_events_with_fallback(priority, True, **kwargs)
 
-    if not contains_game_data("temp_event_blocker"):
-        $ set_game_data("temp_event_blocker", [])
-
-    $ temp_event_blocker = get_game_data("temp_event_blocker")
-
     $ i = 0
     while(len(events_list) > i):
-        $ continue_loop = False
         $ event_obj = events_list[i]
 
-        # Ask about open kinks before anything else happens to the event (a
-        # declined temp event stays in its storage for later).
+        # Ask about open kinks before the event runs.
         if not settle_event_kinks(event_obj, **kwargs):
-            # skipped; the rest of a priority-2 group still runs
+            # skipped; the rest of an EVENT_ALWAYS group still runs
             $ declined_events.append(event_obj.get_id())
-            $ i += 1
         else:
-            if event_storage.get_type() == "TempEventStorage":
-                $ event_storage.remove_event(event_obj.get_id())
+            # Dispatch through Event.call() so subclasses (EventSelect) can inject
+            # their extra kwargs. Calling get_event_label() here skipped that.
+            $ event_obj.call(**kwargs)
+        $ i += 1
 
-                if event_obj.get_id() in temp_event_blocker:
-                    $ continue_loop = True
-                else:
-                    $ temp_event_blocker.append(event_obj.get_id())
-
-            if not continue_loop or event_obj.get_id() == event_storage.get_fallback().get_id():
-                # Dispatch through Event.call() so subclasses (EventSelect) can inject
-                # their extra kwargs. Calling get_event_label() here skipped that.
-                $ event_obj.call(**kwargs)
-            $ i += 1
-
-        # Every event of this pick was turned down (a single priority-1 or -3
-        # pick, or a whole priority-2 group): pick again without them. With
-        # priority 0 that falls through 1 → 2 → 3 like the first pick did.
+        # Every event of this pick was turned down (a single EVENT_BLOCKING or
+        # EVENT_RANDOM pick, or a whole EVENT_ALWAYS group): pick again without
+        # them. With select type 0 that falls through 1 → 2 → 3 like the first pick did.
         if i >= len(events_list) and all(event.get_id() in declined_events for event in events_list):
             $ events_list = event_storage.get_available_events(priority, True, exclude = declined_events, **kwargs)
             $ i = 0
@@ -2584,16 +2566,15 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
 
 label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
     # """
-    # Calls all available events depending on the priority.
+    # Calls an event, a label, a list of labels or the available events of a storage.
 
     # ### Parameters:
-    # 1. event_obj: str | List[str] | :class:`Event` | :class:`EventStorage` | :class:`TempEventStorage`
+    # 1. event_obj: str | List[str] | :class:`Event` | :class:`EventStorage`
     #     - The event that is called.
     #     - If the event is a string, the event is called.
     #     - If the event is a list of strings, all events in the list are called.
     #     - If the event is an :class:`Event`, the event is called.
     #     - If the event is an :class:`EventStorage`, all events in the :class:`EventStorage` are called.
-    #     - If the event is a :class:`TempEventStorage`, all events in the :class:`TempEventStorage` are called.
     # """
 
     if isinstance(event_obj_var, EventStorage):
