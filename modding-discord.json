@@ -48,6 +48,10 @@
     "check-registered-events",
     "stat-range-blocks",
     "get-stat-value-replay-read",
-    "event-priority-end-constants"
+    "event-priority-end-constants",
+    "gallery-version-reset-scope",
+    "select-type-param-name",
+    "temp-event-storage-unhooked",
+    "gallery-version-docs"
   ]
 }
