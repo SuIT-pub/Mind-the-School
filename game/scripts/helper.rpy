@@ -735,7 +735,7 @@ init -99 python:
         """
 
         person = get_kwargs("person", character.subtitles, **kwargs)
-        name = get_kwargs("name", person.name, **kwargs)
+        name = get_kwargs("name", person.get_full_name(), **kwargs)
         image = get_kwargs("image", None, **kwargs)
 
         text_list = list(text)
