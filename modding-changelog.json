@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "bar-asymmetric-stat-weights",
+      "date": "2026-10-30",
+      "version": "0.2.2",
+      "type": "added",
+      "title": "Situation bars can weigh setbacks heavier than progress (stat weight pairs, negative_weight_factor)",
+      "details": "A `stat_weights` value can now be a pair `(raising, lowering)`: the first weight applies when a stat change would raise the bar, the second when it would lower it. What counts is the effect on the bar, so Inhibition going up on a negative weight uses the second value too.\n\n```python\nBar(\"main\", stat_weights={EDUCATION: (1.5, 3.0), INHIBITION: (-0.3, -0.6)})\n```\n\n`Bar(..., negative_weight_factor=2.0)` turns every plain weight `w` into `(w, w * 2.0)`; pairs you write out stay as they are:\n\n```python\nBar(\"main\", regular_decrease_rate=0,\n    stat_weights={EDUCATION: 1.5, REPUTATION: 2.0},\n    negative_weight_factor=2.0)\n```\n\nOnly stat-driven movement is affected, not event effects or `regular_decrease_rate`. Plain numbers keep working as before. A malformed weight fails the self-test with code 787.",
+      "wiki": "Building-Situations#3-how-bars-move"
+    },
+    {
       "id": "select-type-filter-param",
       "date": "2026-10-29",
       "version": "0.2.2",
