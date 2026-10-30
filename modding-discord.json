@@ -55,6 +55,7 @@
     "gallery-version-docs",
     "event-priority-end-constants-2",
     "mod-asset-path-leading-slash",
-    "select-type-filter-param"
+    "select-type-filter-param",
+    "bar-asymmetric-stat-weights"
   ]
 }
