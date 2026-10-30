@@ -1716,6 +1716,10 @@ init -99 python:
             if any(Stat_Data[stat] == None for stat in self.stat_weights.keys()):
                 invalid_stats = [stat for stat in self.stat_weights.keys() if Stat_Data[stat] == None]
                 error_messages.append((762, f"Stat(s) {invalid_stats} not found."))
+            for stat, weight in self.stat_weights.items():
+                pair = isinstance(weight, (tuple, list))
+                if (pair and (len(weight) != 2 or not all(isinstance(w, (int, float)) for w in weight))) or (not pair and not isinstance(weight, (int, float))):
+                    error_messages.append((787, f"Stat weight for {stat} is {weight!r}. Has to be a number or a (raising, lowering) pair of numbers."))
             if self.key is None or self.key == "":
                 error_messages.append((763, "Key is empty. Has to be a non-empty string."))
             if self._weight == 0:
@@ -2097,9 +2101,27 @@ init -99 python:
                 self.apply_decrease_modifier()
             return self
 
-        def add_stat_weight(self, stat: str, weight: int):
+        def add_stat_weight(self, stat: str, weight):
+            """
+            Couples the bar to a school stat.
+
+            Args:
+                stat (str): School stat key.
+                weight (float | Tuple[float, float]): One weight for both directions, or
+                    (raising, lowering): the first applies when the stat change would
+                    raise the bar, the second when it would lower it.
+            """
             self.stat_weights[stat] = weight
             return self
+
+        @staticmethod
+        def split_stat_weight(weight) -> Tuple[float, float]:
+            """
+            (raising, lowering) of a stat weight that is a number or a pair.
+            """
+            if isinstance(weight, (tuple, list)):
+                return float(weight[0]), float(weight[1])
+            return float(weight), float(weight)
 
         def set_weight(self, weight: float):
             self._weight = weight
@@ -2172,7 +2194,13 @@ init -99 python:
 
         def change_value_via_stats(self, key: str, delta: float):
             if key in self.stat_weights.keys():
-                self.change_value(delta * self.stat_weights[key])
+                raising, lowering = SituationBar.split_stat_weight(self.stat_weights[key])
+                change = delta * raising
+                # a change that hurts the bar (Inhibition up on a negative weight,
+                # Corruption down on a positive one) uses the lowering weight
+                if change < 0:
+                    change = delta * lowering
+                self.change_value(change)
 
         def reached_min(self):
             return self.value == self.min       
@@ -4732,13 +4760,14 @@ init -99 python:
         """
         return SituationThreshold(approach_hint, threshold_hint, *conditions, direction=direction, visible_range=visible_range, thumbnail=thumbnail, default_hold=default_hold, on_start=on_start).add_bounds(**bounds)
 
-    def Bar(key, *elements: Pictogram, weight: float = None, limits = (-100, 100), stat_weights = None, regular_decrease_rate: float = 0, regular_decrease_interval: str = "daytime_change", start_base: float = 0, start_modifiers = None):
+    def Bar(key, *elements: Pictogram, weight: float = None, limits = (-100, 100), stat_weights = None, negative_weight_factor: float = None, regular_decrease_rate: float = 0, regular_decrease_interval: str = "daytime_change", start_base: float = 0, start_modifiers = None):
         """
         Situation bar with limits and optional start-value / wear setup.
 
         Bar("main",
             limits=(-30, 60),
-            stat_weights={HAPPINESS: 0.5},
+            stat_weights={HAPPINESS: 0.5, EDUCATION: (0.3, 0.6)},
+            negative_weight_factor=2.0,
             regular_decrease_rate=-0.5,
             start_base=-20,
             start_modifiers=[
@@ -4746,6 +4775,11 @@ init -99 python:
                 StartModifier("+", 0.05, stat=HAPPINESS),
             ],
         )
+
+        stat_weights values are a number or a (raising, lowering) pair: the second
+        weight applies when a stat change would lower the bar. negative_weight_factor
+        turns every plain number w into (w, w * factor), so setbacks hit harder;
+        pairs given explicitly stay as they are.
         """
         bar = SituationBar(key, regular_decrease_rate, regular_decrease_interval).set_limits(limits[0], limits[1])
         bar.set_start_base(start_base)
@@ -4754,6 +4788,8 @@ init -99 python:
                 bar.add_start_modifier(entry)
         if stat_weights:
             for stat, stat_weight in stat_weights.items():
+                if negative_weight_factor is not None and not isinstance(stat_weight, (tuple, list)):
+                    stat_weight = (stat_weight, stat_weight * negative_weight_factor)
                 bar.add_stat_weight(stat, stat_weight)
         if weight:
             bar.set_weight(weight)

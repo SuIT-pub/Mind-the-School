@@ -312,6 +312,30 @@ If Happiness rises by 10, `main` moves by +5. If Inhibition drops by 10, `main`
 moves by +8 (a negative weight inverts the direction). This lets the Situation
 respond organically to whatever the player is already doing at the school.
 
+**Setbacks can weigh more than progress.** A weight can be a pair
+`(raising, lowering)`: the first applies when the stat change would raise the bar,
+the second when it would lower it. What counts is the effect on the bar, not the
+direction of the stat: Inhibition going up on a negative weight, or Corruption
+going down on a positive one, both lower the bar and use the second value.
+
+```python
+Bar("main", stat_weights={EDUCATION: (1.5, 3.0), INHIBITION: (-0.3, -0.6)})
+```
+
+When every stat should hit twice as hard on the way down, `negative_weight_factor`
+saves writing the pairs: it turns each plain number `w` into `(w, w * factor)`.
+Pairs written out explicitly keep their values.
+
+```python
+Bar("main",
+    regular_decrease_rate=0,
+    stat_weights={EDUCATION: 1.5, REPUTATION: 2.0},   # becomes (1.5, 3.0) and (2.0, 4.0)
+    negative_weight_factor=2.0)
+```
+
+Only stat-driven movement is affected; event effects that move the bar directly and
+the regular wear (`regular_decrease_rate`) are not.
+
 > The implementation runs through
 > `situation_manager.apply_progress_change_via_stats`, which is called
 > automatically on every stat change across all active Situations. You don't have
@@ -762,7 +786,7 @@ directly, use the **definition helpers** — they reduce boilerplate (no manual
 | Helper | Creates |
 |--------|---------|
 | `Situation(key, name, description, *elements, thumbnail=None, start_thresholds="skip")` | the Situation itself (`start_thresholds`: see [jumped thresholds](#thresholds-the-start-value-jumps-past)) |
-| `Bar(key, *pictos, weight=None, limits=(-100,100), stat_weights=None, regular_decrease_rate=0, regular_decrease_interval="daytime_change", start_base=0, start_modifiers=None)` | a bar (leading `Picto(...)` args attach preview marks — see [§18](#18-pictograms-preview-marks)) |
+| `Bar(key, *pictos, weight=None, limits=(-100,100), stat_weights=None, negative_weight_factor=None, regular_decrease_rate=0, regular_decrease_interval="daytime_change", start_base=0, start_modifiers=None)` | a bar (leading `Picto(...)` args attach preview marks — see [§18](#18-pictograms-preview-marks)) |
 | `StartModifier(op, value, name=None, stat=None, condition=None)` | a start-value modifier (`value` may be a `Selector`; see [conditional start modifiers](#conditional-start-modifiers)) |
 | `AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, default_hold=-1, on_start=None, **bounds)` | auto-fire threshold (one-shot by default; `default_hold>=0` makes it repeatable) |
 | `BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, default_hold=-1, on_start=None, **bounds)` | blocking threshold (no hysteresis by default) |
@@ -1460,6 +1484,9 @@ for using it well:
   progress still comes from active play (measures, events).
 - **Invert where it makes sense.** A negative weight flips direction — e.g. falling
   Inhibition *helping* a conflict defuse: `stat_weights={INHIBITION: -0.8}`.
+- **Make setbacks sting, if the Situation should be hard.** A `(raising, lowering)`
+  pair or `negative_weight_factor` lets bad news move the bar further than good news
+  ([§3b](#b-stat-weights-stat_weights)).
 - **Differentiate per bar in multi-bar Situations.** Education can weigh more on the
   `teachers` bar than on `parents`, etc., so different stats pull different factions.
 
@@ -1665,6 +1692,7 @@ More in `game/scripts/conditions.rpy`.
 | 780 | Resolution without an effect |
 | 781/782 | Resolution mode not `ALL`/`ANY` |
 | 784 | `NegativeResolution` `grace_count` invalid |
+| 787 | Stat weight neither a number nor a `(raising, lowering)` pair of numbers |
 | 790 | Situation without a bar |
 | 791 | Threshold bounds cross (softlock risk) |
 | 792/793 | Situation key or name empty |
