@@ -275,7 +275,7 @@ label sd_event_2 (**kwargs):
         ("I'm leaving, I'm leaving!", topic_set == 1,  0),
         ("You hastily beat a retreat.", character.subtitles, topic_set == 1, 1),
         ("Good view, bad timing.", character.subtitles, topic_set == 1, 1),
-        person = character.headmaster, image = image2)
+        person = headmaster, image = image2)
         # ("Oh, sorry.", topic_set == 2),
         # ("Oh, sorry about that!", topic_set == 2),
         # ("Sorry miss, wrong door obviously!", topic_set == 2),
