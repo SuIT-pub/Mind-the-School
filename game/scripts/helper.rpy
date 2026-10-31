@@ -729,7 +729,7 @@ init -99 python:
             - If the tuple is contained in another tuple starting with a float it will be treated as a weight
         2. **kwargs
             - The kwargs to get from
-            - If the kwargs contain a "person" key it will be treated as a character
+            - If the kwargs contain a "person" key it will be treated as a Person()
             - If the kwargs contain a "name" key it will be treated as a name
             - If the kwargs contain a "image" key it will be treated as an image
         """
