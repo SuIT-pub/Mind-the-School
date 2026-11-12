@@ -214,7 +214,7 @@ label lab_intro_2 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
     
     $ image.show(0)
-    subtitles "The smell hits first — mold and old solvent, something chemical that hasn't fully dissipated in thirty years."
+    subtitles "The smell hits first ... mold and old solvent, something chemical that hasn't fully dissipated in thirty years."
     headmaster.think "Hmm, everything is pretty run down."
 
     call Image_Series.show_image(image, 1, 2) from _call_lab_intro_show_image_1
@@ -445,7 +445,7 @@ label lab_intro_2_patrol_courtyard (**kwargs):
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_lab_intro_2_patrol_courtyard_1
     headmaster "Hey, what are you doing? That's dangerous!"
     $ image.show(3)
-    hatano "{i}They{/i} wanted to go camping. Don't look at me — I'm not the one who packed a gas burner into her bag."
+    hatano "{i}They{/i} wanted to go camping. Don't look at me ... I'm not the one who packed a gas burner into her bag."
     $ image.show(4)
     headmaster "Camping? But you're just on the school grounds!"
     $ image.show(5)
@@ -619,7 +619,7 @@ label lab_intro_4 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    subtitles "The vial is warm from being in his pocket all morning. The liquid inside is amber — darker than expected, catching the desk lamp like old honey."
+    subtitles "The vial is warm from being in his pocket all morning. The liquid inside is amber ... darker than expected, catching the desk lamp like old honey."
 
     headmaster.think "Alright. Let's get to work."
     $ image.show(1)
@@ -638,16 +638,16 @@ label lab_intro_4 (**kwargs):
     headmaster.think "Now let's try to recreate the potion."
 
     call Image_Series.show_image(image, 10, 11) from _call_show_image_lab_intro_4_3
-    subtitles "The smell is wrong at first — sharp, almost medicinal. He adjusts the ratio. Tries again."
+    subtitles "The smell is wrong at first ... sharp, almost medicinal. He adjusts the ratio. Tries again."
 
     ## 3 hours later...
     $ image.show(12)
     headmaster.think "Hmm, I could only make these vials. I need to figure out how to make more."
-    headmaster.think "I need to think about it a bit more. I should try it myself first — just in case there are any side effects."
+    headmaster.think "I need to think about it a bit more. I should try it myself first ... just in case there are any side effects."
     $ image.show(13)
     headmaster.think "Okay, here goes nothing..."
 
-    subtitles "It tastes like copper with something sweet fighting underneath — not pleasant, not chemical, just wrong in a way he can't name yet."
+    subtitles "It tastes like copper with something sweet fighting underneath ... not pleasant, not chemical, just wrong in a way he can't name yet."
     $ image.show(14)
     headmaster.think "Hmm, I definitely need to work on the taste..."
     $ image.show(15)
@@ -689,11 +689,11 @@ label lab_intro_5 (**kwargs):
 
     $ image.show(2)
     headmaster.think "Maybe I'm just not susceptible to it. Nothing for me to be conditioned toward..."
-    headmaster.think "The formula works on inhibition — on suppressed desire. If there's nothing there to suppress in the first place..."
+    headmaster.think "The formula works on inhibition ... on suppressed desire. If there's nothing there to suppress in the first place..."
     headmaster.think "Maybe it only works on women."
 
     $ image.show(3)
-    headmaster.think "At any rate — no adverse effects. The formula is sound. Time to move forward."
+    headmaster.think "At any rate ... no adverse effects. The formula is sound. Time to move forward."
 
     $ set_progress("lab_intro", 5)
 
@@ -728,11 +728,11 @@ label lab_intro_6 (**kwargs):
         PDAPreset("outside", duration = 0.0)
     )
 
-    headmaster "Emiko! There you are — I did it. I recreated it. The prototype's stable."
+    headmaster "Emiko! There you are ... I did it. I recreated it. The prototype's stable."
     $ emiko.display(PDAPreset("close_body_center", duration = 1.0))
     emiko "Hello to you too. That's the good kind of manic face, I hope."
     $ emiko.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed"))
-    headmaster "A prototype. I've already taken a dose myself — no ill effects. But before it goes anywhere near anyone else, I want a second reading. Would you?"
+    headmaster "A prototype. I've already taken a dose myself ... no ill effects. But before it goes anywhere near anyone else, I want a second reading. Would you?"
     $ emiko.display(PDAImage(pose = "19", mood = "happy", mouth = "open"))
     emiko "If you made it, I'll drink it. Hand it over."
 
@@ -748,17 +748,17 @@ label lab_intro_6 (**kwargs):
     $ image.hide()
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
     $ emiko.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
-    emiko "Hmm... a little warmer, maybe? Honestly — barely anything at all."
+    emiko "Hmm... a little warmer, maybe? Honestly ... barely anything at all."
     $ emiko.display(PDAImage(pose = "10", mood = "neutral", mouth = "closed"))
     subtitles "Silence. Just the faint hum of the ventilation and the sound of his own breathing."
     $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"))
-    headmaster "Figures. After what the original did to you, there's not much left in you for a diluted batch to stir — so your reading tells me almost nothing about a fresh subject. I'll need a cleaner test."
+    headmaster "Figures. After what the original did to you, there's not much left in you for a diluted batch to stir ... so your reading tells me almost nothing about a fresh subject. I'll need a cleaner test."
     $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "open"))
-    emiko "Then be careful — with the dose, and with whoever you give it to. This is supposed to help them, remember."
+    emiko "Then be careful ... with the dose, and with whoever you give it to. This is supposed to help them, remember."
     $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
         PDAPreset("outside", duration = 1.0), PDAPause(duration = 1.0))
     $ image.show(6)
-    headmaster.think "She's right. Carefully, then. First — I need to produce more."
+    headmaster.think "She's right. Carefully, then. First ... I need to produce more."
 
     $ set_progress("lab_intro", 6)
 
@@ -900,8 +900,8 @@ label lab_intro_7 (**kwargs):
     headmaster.think "I should try it with other students to see if it works for them. Maybe I should also try a higher dose on Emiko."
     
     $ image.show(27)
-    headmaster.think "So that's the whole picture — the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
-    headmaster.think "It doesn't hold long — a few minutes, maybe. But it works. It actually works."
+    headmaster.think "So that's the whole picture ... the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
+    headmaster.think "It doesn't hold long ... a few minutes, maybe. But it works. It actually works."
     
     # headmaster goes away
     call Image_Series.show_image(image, 28, pause = True) from _call_show_image_lab_intro_7_4
@@ -982,11 +982,11 @@ label lab_intro_8 (**kwargs):
     $ image.show(24)
     finola "I don't know, it shows a little too much..."
     $ image.show(23)
-    zoe "Oh, come on — you've got a lovely figure. There's no shame in letting it show a little."
+    zoe "Oh, come on ... you've got a lovely figure. There's no shame in letting it show a little."
     $ image.show(24)
     finola "Do you think so? I'm not sure..."
     $ image.show(23)
-    zoe "Of course. You should feel good in your own skin — that's all I mean."
+    zoe "Of course. You should feel good in your own skin ... that's all I mean."
     $ image.show(24)
     finola "I'll think about it..."
     $ image.show(25)
@@ -999,7 +999,7 @@ label lab_intro_8 (**kwargs):
     $ image.show(27)
     finola "Why did I... I need to change back. This is completely inappropriate for work."
 
-    subtitles "The faculty lounge smells like burnt coffee and something sweeter underneath — faint, already fading."
+    subtitles "The faculty lounge smells like burnt coffee and something sweeter underneath ... faint, already fading."
     headmaster.think "Five minutes. Maybe less. They snap back every time."
     headmaster.think "I need a catalyst."
 
@@ -1037,7 +1037,7 @@ label lab_intro_9 (**kwargs):
     
     # headmaster bumps into student cleaning the hallway
     call Image_Series.show_image(image, 1, 2) from _call_show_image_lab_intro_9_1
-    headmaster "Oh—!"
+    headmaster "Oh...!"
     
     # student's bucket tips, spilling cleaning solution across the floor
     # headmaster's potion vial slips from his hand and shatters in the puddle
@@ -1103,7 +1103,7 @@ label lab_intro_10 (**kwargs):
     headmaster.think "That's odd. Class shouldn't be in session now."
     
     $ image.show(3)
-    headmaster "Girls? Is everything—"
+    headmaster "Girls? Is everything..."
     
     $ image.show(4)
     gloria "Mr. [headmaster_last_name]! Perfect timing, come sit with us!"
@@ -1122,7 +1122,7 @@ label lab_intro_10 (**kwargs):
     headmaster.think "They're showing me their underwear like it's the most natural thing in the world. No hesitation, no embarrassment."
     
     $ image.show(8)
-    gloria "Now mine—tell me honestly, is the black too much? I thought it looked sophisticated."
+    gloria "Now mine...tell me honestly, is the black too much? I thought it looked sophisticated."
     
     $ image.show(9)
     headmaster "It's... elegant. Suits you."
@@ -1143,7 +1143,7 @@ label lab_intro_10 (**kwargs):
     gloria "Don't be shy! We're all being open here."
     
     $ image.show(15)
-    luna "But I'm not wearing—"
+    luna "But I'm not wearing..."
     
     $ image.show(16)
     lin "Come on, Luna!"
@@ -1166,7 +1166,7 @@ label lab_intro_10 (**kwargs):
     luna "Mr. [headmaster_last_name], you think they're nice?"
     
     $ image.show(23)
-    headmaster "I—yes, they're lovely. But I should really be going now."
+    headmaster "I...yes, they're lovely. But I should really be going now."
     headmaster.think "Christ. She's standing there topless asking my opinion like we're discussing the weather."
     headmaster.think "What happened in here? Girls test boundaries, sure, But not like this. This wasn't them. Something did this to them."
     lin "Aww, already? We're having fun!"
@@ -1219,8 +1219,8 @@ label lab_intro_10 (**kwargs):
     $ image.show(36)
     headmaster.think "The cleaning solution. The girls in the classroom. Ishimaru just now."
     headmaster.think "They all have that same look. That same lack of inhibition."
-    headmaster.think "And that smell—it's the same one in the classroom. Stronger near where the spill happened."
-    headmaster.think "Something in those cleaning chemicals reacted with the potion — it has to be. But which one?"
+    headmaster.think "And that smell...it's the same one in the classroom. Stronger near where the spill happened."
+    headmaster.think "Something in those cleaning chemicals reacted with the potion ... it has to be. But which one?"
     
     $ set_progress("lab_intro", 10)
     
@@ -1235,9 +1235,9 @@ label lab_intro_10 (**kwargs):
 init 2 python:
     set_current_mod('base')
 
-    # Analysis debrief — Headmaster calls Emiko in to talk it through. Pure
+    # Analysis debrief ... Headmaster calls Emiko in to talk it through. Pure
     # dialogue in the office, so it runs entirely on Emiko's paperdoll over the
-    # blurred office background (f.webp — the empty plate of the secretary view,
+    # blurred office background (f.webp ... the empty plate of the secretary view,
     # no baked-in Emiko, so the overlaid paperdoll can't double her). No bespoke
     # CGs, hence no Pattern. Gated behind the Investigation (lab_intro 10).
     # Registered on the "call secretary → talk" action, same as lab_intro_6.
@@ -1256,10 +1256,10 @@ label lab_intro_11 (**kwargs):
     $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
 
     subtitles "Late afternoon. The sun has dropped far enough to come in sideways, laying a bar of orange across the desk and the papers scattered over it."
-    subtitles "The office still smells faintly of the lab — that sweet, chemical undertone riding under the old-paper and cold-coffee of the room."
+    subtitles "The office still smells faintly of the lab ... that sweet, chemical undertone riding under the old-paper and cold-coffee of the room."
     headmaster.think "The smell. The behaviour. The timing. Every thread of it runs back to that spill in the hallway."
 
-    # Emiko lets herself in after the token courtesy of a knock — folder under one
+    # Emiko lets herself in after the token courtesy of a knock ... folder under one
     # arm, already halfway through the door.
     $ emiko.display(PDAImage(pose = "10", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed"),
         PDAPreset("close_body_center", duration = 0.0),
@@ -1282,36 +1282,36 @@ label lab_intro_11 (**kwargs):
     $ emiko.display(PDAImage(mouth = "open"))
     emiko.say "You mentioned it. Broken glass and a bad morning, the way you told it."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "I went back to look the area over. Found three girls in a classroom — blouses open, showing each other their bras like it was show-and-tell."
+    headmaster "I went back to look the area over. Found three girls in a classroom ... blouses open, showing each other their bras like it was show-and-tell."
     headmaster "One of them wasn't even wearing one. Just opened her shirt and asked my honest opinion. Though a bit hesitant, she still showed hers off."
     $ emiko.display(PDAImage(pose = "17", mood = "shining", mouth = "open"))
     emiko.say "That's a long way from your earlier results. The last batch barely got a giggle out of anyone before it wore off."
 
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "Exactly. The early doses were nothing — minutes, and then they'd snap back, embarrassed, none the wiser."
+    headmaster "Exactly. The early doses were nothing ... minutes, and then they'd snap back, embarrassed, none the wiser."
     headmaster "These girls had been like that a quarter of an hour, maybe longer, by the time I walked in on them."
     $ emiko.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
     emiko.say "And Ms. Maki? She's the one you collided with when the vial went down."
     $ emiko.display(PDAImage(mouth = "closed"))
 
     subtitles "He pauses. A little colour comes up in his face before he answers."
-    headmaster "Topless. Said she'd taken her top off cleaning because it got dirty — perfectly reasonable, the way she framed it."
+    headmaster "Topless. Said she'd taken her top off cleaning because it got dirty ... perfectly reasonable, the way she framed it."
     headmaster "Then she got close. Hand on my arm, telling me how good I smelled."
     $ emiko.display(PDAImage(pose = "27", mood = "shining", mouth = "open"))
-    emiko.say "So — flirting."
+    emiko.say "So ... flirting."
     $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "Blatantly. Without a shred of the woman who files my correspondence."
 
     $ emiko.display(PDAImage(pose = "7", mood = "neutral", mouth = "open", look = "avert"))
     emiko.say "Multiple subjects. Stronger. Longer. Something out in that hallway was different from anything you've ever cooked up in that closet you call a lab."
-    emiko.think "*Whatever happened out there is leagues past the first batch. And look at him — colour in his face, up out of the chair. He hasn't been this alive in weeks. I'm not letting this fizzle out.*"
+    emiko.think "*Whatever happened out there is leagues past the first batch. And look at him ... colour in his face, up out of the chair. He hasn't been this alive in weeks. I'm not letting this fizzle out.*"
 
     $ emiko.display(PDAImage(mouth = "closed", look = "follow"))
     headmaster "The smell. That's what was different."
     $ emiko.display(PDAImage(mouth = "open"))
     emiko.say "The smell?"
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "In the classroom, near the spill — sweet, almost floral, with something chemical underneath. Ishimaru noticed it. The girls noticed it. Every one of them said it smelled {i}good{/i}."
+    headmaster "In the classroom, near the spill ... sweet, almost floral, with something chemical underneath. Ishimaru noticed it. The girls noticed it. Every one of them said it smelled {i}good{/i}."
 
     # She drifts toward the window, thinking it through in the low light.
     $ emiko.display(PDAMove(alignX = "+0.5", duration = 1.0))
@@ -1319,7 +1319,7 @@ label lab_intro_11 (**kwargs):
     $ emiko.display(PDAImage(mouth = "open", look = "avert"))
     emiko.say "You think something reacted with the potion."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "It has to be. The vial broke in the spill — Ishimaru said the liquid had already mixed into the cleaning solution before she got to it."
+    headmaster "It has to be. The vial broke in the spill ... Ishimaru said the liquid had already mixed into the cleaning solution before she got to it."
 
     headmaster "The implications are staggering. If I can isolate which compound triggered that reaction..."
     $ emiko.display(PDAImage(pose = "21", mood = "shining", mouth = "open", look = "follow"),
@@ -1331,11 +1331,11 @@ label lab_intro_11 (**kwargs):
     subtitles "The bar of light on the desk has narrowed to a thread. The excitement goes out of him a little, shoulders dropping."
     headmaster "But I have to test it properly. Controlled. Documented. And I've already burned through most of my supply on those early tosses of the dice."
     emiko.say "Mm."
-    emiko.think "*He's been carrying every ounce of this alone, and it's starting to show around his eyes. He doesn't have to. Whatever he needs to keep going — more supply, more room, more hands — I'll put it in front of him before he thinks to ask.*"
+    emiko.think "*He's been carrying every ounce of this alone, and it's starting to show around his eyes. He doesn't have to. Whatever he needs to keep going ... more supply, more room, more hands ... I'll put it in front of him before he thinks to ask.*"
 
     subtitles "She lifts the folder off the desk, the professional smile sliding back into place like a light switched on."
     $ emiko.display(PDAImage(pose = "6", mood = "shining", mouth = "open"))
-    emiko.say "Call it a day. Sleep on it, come back at it fresh — you think better after actual sleep, whatever you like to tell yourself."
+    emiko.say "Call it a day. Sleep on it, come back at it fresh ... you think better after actual sleep, whatever you like to tell yourself."
     $ emiko.display(PDAImage(mood = "happy", mouth = "closed"))
     headmaster "You're right. I need to think this through carefully."
     $ emiko.display(PDAImage(mood = "shining", mouth = "open"))
@@ -1351,7 +1351,7 @@ label lab_intro_11 (**kwargs):
         PDAMove(alignX = 1.5, duration = 1.0),
         PDAPause(duration = 1.0))
 
-    headmaster.think "A catalyst. Permanent. She had the word out before I did — like she'd already run the whole board three moves ahead of me."
+    headmaster.think "A catalyst. Permanent. She had the word out before I did ... like she'd already run the whole board three moves ahead of me."
 
     $ set_progress("lab_intro", 11)
 
@@ -1366,7 +1366,7 @@ label lab_intro_11 (**kwargs):
 init 2 python:
     set_current_mod('base')
 
-    # Frustration — Headmaster works late in the storage room lab, trying to
+    # Frustration ... Headmaster works late in the storage room lab, trying to
     # isolate the catalyst. Its CGs come from the "main" Pattern, which reaches
     # the label only through kwargs. Gated behind the Analysis (lab_intro 11).
     # Registered on the "call secretary → talk" action, same as lab_intro_6.
@@ -1414,7 +1414,7 @@ label lab_intro_12 (**kwargs):
 
     # The sample clouds up, then slowly settles back to clear amber.
     $ image.show(6)
-    headmaster "Oh, look at that, it's clouding— no. No, that's just micelles."
+    headmaster "Oh, look at that, it's clouding... no. No, that's just micelles."
 
     $ image.show(7)
     headmaster "It's making a little emulsion and giving up. Pretty. Useless."
@@ -1425,13 +1425,13 @@ label lab_intro_12 (**kwargs):
     headmaster "Hypochlorite next."
     
     $ image.show(9)
-    headmaster "Now, hypochlorite's a strong oxidiser, so if the active fraction has anything electron-rich in it at all, and it must, given how fast it breaks down once it's out of the vial, then you'd expect either a colour loss or some kind of—"
+    headmaster "Now, hypochlorite's a strong oxidiser, so if the active fraction has anything electron-rich in it at all, and it must, given how fast it breaks down once it's out of the vial, then you'd expect either a colour loss or some kind of..."
 
     # TIME SKIP: two hours. Same spot, more tubes, cold coffee, notebook full of crossings-out.
     call screen black_screen_text ("Two hours later.")
 
     $ image.show(10)
-    headmaster "—which is why, honestly, you'd want to rule out the quaternary ammoniums as a class instead of one at a time, except of course I've now done them one at a time, so that's... that's thorough, at least. That's what that is."
+    headmaster "...which is why, honestly, you'd want to rule out the quaternary ammoniums as a class instead of one at a time, except of course I've now done them one at a time, so that's... that's thorough, at least. That's what that is."
     headmaster.think "...How long have I been explaining myself to a mop bucket?"
 
     subtitles "The coffee at his elbow has gone cold enough to grow a skin. The rack is full of used test tubes, every one of them the same unchanged amber."
@@ -1441,7 +1441,7 @@ label lab_intro_12 (**kwargs):
     headmaster.think "Unless it's two of them together. Some combination..."
 
     $ image.show(12)
-    headmaster.think "God, no. That's— what, twenty-one pairs? Before I even think about ratios. I'd be in here till Christmas."
+    headmaster.think "God, no. That's... what, twenty-one pairs? Before I even think about ratios. I'd be in here till Christmas."
 
     # Only a couple of bottles left. Behind the others, at the back of the cart's
     # bottom tray: a big 2.5 L jug with a faded label, ORGAZYME Bio-Enzymatic
@@ -1466,7 +1466,7 @@ label lab_intro_12 (**kwargs):
 
     $ image.show(17)
     # The amber shimmers, deepens, turns vivid, almost lit from inside.
-    headmaster "Wait— wait, wait, wait."
+    headmaster "Wait... wait, wait, wait."
 
     $ image.show(18)
     headmaster "That's the colour. That's {i}exactly{/i} the colour from the hallway."
@@ -1477,8 +1477,8 @@ label lab_intro_12 (**kwargs):
     headmaster.think "Ha! Ha. Okay. Okay. Don't knock it over. Don't breathe on it. Don't do anything stupid."
 
     # Frantic notes. He's muttering while he writes.
-    headmaster "It's the enzymes. Of course it's the enzymes. Some protease or other in there is latching onto the active fraction and— folding it. Locking it into a shape that doesn't fall apart."
-    headmaster "So the stuff doesn't break down in minutes. It holds. That's why the girls in the hallway didn't snap back like the others did, that's why Ms. Maki was still— yes. {i}Yes.{/i}"
+    headmaster "It's the enzymes. Of course it's the enzymes. Some protease or other in there is latching onto the active fraction and... folding it. Locking it into a shape that doesn't fall apart."
+    headmaster "So the stuff doesn't break down in minutes. It holds. That's why the girls in the hallway didn't snap back like the others did, that's why Ms. Maki was still... yes. {i}Yes.{/i}"
     headmaster.think "A catalyst. An actual, literal catalyst. Enzymes are catalysts. I'm allowed to call it that, it's {i}correct{/i}."
 
     $ image.show(20)
@@ -1544,7 +1544,7 @@ label lab_intro_12 (**kwargs):
 init 2 python:
     set_current_mod('base')
 
-    # Strategic Planning — Headmaster and Emiko discuss the plan to fix the girls
+    # Strategic Planning ... Headmaster and Emiko discuss the plan to fix the girls
     # in the classroom. Pure dialogue on Emiko's paperdoll; the blurred background
     # comes from the "main" Pattern, which reaches the label only through kwargs.
     # Gated behind the Frustration (lab_intro 12). Registered on the "call
@@ -1603,7 +1603,7 @@ label lab_intro_13 (**kwargs):
     $ emiko.display(PDAImage(pose = "19", mood = "surprised", mouth = "open"))
     emiko "That's floor cleaner."
     $ emiko.display(PDAImage(mood = "sad", mouth = "closed"))
-    headmaster "It's an enzyme concentrate. And it's the catalyst. One drop and the sample went exactly the colour it was on the floor. It holds, it doesn't fall apart after five minutes, it's— it's the whole thing."
+    headmaster "It's an enzyme concentrate. And it's the catalyst. One drop and the sample went exactly the colour it was on the floor. It holds, it doesn't fall apart after five minutes, it's... it's the whole thing."
 
     $ emiko.display(PDAImage(pose = "17", mood = "neutral", mouth = "closed", look = "avert"))
     subtitles "She stretches up on her toes to read the label, and he watches her get to the name."
@@ -1623,12 +1623,12 @@ label lab_intro_13 (**kwargs):
     headmaster "Because that's all of it. About a third of a litre. The company folded in '98, nobody ever published what was in the culture, and whatever's left in there is dead. The enzymes still work, but they don't make any more."
     $ emiko.display(PDAImage(pose = "7", mood = "suspicious", mouth = "closed"))
     headmaster "I spent half the night trying to stretch it. Lower ratios, a second extraction, cutting the base with... Every version either kills the effect or wastes more than it saves. Thirty doses, maybe. For a whole school full of girls."
-    headmaster "I can't even get through one year group with that, let alone—"
+    headmaster "I can't even get through one year group with that, let alone..."
 
     $ emiko.display(PDAImage(pose = "25", mood = "angry", mouth = "open"))
     emiko "You're doing sums for every girl on campus."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "Well— yes? That's rather the point."
+    headmaster "Well... yes? That's rather the point."
 
     # She perches on the edge of the cleaning cart, folder on her knees.
     $ emiko.display(PDAMove(alignY = -0.18, zoom = 3, duration = 1))
@@ -1686,7 +1686,7 @@ label lab_intro_13 (**kwargs):
     $ emiko.display(PDAImage(pose = "11", mood = "neutral", mouth = "open"))
     emiko "Now go home, have a shower, and come back looking like a headmaster. I'll tell everyone you had the dentist."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "I don't have a—"
+    headmaster "I don't have a..."
     $ emiko.display(PDAImage(pose = "2", mood = "shining", mouth = "open"))
     emiko "You do now."
 
@@ -1715,7 +1715,7 @@ label lab_intro_13 (**kwargs):
 init 2 python:
     set_current_mod('base')
 
-    # Morning Brew — Before dawn the headmaster measures the first catalysed dose in the
+    # Morning Brew ... Before dawn the headmaster measures the first catalysed dose in the
     # storage-room lab and pockets it in a small dropper bottle. In the empty,
     # dark staff room he brews the big coffee urn and adds the drops. The five
     # teachers arrive one by one and all drink it. Within half an hour they're
@@ -1816,7 +1816,7 @@ label lab_intro_14 (**kwargs):
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
     $ zoe.display(PDAPreset("upper_body_center", duration = 0.4))
-    zoe "Oh! You're in before me? That never happens. Is everything okay? Nobody's— nothing's happened?"
+    zoe "Oh! You're in before me? That never happens. Is everything okay? Nobody's... nothing's happened?"
     # "surprised" has no closed-mouth variant, so she drops to neutral to listen.
     $ zoe.display(PDAImage(mood = "neutral", mouth = "closed"))
     headmaster "Nothing's happened. I couldn't sleep, so I thought I'd get some work done down here. There's coffee, if you want it."
@@ -1858,7 +1858,7 @@ label lab_intro_14 (**kwargs):
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0))
     $ lily.display(PDAPreset("upper_body_center", duration = 0.4))
-    lily "Please tell me that's real coffee and not the smell of it coming off Yulan. I was up until past one with 3A's tests, and I swear half of them have invented a new kind of fraction—"
+    lily "Please tell me that's real coffee and not the smell of it coming off Yulan. I was up until past one with 3A's tests, and I swear half of them have invented a new kind of fraction..."
     $ lily.display(PDAImage(mouth = "closed"))
     headmaster "It's real. Help yourself."
     $ lily.display(PDAImage(pose = "31", mood = "happy", mouth = "open"))
@@ -1866,7 +1866,7 @@ label lab_intro_14 (**kwargs):
 
     subtitles "She pours, lifts the mug to her face, and stops with it just under her nose."
     $ lily.display(PDAImage(pose = "9", mood = "suspicious", mouth = "open"))
-    lily "Is this a different brand? It's got a sort of... fruity note to it? Not bad. Just—"
+    lily "Is this a different brand? It's got a sort of... fruity note to it? Not bad. Just..."
     $ lily.display(PDAImage(pose = "17", mood = "happy"))
     lily "Sorry. Science teacher. I smell everything, it's a curse. Ignore me."
     $ lily.display(PDAImage(mouth = "closed"))
@@ -1905,7 +1905,7 @@ label lab_intro_14 (**kwargs):
         PDAPreset("outside", duration = 0.0))
     $ finola.display(PDAPreset("upper_body_center", duration = 0.4))
     $ finola.display(PDAImage(pose = "17"))
-    finola "Sorry, sorry, I overslept, I {i}never{/i} oversleep— is there any left?"
+    finola "Sorry, sorry, I overslept, I {i}never{/i} oversleep... is there any left?"
     $ finola.display(PDAImage(mouth = "closed"))
     yulan "Plenty. He's made enough for a regiment."
     $ finola.display(PDAImage(pose = "29", mood = "happy"))
@@ -1925,7 +1925,7 @@ label lab_intro_14 (**kwargs):
     yulan "The existing form is fine. It's that nobody fills it in properly."
     lily "Can we please not talk about forms until I've had at least two of these?"
 
-    headmaster.think "Normal. Completely normal. Maybe I got the ratio wrong. Maybe the heat did—"
+    headmaster.think "Normal. Completely normal. Maybe I got the ratio wrong. Maybe the heat did..."
 
     # Twenty minutes later. The shift starts.
     subtitles "Twenty minutes later, the conversation has got louder, and slower, and somehow warmer."
@@ -1942,8 +1942,9 @@ label lab_intro_14 (**kwargs):
 
     # Lily stretches in the armchair; her blouse rides up over her stomach.
     subtitles "Lily stretches in the armchair, arms right up over her head, and her blouse comes untucked and rides up over a pale strip of stomach. She doesn't pull it down."
-    lily "Mmh— God, sorry. I think I graded myself into a knot last night. Everything's so... loose now, though. Is that weird? That's weird."
+    lily "Mmh... God, sorry. I think I graded myself into a knot last night. Everything's so... loose now, though. Is that weird? That's weird."
 
+    $ image.show(7)
     # Zoe sheds the red tracksuit jacket she always wears open over her leotard.
     subtitles "Zoe has shrugged her tracksuit jacket off onto the back of the chair. Without it there's nothing left on top but the yellow leotard she teaches PE in, and she's sitting there in it with her legs crossed as if that's what she always wears to the staff room."
     zoe "Is the heating on already? I'm roasting. Honestly, this coffee's doing something to me. I feel all... good-loose. Like after a really good stretch."
@@ -1954,10 +1955,11 @@ label lab_intro_14 (**kwargs):
     # over her hips. Yellow hex-pattern leotard, high-cut legs, bare thighs.
     # Jacket over the backrest. Easy grin, no hurry. Chloe blurred behind her
     # with a mug halfway to her mouth.
-    $ image.show(7)
+    $ image.show(8)
     subtitles "Then she gets up, hooks her thumbs into the waistband of her track pants, and starts pushing them down over her hips."
     zoe "I've got yoga first period anyway, and I always teach it without these, so they'd be coming off in half an hour regardless, and these are so {i}hot{/i}, honestly, I don't know why I bother with them in the mornings. This is just efficient. It's basically sports kit."
     subtitles "She steps out of them, kicks them under her chair, and sits back down in nothing but the leotard, bare legs crossed, and picks her coffee back up."
+    $ image.show(9)
     chloe "Zoe. It's the staff room."
     zoe "What? You've all seen me in the gym in this a hundred times. And look who's talking."
     subtitles "She nods at Chloe's arms. Chloe looks down."
@@ -1972,23 +1974,26 @@ label lab_intro_14 (**kwargs):
     # both hands, eyes down. Stays up through Finola standing (hand on chest).
 
     # Yulan and Finola, shoulder to shoulder.
-    $ image.show(8)
+    $ image.show(10)
     subtitles "At the table, Yulan has ended up with her shoulder pressed against Finola's, and her hand resting on the table a few centimetres from Finola's own. Neither of them has moved away."
     yulan "Your hair's very red. In this light, I mean. I don't think I'd ever really noticed."
-    finola "Oh— um. Thank you? It's just... hair."
+    finola "Oh... um. Thank you? It's just... hair."
     yulan "No, it's a good red. It's a very... committed red."
 
     headmaster.think "Oh. Oh, it's working. It's working faster than last time. {i}Much{/i} faster."
     headmaster.think "Don't stare. Read the budget. Turn a page. Any page."
 
     # Finola sets her cup down hard; one hand flat against her chest.
+    $ image.show(11)
     subtitles "Finola puts her mug down harder than she means to. She presses one hand flat against her chest, like she's checking her own heartbeat, and stands up."
     finola "Excuse me a second."
     subtitles "She's out of the door before anyone can answer. It isn't quite running."
 
+    $ image.show(12)
     zoe "Finn? You okay?"
-    subtitles "Zoe half gets up out of her chair."
     headmaster.think "If Zoe goes after her, and it's bad, she'll know something's wrong. She'll want to know what everyone drank."
+
+    $ image.show(13)
     headmaster "I'll check on her. I need to grab something from my office anyway."
     zoe "...Okay. Tell her to drink some water, she never drinks anything."
 
@@ -1998,41 +2003,41 @@ label lab_intro_14 (**kwargs):
     # IMAGE (lab_intro_14 8): empty corridor, morning light; the staff changing
     # room door at the far end standing open about a hand's width. Doubles as
     # the scene's background (no corridor background exists yet).
-    $ image.show(9)
+    $ image.show(14)
     subtitles "The corridor's empty. At the far end, the staff changing room door is standing open about a hand's width."
     headmaster.think "Not the bathroom. The changing room. She went for her locker."
     headmaster.think "Last time she ran for it in a panic. This time she walked straight here like she knew exactly what she was doing..."
 
     subtitles "There's movement on the other side of the door: a soft rustle of fabric, a zip, a long exhale."
-    headmaster "Ms. Ryan? Are you—"
+    headmaster "Ms. Ryan? Are you..."
 
     # IMAGE (lab_intro_14 9): through the gap, Finola at her open locker, back to
     # him, completely naked. Blouse, skirt, tights and underwear in a heap on the
     # bench and floor. Freckles from her shoulders all the way down her back.
     subtitles "He pushes the door with two fingers, and it swings further than he means it to."
-    $ image.show(10)
+    $ image.show(15)
     subtitles "Finola is standing at her open locker with her back to him, and she isn't wearing anything at all. Her blouse, her skirt, her tights and her underwear are all in a heap on the bench, as though they'd been peeled off in one go. The freckles on her shoulders carry on down her back, all the way down."
-    headmaster.think "Oh— oh God."
+    $ image.show(16)
+    headmaster.think "Oh... oh God."
 
     # IMAGE (lab_intro_14 10): she has turned at his voice. Facing him, fully bare,
     # arms still at her sides. Flushed, dazed, not horrified: the one long second.
     # IMAGE (lab_intro_14 11): same framing, the second over. One arm across her
     # chest, the other hand dropped low to cover herself, eyes now wide.
-    $ image.show(11)
     subtitles "She turns around at the sound of his voice. For one long second she just looks at him, flushed and a bit dazed, completely bare."
-    $ image.show(12)
+    $ image.show(17)
     subtitles "It's only after that second that an arm comes up across her chest and her other hand drops to cover herself."
     $ set_game_data("seen_breasts_finola_ryan", True)
     $ set_game_data("seen_ass_finola_ryan", True)
     $ set_game_data("seen_pussy_finola_ryan", True)
 
-    headmaster "I'm so sorry— I thought— I'll go. I'm going. I'm gone."
-    finola "It was all too tight. Everything. The shirt, and then the— and then it was all of it, it was all just too {i}much{/i}, I couldn't—"
+    headmaster "I'm so sorry... I thought... I'll go. I'm going. I'm gone."
+    finola "It was all too tight. Everything. The shirt, and then the... and then it was all of it, it was all just too {i}much{/i}, I couldn't..."
     finola "Sorry. I'm sorry. Give me a minute. Please."
 
-    $ image.show(9)
+    $ image.show(18)
     subtitles "He pulls the door shut and stands in the corridor with his hand still on the handle."
-    finola.think "*He saw. He— did he see? He saw. I didn't even lock the door. I {i}always{/i} lock the door.*"
+    finola.think "*He saw. He... did he see? He saw. I didn't even lock the door. I {i}always{/i} lock the door.*"
 
     headmaster.think "I just walked in on a colleague. Stark naked. At quarter to eight on a school morning."
     headmaster.think "...Last time she changed her top and was mortified inside five minutes. This time she took off everything, and when I walked in she just stood there."
@@ -2056,7 +2061,7 @@ label lab_intro_14 (**kwargs):
     headmaster "It's forgotten. Honestly. Are you feeling alright?"
     $ finola.display(PDAImage(pose = "14", mood = "neutral", mouth = "open"))
     finola "I... yes. Fine. Better, actually, which is somehow the worst part."
-    finola "These were in my locker. For... I honestly don't know what for. I couldn't make myself put the blouse back on. It felt like— it just felt {i}wrong{/i} on me."
+    finola "These were in my locker. For... I honestly don't know what for. I couldn't make myself put the blouse back on. It felt like... it just felt {i}wrong{/i} on me."
     $ finola.display(PDAImage(mouth = "closed"))
     headmaster.think "Last time she couldn't get back into her own clothes fast enough. 'Completely inappropriate for work.' Her words."
     headmaster.think "...She's not even reaching for the blouse."
@@ -2080,7 +2085,7 @@ label lab_intro_14 (**kwargs):
     $ zoe.display(PDAImage(mouth = "closed"))
     headmaster "She's fine. Overheated, I think."
     $ zoe.display(PDAImage(pose = "34", mood = "sad", mouth = "open"))
-    zoe "Overheated. She looked— okay. I'll catch her at break and make her drink something."
+    zoe "Overheated. She looked... okay. I'll catch her at break and make her drink something."
     $ zoe.display(PDAImage(mouth = "closed"))
     subtitles "Zoe fishes her track pants out from under the chair, glances down at her own bare legs as if she's only just noticed them, and steps back into the pants, yoga or no yoga. She shrugs her jacket on over the leotard and, for once, zips it right up to the collar."
     $ zoe.display(PDAPreset("outside", duration = 0.4))
@@ -2088,8 +2093,10 @@ label lab_intro_14 (**kwargs):
     lily "Please do it again. Every day. I'll pay you."
     yulan "Next time, leave the timer alone."
 
+    $ image.show(19)
     subtitles "The door swings shut behind the last of them, and the room goes quiet except for the radiator."
 
+    $ image.show(20)
     # He tips the last two cups' worth into the sink and rinses the urn.
     subtitles "There's maybe two cups left in the urn. He pours them down the sink, rinses the urn out twice, and puts it back exactly where it was, with the lid at the same slightly crooked angle."
     headmaster.think "Right. Now it wears off. Like it always does."
@@ -2147,7 +2154,7 @@ label lab_intro_15 (**kwargs):
     nubia "She made us come early. She wanted to get the good chairs."
     adelaide "I wanted to get {i}settled{/i}, Nubia. There's a difference."
 
-    subtitles "Adelaide sets the folder down on the table in front of her chair with great care. Through the plastic you can see the top page: SUMMER UNIFORM PROPOSAL — CONCERNS. It is stapled. There are a lot of pages."
+    subtitles "Adelaide sets the folder down on the table in front of her chair with great care. Through the plastic you can see the top page: SUMMER UNIFORM PROPOSAL ... CONCERNS. It is stapled. There are a lot of pages."
     adelaide "I've put a few thoughts together on item five, headmaster. Nothing dramatic. I just think some of us have to be the grown-ups about hemlines."
     nubia "She has seven pages of thoughts."
     yuki "I only have one concern. But it's a big one."
@@ -2209,13 +2216,13 @@ label lab_intro_15 (**kwargs):
     headmaster.think "...She fought me for forty minutes over three percent last time."
 
     headmaster "Item two. The spring fundraiser. The proposal is a parent-and-student social evening in the hall."
-    nubia "A social! With music? Do schools still do those? I used to sneak out to those. I used to sneak {i}in{/i} to those, actually, I wasn't even at that school—"
+    nubia "A social! With music? Do schools still do those? I used to sneak out to those. I used to sneak {i}in{/i} to those, actually, I wasn't even at that school..."
     subtitles "She laughs so hard at herself that she has to put her cup down."
     nubia "Sorry. Sorry. Yes. Do it. The girls would love it."
     yuki "The third Saturday in May would be good. Soyoon has nothing on. Soyoon never has anything on."
 
     headmaster "Item three, the cafeteria salad bar. There's a slight cost increase."
-    yuki "Oh, yes, please. Soyoon eats like a little bird, she'll tell me she hates salad and then she'll eat the whole bowl, she did it at my sister's, the entire bowl, and then she said it was too oily—"
+    yuki "Oh, yes, please. Soyoon eats like a little bird, she'll tell me she hates salad and then she'll eat the whole bowl, she did it at my sister's, the entire bowl, and then she said it was too oily..."
     subtitles "Yuki has slipped her shoes off under the table somewhere around item two. She seems not to have noticed that she's still talking."
     adelaide "I support the salad bar. I'll run it myself."
 
@@ -2321,13 +2328,13 @@ label lab_intro_16 (**kwargs):
     # peering into a cupboard, Ishimaru turning in a slow circle.
     subtitles "The old chemistry room is still full. Beakers and flasks stand in rows on the shelves under a grey skin of dust, as though the class just got up one day and never came back."
 
-    gloria "Oh, these are good. Borosilicate. That's the proper stuff, you can heat it without it cracking. Half of this would still work if you washed it. Honestly, it's a waste, somebody should be using all of this, the school's buying new glassware every year and there's a whole room of it just sitting here—"
+    gloria "Oh, these are good. Borosilicate. That's the proper stuff, you can heat it without it cracking. Half of this would still work if you washed it. Honestly, it's a waste, somebody should be using all of this, the school's buying new glassware every year and there's a whole room of it just sitting here..."
     lin "Gloria. Breathe."
     gloria "I'm breathing. I'm breathing and cataloguing."
 
     # Ishimaru backs into a stand of test tubes; they go over with a clatter.
     subtitles "Ishimaru takes a step back to look up at the periodic table and walks straight into a rack of test tubes. The whole thing goes over with a clatter that echoes all the way down the corridor."
-    ishimaru "Oh— sorry! Sorry. Sorry, sorry, sorry—"
+    ishimaru "Oh... sorry! Sorry. Sorry, sorry, sorry..."
     lin "Who are you apologising to?"
     ishimaru "The... test tubes? I don't know! It's a reflex!"
 
@@ -2336,7 +2343,7 @@ label lab_intro_16 (**kwargs):
     subtitles "She crouches to scoop them up, and stops, with her cheek almost against the floor."
     ishimaru "Hang on. There's something down here. Behind the shelf."
     lin "If it's a rat I'm leaving. I'm serious. I'll leave you both here."
-    ishimaru "It's not a rat, it's... it's a book, I think? Hang on, I can nearly—"
+    ishimaru "It's not a rat, it's... it's a book, I think? Hang on, I can nearly..."
 
     # IMAGE: Ishimaru pulling a plain black hardcover notebook out of the gap.
     # It's the one clean thing in the room.
@@ -2360,7 +2367,7 @@ label lab_intro_16 (**kwargs):
     gloria "'Subject E. Onset within fifteen minutes. Flushing, heat, marked drop in inhibition.' And then underneath: 'Fades too fast. Needs something to make it hold?'"
     ishimaru "Drop in {i}inhibition?{/i}"
     lin "Like... like being drunk?"
-    gloria "Like being drunk without the drinking. Oh, this is fascinating. Who's subject E? And what does 'marked' mean, what's the scale, is there a scale, is it on the next page—"
+    gloria "Like being drunk without the drinking. Oh, this is fascinating. Who's subject E? And what does 'marked' mean, what's the scale, is there a scale, is it on the next page..."
 
     # A beat. Lin has gone quiet, reading over Gloria's shoulder.
     subtitles "Lin has gone quiet. She's reading the same line again, over Gloria's shoulder."
@@ -2418,7 +2425,7 @@ label lab_intro_17 (**kwargs):
     gloria "But look at how it's written. 'Subject E.' Just a letter. No consent form, no dates, no supervisor. A real trial has forms for everything. Forms for the forms."
     ishimaru "So... what does that mean?"
     gloria "It means whoever wrote this wasn't running it past anyone. And I don't know if subject E knew what she was drinking."
-    lin "Right, okay, no. We're not doing this. I'm not that kind of person, I'm not sitting in a haunted building reading about someone secretly— you know. Doing stuff to people."
+    lin "Right, okay, no. We're not doing this. I'm not that kind of person, I'm not sitting in a haunted building reading about someone secretly... you know. Doing stuff to people."
     lin "Can we please go back to the part where it's a recipe? I liked the part where it was a recipe."
     gloria "It's still a recipe. It's just a recipe with ethical questions."
     ishimaru "Gloria, you say that like it's a {i}good{/i} thing."
@@ -2430,8 +2437,8 @@ label lab_intro_17 (**kwargs):
 
     subtitles "Emiko knocks twice on the open door frame. All three of them jump. Ishimaru knocks a textbook off the bench."
     emiko "Well. I didn't expect to find a study group in here."
-    ishimaru "Ms. Langley! Sorry! We weren't— sorry—"
-    lin "We weren't doing anything bad. We're just— this is—"
+    ishimaru "Ms. Langley! Sorry! We weren't... sorry..."
+    lin "We weren't doing anything bad. We're just... this is..."
     gloria "We found a research notebook hidden behind a shelf, and we've been cross-referencing it against the chemistry textbooks."
     lin "...Or that. She could have just said that."
 
@@ -2473,7 +2480,7 @@ label lab_intro_17 (**kwargs):
 
     # Lin brings up the afternoon they can't remember.
     lin "But the bit about subject E maybe not knowing. And... okay, this is going to sound stupid."
-    lin "Last week the three of us had this afternoon where we just sort of... lost half an hour. We were all a bit weird. And then we find this, and it's all 'fifteen minutes' and 'heat', and—"
+    lin "Last week the three of us had this afternoon where we just sort of... lost half an hour. We were all a bit weird. And then we find this, and it's all 'fifteen minutes' and 'heat', and..."
     subtitles "Emiko doesn't miss a beat."
     emiko "You three were giddy. It's spring. Half the school's giddy. I found two girls in the stationery cupboard last week giggling at a stapler."
     ishimaru "...At a {i}stapler?{/i}"
@@ -2483,7 +2490,7 @@ label lab_intro_17 (**kwargs):
 
     # Gloria goes straight to the practical question.
     ishimaru "Could we actually make it, though? Like, for real?"
-    gloria "Most of the ingredients are just... ingredients. It's the method that's vague. There are steps missing, temperatures missing, it never says how long anything sits. But the glassware's all here, and if we got the compounds, and did it really carefully—"
+    gloria "Most of the ingredients are just... ingredients. It's the method that's vague. There are steps missing, temperatures missing, it never says how long anything sits. But the glassware's all here, and if we got the compounds, and did it really carefully..."
     lin "Hang on. You've already decided we're doing this."
     gloria "About two minutes ago. Possibly three."
     lin "..."
@@ -2535,7 +2542,7 @@ label lab_intro_18 (**kwargs):
     # low drawer with a notebook of her own.
     subtitles "A few days later the old chemistry room has the windows propped open, and every cupboard door is standing wide."
 
-    ishimaru "Found beakers! A whole set, up here, all different sizes! Hang on, I'll pass them down—"
+    ishimaru "Found beakers! A whole set, up here, all different sizes! Hang on, I'll pass them down..."
     subtitles "The chair wobbles. Ishimaru grabs the cupboard door, and the cupboard door creaks in a way cupboard doors shouldn't."
     lin "Okay, maybe pass them down {i}slowly.{/i} Maybe pass them down one at a time, like a normal person, instead of doing a circus act."
     ishimaru "I'm fine! I'm totally fine. Sorry. I'm fine."
@@ -2569,12 +2576,12 @@ label lab_intro_18 (**kwargs):
     ishimaru "There's no way anything in this building's still usable. They'd have cleared out the chemicals years ago. You can't just leave chemicals lying around."
     gloria "Somebody left a whole lab lying around."
     ishimaru "...Okay, yes, fair."
-    lin "Maybe Ms. Langley knows if the school's got a—"
+    lin "Maybe Ms. Langley knows if the school's got a..."
 
     # IMAGE: Emiko in the doorway, carrying a cardboard box against her hip.
     emiko "Knows if the school's got a what?"
     subtitles "Emiko comes in with a cardboard box on her hip, and sets it down on the one clear corner of the bench with a heavy, rattling thump."
-    ishimaru "We found nearly all the glassware! But we haven't got anything to heat it with, or any of the actual—"
+    ishimaru "We found nearly all the glassware! But we haven't got anything to heat it with, or any of the actual..."
     emiko "A heat source and the chemicals. I did read your list, you know. Gloria left a copy on my desk."
     gloria "I thought you'd want to be informed."
     emiko "I did. It had a contents page."
@@ -2673,7 +2680,7 @@ label lab_intro_19 (**kwargs):
     # IMAGE: Ishimaru carrying the measuring cylinder with both hands, very
     # slowly, tongue between her teeth.
     subtitles "Ishimaru carries the full measuring cylinder across the room with both hands, at roughly the speed of a glacier, and the other two watch her the whole way without breathing."
-    ishimaru "I'm fine. I'm fine. I've got it. I've g— okay. Okay, I've got it."
+    ishimaru "I'm fine. I'm fine. I've got it. I've g... okay. Okay, I've got it."
     subtitles "The water goes into the beaker. All three of them breathe out at once."
 
     gloria "Next: ethanol, fifty millilitres. My method says add it immediately."
@@ -2700,7 +2707,7 @@ label lab_intro_19 (**kwargs):
     emiko.think "*Of course he wrote that. That is exactly, precisely what he would write.*"
 
     # The last ingredient; Emiko stops them.
-    gloria "Last one. The organic compound. Twenty-five millilitres, and I've written medium heat for this bit, so—"
+    gloria "Last one. The organic compound. Twenty-five millilitres, and I've written medium heat for this bit, so..."
     emiko "Wait."
     subtitles "Ishimaru freezes with the little bottle tilted over the beaker. Emiko holds her hand just above the glass, not touching it, for a few seconds."
     emiko "Still too cool. Another minute, then turn it up."
@@ -2719,12 +2726,12 @@ label lab_intro_19 (**kwargs):
     # IMAGE: close on the beaker. A thin line of gold where the liquid meets
     # the glass, spreading inwards.
     subtitles "At first there's nothing. Then, right at the rim where the liquid touches the glass, there's a thin line that isn't brown any more. It's gold."
-    ishimaru "There! There, look, it's changing, it's going— is that it? Is that it?"
+    ishimaru "There! There, look, it's changing, it's going... is that it? Is that it?"
     subtitles "The gold creeps inwards from the edges. The mud thins out and clears, the whole beaker brightening from the outside in, until there's nothing left in it but clear, shimmering amber, lit from underneath by the glow of the hot plate."
     subtitles "A sweet, faintly floral smell drifts up out of it and fills the room."
     lin "Oh my God. Oh my {i}God.{/i} We did it. We actually did it!"
     ishimaru "It's so pretty! It's like honey! It's like drinking-a-sunset honey!"
-    gloria "It went exactly how the notes said. {i}Exactly.{/i} Every stage. Do you know how rare that is? Nothing ever goes exactly how the notes say, not in real labs, not ever—"
+    gloria "It went exactly how the notes said. {i}Exactly.{/i} Every stage. Do you know how rare that is? Nothing ever goes exactly how the notes say, not in real labs, not ever..."
     lin "Gloria, you're allowed to just be happy."
     gloria "I am happy. This is what happy looks like on me."
 
@@ -2967,13 +2974,13 @@ label lab_intro_21 (**kwargs):
 
     gloria "Twenty-one-oh-four. Multiple reports of heat, flushing. Kokoro describes it as 'fizzy.' Good word. Writing that down. Fizzy..."
     subtitles "Gloria looks at her own clipboard for a while, as if the handwriting on it belongs to someone else."
-    gloria "Why am I— it's very hard to hold a pen. Has anyone else noticed pens are really hard to hold?"
+    gloria "Why am I... it's very hard to hold a pen. Has anyone else noticed pens are really hard to hold?"
 
     # Aona takes the centre of the room.
     subtitles "Aona has climbed up onto one of the old workbenches, cup in one hand, and is dancing on it, badly and enthusiastically, to cheering."
     aona "Everybody look at me! No, look! Are you looking? This is the best party in the history of this school, and it's in a {i}ruin!{/i}"
     seraphina "Take your top off!"
-    aona "Ha! As {i}if—{/i}"
+    aona "Ha! As {i}if...{/i}"
     subtitles "She laughs, and keeps dancing, and then stops laughing, with an odd look on her face, as if she's actually thinking about it."
     aona "...Actually. Actually, it is really hot."
 
@@ -2994,12 +3001,12 @@ label lab_intro_21 (**kwargs):
     miwa "Like, um. Like how you do this thing when you're reading where you bite your lip, and I have to look somewhere else, because otherwise I'd just stare at your mouth the whole lesson. Like that sort of thing."
     kokoro "Oh."
     kokoro "...You can look at it now, if you want."
-    miwa.think "*Oh my God. Oh my God, okay, she said that, she actually said that, don't just stand here, do something—*"
+    miwa.think "*Oh my God. Oh my God, okay, she said that, she actually said that, don't just stand here, do something...*"
 
     # IMAGE: the kiss. Miwa leaning in, Kokoro meeting her halfway; both of
     # them freezing for a second, then not pulling away.
     subtitles "Miwa kisses her. For a second they both freeze, as if waiting for somebody to stop them. Nobody does. Kokoro makes a small, surprised sound against her mouth and kisses her back, and then her hands are on Miwa's waist, holding on."
-    kokoro "Mmh— is this okay? Are we allowed to—"
+    kokoro "Mmh... is this okay? Are we allowed to..."
     miwa "I don't care. I don't care if we're allowed. Do it again."
 
     subtitles "Someone near the bowl whistles. Someone else says {i}finally{/i}. And then, somehow, it's like a door has opened in the room."
@@ -3011,7 +3018,7 @@ label lab_intro_21 (**kwargs):
     # buttons of Sakura's blouse.
     subtitles "By the wall, Sakura Mori is fanning herself with both hands, her face bright red, and her blouse already has the top two buttons undone."
     sakura "It's that warm feeling again. Like that day in the corridor, remember? Like I'm melting from the inside."
-    easkey "I- I remember. You- you opened your blouse, and I told you you c-can't, and you went all—"
+    easkey "I- I remember. You- you opened your blouse, and I told you you c-can't, and you went all..."
     sakura "And I was so embarrassed."
     easkey "Yeah."
     subtitles "Easkey is staring at the third button. Her hands are shaking a little."
@@ -3023,7 +3030,7 @@ label lab_intro_21 (**kwargs):
     # Sakura reaching behind herself to unhook the bra.
     subtitles "Easkey gets the buttons open one at a time, stammering an apology for each one. When the blouse falls open, Sakura reaches behind herself, unhooks her bra, and lets it slide off her shoulders, and just stands there with her eyes closed, bare to the waist, breathing out like she's been underwater."
     sakura "Oh, that's so much better. It's so much cooler. Touch me, it's okay, I want you to."
-    easkey "Your skin's so warm—"
+    easkey "Your skin's so warm..."
     easkey.think "*She's letting me. She's asking me. I've thought about this so many times, I've never, ever thought she'd ask.*"
 
     # Soyoon and Hatano, the rival fashionistas.
@@ -3052,11 +3059,11 @@ label lab_intro_21 (**kwargs):
     # up; Miwa standing between her knees, mouth at her breast, a hand up under
     # her skirt; Kokoro's head thrown back.
     subtitles "Kokoro is sitting on the edge of the workbench with her blouse gone and her bra pushed up out of the way, and Miwa is standing between her knees, kissing her way down her chest. Kokoro's got both hands in Miwa's hair."
-    kokoro "Ahh— Miwa— hah, that's... that's so— don't stop, don't stop, okay?"
-    miwa "Not stopping. Never stopping. You're so soft, how are you so {i}soft—{/i}"
+    kokoro "Ahh... Miwa... hah, that's... that's so... don't stop, don't stop, okay?"
+    miwa "Not stopping. Never stopping. You're so soft, how are you so {i}soft...{/i}"
     subtitles "Miwa's hand slides up under the hem of Kokoro's skirt, slowly, giving her every chance to say no. Kokoro doesn't say no. She makes a high, shaky sound, grips the edge of the bench, and pulls Miwa closer with her knees."
-    kokoro "Mmnh— ahh— {i}oh—{/i} oh my God—"
-    kokoro.think "*Everybody can see. Everybody can see us. And I don't— I can't make myself care, I can't, it feels too good—*"
+    kokoro "Mmnh... ahh... {i}oh...{/i} oh my God..."
+    kokoro.think "*Everybody can see. Everybody can see us. And I don't... I can't make myself care, I can't, it feels too good...*"
 
     # Aona, now topless on the bench.
     subtitles "Aona is still up on her bench. Her bra went a while ago; somebody's wearing it on their head. She's dancing topless in the fairy lights with her arms up, and every time the crowd cheers she dances harder."
@@ -3066,13 +3073,13 @@ label lab_intro_21 (**kwargs):
 
     # Ikushi, caving and then owning it.
     subtitles "Ikushi is in a corner with a girl from another class, both of them with their shirts off. Ikushi keeps covering her chest with her arms, and then uncovering it, and then covering it again."
-    ikushi "Okay, I'm not— this isn't really me, I'm not usually like— okay, fine. Fine! Fine."
+    ikushi "Okay, I'm not... this isn't really me, I'm not usually like... okay, fine. Fine! Fine."
     subtitles "She drops her arms, grabs the other girl by the waist, and kisses her, and then she's the one pushing her back against the wall."
     ikushi "...Fine. Yes. This is me now. I've decided."
 
     # Gloria's notes break down.
     subtitles "Gloria's clipboard is on the floor. She's sitting on a stool in her skirt and her bra, with her blouse tied round her waist by the sleeves, and a girl is kissing her neck while she tries, with enormous concentration, to keep talking."
-    gloria "Twenty-two... twenty-two-something. Subject reports— hah— subject reports significant— oh, that's nice, do that again— significant increase in— in— I've completely lost my train of thought. This is fascinating. I can't think. This is the most fascinating thing that's ever happened to me."
+    gloria "Twenty-two... twenty-two-something. Subject reports... hah... subject reports significant... oh, that's nice, do that again... significant increase in... in... I've completely lost my train of thought. This is fascinating. I can't think. This is the most fascinating thing that's ever happened to me."
 
     # Elsie and Yuriko.
     # IMAGE: Elsie and Yuriko sitting on the floor against the wall, apart from
@@ -3211,7 +3218,7 @@ label lab_intro_22 (**kwargs):
     aona "...I actually don't know. But I've got this feeling I was {i}amazing.{/i} Like, really, really amazing. Everyone was looking at me. I think."
     subtitles "Sakura hands it over. Next to her, Easkey Tanaka has gone bright red and is brushing her teeth so hard it looks painful."
     sakura "Easkey? You okay?"
-    easkey "F-fine! Fine. I just— I don't know. My face just went hot. I don't know why."
+    easkey "F-fine! Fine. I just... I don't know. My face just went hot. I don't know why."
     easkey.think "*Buttons. I keep thinking about buttons. Why do I keep thinking about buttons?*"
 
     # The twins pass in the doorway.
@@ -3224,11 +3231,11 @@ label lab_intro_22 (**kwargs):
     # IMAGE: Lin's dorm room. Lin on her knees, her schoolbag tipped out on the
     # floor; Ishimaru on the bed; Gloria in the doorway holding her clipboard.
     subtitles "In Lin's room, Lin's schoolbag is upside down on the floor, and Lin is on her knees going through everything that fell out of it for the third time."
-    lin "It's not here. It's not here. It was in my bag, I {i}know{/i} it was in my bag, I put it right at the top so I wouldn't squash it—"
+    lin "It's not here. It's not here. It was in my bag, I {i}know{/i} it was in my bag, I put it right at the top so I wouldn't squash it..."
     ishimaru "Maybe you left it in the lab? You could have taken it out, to show people?"
     lin "I wouldn't show {i}people!{/i} We said we wouldn't tell anybody, I'm the one who made us say it out loud!"
     lin "...Did you take it? To look after it? You'd tell me if you'd taken it."
-    ishimaru "I didn't take it! I swear! Maybe Gloria took it, she's always got it, she's always reading it—"
+    ishimaru "I didn't take it! I swear! Maybe Gloria took it, she's always got it, she's always reading it..."
     gloria "I didn't take it."
     subtitles "Gloria is standing in the doorway in her pyjamas, holding her clipboard against her chest with both arms. She looks paler than usual."
     gloria "But you need to see this."
@@ -3569,7 +3576,7 @@ label lab_intro_24e (**kwargs):
     # IMAGE: Miwa and Kokoro at a table, one plate between them, Miwa holding a
     # forkful up to Kokoro's mouth; both laughing.
     subtitles "At a table by the window, Miwa Igarashi and Kokoro Nakamura are sharing one plate. Miwa is holding a forkful of potato up to Kokoro's mouth, and Kokoro is laughing too hard to eat it."
-    kokoro "Stop, stop, I can feed myself—"
+    kokoro "Stop, stop, I can feed myself..."
     miwa "You could. But you're not going to."
 
     # IMAGE: the next table; three girls leaning in, whispering.
@@ -3674,7 +3681,7 @@ label lab_intro_25 (**kwargs):
     headmaster "A notebook."
     emiko "Your notebook."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "My— I've been tearing this office apart for weeks looking for that notebook!"
+    headmaster "My... I've been tearing this office apart for weeks looking for that notebook!"
     $ emiko.display(PDAImage(mood = "happy", mouth = "open", look = "avert"))
     emiko "I know. I watched you. It was quite sweet."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "open", look = "follow"))
@@ -3682,7 +3689,7 @@ label lab_intro_25 (**kwargs):
     emiko "They brewed four batches. On Friday night they threw a party in the old lab and invited the whole school. Everyone drank it. Everyone."
     $ emiko.display(PDAImage(mouth = "closed"))
 
-    headmaster "The base formula. Without— that only lasts a few minutes. That wouldn't do {i}this.{/i}"
+    headmaster "The base formula. Without... that only lasts a few minutes. That wouldn't do {i}this.{/i}"
     subtitles "Emiko doesn't say anything. She doesn't look away, either."
     headmaster "...Emiko. What did you give them?"
     $ emiko.display(PDAImage(pose = "10", mood = "sad", mouth = "open"))
@@ -3698,7 +3705,7 @@ label lab_intro_25 (**kwargs):
     # He comes back with the jug. It's nearly empty.
     subtitles "When he comes back he's holding the jug. He doesn't need to tilt it against the light. You can hear how empty it is when it moves."
     headmaster "Two hundred millilitres."
-    headmaster "Do you know what you've done? That was {i}everything.{/i} That was all there is. In the whole world. I spent a week measuring that out to the {i}line{/i}, I stood in the staff room at six in the morning counting, and you just poured it into a punch bowl—"
+    headmaster "Do you know what you've done? That was {i}everything.{/i} That was all there is. In the whole world. I spent a week measuring that out to the {i}line{/i}, I stood in the staff room at six in the morning counting, and you just poured it into a punch bowl..."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
     emiko "Not a punch bowl. Eleven bottles. Very evenly. Gloria measured it."
     headmaster "That is {i}not the point!{/i}"
@@ -3709,7 +3716,7 @@ label lab_intro_25 (**kwargs):
     emiko "I'm sorry I did it behind your back. I am. I'm not going to pretend I'm not."
     emiko "But I'm not sorry I did it."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster "You don't get to just—"
+    headmaster "You don't get to just..."
     $ emiko.display(PDAImage(mouth = "open"))
     emiko "You were carrying all of it on your own. Every single drop, every teacher, every mother, every sum at three in the morning on a mop bucket. You didn't have to."
     emiko "And if it had gone wrong, it was my name on it. Not yours. That was the whole point of not telling you."

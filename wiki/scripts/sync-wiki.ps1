@@ -28,12 +28,20 @@
 .PARAMETER WikiUrl
     Wiki remote to push to. Defaults to the one derived from origin; the
     publish-wiki action passes a URL with its token here.
+
+.PARAMETER KeepCards
+    Leave the character-card PNGs already in the wiki untouched and only mirror
+    pages and other files. The cards are git-ignored in the main repo, so a CI
+    checkout has none of them; without this switch the publish-wiki action would
+    delete every card from the wiki. New or replaced cards still need a local
+    sync without the switch.
 #>
 
 [CmdletBinding()]
 param(
     [string]$Message,
-    [string]$WikiUrl
+    [string]$WikiUrl,
+    [switch]$KeepCards
 )
 
 $ErrorActionPreference = 'Stop'
@@ -79,6 +87,17 @@ Get-ChildItem -LiteralPath $wikiDir -Directory |
     Where-Object { $skipDirs -notcontains $_.Name } |
     ForEach-Object {
         $dest = Join-Path $cloneDir $_.Name
+        if ($KeepCards -and $_.Name -eq 'characters') {
+            # Clear everything except the card PNGs (and their previews), then
+            # copy the source over; the source has no PNGs to overwrite them.
+            if (Test-Path -LiteralPath $dest) {
+                Get-ChildItem -LiteralPath $dest -Recurse -File |
+                    Where-Object { $_.Extension -ne '.png' } |
+                    Remove-Item -Force
+            }
+            Copy-Item -Path (Join-Path $_.FullName '*') -Destination $dest -Recurse -Force
+            return
+        }
         if (Test-Path -LiteralPath $dest) {
             Remove-Item -LiteralPath $dest -Recurse -Force
         }

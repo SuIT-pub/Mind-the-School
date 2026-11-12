@@ -110,6 +110,15 @@ after the image payload and is **keyed to the original filename**. Rules:
   card (`raw.githubusercontent.com/wiki/…`).
 - Do not upload cards through the GitHub Wiki web UI — that can rename or
   recompress them. Always drop files into `wiki/characters/…` and run the sync.
+- The card PNGs are git-ignored here. They reach the wiki only through a
+  **local** sync; the publish-wiki action runs with `-KeepCards` and leaves the
+  cards already in the wiki alone.
+
+To replace all outfit cards from the Honey Select 2 folder (cards named
+`<First>_<Last>_<Category>[_<NN>]`), run
+`python wiki/scripts/import-outfit-cards.py "<HS2>/UserData/coordinate/female/Mind the School"`
+(`--dry-run` first lists what it would take and skip). It swaps each character's
+`outfits/` folder and rewrites the page's `## Outfits` section; then run the sync.
 
 ## UI screenshots
 

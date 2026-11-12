@@ -64,13 +64,13 @@ dare to.
 
 ## Outfits
 
-Names come from the Honey Select 2 coordinate card. Click an image to open the original file.
+Click an image to open the original coordinate card.
 
 ### Uniforms
 
-| Level 0 | Level 01 | Level 02 | Level 03 |
+| Level 00 | Level 01 | Level 02 | Level 03 |
 |:---:|:---:|:---:|:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230621193140862.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230621193140862.preview.png" alt="Hatano Miwa — Level 0" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230921180839716.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230921180839716.preview.png" alt="Hatano Miwa — Level 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240408180204549.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240408180204549.preview.png" alt="Hatano Miwa — Level 02" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240926172929099.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240926172929099.preview.png" alt="Hatano Miwa — Level 03" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230621193140862.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230621193140862.preview.png" alt="Hatano Miwa — Level 00" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230921180839716.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20230921180839716.preview.png" alt="Hatano Miwa — Level 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240408180204549.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240408180204549.preview.png" alt="Hatano Miwa — Level 02" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240926172929099.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240926172929099.preview.png" alt="Hatano Miwa — Level 03" width="160"></a> |
 
 | Level 04 | Level 05 | Level 06 | Level 07 |
 |:---:|:---:|:---:|:---:|
@@ -82,9 +82,9 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 
 ### Casual
 
-| Casual 1 |
+| Casual |
 |:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240729105630300.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/HS2CoordeF_20240729105630300.preview.png" alt="Hatano Miwa — Casual 1" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/Hatano_Miwa_Casual.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Hatano-Miwa/outfits/Hatano_Miwa_Casual.preview.png" alt="Hatano Miwa — Casual" width="160"></a> |
 
 | [<kbd>← Seraphina Clark</kbd>](Seraphina-Clark) | [<kbd>All characters</kbd>](Characters) | [<kbd>Ikushi Ito →</kbd>](Ikushi-Ito) |
 |:---|:---:|---:|

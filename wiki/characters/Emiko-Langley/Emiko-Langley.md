@@ -67,35 +67,35 @@ be brought along.
 
 ## Outfits
 
-Names come from the Honey Select 2 coordinate card. Click an image to open the original file.
+Click an image to open the original coordinate card.
 
-### Work
+### Uniforms
 
-| Work 00 | Work 05 | Work 06 | Work 07 |
+| Level 00 | Level 05 | Level 06 | Level 07 |
 |:---:|:---:|:---:|:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230325151901452.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230325151901452.preview.png" alt="Emiko Langley — Work 00" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230415131925108.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230415131925108.preview.png" alt="Emiko Langley — Work 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814183556555.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814183556555.preview.png" alt="Emiko Langley — Work 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814183801962.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814183801962.preview.png" alt="Emiko Langley — Work 07" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_00.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_00.preview.png" alt="Emiko Langley — Level 00" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_05.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_05.preview.png" alt="Emiko Langley — Level 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_06.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_06.preview.png" alt="Emiko Langley — Level 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_07.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_07.preview.png" alt="Emiko Langley — Level 07" width="160"></a> |
 
-| Work 08 | Work 09 | Work 10 |
+| Level 08 | Level 09 | Level 10 |
 |:---:|:---:|:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814183857959.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814183857959.preview.png" alt="Emiko Langley — Work 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814184214582.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814184214582.preview.png" alt="Emiko Langley — Work 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814184816654.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20230814184816654.preview.png" alt="Emiko Langley — Work 10" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_08.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_08.preview.png" alt="Emiko Langley — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_09.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_09.preview.png" alt="Emiko Langley — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_10.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Uniform_10.preview.png" alt="Emiko Langley — Level 10" width="160"></a> |
 
 ### Bathwear
 
-| Bathwear 01 |
+| Bathwear |
 |:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20240812151940990.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20240812151940990.preview.png" alt="Emiko Langley — Bathwear 01" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Bathwear.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Bathwear.preview.png" alt="Emiko Langley — Bathwear" width="160"></a> |
 
 ### Party
 
-| Party 01 |
+| Party |
 |:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20231231110421034.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20231231110421034.preview.png" alt="Emiko Langley — Party 01" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Party.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Party.preview.png" alt="Emiko Langley — Party" width="160"></a> |
 
 ### Other
 
-| Bunny 01 |
+| Bunny |
 |:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20260316143430332.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20260316143430332.preview.png" alt="Emiko Langley — Bunny 01" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Bunny.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/Emiko_Langley_Bunny.preview.png" alt="Emiko Langley — Bunny" width="160"></a> |
 
 | [<kbd>← Mark Benson</kbd>](Headmaster) | [<kbd>All characters</kbd>](Characters) | [<kbd>Linh Nguyen →</kbd>](Linh-Nguyen) |
 |:---|:---:|---:|
