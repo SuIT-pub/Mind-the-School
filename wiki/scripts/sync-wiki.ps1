@@ -150,4 +150,9 @@ if ([string]::IsNullOrWhiteSpace($Message)) {
 git -C $cloneDir commit --quiet -m $Message
 $branch = (git -C $cloneDir rev-parse --abbrev-ref HEAD).Trim()
 git -C $cloneDir push origin $branch
+# Native commands do not trip $ErrorActionPreference; a rejected push (the
+# publish-wiki action pushed in between) would otherwise report success.
+if ($LASTEXITCODE -ne 0) {
+    throw "Push to the wiki failed (exit $LASTEXITCODE). Run the sync again; it resets onto the remote first."
+}
 Write-Host "Pushed wiki update: $Message"
