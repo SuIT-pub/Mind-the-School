@@ -680,6 +680,8 @@ init 2 python:
 label lab_intro_5 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ image = convert_pattern("main", **kwargs)
+
     $ image.show(0)
     subtitles "It's morning. The lab smell has seeped into his clothes overnight."
 
@@ -708,12 +710,12 @@ label lab_intro_5 (**kwargs):
 init 2 python: 
     set_current_mod('base')
 
-            # TimeCondition(weekday = "d", daytime = "d"),
-            # ProgressCondition("lab_intro", 5),
     lab_intro_6_event = Event(EVENT_RANDOM, "lab_intro_6",
+            TimeCondition(weekday = "d", daytime = "d"),
+            ProgressCondition("lab_intro", 5),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro/lab_intro_6/lab_intro_6 <step>.png"),
-            thumbnail = "images/events/lab/lab_intro_6/lab_intro_6 0.webp")
+            Pattern("main", "images/events/lab_intro/lab_intro_6/lab_intro_6 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_6/lab_intro_6 0.webp")
     office_building_call_secretary_events["talk"].add_event(lab_intro_6_event)
 
 label lab_intro_6 (**kwargs):
@@ -788,7 +790,7 @@ init 3 python:
             NOT(ItemCondition("lab_test_potion")),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_produce_test_potion/lab_intro_produce_test_potion <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_produce_test_potion/lab_intro_produce_test_potion 0.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_produce_test_potion/lab_intro_produce_test_potion 0.webp"),
         Event(EVENT_RANDOM, "lab_intro_produce_test_potion_no_chemicals",
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", "6,7"),
@@ -1082,7 +1084,7 @@ init 2 python:
     office_building_events["look_around"].add_event(
         Event(EVENT_RANDOM, "lab_intro_10",
             TimeCondition(weekday = "d", daytime = "f"),
-            ProgressCondition("lab_intro", 8),
+            ProgressCondition("lab_intro", 9),
             ItemCondition("lab_test_potion"),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_10/lab_intro_10 <step>.webp"),
@@ -1728,7 +1730,7 @@ init 2 python:
     # Wired: blurred lab bg (lab_intro_3 6), dark staff room (c teacher),
     # daytime staff room (teacher 1 1 0), paperdolls for teachers who speak TO him.
     lab_intro_14_event = Event(EVENT_RANDOM, "lab_intro_14",
-            TimeCondition(weekday = "r", daytime = "d"),
+            TimeCondition(weekday = 4, daytime = "d"),
             ProgressCondition("lab_intro", 13),
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_14/lab_intro_14 <step>.webp"),
