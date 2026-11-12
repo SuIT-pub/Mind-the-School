@@ -208,7 +208,7 @@ ranges** — the shared number-pattern grammar is documented in
 |-------------|--------|
 | `TimeCondition(*options, **when)` | calendar match via `day` / `week` / `month` / `year` / `daytime` / `weekday` / `date`; each defaults to `"x"` (any); `condition` = `"+"`/`"-"`/`""` for ≥ / ≤ / = |
 | `TimerCondition(id, *options, **span)` | a named countdown timer (set elsewhere) has elapsed by `day=` / `daytime=` / … — also the standard **duration / cooldown / grace** primitive for situations |
-| `DaytimeChangedCondition(*options)` | the daytime segment just changed |
+| `DaytimeChangedCondition(key="default", *options)` | the time changed since this `key` last checked (checking consumes it). Unused by the base game since the daily checks moved to `time_change_bookkeeping` ([Events §6](Events#time-events)); kept for mods |
 
 ### Counters & latches
 

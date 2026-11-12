@@ -2,6 +2,15 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "time-bookkeeping-hook",
+      "date": "2026-11-12",
+      "version": "0.2.2",
+      "type": "changed",
+      "title": "Daily/weekly bookkeeping runs before time_check_events, no longer as events in the pool",
+      "details": "The bookkeeping labels `check_new_daytime`, `check_new_day`, `check_new_week`, `check_new_month` and `check_new_year` (stat modifiers, situation passives/resolutions, Emiko's gifts) are no longer `EVENT_ALWAYS` events in `time_check_events`. `time_event_check` now runs `update_intro_flag()`, then the new label `time_change_bookkeeping`, then the pool. The hook runs every crossed boundary once and remembers the last booked time in `last_bookkeeping_time`. Old saves start from the old `last_daytime` marker.\n\nWhat this means for mods:\n- An `EVENT_BLOCKING` event in `time_check_events` really replaces everything else in that slot. It no longer swallows that day's bookkeeping. Before, it did, and so did a time event that ended with `END_NEW_DAYTIME` ahead of the checks in the list.\n- The globals `new_daytime_event`, `new_day_event`, `new_week_event`, `new_month_event` and `new_year_event` are gone. Call the labels directly if you need them.\n- As before, no bookkeeping runs while an event flag (`intro`, `camp`) is set.\n- `DaytimeChangedCondition` still works, but the base game no longer uses it.",
+      "wiki": "Events#time-events"
+    },
+    {
       "id": "bar-asymmetric-stat-weights",
       "date": "2026-10-30",
       "version": "0.2.2",

@@ -359,6 +359,25 @@ available events of a storage (`select_type` picks one select type, 0 = all); `c
 **kwargs)` renders the per-action choice menu. `set_current_mod` before building
 `Pattern`s redirects their paths into the active mod's folder (§17).
 
+### Time events
+
+`time_check_events` (`daily_check.rpy`) holds the events that fire on their own when
+the time moves on: story beats on a fixed day (`TimeCondition(weekday = 5, daytime = 1)`),
+the PTA meeting, deliveries, game over. `time_event_check` runs it after every time
+change (`new_daytime`, `new_day`, `set_day`):
+
+1. `update_intro_flag()`
+2. `time_change_bookkeeping`: the daytime/day/week/month/year bookkeeping
+   (`check_new_daytime` … `check_new_year`: stat modifiers, situation passives and
+   resolutions, Emiko's gifts). It is **not** an event. It runs every crossed
+   boundary once, before the pool, so a story event cannot hide it. It does not run
+   while an event flag is set (intro, camp).
+3. `call_available_event(time_check_events, 0, True)`
+
+Because the bookkeeping is outside the pool, an `EVENT_BLOCKING` time event really
+does replace everything else in that slot. Use it for a story beat that takes the
+place of a regular one, e.g. a scripted PTA meeting instead of `pta_meeting`.
+
 ---
 
 ## 7. The scene label: begin_event / end_event

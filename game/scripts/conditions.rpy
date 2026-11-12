@@ -3642,9 +3642,11 @@ init -6 python:
         """
         True once per time change, separately for each key.
 
-        Checking consumes the change for that key. The daily checks use one key
-        per event (daytime, day, week, ...): with a single shared marker the
-        first event consumed the change and day/week/month/year never fired.
+        Checking consumes the change for that key: use one key per event.
+
+        The base game no longer uses it. The daily checks moved out of the event
+        pool into time_change_bookkeeping (daily_check.rpy), where no blocking
+        time event can hide them. Kept for mods.
         """
 
         def __init__(self, key: str = "default", *options: Option):

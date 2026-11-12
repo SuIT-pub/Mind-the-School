@@ -22,25 +22,6 @@ init 1 python:
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
 
-    new_daytime_event = Event(EVENT_ALWAYS, "check_new_daytime",
-        DaytimeChangedCondition("daytime"))
-
-    new_day_event = Event(EVENT_ALWAYS, "check_new_day",
-        TimeCondition(daytime = 1),
-        DaytimeChangedCondition("day"))
-
-    new_week_event = Event(EVENT_ALWAYS, "check_new_week",
-        TimeCondition(weekday = 1, daytime = 1),
-        DaytimeChangedCondition("week"))
-
-    new_month_event = Event(EVENT_ALWAYS, "check_new_month",
-        TimeCondition(day = 1, daytime = 1),
-        DaytimeChangedCondition("month"))
-
-    new_year_event = Event(EVENT_ALWAYS, "check_new_year",
-        TimeCondition(day = 1, month = 1, daytime = 1),
-        DaytimeChangedCondition("year"))
-
     intro_check_all_facilities_event = Event(EVENT_ALWAYS, "intro_check_all_facilities", 
         FlagCondition("intro"),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
@@ -67,12 +48,7 @@ init 1 python:
     time_check_events.add_event(
         first_week_epilogue_event, 
         first_week_epilogue_final_event, 
-        first_pta_meeting_event,  
-        new_daytime_event,
-        new_day_event,
-        new_week_event,
-        new_month_event,
-        new_year_event,
+        first_pta_meeting_event,
         intro_check_all_facilities_event,
         intro_check_all_first_potions_event,
         game_over_happiness_event,
@@ -83,6 +59,94 @@ init 1 python:
     #############################################
     # DEBUG TEST EVENTS
     #############################################
+
+init 1 python:
+    def consume_time_boundaries() -> List[str]:
+        """
+        Returns the time boundaries crossed since the last bookkeeping run, in
+        the order their check labels must run, and marks them as booked.
+
+        The bookkeeping (check_new_daytime / _day / _week / _month / _year) used to
+        be EVENT_ALWAYS events in time_check_events. That made it lose whole days:
+        an available EVENT_BLOCKING time event is returned alone and hid them, and
+        a time event that ended with END_NEW_DAYTIME before them in the list
+        jumped away before they ran. A skipped check never came back, because the
+        next pass was already past daytime 1. Running it from time_event_check,
+        before the event pool, takes it out of selection entirely.
+
+        ### Returns:
+        1. List[str]
+            - any of "daytime", "day", "week", "month", "year"
+            - empty when the time has not changed since the last run
+        """
+
+        global last_bookkeeping_time
+
+        now = (time.year, time.month, time.day, time.daytime)
+        last = last_bookkeeping_time
+
+        if last is None:
+            last = get_legacy_bookkeeping_time()
+            if last is None:
+                # A new game: nothing has happened yet that could be booked.
+                last_bookkeeping_time = now
+                return []
+
+        last_bookkeeping_time = now
+
+        if last == now:
+            return []
+
+        # Same behaviour as the old events: they carried the automatic
+        # FlagCondition(None), so no bookkeeping runs while a flag (the intro,
+        # the camp) is set. The time is still marked as booked, so the end of
+        # the intro does not settle the whole intro week at once.
+        if get_current_flag() is not None:
+            return []
+
+        (last_year, last_month, last_day, _) = last
+        (year, month, day, _) = now
+
+        # Months have 28 days and day 1 is a Monday, so the week of the month
+        # (as in Time.get_week) changes exactly on Mondays.
+        last_week = (last_year, last_month, (last_day - 1) // 7)
+        week = (year, month, (day - 1) // 7)
+
+        crossed = ["daytime"]
+        if (last_year, last_month, last_day) != (year, month, day):
+            crossed.append("day")
+        if last_week != week:
+            crossed.append("week")
+        if (last_year, last_month) != (year, month):
+            crossed.append("month")
+        if last_year != year:
+            crossed.append("year")
+
+        return crossed
+
+    def get_legacy_bookkeeping_time() -> Optional[Tuple[int, int, int, int]]:
+        """
+        Reads the last booked time of a save from before the bookkeeping hook.
+
+        Those saves kept it in `last_daytime` ("day.month.year.daytime"), set
+        each time a check event ran. Starting from it keeps a loaded save from
+        running the checks of the current daytime a second time.
+
+        ### Returns:
+        1. Optional[Tuple[int, int, int, int]]
+            - (year, month, day, daytime), or None if the save has no marker
+        """
+
+        if not last_daytime:
+            return None
+
+        try:
+            (day, month, year, daytime) = (int(part) for part in str(last_daytime).split("."))
+        except ValueError:
+            log(f"Could not read the legacy time marker '{last_daytime}'; the bookkeeping starts from now.", log_type = "warning", category = "time")
+            return None
+
+        return (year, month, day, daytime)
 
 ############################
 # region Daily Check ----- #
@@ -98,6 +162,9 @@ label time_event_check ():
     # (night -> morning), which never passes new_day.
     $ update_intro_flag()
 
+    # Before the event pool, so no time event can block it or jump past it.
+    call time_change_bookkeeping from time_event_check_bookkeeping
+
     call empty_label from time_event_check_1
 
 label .after_temp_event_check (**kwargs):
@@ -105,6 +172,24 @@ label .after_temp_event_check (**kwargs):
     call call_available_event(time_check_events, 0, True) from time_event_check_2
 
 label .after_event_check (**kwargs):
+    return
+
+# Settles the stat modifiers, situation passives and Emiko's gifts for every
+# time boundary crossed since the last run. Not an event: nothing can block it.
+label time_change_bookkeeping ():
+    $ crossed_boundaries = consume_time_boundaries()
+
+    if "daytime" in crossed_boundaries:
+        call check_new_daytime from _call_check_new_daytime_bookkeeping
+    if "day" in crossed_boundaries:
+        call check_new_day from _call_check_new_day_bookkeeping
+    if "week" in crossed_boundaries:
+        call check_new_week from _call_check_new_week_bookkeeping
+    if "month" in crossed_boundaries:
+        call check_new_month from _call_check_new_month_bookkeeping
+    if "year" in crossed_boundaries:
+        call check_new_year from _call_check_new_year_bookkeeping
+
     return
 
 # endregion

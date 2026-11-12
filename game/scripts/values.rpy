@@ -69,8 +69,12 @@ default shopping_cart = {}
 default item_delivery = {}
 default item_purchases = {}
 
+# Legacy markers of DaytimeChangedCondition. The base game no longer uses that
+# condition; last_daytime still seeds last_bookkeeping_time for old saves.
 default last_daytime = None
 default last_daytime_by_key = {}
+# (year, month, day, daytime) up to which time_change_bookkeeping has settled.
+default last_bookkeeping_time = None
 
 default overview_events_available = {
     'school_building':  False,
