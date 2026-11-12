@@ -2125,78 +2125,164 @@ label lab_intro_15 (**kwargs):
     # hands; Adelaide never uses her pages. Afterwards Adelaide traces Chloe
     # Garcia's tattoos, and Yuriko watches. Emiko clears up and mentions she has
     # plans tonight.
-    # Wired: blurred PTA room bg (pta 6 2 0). No paperdolls: the room plate has
-    # the cast baked in, and it's a group scene.
+    # Camera setups (the steps inside one setup are the same shot re-posed):
+    #   A  meeting room side table with the two jugs and the little corner sink: 0, 25
+    #   B  the meeting room door, seen from inside: 1, 6
+    #   C  the mothers' end of the table, close: 2, 3, 4, 5
+    #   E  the whole table from the head, where the Headmaster stands: 7, 9, 11, 12, 18, 19
+    #   F  close on Adelaide's agenda and pen: 10
+    #   G  under the table at Yuki's chair: 13
+    #   H  Zoe and Yulan across the table: 14
+    #   I  Adelaide and her folder: 16, 17
+    #   J  Yuriko in her seat: 8, 15, 20
+    #   K  the room after the meeting, Adelaide and Chloe: 21, 22, 23, 24
+    # Wired: Pattern "main" steps 0–25 (no art yet; the Event definition with
+    # Pattern("main", "images/events/lab_intro/lab_intro_15/lab_intro_15 <step>.webp")
+    # is still missing). Paperdolls only where someone talks TO the Headmaster:
+    # Emiko at the start (over step 0) and at the end (over step 25), the three
+    # mothers for the small talk about their daughters (over step 5).
 
-    $ paperdoll_manager.set_background("images/events/pta/regular meeting/pta 6 2 0.webp", blur = True)
+    $ image = convert_pattern("main", **kwargs)
 
     ########################################
     # Before the meeting: Emiko and the two jugs
 
+    # IMAGE (lab_intro_15 0) · A: the empty meeting room in the morning, chairs
+    # still pushed in. On the side table next to the little corner sink, two
+    # glass jugs of lemonade, beaded with condensation, and a stack of paper
+    # cups. Thin lemon slices float in one jug; the other is plain. Emiko is
+    # squaring the stack of cups.
+    $ image.show(0)
     subtitles "The meeting room smells of furniture polish and the radiator that's been on since seven. On the side table Emiko has set out two glass jugs of lemonade, sweating in the warm air, and a stack of paper cups."
     subtitles "One jug has thin lemon slices floating in it. The other doesn't."
 
+    $ paperdoll_manager.set_background(image[0], blur = True)
+    $ emiko.register_paperdoll()
+    $ emiko.display(PDAImage(pose = "21", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed"),
+        PDAPreset("close_body_center", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ emiko.display(PDAPreset("close_body_center", duration = 0.4))
     headmaster "Which one's which?"
+    $ emiko.display(PDAImage(mouth = "open"))
     emiko "Lemon slices for the mothers. Plain for everybody else."
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "Why lemon slices?"
+    $ emiko.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
     emiko "Because Adelaide Hall will tell me they look lovely, and pour herself a glass before she's even got her coat off."
+    $ emiko.display(PDAImage(pose = "10", mood = "shining", look = "avert"))
     emiko "The teachers had theirs yesterday. No point wasting your precious floor cleaner on a second helping."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "closed", look = "follow"))
     headmaster.think "She's thought about this more than I have. Again."
 
     ########################################
     # The mothers arrive
 
-    # IMAGE: the three mothers in the doorway. Adelaide in front with a biscuit
-    # tin and a folder; Nubia and Yuki behind, mid-conversation.
+    # IMAGE (lab_intro_15 1) · B: the three mothers in the doorway. Adelaide in
+    # front with a floral biscuit tin under one arm and a plastic folder held
+    # flat against her chest; Nubia and Yuki behind her, mid-conversation.
+    $ image.show(1)
     subtitles "They arrive together, ten minutes early, as always. Adelaide Hall leads, with a floral biscuit tin under one arm and a plastic folder held against her chest like a hymn book."
     adelaide "Good morning! I brought shortbread. The cafeteria had butter left over, and I couldn't bear to see it go to waste."
     headmaster "Mrs. Hall. Mrs. Davis, Mrs. Yamamoto. Thank you for coming early."
     nubia "She made us come early. She wanted to get the good chairs."
-    adelaide "I wanted to get {i}settled{/i}, Nubia. There's a difference."
+    adelaide "I wanted to get {i}settled{/i}, Nubia. Some of us like to have our things in order before we start."
 
+    # IMAGE (lab_intro_15 2) · C: the mothers' end of the table. Adelaide, still
+    # standing, laying the folder down in front of her chair with both hands.
+    # Through the plastic: a thick stapled stack, top page headed SUMMER UNIFORM
+    # PROPOSAL ... CONCERNS. The biscuit tin open beside it. Nubia and Yuki
+    # sitting down next to her.
+    $ image.show(2)
     subtitles "Adelaide sets the folder down on the table in front of her chair with great care. Through the plastic you can see the top page: SUMMER UNIFORM PROPOSAL ... CONCERNS. It is stapled. There are a lot of pages."
     adelaide "I've put a few thoughts together on item five, headmaster. Nothing dramatic. I just think some of us have to be the grown-ups about hemlines."
     nubia "She has seven pages of thoughts."
     yuki "I only have one concern. But it's a big one."
     headmaster.think "Seven pages. Stapled. God help me."
 
-    # Emiko offers the dosed jug.
+    # IMAGE (lab_intro_15 3) · C: same shot, all three seated. Emiko has come
+    # round to them with the lemon-slice jug and a cup held out; Adelaide is
+    # turned towards the jug, delighted, one hand pointing at the slices.
+    $ image.show(3)
     emiko "Lemonade, ladies? It's warm in here already."
     adelaide "Oh, the lemon slices, look. Emiko, that looks lovely."
     emiko.think "*Told him.*"
 
+    # IMAGE (lab_intro_15 4) · C: same shot. Adelaide holding the paper cup just
+    # under her nose, eyes half closed, sniffing it like a cook; Nubia already
+    # drinking; Yuki with her cup still on the table.
+    $ image.show(4)
     subtitles "Adelaide takes the first cup, and sniffs it the way she'd sniff a pot of soup in her own kitchen, before she drinks."
     adelaide "Fresh lemons, not from concentrate. You spoil us. It's a touch sweet, but I'll forgive you."
     nubia "Beats the sludge you gave us last time. No offence."
     emiko "None taken. The last lot really was sludge."
+
+    # IMAGE (lab_intro_15 5) · C: same shot, Emiko gone. Nubia with her head
+    # tipped back, cup half drained; Yuki holding hers in both hands at her
+    # chin, looking round the room over the rim; Adelaide drinking.
+    $ image.show(5)
     subtitles "Nubia drains half the cup in one go. Yuki holds hers in both hands for a while, then drinks it slowly, looking round the room over the rim."
 
-    # Small talk while they settle.
+    # Small talk while they settle. The three of them talk to him: paperdolls.
+    $ paperdoll_manager.set_background(image[5], blur = True)
+    $ yuki.register_paperdoll()
+    $ adelaide.register_paperdoll()
+    $ nubia.register_paperdoll()
+    $ yuki.display(PDAImage(pose = "12", outfit = "casual", level = 1, mood = "neutral", mouth = "closed"),
+        PDAPreset("close_body_left", duration = 0.0))
+    $ adelaide.display(PDAImage(pose = "1", outfit = "casual", level = 1, mood = "happy", mouth = "closed"),
+        PDAPreset("close_body_center", duration = 0.0))
+    $ nubia.display(PDAImage(pose = "2", outfit = "casual", level = 1, mood = "happy", mouth = "closed"),
+        PDAPreset("close_body_right", duration = 0.0))
     headmaster "How's Soyoon getting on, Mrs. Yamamoto?"
+    $ yuki.display(PDAImage(pose = "21", mood = "happy", mouth = "open"))
     yuki "Oh, you know Soyoon. Polite to everybody, friends with nobody."
+    $ yuki.display(PDAImage(pose = "20", mood = "shining"))
     yuki "Although, she's been doing her homework in the common room with a group lately. A {i}group.{/i} I nearly fell over when she told me."
+    $ yuki.display(PDAImage(pose = "1", mood = "happy", mouth = "closed"))
     headmaster "That's good to hear. And yours, Mrs. Hall? Mrs. Davis?"
 
+    $ adelaide.display(PDAImage(pose = "12", mood = "neutral", look = "avert"))
+    $ nubia.display(PDAImage(pose = "34", mood = "neutral", look = "avert"))
     subtitles "There's a very small pause."
+    $ adelaide.display(PDAImage(mood = "sad", mouth = "open"))
     adelaide "Oh, she's... doing well. Where she is."
+    $ adelaide.display(PDAImage(mouth = "closed"))
     subtitles "Adelaide smooths the corner of her folder flat, although it was already flat."
+    $ adelaide.display(PDAImage(pose = "38", mood = "happy", mouth = "open", look = "follow"))
     adelaide "Shortbread, anyone? I really did make far too much."
+    $ adelaide.display(PDAImage(mouth = "closed"))
+    $ nubia.display(PDAImage(mood = "sad", mouth = "open"))
     nubia "Mine's fine."
+    $ nubia.display(PDAImage(mouth = "closed"))
+    $ yuki.display(PDAImage(pose = "7", mood = "neutral", look = "avert"))
     subtitles "Nubia says it into her cup, and drinks. Yuki glances from one of them to the other and says nothing at all."
     headmaster.think "That was a very quick change of subject. ...Not my business. Probably not my business."
 
     ########################################
     # Teachers and Yuriko arrive
 
-    # IMAGE: the teachers coming in in a loose group, Yuriko Oshima at the back
-    # with her student-rep notebook.
+    # IMAGE (lab_intro_15 6) · B: same doorway shot as step 1. The five teachers
+    # coming in in a loose group, Lily at the front holding up a bunch of keys,
+    # Zoe beside her; Yuriko Oshima at the back with her student-rep notebook
+    # held against her chest.
+    $ image.show(6)
     subtitles "The teachers come in in a loose group just before the hour, with Yuriko Oshima trailing behind them clutching her student-rep notebook."
     zoe "Sorry, are we late? Lily couldn't find her keys."
     lily "They were in my hand. They were in my hand the whole time. Nobody tell anyone."
 
+    # IMAGE (lab_intro_15 7) · E: the whole table from the head. Everyone
+    # seated. Emiko pouring from the plain jug into the teachers' cups. Finola in
+    # the chair at the far end of the table, as far from the camera as the room
+    # allows, eyes down on her agenda.
+    $ image.show(7)
     subtitles "Emiko pours for them from the plain jug without being asked. Finola takes the chair at the far end of the table, as far from the headmaster as the room allows, and doesn't look up from her agenda."
     headmaster.think "...She remembers something, then. Not much. Enough."
 
+    # IMAGE (lab_intro_15 8) · J: Yuriko in her seat across from the mothers,
+    # notebook open on the table in front of her. Emiko beside her, holding the
+    # plain jug; Yuriko with one hand raised flat, declining. Adelaide blurred in
+    # the foreground, leaning across with her cup.
+    $ image.show(8)
     emiko "Yuriko? Lemonade?"
     yuriko "No, thank you."
     adelaide "It's lovely, dear. Fresh lemons."
@@ -2206,42 +2292,91 @@ label lab_intro_15 (**kwargs):
     ########################################
     # The meeting
 
+    # IMAGE (lab_intro_15 9) · E: the meeting under way, everyone sitting
+    # properly, agendas out, cups in front of them. Adelaide upright with her pen
+    # in her hand.
+    $ image.show(9)
     headmaster "Thank you all for coming. We've got a full agenda, so let's make a start. Item one: the maintenance budget for next term."
-
-    # IMAGE: twenty minutes in. Adelaide leaning back, one arm hooked over the
-    # back of her chair; Nubia laughing; Yuki with her shoes slipped off.
     headmaster "The proposal increases facility maintenance by eight percent."
+
+    # IMAGE (lab_intro_15 10) · F: close on Adelaide's agenda. The budget table,
+    # and in the margin beside it a little flower in blue ink, half finished,
+    # her pen still on it.
+    $ image.show(10)
     subtitles "Adelaide has her pen in her hand. She always has her pen in her hand for the budget. Today she's using it to draw a little flower in the margin."
+
+    # IMAGE (lab_intro_15 11) · E: Adelaide leaning back in her chair, one arm
+    # hooked over the back of it, waving her pen loosely at the room.
+    $ image.show(11)
     adelaide "Eight? Honestly, the building's lovely, it deserves the attention. Give it ten."
     headmaster.think "...She fought me for forty minutes over three percent last time."
 
     headmaster "Item two. The spring fundraiser. The proposal is a parent-and-student social evening in the hall."
     nubia "A social! With music? Do schools still do those? I used to sneak out to those. I used to sneak {i}in{/i} to those, actually, I wasn't even at that school..."
+
+    # IMAGE (lab_intro_15 12) · E: Nubia doubled over laughing, setting her cup
+    # down so she doesn't spill it; Yuki laughing along beside her; Adelaide
+    # still leaning back.
+    $ image.show(12)
     subtitles "She laughs so hard at herself that she has to put her cup down."
     nubia "Sorry. Sorry. Yes. Do it. The girls would love it."
     yuki "The third Saturday in May would be good. Soyoon has nothing on. Soyoon never has anything on."
 
     headmaster "Item three, the cafeteria salad bar. There's a slight cost increase."
     yuki "Oh, yes, please. Soyoon eats like a little bird, she'll tell me she hates salad and then she'll eat the whole bowl, she did it at my sister's, the entire bowl, and then she said it was too oily..."
+
+    # IMAGE (lab_intro_15 13) · G: under the table at Yuki's chair. Her shoes
+    # lying on their sides on the carpet, her stockinged feet crossed at the
+    # ankle, toes curling.
+    $ image.show(13)
     subtitles "Yuki has slipped her shoes off under the table somewhere around item two. She seems not to have noticed that she's still talking."
     adelaide "I support the salad bar. I'll run it myself."
 
+    # IMAGE (lab_intro_15 14) · H: Zoe and Yulan on the far side of the table.
+    # Zoe looking sideways at Yulan; Yulan, cup at her lips, one eyebrow raised
+    # a fraction.
+    $ image.show(14)
     subtitles "Across the table, Zoe catches Yulan's eye. Yulan raises one eyebrow by about a millimetre. Neither of them says anything."
+
+    # IMAGE (lab_intro_15 15) · J: same shot as step 8, Emiko gone. Yuriko
+    # looking across at the mothers over her notebook, pen paused above the page.
+    $ image.show(15)
     yuriko.think "*Normally Mrs. Hall has a question about everything. Portion sizes. Supervision. Who's liable if someone chokes on a crouton. Today she's drawing flowers.*"
 
     # Item five: the uniform. The folder.
     headmaster "Which brings us to item five. The summer uniform proposal: lighter fabrics, and a relaxation of the rules on skirt length and blouses in warm weather."
 
+    # IMAGE (lab_intro_15 16) · I: Adelaide holding the stapled pages up in front
+    # of her, reading the top page with a faint frown, as if somebody else wrote
+    # it. Nubia and Yuki leaning in to look.
+    $ image.show(16)
     subtitles "Everyone looks at Adelaide's folder. Adelaide looks at it too. She picks it up, turns it over in her hands, reads the first line on the top page as if someone else had written it, and puts it down again, face-down."
+
+    # IMAGE (lab_intro_15 17) · I: same shot. The pages face-down on the table,
+    # her palm flat on top of them. She's fanning herself with her agenda in the
+    # other hand, smiling round at the table.
+    $ image.show(17)
     adelaide "You know, I was going to say a great deal about hemlines."
     adelaide "But it's {i}hot{/i}. Girls get hot. We were all girls once, weren't we? I remember sitting in a wool skirt in June thinking I'd actually die."
     nubia "Motion to just let them breathe."
     headmaster "...Then I suppose we should vote. All in favour?"
 
-    # IMAGE: hands going up. All three mothers at once; the teachers after them.
-    subtitles "Three hands go up at once. The teachers follow a beat later, one after another. Yulan's is last."
+    # IMAGE (lab_intro_15 18) · E: three hands up at once, all three mothers.
+    # The teachers still have their hands on the table.
+    $ image.show(18)
+    subtitles "Three hands go up at once."
+
+    # IMAGE (lab_intro_15 19) · E: same shot. All hands up; Yulan's last and
+    # only half raised. Yuriko's hands stay on her notebook.
+    $ image.show(19)
+    subtitles "The teachers follow a beat later, one after another. Yulan's is last."
     yulan "Is this a formal vote? Then, yes. In favour."
     headmaster "Carried. Unanimously."
+
+    # IMAGE (lab_intro_15 20) · J: same shot as step 15. Yuriko's pen stopped
+    # on the page in the middle of a word, her eyes on the face-down pages in
+    # front of Adelaide.
+    $ image.show(20)
     subtitles "Yuriko's pen has stopped moving."
     yuriko.think "*She brought seven pages. I watched her staple them in the corridor.*"
 
@@ -2251,37 +2386,68 @@ label lab_intro_15 (**kwargs):
     ########################################
     # After the meeting: Adelaide and Chloe
 
-    # IMAGE: people standing, gathering bags. Adelaide has drifted over to Chloe
-    # Garcia and is standing much too close, looking at her bare forearm.
+    # IMAGE (lab_intro_15 21) · K: people standing, gathering bags and papers,
+    # chairs pushed out. Adelaide has drifted over to Chloe Garcia and is
+    # standing much too close, looking down at Chloe's bare forearm.
+    $ image.show(21)
     subtitles "Chairs scrape. People gather up bags and papers and stand around in the loose, chatty way people do after a meeting that finished early. Adelaide has drifted over to Chloe Garcia, and is standing much closer than she needs to."
     adelaide "Are these new? I've never noticed how detailed they are."
 
-    # IMAGE: Adelaide's fingertips tracing a rose up Chloe's forearm, unasked.
+    # IMAGE (lab_intro_15 22) · K: closer. Adelaide's fingertips on Chloe's
+    # forearm, following the stem of a tattooed rose up towards her elbow.
+    # Chloe holding very still, her bag half on her shoulder.
+    $ image.show(22)
     subtitles "Before Chloe can answer, Adelaide's fingertips are on her arm, tracing the stem of a tattooed rose slowly up towards her elbow. Chloe goes very still."
     chloe "I've had most of them since before I started here."
     adelaide "They're beautiful. This one especially."
+
+    # IMAGE (lab_intro_15 23) · K: same, tighter, on both their faces. Adelaide's
+    # thumb pressed into the ink, her eyes on the rose; Chloe looking at
+    # Adelaide's face, not at her arm.
+    $ image.show(23)
     subtitles "Adelaide's thumb presses into the ink a little. It's too slow, and far too interested, for a chat after a PTA meeting."
     chloe.think "*She's never once looked at my arms. Three years, and she's always looked just past them.*"
+    headmaster.think "She went back to that jug twice. I watched her do it."
+    headmaster.think "...How much of it is actually in her now? It's fine. It's probably fine."
 
+    # IMAGE (lab_intro_15 24) · K: Yuriko by her chair, notebook clutched to her
+    # chest, watching Adelaide and Chloe from across the room.
+    $ image.show(24)
     yuriko.think "*Mrs. Hall is stroking Ms. Garcia's arm. In a PTA meeting. ...Adults are exhausting.*"
     yuriko.think "*It's fine. People touch each other all the time. So why does it feel like I've just walked in on something?*"
-
-    headmaster.think "Adelaide Hall. First to finish her cup, first to go back for another."
-    headmaster.think "She came in here wound up tight as a spring, with seven pages about hemlines. And now look at her."
 
     ########################################
     # Clearing up: Emiko
 
+    # IMAGE (lab_intro_15 25) · A: same shot as step 0, twenty minutes later.
+    # The room empty, chairs pushed out at angles, cups everywhere. Emiko at the
+    # corner sink, tipping the lemon-slice jug out, a slice sliding down the
+    # side.
+    $ image.show(25)
     subtitles "Twenty minutes later the room's empty except for the two of them and the smell of lemons. Emiko is emptying the jug with the lemon slices down the little sink in the corner."
+
+    $ paperdoll_manager.set_background(image[25], blur = True)
+    $ emiko.display(PDAImage(pose = "34", mood = "neutral", mouth = "closed"),
+        PDAPreset("close_body_center", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ emiko.display(PDAPreset("close_body_center", duration = 0.4))
     headmaster "That went... better than it had any right to."
+    $ emiko.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
     emiko "Seven pages. Face down. I'm going to have them framed."
+    $ emiko.display(PDAImage(pose = "10", mood = "neutral", look = "avert"))
     emiko "Oh, and I'm leaving early tonight, if that's alright. I've got plans."
+    $ emiko.display(PDAImage(mouth = "closed", look = "follow"))
     headmaster "Oh? Anything nice?"
+    $ emiko.display(PDAImage(pose = "7", mouth = "open", look = "avert"))
     emiko "Something I've been working on for a while. It's a sort of... get-together."
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "Good for you. Honestly, you should go out more. You work too hard."
+    $ emiko.display(PDAImage(pose = "17", mood = "happy", mouth = "open", look = "follow"))
     emiko "...Yes. That's exactly what it is. Going out."
+    $ emiko.display(PDAImage(pose = "8", mood = "shining", mouth = "closed"))
     emiko.think "*Bless him. He hasn't got the faintest idea.*"
-    headmaster.think "Good for her. She deserves a night off."
+    subtitles "She rinses the jug under the tap, turns it upside down on the draining board, and goes off down the corridor humming."
+    $ emiko.display(PDAPreset("outside", duration = 0.4))
 
     $ set_progress("lab_intro_parents", 1)
 
